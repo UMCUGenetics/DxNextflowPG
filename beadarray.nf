@@ -65,19 +65,7 @@ process VersionLog {
 
     script:
         """
-        echo 'DxNextflowWes' > repository_version.log
+        echo 'DxNextflowPG' > repository_version.log
         git --git-dir=${workflow.projectDir}/.git log --pretty=oneline --decorate -n 2 >> repository_version.log
-
-        echo 'Dx_tracks' >> repository_version.log
-        git --git-dir=${params.dxtracks_path}/.git log --pretty=oneline --decorate -n 2 >> repository_version.log
-
-        echo 'ExonCov' >> repository_version.log
-        git --git-dir=${params.exoncov_path}/.git log --pretty=oneline --decorate -n 2 >> repository_version.log
-
-        echo 'ExomeDepth' >> repository_version.log
-        git --git-dir=${params.exomedepth_path}/../.git log --pretty=oneline --decorate -n 2 >> repository_version.log
-
-        echo 'TrendAnalysis' >> repository_version.log
-        git --git-dir=${params.trend_analysis_path}/.git log --pretty=oneline --decorate -n 2 >> repository_version.log
         """
 }
