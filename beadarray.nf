@@ -40,9 +40,6 @@ process AutoCall {
 
     input:
         tuple(analysis_id, assay_id, path(green_idat), path(red_idat))
-
-    output:
-        "bla"
     
     script:
         """
