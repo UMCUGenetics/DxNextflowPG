@@ -5,7 +5,7 @@ def analysis_id = params.outdir.split('/')[-1]
 
 workflow {
     // Raw idat to Genotypes
-    AutoCall(analysis_id, params.chip_well_barcode, params.green_idat_path params.red_idat_path)
+    AutoCall(analysis_id, params.chip_well_barcode, params.green_idat_path, params.red_idat_path)
 
     // Repository versions
     VersionLog()
