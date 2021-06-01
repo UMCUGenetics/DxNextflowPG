@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-workflow_path='/hpc/diaggen/software/development/DxNextflowPG' # change to production
+workflow_path='/home/cog/edejong2/repos/DxNextflowPG' # change to production
 
 # Set input and output dirs
 input=`realpath -e $1`
