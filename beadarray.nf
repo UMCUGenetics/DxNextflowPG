@@ -68,7 +68,7 @@ process AutoCall {
 
 process GtcToVcf {
     label 'PICARD_2_25_5'
-    label 'PICARD_2_25_5_EstimateLibraryComplexity'
+    label 'PICARD_2_25_5_GtcToVcf'
     container = 'quay.io/biocontainers/picard:2.25.5--hdfd78af_0'
     shell = ['/bin/bash', '-euo', 'pipefail']
     
