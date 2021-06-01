@@ -39,10 +39,18 @@ process AutoCall {
     cache = true 
 
     input:
-        tuple(analysis_id, assay_id, path(green_idat), path(red_idat))
+        val(analysis_id)
+        val(assay_id)
+        path(green_idat)
+        path(red_idat)
     
     script:
         """
+        rm -rf ${assay_id}
+        mkdir ${assay_id}
+        cp ${green_idat} ${assay_id}
+        cp ${red_idat} ${assay_id}
+
         ${params.iaap_path} gencall \
         ${params.bead_pool_manifest_file} \
         ${params.cluster_file} \
