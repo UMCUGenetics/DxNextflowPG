@@ -1,14 +1,21 @@
 #!/usr/bin/env nextflow
 nextflow.preview.dsl=2
 
-include GtcToVcf as PICARD_GtcToVcf from './NextflowModules/Picard/2.25.5/GtcToVcf.nf'
+include GtcToVcf as PICARD_GtcToVcf from './NextflowModules/Picard/2.25.5/GtcToVcf.nf' params(
+    bead_pool_manifest_file: "${params.bead_pool_manifest_file}",
+    cluster_file: "${params.cluster_file}", 
+    extended_chip_manifest_file: "${params.extended_chip_manifest_file}",
+    genome: "${params.genome}",
+    optional: ""
+    )
 
 def analysis_id = params.outdir.split('/')[-1]
 
 workflow {
-    // Raw idat to Genotypes
-    AutoCall(analysis_id, params.chip_well_barcode, params.green_idat_path, params.red_idat_path)
+    // Raw idat to Genotypes (VCF format)
+    AutoCall(analysis_id, params.chip_well_barcode, params.green_idat_path, params.red_idat_path) // TODO: change analysis_id to assay_id
     PICARD_GtcToVcf(params.chip_well_barcode, AutoCall.out)
+
     // Repository versions
     VersionLog()
 }
@@ -35,7 +42,7 @@ workflow.onComplete {
 }
 
 process AutoCall {
-    tag {"AutoCall ${analysis_id}"}
+    tag {"AutoCall ${assay_id}"}
     label 'AutoCall'
     shell = ['/bin/bash', '-eo', 'pipefail']
     cache = true 
@@ -44,23 +51,23 @@ process AutoCall {
         path("${assay_id}.gtc")
 
     input:
-        val(analysis_id)
         val(assay_id)
+        val(array_id)
         path(green_idat)
         path(red_idat)
     
     script:
         """
-        rm -rf ${assay_id}
-        mkdir ${assay_id}
-        cp ${green_idat} ${assay_id}
-        cp ${red_idat} ${assay_id}
+        rm -rf ${array_id}
+        mkdir ${array_id}
+        cp ${green_idat} ${array_id}
+        cp ${red_idat} ${array_id}
 
         ${params.iaap_path} gencall \
         ${params.bead_pool_manifest_file} \
         ${params.cluster_file} \
         . \
-        --idat-folder ${assay_id} \
+        --idat-folder ${array_id} \
         ${params.gender_autocall_option} \
         --output-gtc
         """
