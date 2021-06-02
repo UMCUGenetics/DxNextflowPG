@@ -78,7 +78,7 @@ process GtcToVcf {
         path(gtc_file)    
     
     output:
-        tuple (assay_id, path("${assay_id}.vcf"),path("${assay_id}.vcf.tbi"), emit : genotyped_vcfs)
+        tuple (assay_id, path("${assay_id}.vcf"), path("${assay_id}.vcf.tbi"), emit : genotyped_vcfs)
 
     script:
         """
@@ -87,14 +87,14 @@ process GtcToVcf {
         TMP_DIR=\$TMPDIR \
         INPUT=${gtc_file} \
         OUTPUT=${assay_id}.vcf \
-        --CLUSTER_FILE ${params.cluster_file} \
-        --BPM_FILE ${params.bead_pool_manifest_file} \
-        --MANIFEST ${params.chip_manifest_file} \
-        --SAMPLE_ALIAS "${assay_id}" \
-        --DO_NOT_ALLOW_CALLS_ON_ZEROED_OUT_ASSAYS true \
-        --REFERENCE_SEQUENCE ${params.genome} \
-        --MAX_RECORDS_IN_RAM 100000 \
-        --CREATE_INDEX true
+        CLUSTER_FILE=${params.cluster_file} \
+        ILLUMINA_BEAD_POOL_MANIFEST_FILE=${params.bead_pool_manifest_file} \
+        EXTENDED_ILLUMINA_MANIFEST=${params.chip_manifest_file} \
+        SAMPLE_ALIAS="${assay_id}" \
+        DO_NOT_ALLOW_CALLS_ON_ZEROED_OUT_ASSAYS=true \
+        REFERENCE_SEQUENCE=${params.genome} \
+        MAX_RECORDS_IN_RAM=100000 \
+        CREATE_INDEX=true
         """
 }
 
