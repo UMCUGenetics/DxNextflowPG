@@ -49,17 +49,18 @@ workflow.onComplete {
 }
 
 process AutoCall {
+    // Raw idat to Genotypes
     tag {"AutoCall ${assay_id}"}
     label 'AutoCall'
     shell = ['/bin/bash', '-eo', 'pipefail']
     cache = true 
 
-    output:
-        tuple(val(assay_id), val(array_id), path("${assay_id}.gtc"))
-
     input:
         tuple(val(assay_id), val(array_id), path(grn_idat), path(red_idat))
     
+    output:
+        tuple(val(assay_id), val(array_id), path("${assay_id}.gtc"))
+
     script:
         """
         mkdir ${array_id}
