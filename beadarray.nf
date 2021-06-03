@@ -13,6 +13,11 @@ include GtcToVcf as PICARD_GtcToVcf from './NextflowModules/Picard/2.25.5/GtcToV
     optional: ""
     )
 
+// Contamination modules
+include VcfToAdpc as PICARD_VcfToAdpc from './NextflowModules/Picard/2.25.5/VcfToAdpc.nf' params(optional: "")
+include VerifyIDIntensity from './NextflowModules/VerifyIDIntensity/0.0.1--hc90279e_1/VerifyIDIntensity.nf'
+include CreateVerifyIDIntensityContaminationMetricsFile as PICARD_VerifyIDToMetrics from './NextflowModules/Picard/2.25.5/CreateVerifyIDIntensityContaminationMetricsFile.nf'
+
 // Retrieve input data files
 def idat_files = extractIdatPairFromDir(params.idat_path) // [assay_id, array_id, grn_path, red_path]
 
@@ -22,7 +27,25 @@ workflow {
     // Raw idat to Genotypes (VCF format)
     AutoCall(idat_files) 
     PICARD_GtcToVcf(AutoCall.out.map{assay_id, array_id, gtc_file -> [assay_id, gtc_file]})
+    
+    // Contamination
+    BafRegress(PICARD_GtcToVcf.out)
+    PICARD_VcfToAdpc(PICARD_GtcToVcf.out) // sample_id, vcf, vcf_index
+    // VerifyIDIntensity(
+    //     PICARD_GtcToVcf.out // sample_id, vcf, vcf_index
+    //     .concat(PICARD_VcfToAdpc.out) // sample_id, num_samples, num_markes_file, adpc_file
+    //     .groupTuple()
+    VerifyIDIntensity(PICARD_VcfToAdpc.out.map{
+        sample_id, samples_file, num_samples, num_markes_file, adpc_file --> [sample_id, num_samples, num_markes_file, adpc_file]
+    }) // sample_id, num_samples, num_markes_file, adpc_file
 
+    PICARD_VerifyIDAsMetric(
+        PICARD_VcfToAdpc.out.map{
+        sample_id, samples_file, num_samples, num_markes_file, adpc_file --> [sample_id, samples_file]
+        }.concat(VerifyIDIntensity.out)
+        .groupTuple()
+    )
+    
     // Repository versions
     VersionLog()
 }
@@ -57,7 +80,7 @@ process AutoCall {
 
     input:
         tuple(val(assay_id), val(array_id), path(grn_idat), path(red_idat))
-    
+
     output:
         tuple(val(assay_id), val(array_id), path("${assay_id}.gtc"))
 
@@ -74,6 +97,34 @@ process AutoCall {
         --idat-folder ${array_id} \
         ${params.gender_autocall_option} \
         --output-gtc
+        """
+}
+
+process BafRegress {
+    // Contamination estimate
+    // B allele frequency regression models
+    tag {"BafRegress ${assay_id}"}
+    label 'BafRegress_1_0'
+    shell = ['/bin/bash', '-eo', 'pipefail']
+    container = 'us.gcr.io/broad-gotc-prod/bafregress:1.0'
+    cache = true 
+
+    input:
+        tuple(val(path(assay_id), path(input_vcf), path(input_vcf_index))
+
+    output:
+        tuple(val(assay_id), path("${assay_id}_bafregress_report.txt"), emit: baffregress)
+
+    script:
+        """
+        /root/tools/bcftools/bin/bcftools view \
+        -f 'PASS,.' \
+        -r 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22 \
+        ${input_vcf} | \
+        python /root/tools/parseVcfToBAFRegress.py > tmp_report.txt
+
+        python /root/tools/bafRegress.py estimate --freqfile ${params.maf_file} tmp_report.txt > ${assay_id}_bafregress_report.txt
+
         """
 }
 
