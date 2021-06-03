@@ -1,6 +1,10 @@
 #!/usr/bin/env nextflow
 nextflow.preview.dsl=2
 
+// Retrieve input data files modules
+include extractIdatPairFromDir from './NextflowModules/Utils/idat.nf'
+
+// Genotyping modules
 include GtcToVcf as PICARD_GtcToVcf from './NextflowModules/Picard/2.25.5/GtcToVcf.nf' params(
     bead_pool_manifest_file: "${params.bead_pool_manifest_file}",
     cluster_file: "${params.cluster_file}", 
@@ -9,12 +13,15 @@ include GtcToVcf as PICARD_GtcToVcf from './NextflowModules/Picard/2.25.5/GtcToV
     optional: ""
     )
 
+// Retrieve input data files
+def idat_files = extractIdatPairFromDir(params.idat_path) // [assay_id, array_id, grn_path, red_path]
+
 def analysis_id = params.outdir.split('/')[-1]
 
 workflow {
     // Raw idat to Genotypes (VCF format)
-    AutoCall(params.chip_well_barcode, analysis_id, params.green_idat_path, params.red_idat_path) // TODO: change analysis_id to assay_id
-    PICARD_GtcToVcf(params.chip_well_barcode, AutoCall.out)
+    AutoCall(idat_files) 
+    PICARD_GtcToVcf(AutoCall.out.map{assay_id, array_id, gtc_file -> [assay_id, gtc_file]})
 
     // Repository versions
     VersionLog()
@@ -48,18 +55,15 @@ process AutoCall {
     cache = true 
 
     output:
-        path("${assay_id}.gtc")
+        tuple(val(assay_id), val(array_id), path("${assay_id}.gtc"))
 
     input:
-        val(assay_id)
-        val(array_id)
-        path(green_idat)
-        path(red_idat)
+        tuple(val(assay_id), val(array_id), path(grn_idat), path(red_idat))
     
     script:
         """
         mkdir ${array_id}
-        cp ${green_idat} ${array_id}
+        cp ${grn_idat} ${array_id}
         cp ${red_idat} ${array_id}
 
         ${params.iaap_path} gencall \
