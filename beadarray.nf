@@ -13,7 +13,7 @@ def analysis_id = params.outdir.split('/')[-1]
 
 workflow {
     // Raw idat to Genotypes (VCF format)
-    AutoCall(analysis_id, params.chip_well_barcode, params.green_idat_path, params.red_idat_path) // TODO: change analysis_id to assay_id
+    AutoCall(params.chip_well_barcode, analysis_id, params.green_idat_path, params.red_idat_path) // TODO: change analysis_id to assay_id
     PICARD_GtcToVcf(params.chip_well_barcode, AutoCall.out)
 
     // Repository versions
@@ -58,7 +58,6 @@ process AutoCall {
     
     script:
         """
-        rm -rf ${array_id}
         mkdir ${array_id}
         cp ${green_idat} ${array_id}
         cp ${red_idat} ${array_id}
