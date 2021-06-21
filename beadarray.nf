@@ -19,30 +19,29 @@ include VerifyIDIntensity from './NextflowModules/VerifyIDIntensity/0.0.1--hc902
 include CreateVerifyIDIntensityContaminationMetricsFile as PICARD_VerifyIDToMetrics from './NextflowModules/Picard/2.25.5/CreateVerifyIDIntensityContaminationMetricsFile.nf'
 
 // Retrieve input data files
-def idat_files = extractIdatPairFromDir(params.idat_path) // [assay_id, array_id, grn_path, red_path]
+def idat_files = extractIdatPairFromDir(params.idat_path) // [sample_id, array_id, grn_path, red_path]
 
 def analysis_id = params.outdir.split('/')[-1]
 
 workflow {
     // Raw idat to Genotypes (VCF format)
     AutoCall(idat_files) 
-    PICARD_GtcToVcf(AutoCall.out.map{assay_id, array_id, gtc_file -> [assay_id, gtc_file]})
+    PICARD_GtcToVcf(AutoCall.out.map{sample_id, array_id, gtc_file -> [sample_id, gtc_file]})
     
     // Contamination
-    BafRegress(PICARD_GtcToVcf.out)
+    // BafRegress(PICARD_GtcToVcf.out)
     PICARD_VcfToAdpc(PICARD_GtcToVcf.out) // sample_id, vcf, vcf_index
     // VerifyIDIntensity(
     //     PICARD_GtcToVcf.out // sample_id, vcf, vcf_index
     //     .concat(PICARD_VcfToAdpc.out) // sample_id, num_samples, num_markes_file, adpc_file
     //     .groupTuple()
-    VerifyIDIntensity(PICARD_VcfToAdpc.out.map{
-        sample_id, samples_file, num_samples, num_markes_file, adpc_file --> [sample_id, num_samples, num_markes_file, adpc_file]
-    }) // sample_id, num_samples, num_markes_file, adpc_file
+    VerifyIDIntensity(
+        PICARD_VcfToAdpc.out.map{sample_id, samples_file, num_samples, num_markes_file, adpc_file -> [sample_id, num_samples, num_markes_file, adpc_file]}
+    ) 
 
     PICARD_VerifyIDAsMetric(
-        PICARD_VcfToAdpc.out.map{
-        sample_id, samples_file, num_samples, num_markes_file, adpc_file --> [sample_id, samples_file]
-        }.concat(VerifyIDIntensity.out)
+        PICARD_VcfToAdpc.out.map{ sample_id, samples_file, num_samples, num_markes_file, adpc_file -> [sample_id, samples_file]}
+        .concat(VerifyIDIntensity.out)
         .groupTuple()
     )
     
@@ -73,16 +72,16 @@ workflow.onComplete {
 
 process AutoCall {
     // Raw idat to Genotypes
-    tag {"AutoCall ${assay_id}"}
+    tag {"AutoCall ${sample_id}"}
     label 'AutoCall'
     shell = ['/bin/bash', '-eo', 'pipefail']
     cache = true 
 
     input:
-        tuple(val(assay_id), val(array_id), path(grn_idat), path(red_idat))
+        tuple(val(sample_id), val(array_id), path(grn_idat), path(red_idat))
 
     output:
-        tuple(val(assay_id), val(array_id), path("${assay_id}.gtc"))
+        tuple(val(sample_id), val(array_id), path("${sample_id}.gtc"))
 
     script:
         """
@@ -103,17 +102,17 @@ process AutoCall {
 process BafRegress {
     // Contamination estimate
     // B allele frequency regression models
-    tag {"BafRegress ${assay_id}"}
+    tag {"BafRegress ${sample_id}"}
     label 'BafRegress_1_0'
     shell = ['/bin/bash', '-eo', 'pipefail']
     container = 'us.gcr.io/broad-gotc-prod/bafregress:1.0'
     cache = true 
 
     input:
-        tuple(val(path(assay_id), path(input_vcf), path(input_vcf_index))
+        tuple (val(sample_id), path(input_vcf), path(input_vcf_index))
 
     output:
-        tuple(val(assay_id), path("${assay_id}_bafregress_report.txt"), emit: baffregress)
+        tuple (val(sample_id), path("${sample_id}_bafregress_report.txt"), emit: baffregress)
 
     script:
         """
@@ -123,7 +122,7 @@ process BafRegress {
         ${input_vcf} | \
         python /root/tools/parseVcfToBAFRegress.py > tmp_report.txt
 
-        python /root/tools/bafRegress.py estimate --freqfile ${params.maf_file} tmp_report.txt > ${assay_id}_bafregress_report.txt
+        python /root/tools/bafRegress.py estimate --freqfile ${params.maf_file} tmp_report.txt > ${sample_id}_bafregress_report.txt
 
         """
 }
