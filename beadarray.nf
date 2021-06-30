@@ -17,6 +17,7 @@ include GtcToVcf as PICARD_GtcToVcf from './NextflowModules/Picard/2.25.5/GtcToV
 include VcfToAdpc as PICARD_VcfToAdpc from './NextflowModules/Picard/2.25.5/VcfToAdpc.nf' params(optional: "")
 include VerifyIDIntensity from './NextflowModules/VerifyIDIntensity/0.0.1--hc90279e_1/VerifyIDIntensity.nf'
 include CreateVerifyIDIntensityContaminationMetricsFile as PICARD_VerifyIDToMetrics from './NextflowModules/Picard/2.25.5/CreateVerifyIDIntensityContaminationMetricsFile.nf'
+include BafRegress from './NextflowModules/BafRegress/1.0.0/BafRegress.nf'
 
 // Retrieve input data files
 def idat_files = extractIdatPairFromDir(params.idat_path) // [sample_id, array_id, grn_path, red_path]
@@ -29,7 +30,7 @@ workflow {
     PICARD_GtcToVcf(AutoCall.out.map{sample_id, array_id, gtc_file -> [sample_id, gtc_file]})
     
     // Contamination
-    // BafRegress(PICARD_GtcToVcf.out)
+    BafRegress(PICARD_GtcToVcf.out)
     PICARD_VcfToAdpc(PICARD_GtcToVcf.out) // sample_id, vcf, vcf_index
     VerifyIDIntensity(PICARD_VcfToAdpc.out) 
     PICARD_VerifyIDToMetrics(VerifyIDIntensity.out)
@@ -86,34 +87,6 @@ process AutoCall {
         --idat-folder ${array_id} \
         ${params.gender_autocall_option} \
         --output-gtc
-        """
-}
-
-process BafRegress {
-    // Contamination estimate
-    // B allele frequency regression models
-    tag {"BafRegress ${sample_id}"}
-    label 'BafRegress_1_0'
-    shell = ['/bin/bash', '-eo', 'pipefail']
-    container = 'us.gcr.io/broad-gotc-prod/bafregress:1.0'
-    cache = true 
-
-    input:
-        tuple (val(sample_id), path(input_vcf), path(input_vcf_index))
-
-    output:
-        tuple (val(sample_id), path("${sample_id}_bafregress_report.txt"), emit: baffregress)
-
-    script:
-        """
-        /root/tools/bcftools/bin/bcftools view \
-        -f 'PASS,.' \
-        -r 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22 \
-        ${input_vcf} | \
-        python /root/tools/parseVcfToBAFRegress.py > tmp_report.txt
-
-        python /root/tools/bafRegress.py estimate --freqfile ${params.maf_file} tmp_report.txt > ${sample_id}_bafregress_report.txt
-
         """
 }
 
