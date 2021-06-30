@@ -31,17 +31,8 @@ workflow {
     // Contamination
     // BafRegress(PICARD_GtcToVcf.out)
     PICARD_VcfToAdpc(PICARD_GtcToVcf.out) // sample_id, vcf, vcf_index
-    // VerifyIDIntensity(
-    //     PICARD_GtcToVcf.out // sample_id, vcf, vcf_index
-    //     .concat(PICARD_VcfToAdpc.out) // sample_id, num_samples, num_markes_file, adpc_file
-    //     .groupTuple()
     VerifyIDIntensity(PICARD_VcfToAdpc.out) 
-
-    PICARD_VerifyIDToMetrics(
-        PICARD_VcfToAdpc.out.map{ sample_id, samples_file, num_markers_file, adpc_file -> [sample_id, samples_file]}
-        .concat(VerifyIDIntensity.out)
-        .groupTuple()
-    )
+    PICARD_VerifyIDToMetrics(VerifyIDIntensity.out)
     
     // Repository versions
     VersionLog()
@@ -67,6 +58,7 @@ workflow.onComplete {
         sendMail(to: params.email, subject: subject, body: email_html)
     }
 }
+
 
 process AutoCall {
     // Raw idat to Genotypes
