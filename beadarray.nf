@@ -20,7 +20,7 @@ include CreateVerifyIDIntensityContaminationMetricsFile as PICARD_VerifyIDToMetr
 include BafRegress from './NextflowModules/BafRegress/1.0.0/BafRegress.nf' 
 
 // Filter modules
-include SelectVariants as GATK_SelectVariants from './NextflowModules/GATK/4.1.3.0/SelectVariants.nf' params(genome:"${params.genome}", optional: "--intervals ${params.intervals_of_interest}")
+include SelectVariants as GATK_SelectVariants from './NextflowModules/GATK/4.1.3.0/SelectVariants.nf' params(genome:"$params.genome", optional: "--intervals $params.intervals_of_interest")
 
 // Retrieve input data files
 def idat_files = extractIdatPairFromDir(params.idat_path) // [sample_id, array_id, grn_path, red_path]
