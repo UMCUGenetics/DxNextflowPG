@@ -39,7 +39,7 @@ workflow {
     PICARD_VerifyIDToMetrics(VerifyIDIntensity.out)
     
     // Select sites of interest
-    GATK_SelectVariants(PICARD_GtcToVcf.out.map{ sample_id, vcf_file, vcf_idx_file -> [analysis_id, vcf_file, vcf_idx_file, sample_id] }) 
+    GATK_SelectVariantsSample(PICARD_GtcToVcf.out.map{ sample_id, vcf_file, vcf_idx_file -> [analysis_id, vcf_file, vcf_idx_file, sample_id] }) 
 
     // Repository versions
     VersionLog()
