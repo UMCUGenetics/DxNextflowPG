@@ -20,7 +20,7 @@ include CreateVerifyIDIntensityContaminationMetricsFile as PICARD_VerifyIDToMetr
 include BafRegress from './NextflowModules/BafRegress/1.0.0/BafRegress.nf' 
 
 // Filter modules
-include SelectVariants as GATK_SelectVariants from './NextflowModules/GATK/4.1.3.0/SelectVariants.nf' params(genome:"$params.genome", optional: "--intervals $params.intervals_of_interest")
+include SelectVariantsSample as GATK_SelectVariantsSample from './NextflowModules/GATK/4.2.0.0/SelectVariants.nf' params(genome:"$params.genome", optional: "--intervals $params.intervals_of_interest")
 
 // Retrieve input data files
 def idat_files = extractIdatPairFromDir(params.idat_path) // [sample_id, array_id, grn_path, red_path]
@@ -39,7 +39,7 @@ workflow {
     PICARD_VerifyIDToMetrics(VerifyIDIntensity.out)
     
     // Select sites of interest
-    GATK_SelectVariants(PICARD_GtcToVcf.out.map{ sample_id, vcf_file, vcf_idx_file -> ["", vcf_file, vcf_idx_file, sample_id] }) 
+    GATK_SelectVariants(PICARD_GtcToVcf.out.map{ sample_id, vcf_file, vcf_idx_file -> [analysis_id, vcf_file, vcf_idx_file, sample_id] }) 
 
     // Repository versions
     VersionLog()
