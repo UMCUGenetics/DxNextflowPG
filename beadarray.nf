@@ -19,8 +19,11 @@ include VerifyIDIntensity from './NextflowModules/VerifyIDIntensity/0.0.1--hc902
 include CreateVerifyIDIntensityContaminationMetricsFile as PICARD_VerifyIDToMetrics from './NextflowModules/Picard/2.25.5/CreateVerifyIDIntensityContaminationMetricsFile.nf'
 include BafRegress from './NextflowModules/BafRegress/1.0.0/BafRegress.nf' 
 
-// Filter modules
-include SelectVariantsSample as GATK_SelectVariantsSample from './NextflowModules/GATK/4.2.0.0/SelectVariants.nf' params(genome:"$params.genome", optional: "--intervals $params.intervals_of_interest")
+// VCF manipulation modules
+include SelectVariantsSample as GATK_SelectVariantsSample from './NextflowModules/GATK/4.2.0.0/SelectVariants.nf' params(
+    genome:"$params.genome", 
+    optional: "--intervals $params.intervals_of_interest -select 'vc.getGenotype().isCalled()'"
+    )
 
 // Retrieve input data files
 def idat_files = extractIdatPairFromDir(params.idat_path) // [sample_id, array_id, grn_path, red_path]
