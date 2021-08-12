@@ -22,7 +22,14 @@ include BafRegress from './NextflowModules/BafRegress/1.0.0/BafRegress.nf'
 // VCF manipulation modules
 include SelectVariantsSample as GATK_SelectVariantsSample from './NextflowModules/GATK/4.2.0.0/SelectVariants.nf' params(
     genome:"$params.genome", 
-    optional: "--intervals $params.intervals_of_interest -select 'vc.getGenotype().isCalled()'"
+    optional: "--intervals $params.intervals_of_interest"
+    )
+
+include VariantFiltration as GATK_VariantFiltration from './NextflowModules/GATK/4.2.0.0/VariantFiltration.nf' params(
+    genome: "$params.genome", 
+    compress: true,
+    filter: "$params.gatk_filter",
+    optional: ""
     )
 
 // Retrieve input data files
@@ -41,6 +48,9 @@ workflow {
     VerifyIDIntensity(PICARD_VcfToAdpc.out) 
     PICARD_VerifyIDToMetrics(VerifyIDIntensity.out)
     
+    // Filter loci
+    GATK_VariantFiltration(PICARD_GtcToVcf.out.map{ sample_id, vcf_file, vcf_idx_file -> [sample_id, vcf_file, vcf_idx_file, sample_id] }) 
+
     // Select sites of interest
     GATK_SelectVariantsSample(PICARD_GtcToVcf.out.map{ sample_id, vcf_file, vcf_idx_file -> [analysis_id, vcf_file, vcf_idx_file, sample_id] }) 
 
