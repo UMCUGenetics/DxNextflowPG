@@ -20,16 +20,21 @@ include CreateVerifyIDIntensityContaminationMetricsFile as PICARD_VerifyIDToMetr
 include BafRegress from './NextflowModules/BafRegress/1.0.0/BafRegress.nf' 
 
 // VCF manipulation modules
-include SelectVariantsSample as GATK_SelectVariantsSample from './NextflowModules/GATK/4.2.0.0/SelectVariants.nf' params(
-    genome:"$params.genome", 
-    optional: "--intervals $params.intervals_of_interest"
-    )
-
 include VariantFiltration as GATK_VariantFiltration from './NextflowModules/GATK/4.2.0.0/VariantFiltration.nf' params(
     genome: "$params.genome", 
     compress: true,
     filter: "$params.gatk_filter",
     optional: ""
+    )
+
+include SelectVariants as GATK_SelectVariants from './NextflowModules/GATK/4.2.0.0/SelectVariants.nf' params(
+    genome:"$params.genome", 
+    optional: "$params.gatk_select"
+    )
+
+include SelectVariants as GATK_SelectVariants_Intervals from './NextflowModules/GATK/4.2.0.0/SelectVariants.nf' params(
+    genome:"$params.genome", 
+    optional: "--intervals $params.intervals_of_interest "
     )
 
 // Retrieve input data files
@@ -50,9 +55,10 @@ workflow {
     
     // Filter loci
     GATK_VariantFiltration(PICARD_GtcToVcf.out.map{ sample_id, vcf_file, vcf_idx_file -> [sample_id, vcf_file, vcf_idx_file, sample_id] }) 
+    GATK_SelectVariants(GATK_VariantFiltration.out.map{ sample_id, vcf_file, vcf_idx_file -> [sample_id, vcf_file, vcf_idx_file, sample_id] }) 
 
     // Select sites of interest
-    GATK_SelectVariantsSample(PICARD_GtcToVcf.out.map{ sample_id, vcf_file, vcf_idx_file -> [analysis_id, vcf_file, vcf_idx_file, sample_id] }) 
+    GATK_SelectVariants_Intervals(GATK_SelectVariants.out.map{ sample_id, vcf_file, vcf_idx_file -> [sample_id, vcf_file, vcf_idx_file, sample_id] }) 
 
     // Repository versions
     VersionLog()
