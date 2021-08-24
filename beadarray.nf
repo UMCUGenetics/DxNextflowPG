@@ -5,7 +5,7 @@ nextflow.preview.dsl=2
 include extractIdatPairFromDir from './NextflowModules/Utils/idat.nf'
 
 // Genotyping modules
-include GtcToVcf as PICARD_GtcToVcf from './NextflowModules/Picard/2.25.5/GtcToVcf.nf' params(
+include GtcToVcf as PICARD_GtcToVcf from './NextflowModules/Picard/2.25.5--hdfd78af_0/GtcToVcf.nf' params(
     bead_pool_manifest_file: "${params.bead_pool_manifest_file}",
     cluster_file: "${params.cluster_file}", 
     extended_chip_manifest_file: "${params.extended_chip_manifest_file}",
@@ -14,9 +14,9 @@ include GtcToVcf as PICARD_GtcToVcf from './NextflowModules/Picard/2.25.5/GtcToV
     )
 
 // Contamination modules
-include VcfToAdpc as PICARD_VcfToAdpc from './NextflowModules/Picard/2.25.5/VcfToAdpc.nf' params(optional: "")
+include VcfToAdpc as PICARD_VcfToAdpc from './NextflowModules/Picard/2.25.5--hdfd78af_0/VcfToAdpc.nf' params(optional: "")
 include VerifyIDIntensity from './NextflowModules/VerifyIDIntensity/0.0.1--hc90279e_1/VerifyIDIntensity.nf'
-include CreateVerifyIDIntensityContaminationMetricsFile as PICARD_VerifyIDToMetrics from './NextflowModules/Picard/2.25.5/CreateVerifyIDIntensityContaminationMetricsFile.nf'
+include CreateVerifyIDIntensityContaminationMetricsFile as PICARD_VerifyIDToMetrics from './NextflowModules/Picard/2.25.5--hdfd78af_0/CreateVerifyIDIntensityContaminationMetricsFile.nf'
 include BafRegress from './NextflowModules/BafRegress/1.0.0/BafRegress.nf' 
 
 // VCF manipulation modules
