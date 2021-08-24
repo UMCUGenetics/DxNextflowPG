@@ -18,6 +18,8 @@ include VcfToAdpc as PICARD_VcfToAdpc from './NextflowModules/Picard/2.25.5--hdf
 include VerifyIDIntensity from './NextflowModules/VerifyIDIntensity/0.0.1--hc90279e_1/VerifyIDIntensity.nf'
 include CreateVerifyIDIntensityContaminationMetricsFile as PICARD_VerifyIDToMetrics from './NextflowModules/Picard/2.25.5--hdfd78af_0/CreateVerifyIDIntensityContaminationMetricsFile.nf'
 include BafRegress from './NextflowModules/BafRegress/1.0.0/BafRegress.nf' 
+include CollectArraysVariantCallingMetrics as PICARD_VariantCallingMetrics from './NextflowModules/Picard/2.25.5--hdfd78af_0/CollectArraysVariantCallingMetrics.nf'
+include CollectArraysVariantCallingMetrics as PICARD_VariantCallingMetrics_Intervals from './NextflowModules/Picard/2.25.5--hdfd78af_0/CollectArraysVariantCallingMetrics.nf'
 
 // VCF manipulation modules
 include VariantFiltration as GATK_VariantFiltration from './NextflowModules/GATK/4.2.0.0/VariantFiltration.nf' params(
@@ -53,6 +55,9 @@ workflow {
     VerifyIDIntensity(PICARD_VcfToAdpc.out) 
     PICARD_VerifyIDToMetrics(VerifyIDIntensity.out)
     
+    // VariantCallingMetrics
+    PICARD_VariantCallingMetrics(PICARD_VcfToAdpc.out)
+
     // Filter loci
     GATK_VariantFiltration(PICARD_GtcToVcf.out.map{ sample_id, vcf_file, vcf_idx_file -> [sample_id, vcf_file, vcf_idx_file, sample_id] }) 
     GATK_SelectVariants(GATK_VariantFiltration.out.map{ sample_id, vcf_file, vcf_idx_file -> [sample_id, vcf_file, vcf_idx_file, sample_id] }) 
@@ -60,6 +65,10 @@ workflow {
     // Select sites of interest
     GATK_SelectVariants_Intervals(GATK_SelectVariants.out.map{ sample_id, vcf_file, vcf_idx_file -> [sample_id, vcf_file, vcf_idx_file, sample_id] }) 
 
+    // VariantCallingMetrics on subset.
+    PICARD_VariantCallingMetrics_Intervals(GATK_SelectVariants_Intervals.out)
+    
+    // Manipulate format VCF
     // Repository versions
     VersionLog()
 }
