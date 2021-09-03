@@ -20,11 +20,13 @@ include CreateVerifyIDIntensityContaminationMetricsFile as PICARD_VerifyIDToMetr
 include BafRegress from './NextflowModules/BafRegress/1.0.0/BafRegress.nf' 
 include CollectArraysVariantCallingMetrics as PICARD_VariantCallingMetrics from './NextflowModules/Picard/2.25.5--hdfd78af_0/CollectArraysVariantCallingMetrics.nf' params(
     dbsnp: "$params.dbsnp", 
-    call_rate_threshold: "$params.call_rate_threshold"
+    call_rate_threshold: "$params.call_rate_threshold",
+    output_prefix: "_VC_metrics"
     )
 include CollectArraysVariantCallingMetrics as PICARD_VariantCallingMetrics_Intervals from './NextflowModules/Picard/2.25.5--hdfd78af_0/CollectArraysVariantCallingMetrics.nf' params(
     dbsnp: "$params.dbsnp", 
-    call_rate_threshold: "$params.call_rate_threshold"
+    call_rate_threshold: "$params.call_rate_threshold",
+    output_prefix: "_VC_metrics_subset"
     )
 
 // VCF manipulation modules
@@ -42,6 +44,7 @@ include SelectVariants as GATK_SelectVariants from './NextflowModules/GATK/4.2.0
 
 include SelectVariants as GATK_SelectVariants_Intervals from './NextflowModules/GATK/4.2.0.0/SelectVariants.nf' params(
     genome:"$params.genome", 
+    output_prefix: "_select_soi",
     optional: "--intervals $params.intervals_of_interest "
     )
 
