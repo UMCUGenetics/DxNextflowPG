@@ -18,6 +18,8 @@ include VcfToAdpc as PICARD_VcfToAdpc from './NextflowModules/Picard/2.25.5--hdf
 include VerifyIDIntensity from './NextflowModules/VerifyIDIntensity/0.0.1--hc90279e_1/VerifyIDIntensity.nf'
 include CreateVerifyIDIntensityContaminationMetricsFile as PICARD_VerifyIDToMetrics from './NextflowModules/Picard/2.25.5--hdfd78af_0/CreateVerifyIDIntensityContaminationMetricsFile.nf'
 include BafRegress from './NextflowModules/BafRegress/1.0.0/BafRegress.nf' 
+
+// Quality metrics
 include CollectArraysVariantCallingMetrics as PICARD_VariantCallingMetrics from './NextflowModules/Picard/2.25.5--hdfd78af_0/CollectArraysVariantCallingMetrics.nf' params(
     dbsnp: "$params.dbsnp", 
     call_rate_threshold: "$params.call_rate_threshold",
