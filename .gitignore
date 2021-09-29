@@ -5,7 +5,29 @@
 
 # test output
 *.pdf
-*.RData
+*.bed
 
 # Apple Macbook related
 .DS_Store
+
+# R output
+## History files
+.Rhistory
+.Rapp.history
+
+## Session Data files
+.RData
+
+## User-specific files
+.Ruserdata
+
+## RStudio files
+.Rproj.user/
+
+## produced vignettes
+vignettes/*.html
+vignettes/*.pdf
+
+## R Environment Variables
+.Renviron
+
