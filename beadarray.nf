@@ -62,18 +62,16 @@ workflow {
     
     // Contamination
     BafRegress(PICARD_GtcToVcf.out)
-    PICARD_VcfToAdpc(PICARD_GtcToVcf.out) // sample_id, vcf, vcf_index
+    PICARD_VcfToAdpc(PICARD_GtcToVcf.out)
     VerifyIDIntensity(PICARD_VcfToAdpc.out) 
     PICARD_VerifyIDToMetrics(VerifyIDIntensity.out)
     
     // VariantCallingMetrics
     PICARD_VariantCallingMetrics(PICARD_GtcToVcf.out)
 
-    // Filter loci
+    // Filter and select loci
     GATK_VariantFiltration(PICARD_GtcToVcf.out) 
     GATK_SelectVariants(GATK_VariantFiltration.out) 
-
-    // Select sites of interest
     GATK_SelectVariants_Intervals(GATK_SelectVariants.out) 
 
     // VariantCallingMetrics on subset.
