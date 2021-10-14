@@ -1,5 +1,5 @@
 
-#! /usr/bin/env python
+#! venv/bin/python
 import argparse
 from os import getcwd
 import vcf as pyvcf
