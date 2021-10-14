@@ -79,7 +79,6 @@ workflow {
     // VariantCallingMetrics on subset.
     PICARD_VariantCallingMetrics_Intervals(GATK_SelectVariants_Intervals.out)
     
-    // Manipulate format VCF
     // Repository versions
     VersionLog()
 }
