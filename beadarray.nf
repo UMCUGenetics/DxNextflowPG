@@ -40,12 +40,14 @@ include VariantFiltration as GATK_VariantFiltration from './NextflowModules/GATK
     )
 
 include SelectVariants as GATK_SelectVariants from './NextflowModules/GATK/4.2.0.0/SelectVariants.nf' params(
-    genome:"$params.genome", 
+    genome:"$params.genome",
+    compress: true,
     optional: "$params.gatk_select"
     )
 
 include SelectVariants as GATK_SelectVariants_Intervals from './NextflowModules/GATK/4.2.0.0/SelectVariants.nf' params(
     genome:"$params.genome", 
+    compress: true,
     output_prefix: "_select_soi",
     optional: "--intervals $params.intervals_of_interest "
     )
@@ -150,6 +152,7 @@ process VariantGenotypeToPhenotype {
 
     script:
         """
+        source ${baseDir}/assets/venv/bin/activate
         python ${baseDir}/assets/variant_genotype_to_phenotype.py \
         --table ${params.translation_table} \
         --input ${vcf_file} \
