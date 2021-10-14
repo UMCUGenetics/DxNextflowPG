@@ -79,6 +79,9 @@ workflow {
     // VariantCallingMetrics on subset.
     PICARD_VariantCallingMetrics_Intervals(GATK_SelectVariants_Intervals.out)
     
+    // Translate to phenotype
+    VariantGenotypeToPhenotype(GATK_SelectVariants_Intervals.out)
+
     // Repository versions
     VersionLog()
 }
@@ -132,6 +135,31 @@ process AutoCall {
         ${params.gender_autocall_option} \
         --output-gtc
         """
+}
+
+
+process VariantGenotypeToPhenotype {
+    // Custom process to translate (sets of) variant genotype to a phenotype.
+    tag {"VariantGenotypeToPhenotype ${identifier}"}
+    label 'VariantGenotypeToPhenotype'
+    shell = ['/bin/bash', '-eo', 'pipefail']
+
+    input:
+        tuple(val(identifier), path(vcf_file), path(vcf_idx_file)) // should be compressed VCF with tabix index.
+
+    output:
+        path("${identifier}_genotypes.txt")
+
+    script:
+        """
+        python ${baseDir}/assets/variant_genotype_to_phenotype.py \
+        --table ${params.translation_table} \
+        --input ${vcf_file} \
+        --sample ${identifier} \
+        --output_prefix ${identifier}_genotypes
+        """
+}
+
 }
 
 
