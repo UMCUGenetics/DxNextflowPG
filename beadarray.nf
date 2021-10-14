@@ -158,8 +158,6 @@ process VariantGenotypeToPhenotype {
         """
 }
 
-}
-
 
 process VersionLog {
     // Custom process to log repository versions
