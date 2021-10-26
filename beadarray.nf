@@ -1,11 +1,12 @@
 #!/usr/bin/env nextflow
-nextflow.preview.dsl=2
+nextflow.enable.dsl=2
 
 // Retrieve input data files modules
-include extractIdatPairFromDir from './NextflowModules/Utils/idat.nf'
+include { extractIdatPairFromDir } from './NextflowModules/Utils/idat.nf'
 
 // Genotyping modules
-include GtcToVcf as PICARD_GtcToVcf from './NextflowModules/Picard/2.25.5--hdfd78af_0/GtcToVcf.nf' params(
+include { GenCall } from './tools/ iaap_cli/1.1.0-sha.80d7e5b3d9c1fdfc2e99b472a90652fd3848bbc7/gencall.nf'
+include { GtcToVcf as PICARD_GtcToVcf } from './NextflowModules/Picard/2.25.5--hdfd78af_0/GtcToVcf.nf' params(
     bead_pool_manifest_file: "${params.bead_pool_manifest_file}",
     cluster_file: "${params.cluster_file}", 
     extended_chip_manifest_file: "${params.extended_chip_manifest_file}",
@@ -14,38 +15,38 @@ include GtcToVcf as PICARD_GtcToVcf from './NextflowModules/Picard/2.25.5--hdfd7
     )
 
 // Contamination modules
-include VcfToAdpc as PICARD_VcfToAdpc from './NextflowModules/Picard/2.25.5--hdfd78af_0/VcfToAdpc.nf' params(optional: "")
-include VerifyIDIntensity from './NextflowModules/VerifyIDIntensity/0.0.1--hc90279e_1/VerifyIDIntensity.nf'
-include CreateVerifyIDIntensityContaminationMetricsFile as PICARD_VerifyIDToMetrics from './NextflowModules/Picard/2.25.5--hdfd78af_0/CreateVerifyIDIntensityContaminationMetricsFile.nf'
-include BafRegress from './NextflowModules/BafRegress/1.0.0/BafRegress.nf' 
+include { VcfToAdpc as PICARD_VcfToAdpc } from './NextflowModules/Picard/2.25.5--hdfd78af_0/VcfToAdpc.nf' params(optional: "")
+include { VerifyIDIntensity } from './NextflowModules/VerifyIDIntensity/0.0.1--hc90279e_1/VerifyIDIntensity.nf'
+include { CreateVerifyIDIntensityContaminationMetricsFile as PICARD_VerifyIDToMetrics } from './NextflowModules/Picard/2.25.5--hdfd78af_0/CreateVerifyIDIntensityContaminationMetricsFile.nf'
+include { BafRegress } from './tools/BafRegress/1.0.0/BafRegress.nf' 
 
 // Quality metrics
-include CollectArraysVariantCallingMetrics as PICARD_VariantCallingMetrics from './NextflowModules/Picard/2.25.5--hdfd78af_0/CollectArraysVariantCallingMetrics.nf' params(
+include { CollectArraysVariantCallingMetrics as PICARD_VariantCallingMetrics } from './NextflowModules/Picard/2.25.5--hdfd78af_0/CollectArraysVariantCallingMetrics.nf' params(
     dbsnp: "$params.dbsnp", 
     call_rate_threshold: "$params.call_rate_threshold",
     output_prefix: "_VC_metrics"
     )
-include CollectArraysVariantCallingMetrics as PICARD_VariantCallingMetrics_Intervals from './NextflowModules/Picard/2.25.5--hdfd78af_0/CollectArraysVariantCallingMetrics.nf' params(
+include { CollectArraysVariantCallingMetrics as PICARD_VariantCallingMetrics_Intervals } from './NextflowModules/Picard/2.25.5--hdfd78af_0/CollectArraysVariantCallingMetrics.nf' params(
     dbsnp: "$params.dbsnp", 
     call_rate_threshold: "$params.call_rate_threshold",
     output_prefix: "_VC_metrics_subset"
     )
 
 // VCF manipulation modules
-include VariantFiltration as GATK_VariantFiltration from './NextflowModules/GATK/4.2.0.0/VariantFiltration.nf' params(
+include { VariantFiltration as GATK_VariantFiltration } from './NextflowModules/GATK/4.2.0.0/VariantFiltration.nf' params(
     genome: "$params.genome", 
     compress: true,
     filter: "$params.gatk_filter",
     optional: ""
     )
 
-include SelectVariants as GATK_SelectVariants from './NextflowModules/GATK/4.2.0.0/SelectVariants.nf' params(
+include { SelectVariants as GATK_SelectVariants } from './NextflowModules/GATK/4.2.0.0/SelectVariants.nf' params(
     genome:"$params.genome",
     compress: true,
     optional: "$params.gatk_select"
     )
 
-include SelectVariants as GATK_SelectVariants_Intervals from './NextflowModules/GATK/4.2.0.0/SelectVariants.nf' params(
+include { SelectVariants as GATK_SelectVariants_Intervals }from './NextflowModules/GATK/4.2.0.0/SelectVariants.nf' params(
     genome:"$params.genome", 
     compress: true,
     output_prefix: "_select_soi",
@@ -59,8 +60,8 @@ def analysis_id = params.outdir.split('/')[-1]
 
 workflow {
     // Raw idat to Genotypes (VCF format)
-    AutoCall(idat_files) 
-    PICARD_GtcToVcf(AutoCall.out.map{sample_id, array_id, gtc_file -> [sample_id, gtc_file]})
+    GenCall(idat_files) 
+    PICARD_GtcToVcf(GenCall.out.map{sample_id, array_id, gtc_file -> [sample_id, gtc_file]})
     
     // Contamination
     BafRegress(PICARD_GtcToVcf.out)
@@ -105,36 +106,6 @@ workflow.onComplete {
         def subject = "PG Workflow Failed: ${analysis_id}"
         sendMail(to: params.email, subject: subject, body: email_html)
     }
-}
-
-
-process AutoCall {
-    // Raw idat to Genotypes
-    tag {"AutoCall ${identifier}"}
-    label 'AutoCall'
-    shell = ['/bin/bash', '-eo', 'pipefail']
-    cache = true 
-
-    input:
-        tuple(val(identifier), val(array_id), path(grn_idat), path(red_idat))
-
-    output:
-        tuple(val(identifier), val(array_id), path("${identifier}.gtc"))
-
-    script:
-        """
-        mkdir ${array_id}
-        cp ${grn_idat} ${array_id}
-        cp ${red_idat} ${array_id}
-
-        ${params.iaap_path} gencall \
-        ${params.bead_pool_manifest_file} \
-        ${params.cluster_file} \
-        . \
-        --idat-folder ${array_id} \
-        ${params.gender_autocall_option} \
-        --output-gtc
-        """
 }
 
 
