@@ -23,6 +23,8 @@ def retrieve_match_snp_genotype(vcf_file, genotypes):
             for record in records:
                 if record.samples[0].gt_bases == snp.get("variant_genotype"):
                     records_match.append(True)
+                elif record.samples[0]['GT'] == '1/0' and record.samples[0].gt_bases[::-1] == snp.get("variant_genotype"):
+                    records_match.append(True)
                 else:
                     records_match.append(False)
             if any(records_match):
