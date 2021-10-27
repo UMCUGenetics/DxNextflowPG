@@ -5,7 +5,6 @@
 
 # test output
 *.pdf
-*.bed
 
 # Apple Macbook related
 .DS_Store
