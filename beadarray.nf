@@ -6,7 +6,7 @@ include { extractIdatPairFromDir } from './NextflowModules/Utils/idat.nf'
 
 // Genotyping modules
 include { GenCall } from './tools/ iaap_cli/1.1.0-sha.80d7e5b3d9c1fdfc2e99b472a90652fd3848bbc7/gencall.nf'
-include { GtcToVcf as PICARD_GtcToVcf } from './NextflowModules/Picard/2.25.5--hdfd78af_0/GtcToVcf.nf' params(
+include { GtcToVcf as PICARD_GtcToVcf } from './NextflowModules/Picard/2.26.4--hdfd78af_0/GtcToVcf.nf' params(
     bead_pool_manifest_file: "${params.bead_pool_manifest_file}",
     cluster_file: "${params.cluster_file}", 
     extended_chip_manifest_file: "${params.extended_chip_manifest_file}",
@@ -15,18 +15,18 @@ include { GtcToVcf as PICARD_GtcToVcf } from './NextflowModules/Picard/2.25.5--h
     )
 
 // Contamination modules
-include { VcfToAdpc as PICARD_VcfToAdpc } from './NextflowModules/Picard/2.25.5--hdfd78af_0/VcfToAdpc.nf' params(optional: "")
+include { VcfToAdpc as PICARD_VcfToAdpc } from './NextflowModules/Picard/2.26.4--hdfd78af_0/VcfToAdpc.nf' params(optional: "")
 include { VerifyIDIntensity } from './NextflowModules/VerifyIDIntensity/0.0.1--hc90279e_1/VerifyIDIntensity.nf'
-include { CreateVerifyIDIntensityContaminationMetricsFile as PICARD_VerifyIDToMetrics } from './NextflowModules/Picard/2.25.5--hdfd78af_0/CreateVerifyIDIntensityContaminationMetricsFile.nf'
+include { CreateVerifyIDIntensityContaminationMetricsFile as PICARD_VerifyIDToMetrics } from './NextflowModules/Picard/2.26.4--hdfd78af_0/CreateVerifyIDIntensityContaminationMetricsFile.nf'
 include { BafRegress } from './tools/BafRegress/1.0.0/BafRegress.nf' 
 
 // Quality metrics
-include { CollectArraysVariantCallingMetrics as PICARD_VariantCallingMetrics } from './NextflowModules/Picard/2.25.5--hdfd78af_0/CollectArraysVariantCallingMetrics.nf' params(
+include { CollectArraysVariantCallingMetrics as PICARD_VariantCallingMetrics } from './NextflowModules/Picard/2.26.4--hdfd78af_0/CollectArraysVariantCallingMetrics.nf' params(
     dbsnp: "$params.dbsnp", 
     call_rate_threshold: "$params.call_rate_threshold",
     output_prefix: "_VC_metrics"
     )
-include { CollectArraysVariantCallingMetrics as PICARD_VariantCallingMetrics_Intervals } from './NextflowModules/Picard/2.25.5--hdfd78af_0/CollectArraysVariantCallingMetrics.nf' params(
+include { CollectArraysVariantCallingMetrics as PICARD_VariantCallingMetrics_Intervals } from './NextflowModules/Picard/2.26.4--hdfd78af_0/CollectArraysVariantCallingMetrics.nf' params(
     dbsnp: "$params.dbsnp", 
     call_rate_threshold: "$params.call_rate_threshold",
     output_prefix: "_VC_metrics_subset"
