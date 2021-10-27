@@ -1,7 +1,8 @@
 process GenCall {
     // Raw idat to Genotypes
     tag {"GenCall ${identifier}"}
-    label 'GenCall'
+    label 'IAAP_CLI_1_1_0'
+    label 'IAAP_CLI_1_1_0_GenCall'
     shell = ['/bin/bash', '-eo', 'pipefail']
     cache = true 
 
