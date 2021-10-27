@@ -1,0 +1,70 @@
+@HD	VN:1.5	SO:coordinate
+@SQ	SN:1	LN:249250621	M5:1b22b98cdeb4a9304cb5d48026a85128	AS:GRCh37	UR:file:/hpc/diaggen/data/databases/ref_genomes/Homo_sapiens.GRCh37.GATK.illumina/Homo_sapiens.GRCh37.GATK.illumina.fasta
+@SQ	SN:2	LN:243199373	M5:a0d9851da00400dec1098a9255ac712e	AS:GRCh37	UR:file:/hpc/diaggen/data/databases/ref_genomes/Homo_sapiens.GRCh37.GATK.illumina/Homo_sapiens.GRCh37.GATK.illumina.fasta
+@SQ	SN:3	LN:198022430	M5:641e4338fa8d52a5b781bd2a2c08d3c3	AS:GRCh37	UR:file:/hpc/diaggen/data/databases/ref_genomes/Homo_sapiens.GRCh37.GATK.illumina/Homo_sapiens.GRCh37.GATK.illumina.fasta
+@SQ	SN:4	LN:191154276	M5:23dccd106897542ad87d2765d28a19a1	AS:GRCh37	UR:file:/hpc/diaggen/data/databases/ref_genomes/Homo_sapiens.GRCh37.GATK.illumina/Homo_sapiens.GRCh37.GATK.illumina.fasta
+@SQ	SN:5	LN:180915260	M5:0740173db9ffd264d728f32784845cd7	AS:GRCh37	UR:file:/hpc/diaggen/data/databases/ref_genomes/Homo_sapiens.GRCh37.GATK.illumina/Homo_sapiens.GRCh37.GATK.illumina.fasta
+@SQ	SN:6	LN:171115067	M5:1d3a93a248d92a729ee764823acbbc6b	AS:GRCh37	UR:file:/hpc/diaggen/data/databases/ref_genomes/Homo_sapiens.GRCh37.GATK.illumina/Homo_sapiens.GRCh37.GATK.illumina.fasta
+@SQ	SN:7	LN:159138663	M5:618366e953d6aaad97dbe4777c29375e	AS:GRCh37	UR:file:/hpc/diaggen/data/databases/ref_genomes/Homo_sapiens.GRCh37.GATK.illumina/Homo_sapiens.GRCh37.GATK.illumina.fasta
+@SQ	SN:8	LN:146364022	M5:96f514a9929e410c6651697bded59aec	AS:GRCh37	UR:file:/hpc/diaggen/data/databases/ref_genomes/Homo_sapiens.GRCh37.GATK.illumina/Homo_sapiens.GRCh37.GATK.illumina.fasta
+@SQ	SN:9	LN:141213431	M5:3e273117f15e0a400f01055d9f393768	AS:GRCh37	UR:file:/hpc/diaggen/data/databases/ref_genomes/Homo_sapiens.GRCh37.GATK.illumina/Homo_sapiens.GRCh37.GATK.illumina.fasta
+@SQ	SN:10	LN:135534747	M5:988c28e000e84c26d552359af1ea2e1d	AS:GRCh37	UR:file:/hpc/diaggen/data/databases/ref_genomes/Homo_sapiens.GRCh37.GATK.illumina/Homo_sapiens.GRCh37.GATK.illumina.fasta
+@SQ	SN:11	LN:135006516	M5:98c59049a2df285c76ffb1c6db8f8b96	AS:GRCh37	UR:file:/hpc/diaggen/data/databases/ref_genomes/Homo_sapiens.GRCh37.GATK.illumina/Homo_sapiens.GRCh37.GATK.illumina.fasta
+@SQ	SN:12	LN:133851895	M5:51851ac0e1a115847ad36449b0015864	AS:GRCh37	UR:file:/hpc/diaggen/data/databases/ref_genomes/Homo_sapiens.GRCh37.GATK.illumina/Homo_sapiens.GRCh37.GATK.illumina.fasta
+@SQ	SN:13	LN:115169878	M5:283f8d7892baa81b510a015719ca7b0b	AS:GRCh37	UR:file:/hpc/diaggen/data/databases/ref_genomes/Homo_sapiens.GRCh37.GATK.illumina/Homo_sapiens.GRCh37.GATK.illumina.fasta
+@SQ	SN:14	LN:107349540	M5:98f3cae32b2a2e9524bc19813927542e	AS:GRCh37	UR:file:/hpc/diaggen/data/databases/ref_genomes/Homo_sapiens.GRCh37.GATK.illumina/Homo_sapiens.GRCh37.GATK.illumina.fasta
+@SQ	SN:15	LN:102531392	M5:e5645a794a8238215b2cd77acb95a078	AS:GRCh37	UR:file:/hpc/diaggen/data/databases/ref_genomes/Homo_sapiens.GRCh37.GATK.illumina/Homo_sapiens.GRCh37.GATK.illumina.fasta
+@SQ	SN:16	LN:90354753	M5:fc9b1a7b42b97a864f56b348b06095e6	AS:GRCh37	UR:file:/hpc/diaggen/data/databases/ref_genomes/Homo_sapiens.GRCh37.GATK.illumina/Homo_sapiens.GRCh37.GATK.illumina.fasta
+@SQ	SN:17	LN:81195210	M5:351f64d4f4f9ddd45b35336ad97aa6de	AS:GRCh37	UR:file:/hpc/diaggen/data/databases/ref_genomes/Homo_sapiens.GRCh37.GATK.illumina/Homo_sapiens.GRCh37.GATK.illumina.fasta
+@SQ	SN:18	LN:78077248	M5:b15d4b2d29dde9d3e4f93d1d0f2cbc9c	AS:GRCh37	UR:file:/hpc/diaggen/data/databases/ref_genomes/Homo_sapiens.GRCh37.GATK.illumina/Homo_sapiens.GRCh37.GATK.illumina.fasta
+@SQ	SN:19	LN:59128983	M5:1aacd71f30db8e561810913e0b72636d	AS:GRCh37	UR:file:/hpc/diaggen/data/databases/ref_genomes/Homo_sapiens.GRCh37.GATK.illumina/Homo_sapiens.GRCh37.GATK.illumina.fasta
+@SQ	SN:20	LN:63025520	M5:0dec9660ec1efaaf33281c0d5ea2560f	AS:GRCh37	UR:file:/hpc/diaggen/data/databases/ref_genomes/Homo_sapiens.GRCh37.GATK.illumina/Homo_sapiens.GRCh37.GATK.illumina.fasta
+@SQ	SN:21	LN:48129895	M5:2979a6085bfe28e3ad6f552f361ed74d	AS:GRCh37	UR:file:/hpc/diaggen/data/databases/ref_genomes/Homo_sapiens.GRCh37.GATK.illumina/Homo_sapiens.GRCh37.GATK.illumina.fasta
+@SQ	SN:22	LN:51304566	M5:a718acaa6135fdca8357d5bfe94211dd	AS:GRCh37	UR:file:/hpc/diaggen/data/databases/ref_genomes/Homo_sapiens.GRCh37.GATK.illumina/Homo_sapiens.GRCh37.GATK.illumina.fasta
+@SQ	SN:X	LN:155270560	M5:7e0e2e580297b7764e31dbc80c2540dd	AS:GRCh37	UR:file:/hpc/diaggen/data/databases/ref_genomes/Homo_sapiens.GRCh37.GATK.illumina/Homo_sapiens.GRCh37.GATK.illumina.fasta
+@SQ	SN:Y	LN:59373566	M5:1fa3474750af0948bdf97d5a0ee52e51	AS:GRCh37	UR:file:/hpc/diaggen/data/databases/ref_genomes/Homo_sapiens.GRCh37.GATK.illumina/Homo_sapiens.GRCh37.GATK.illumina.fasta
+@SQ	SN:MT	LN:16569	M5:c68f52674c9fb33aef52dcf399755519	AS:GRCh37	UR:file:/hpc/diaggen/data/databases/ref_genomes/Homo_sapiens.GRCh37.GATK.illumina/Homo_sapiens.GRCh37.GATK.illumina.fasta
+1	97547947	97547947	+	DPYD_rs67376798
+1	97915614	97915614	+	DPYD_rs3918290
+1	97981343	97981343	+	DPYD_rs55886062
+1	98039419	98039419	+	DPYD_rs56038477
+1	169519049	169519049	+	F5_rs6025
+2	234668880	234668894	+	UGT1A1_rs8175347
+2	234669144	234669144	+	UGT1A1_rs4148323
+2	234669619	234669619	+	UGT1A1_rs35350960
+6	18130918	18130918	+	TPMT_rs1142345
+6	18139228	18139228	+	TPMT_rs1800460
+6	18143955	18143955	+	TPMT_rs1800462
+6	29746869	29746869	+	HLA-A3101_rs1633021
+6	29913298	29913298	+	HLA-A3101_rs1061235
+6	30699384	30699384	+	HLA-B1502_rs3909184
+6	30946148	30946148	+	HLA-B1502_rs2844682
+6	31431780	31431780	+	HLA-B5701_rs2395029
+7	99250394	99250394	+	CYP3A5_rs41303343
+7	99262835	99262835	+	CYP3A5_rs10264272
+7	99270539	99270539	+	CYP3A5_rs776746
+10	96521657	96521657	+	CYP2C19_rs12248560
+10	96522463	96522463	+	CYP2C19_rs28399504
+10	96535173	96535173	+	CYP2C19_rs41291556
+10	96535210	96535210	+	CYP2C19_rs72552267
+10	96535246	96535246	+	CYP2C19_rs17884712
+10	96540410	96540410	+	CYP2C19_rs4986893
+10	96541615	96541616	+	CYP2C19_rs6413438|CYP2C19_rs4244285
+10	96612495	96612495	+	CYP2C19_rs56337013
+10	96702047	96702047	+	CYP2C9_rs1799853
+10	96740981	96740981	+	CYP2C9_rs28371685
+10	96741053	96741053	+	CYP2C9_rs1057910
+10	96741058	96741058	+	CYP2C9_rs28371686
+12	21331549	21331549	+	SLCO1B1_rs4149056
+16	31104878	31104878	+	VKORC1_rs9934438
+19	41512841	41512841	+	CYP2B6_rs3745274
+19	41515263	41515263	+	CYP2B6_rs2279343
+19	41518221	41518221	+	CYP2B6_rs28399499
+22	42523805	42523805	+	CYP2D6_rs28371725
+22	42524176	42524180	+	CYP2D6_rs5030656
+22	42524244	42524244	+	CYP2D6_rs35742686
+22	42524947	42524947	+	CYP2D6_rs3892097
+22	42525035	42525035	+	CYP2D6_rs5030865
+22	42525086	42525086	+	CYP2D6_rs5030655
+22	42525772	42525772	+	CYP2D6_rs28371706
+22	42526694	42526694	+	CYP2D6_rs1065852
