@@ -29,7 +29,7 @@ sbatch <<EOT
 
 module load Java/1.8.0_60
 
-/hpc/diaggen/software/tools/nextflow run $workflow_path/beadarray.nf \
+/hpc/diaggen/users/ellen/software/nextflow run $workflow_path/beadarray.nf \
 -c $workflow_path/beadarray.config \
 --idat_path $input \
 --outdir $output \
