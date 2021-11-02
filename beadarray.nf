@@ -101,10 +101,10 @@ workflow.onComplete {
     // Send email
     if (workflow.success) {
         def subject = "PG Workflow Successful: ${analysis_id}"
-        sendMail(to: params.email, subject: subject, body: email_html)
+        sendMail(to: params.email.trim(), subject: subject, body: email_html)
     } else {
         def subject = "PG Workflow Failed: ${analysis_id}"
-        sendMail(to: params.email, subject: subject, body: email_html)
+        sendMail(to: params.email.trim(), subject: subject, body: email_html)
     }
 }
 
