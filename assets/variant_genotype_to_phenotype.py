@@ -2,6 +2,7 @@
 import argparse
 import errno
 import os 
+import pysam
 import sys
 import vcf as pyvcf
 import yaml
@@ -19,6 +20,10 @@ def parse_arguments_and_check(args_in):
     args = parser.parse_args(args_in)
     if not args.output_prefix:
         args.output_prefix = args.sample
+    if not args.input.endswith(".vcf.gz"):
+        pysam.tabix_compress(args.input, args.input + ".gz")
+        pysam.tabix_index(args.input + ".gz", preset="vcf")
+        args.input = args.input + ".gz"
     for input_file_or_dir in [args.table, args.input, args.input+".tbi", args.output_path]:
         if not os.path.isfile(input_file_or_dir) and not os.path.isdir(input_file_or_dir):
             raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), input_file_or_dir)
