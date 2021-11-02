@@ -24,6 +24,24 @@ def parse_arguments_and_check():
     return(args)
 
 
+def read_vcf(vcf_file):
+    try:
+        vcf_reader = pyvcf.Reader(filename=vcf_file)
+    except StopIteration:
+        raise ValueError("File is empty.")
+    if not next(vcf_reader, None):
+        raise ValueError("File has no records.")
+    return(vcf_reader)
+
+
+def read_table(translation_file):
+    with open(translation_file) as translation_file:
+        translation_table = yaml.safe_load(translation_file)
+    if not translation_table:
+        raise ValueError("File is empty.")
+    return(translation_table)
+    
+
 def retrieve_match_all_records(vcf_reader, snp):
     records_match = []
     records = vcf_reader.fetch(snp.get("chrom"), snp.get("start"), snp.get("end"))
@@ -45,7 +63,7 @@ def retrieve_match_all_records(vcf_reader, snp):
     return(records_match)
 
 
-def retrieve_match_snp_genotype(vcf_file, genotypes):
+def retrieve_match_snp_genotype(vcf_reader, genotypes):
     '''
     A genotype/phenotype is represented by at least one site of interest, and often multiple.
     A single site of interest can map to multiple probes on the array.
@@ -53,7 +71,6 @@ def retrieve_match_snp_genotype(vcf_file, genotypes):
     At least one VCF record should match the required snp genotype to conclude the sample
     matches.
     '''
-    vcf_reader = pyvcf.Reader(filename=vcf_file)
     genotype_match_per_snp = {}
     for genotype in genotypes:
         for snp in genotype.get("snp"):
@@ -83,9 +100,9 @@ def retrieve_match_phenotype_and_write(genotype_match_per_snp, translation_table
 
 
 def main(translation_file, vcf_file, output_path, output_prefix, sample):
-    with open(translation_file) as translation_file:
-        translation_table = yaml.load(translation_file, Loader=yaml.FullLoader)
-    genotype_match_per_snp = retrieve_match_snp_genotype(vcf_file=vcf_file, genotypes=translation_table.values())
+    vcf_reader = read_vcf(vcf_file)
+    translation_table = read_table(translation_file)
+    genotype_match_per_snp = retrieve_match_snp_genotype(vcf_reader=vcf_reader, genotypes=translation_table.values())
     retrieve_match_phenotype_and_write(
         genotype_match_per_snp=genotype_match_per_snp,
         translation_table=translation_table,
