@@ -2,11 +2,12 @@
 import argparse
 import errno
 import os 
+import sys
 import vcf as pyvcf
 import yaml
 
 
-def parse_arguments_and_check():
+def parse_arguments_and_check(args_in):
     parser = argparse.ArgumentParser(description="Translate variant genotype to a pharmacogentics phenotype.",
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument("input", type=str, help="File path and name of compressed VCF (.vcf.gz).")
@@ -15,7 +16,7 @@ def parse_arguments_and_check():
     parser.add_argument("-o", "--output_path", type=str, required=False, default=os.getcwd(), help="File path to store output.")
     parser.add_argument("-p", "--output_prefix", type=str, required=False,
                         help="Output prefix to use as output filename. (default: the provided sample identifier)")
-    args = parser.parse_args()
+    args = parser.parse_args(args_in)
     if not args.output_prefix:
         args.output_prefix = args.sample
     for input_file_or_dir in [args.table, args.input, args.input+".tbi", args.output_path]:
@@ -113,8 +114,7 @@ def main(translation_file, vcf_file, output_path, output_prefix, sample):
 
 
 if __name__ == '__main__':
-    args = parse_arguments_and_check()
-
+    args = parse_arguments_and_check(args_in=sys.argv[1:])
     main(
         translation_file=args.table,
         vcf_file=args.input,
