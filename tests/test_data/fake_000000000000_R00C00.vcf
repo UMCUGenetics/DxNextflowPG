@@ -1,0 +1,20 @@
+##fileformat=VCFv4.2
+##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+##INFO=<ID=AN,Number=1,Type=Integer,Description="Total number of alleles in called genotypes">
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	fake_000000000000_R00C00
+1	10000001	fake_snp_rs0000001	C	T	.	PASS	AN=2	GT	0/0
+1	10000002	fake_snp_rs0000002	C	T	.	PASS	AN=2	GT	0/1
+1	10000003	fake_snp_rs0000003	C	T	.	PASS	AN=2	GT	1/0
+1	10000004	fake_snp_rs0000004	C	T	.	PASS	AN=2	GT	1/1
+1	10000005	fake_snp_rs000005.1	C	G	.	PASS	AN=2	GT	0/0
+1	10000005	fake_snp_rs000005.2	C	T	.	PASS	AN=2	GT	0/0
+2	20000001	fake_del_rs0000006	TA	T	.	PASS	AN=2	GT	0/0
+2	20000003	fake_del_rs0000007	TA	T	.	PASS	AN=2	GT	0/1
+2	20000005	fake_del_rs0000008	TA	T	.	PASS	AN=2	GT	1/0
+2	20000007	fake_del_rs0000009	TA	T	.	PASS	AN=2	GT	1/1
+3	30000001	fake_ins_rs0000010	G	GA	.	PASS	AN=2	GT	0/0
+3	30000003	fake_ins_rs0000011	G	GA	.	PASS	AN=2	GT	0/1
+3	30000005	fake_ins_rs0000012	G	GA	.	PASS	AN=2	GT	1/0
+3	30000007	fake_ins_rs0000013	G	GA	.	PASS	AN=2	GT	1/1
+3	30000009	fake_ins_rs0000014.1	C	CT	.	PASS	AN=2	GT	0/0
+3	30000009	fake_ins_rs0000014.2	C	CA	.	PASS	AN=2	GT	0/0
