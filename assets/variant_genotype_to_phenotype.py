@@ -1,7 +1,7 @@
 #! venv/bin/python
 import argparse
 import errno
-import os 
+import os
 import pysam
 import sys
 import vcf as pyvcf
@@ -20,6 +20,8 @@ def parse_arguments_and_check(args_in):
     args = parser.parse_args(args_in)
     if not args.output_prefix:
         args.output_prefix = args.sample
+    if not args.table.endswith(".yaml"):
+        raise TypeError()
     if not args.input.endswith(".vcf.gz"):
         pysam.tabix_compress(args.input, args.input + ".gz")
         pysam.tabix_index(args.input + ".gz", preset="vcf")
