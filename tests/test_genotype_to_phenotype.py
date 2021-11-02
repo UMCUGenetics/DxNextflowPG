@@ -4,6 +4,11 @@ from pytest_reqs import check_requirements
 import vcf as pyvcf
 
 from assets.variant_genotype_to_phenotype import retrieve_match_all_records
+@pytest.fixture(scope="module", autouse=True)
+def get_vcf_reader(setup_and_get_test_path):
+    vcf_reader = pyvcf.Reader(filename=setup_and_get_test_path + "/fake_000000000000_R00C00.vcf.gz")
+    return(vcf_reader)
+
 
 VCF_PAIR = (os.path.realpath("./tests/test_data/fake_000000000000_R00C00.vcf.gz"),
               os.path.realpath("./tests/test_data/fake_000000000000_R00C00.vcf.gz.tbi"))
