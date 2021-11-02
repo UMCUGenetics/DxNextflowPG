@@ -44,7 +44,10 @@ To run pytest for all tests with verbosity and print statements shown in console
 ```bash
 pytest -v -s tests/
 ``` 
-
+To run pytest for a specific class with verbosity, use for example:
+```bash
+pytest -v tests/test_genotype_to_phenotype.py::TestInput
+```
 The scope of tests you want to run, can be selected. [specifying-tests-or-selecting-tests](https://docs.pytest.org/en/6.2.x/usage.html#specifying-tests-selecting-tests)
 # 3. Software dependencies
 ##  3.1. python environment
