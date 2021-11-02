@@ -24,6 +24,27 @@ def parse_arguments_and_check():
     return(args)
 
 
+def retrieve_match_all_records(vcf_reader, snp):
+    records_match = []
+    records = vcf_reader.fetch(snp.get("chrom"), snp.get("start"), snp.get("end"))
+    for record in records:
+        # print("GT bases {} GT {} REF {}  ALT {} ".format(
+        #     record.samples[0].gt_bases, record.samples[0]['GT'], record.REF, record.ALT))
+        if record.samples[0].gt_bases == snp.get("variant_genotype") :
+            records_match.append(True)
+        elif record.samples[0]['GT'] == '1/0':
+            splitted_genotype = record.samples[0].gt_bases.split("/")[::-1]
+            if "/".join(splitted_genotype) == snp.get("variant_genotype"):
+                records_match.append(True)
+            else:
+                records_match.append(False)
+        else:
+            records_match.append(False)
+    if not records_match:
+        print("Remove genotype, fetch has no records for variant {}".format(snp.get("variant_id")))
+    return(records_match)
+
+
 def retrieve_match_snp_genotype(vcf_file, genotypes):
     '''
     A genotype/phenotype is represented by at least one site of interest, and often multiple.
@@ -36,24 +57,15 @@ def retrieve_match_snp_genotype(vcf_file, genotypes):
     genotype_match_per_snp = {}
     for genotype in genotypes:
         for snp in genotype.get("snp"):
-            records_match = []
-            records = vcf_reader.fetch(snp.get("chrom"), snp.get("start"), snp.get("end"))
-            for record in records:
-                if record.samples[0].gt_bases == snp.get("variant_genotype"):
-                    records_match.append(True)
-                elif record.samples[0]['GT'] == '1/0' and record.samples[0].gt_bases[::-1] == snp.get("variant_genotype"):
-                    records_match.append(True)
-                else:
-                    records_match.append(False)
+            records_match = retrieve_match_all_records(vcf_reader=vcf_reader, snp=snp)
             if any(records_match):
                 genotype_match_per_snp.setdefault(genotype.get("genotype_id"), []).append(True)
             elif records_match:
                 genotype_match_per_snp.setdefault(genotype.get("genotype_id"), []).append(False)
-            elif next(records, None) is None:
-                print("Remove genotype, fetch has no records for variant {}".format(snp.get("variant_id")))
-                genotype_match_per_snp.setdefault(genotype.get("genotype_id"), []).append(False)
             else:
-                print("Something went wrong?")
+                print("Something went wrong.")
+                genotype_match_per_snp.pop(genotype.get("genotype_id"), None)
+                break
     return(genotype_match_per_snp)
 
 
