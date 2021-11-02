@@ -9,9 +9,9 @@ import yaml
 def parse_arguments_and_check():
     parser = argparse.ArgumentParser(description="Translate variant genotype to a pharmacogentics phenotype.",
                                      formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument("-t", "--table", type=str, required=True, help="File path and name of translation table (.yaml).")
-    parser.add_argument("-i", "--input", type=str, required=True, help="File path and name of compressed VCF (.vcf.gz).")
-    parser.add_argument("-s", "--sample", type=str, required=True, help="Sample identifier.")
+    parser.add_argument("input", type=str, help="File path and name of compressed VCF (.vcf.gz).")
+    parser.add_argument("sample", type=str, help="Sample identifier.")
+    parser.add_argument("table", type=str, help="File path and name of translation table (.yaml).")
     parser.add_argument("-o", "--output_path", type=str, required=False, default=os.getcwd(), help="File path to store output.")
     parser.add_argument("-p", "--output_prefix", type=str, required=False,
                         help="Output prefix to use as output filename. (default: the provided sample identifier)")
