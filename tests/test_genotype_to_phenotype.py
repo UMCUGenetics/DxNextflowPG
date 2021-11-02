@@ -1,24 +1,73 @@
 import os
 import pytest
-from pytest_reqs import check_requirements
 import vcf as pyvcf
 
+from assets.variant_genotype_to_phenotype import parse_arguments_and_check
 from assets.variant_genotype_to_phenotype import retrieve_match_all_records
+from assets.variant_genotype_to_phenotype import read_vcf
+from assets.variant_genotype_to_phenotype import read_table
+
 @pytest.fixture(scope="module", autouse=True)
 def get_vcf_reader(setup_and_get_test_path):
     vcf_reader = pyvcf.Reader(filename=setup_and_get_test_path + "/fake_000000000000_R00C00.vcf.gz")
     return(vcf_reader)
 
 
-VCF_PAIR = (os.path.realpath("./tests/test_data/fake_000000000000_R00C00.vcf.gz"),
-              os.path.realpath("./tests/test_data/fake_000000000000_R00C00.vcf.gz.tbi"))
+class TestInput():
+    def test_parser_required_args(self, setup_and_get_test_path):
+        parser = parse_arguments_and_check(
+            args_in=[setup_and_get_test_path + "fake_000000000000_R00C00.vcf.gz", "fake_000000000000_R00C00", "./references/sites_of_interest.yaml"])
+        assert parser
 
+    def test_parser_required_args_vcf(self, setup_and_get_test_path):
+        parser = parse_arguments_and_check(
+            args_in=[setup_and_get_test_path + "fake_000000000001_R01C01.vcf", "fake_000000000000_R00C00", "./references/sites_of_interest.yaml"])
+        assert parser
+    
+    def test_parser_non_existing_input(self, setup_and_get_test_path):
+        with pytest.raises(FileNotFoundError):
+            parser = parse_arguments_and_check(
+                args_in=[setup_and_get_test_path + "non_existing.vcf.gz", "fake_000000000000_R00C00", "./references/sites_of_interest.yaml"])
 
-@pytest.fixture(scope="module")
-def get_vcf_reader():
-    vcf = VCF_PAIR[0]
-    vcf_reader = pyvcf.Reader(filename=vcf)
-    return(vcf_reader)
+    def test_parser_non_existing_yaml(self, setup_and_get_test_path):
+        with pytest.raises(FileNotFoundError):
+            parser = parse_arguments_and_check(
+                args_in=[setup_and_get_test_path + "fake_000000000000_R00C00.vcf.gz", "fake_000000000000_R00C00", "./references/non_existing.yaml"])
+
+    def test_parser_unsupported_table(self, setup_and_get_test_path):
+        with pytest.raises(TypeError):
+            parser = parse_arguments_and_check(
+                args_in=[setup_and_get_test_path + "fake_000000000000_R00C00.vcf.gz", "fake_000000000000_R00C00", "./references/sites_of_interest.json"])
+
+    def test_parser_empty_input(self, setup_and_get_test_path):
+        with pytest.raises(ValueError) as no_records_error:
+            read_vcf(setup_and_get_test_path + "empty.vcf.gz")
+        assert "empty" in str(no_records_error.value)
+
+    def test_parser_empty_table(self, setup_and_get_test_path):
+        with pytest.raises(ValueError) as empty_error:
+            read_table(setup_and_get_test_path + "empty.yaml")
+        assert "empty" in str(empty_error.value)
+
+    def test_parser_no_records_input(self, setup_and_get_test_path):
+        with pytest.raises(ValueError) as no_records_error:
+            read_vcf(setup_and_get_test_path + "no_records.vcf.gz")
+        assert "no records" in str(no_records_error.value)
+
+    def test_parser_output_path(self, setup_and_get_test_path):
+        parser = parse_arguments_and_check(
+            args_in=[setup_and_get_test_path + "fake_000000000000_R00C00.vcf.gz", "fake_000000000000_R00C00", "./references/sites_of_interest.yaml", "--output_path", "./test_output/"])
+        assert parser
+    
+    def test_parser_non_existing_output_path(self, setup_and_get_test_path):
+        with pytest.raises(FileNotFoundError):
+            parser = parse_arguments_and_check(
+                args_in=[setup_and_get_test_path + "fake_000000000000_R00C00.vcf.gz", "fake_000000000000_R00C00", "./references/sites_of_interest.yaml", "--output_path", "./fake_dir/"])
+
+    def test_parser_output_prefix(self, setup_and_get_test_path):
+        parser = parse_arguments_and_check(
+            args_in=[setup_and_get_test_path + "fake_000000000000_R00C00.vcf.gz", "fake_000000000000_R00C00", "./references/sites_of_interest.yaml", "--output_prefix", "test_prefix"])
+        assert parser    
 
 
 class TestSnpGenotypes():
@@ -54,7 +103,6 @@ class TestSnpGenotypes():
     def test_multi_snp(self, get_vcf_reader):
         snp_dir = {"chrom": "1", "start": 10000004, "end": 10000005, "variant_genotype": "C/C"}
         self.retrieve_match_and_assert(vcf_reader=get_vcf_reader, snp_dir=snp_dir, exp_length=2, exp_bool=True)
-
 
 
 class TestIndelGenotypes():
