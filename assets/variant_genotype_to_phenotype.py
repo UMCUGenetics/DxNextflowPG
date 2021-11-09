@@ -58,10 +58,12 @@ def check_required_keys(snp):
 
 def retrieve_match_all_records(vcf_reader, snp):
     records_match = []
-    records = vcf_reader.fetch(snp.get("chrom"), snp.get("start"), snp.get("end"))
+    try:
+        records = vcf_reader.fetch(snp.get("chrom"), snp.get("start"), snp.get("end"))
+    except ValueError:
+        raise Warning("Remove genotype, fetch has no records for variant {}".format(snp.get("variant_id")))
+        return(None)
     for record in records:
-        # print("GT bases {} GT {} REF {}  ALT {} ".format(
-        #     record.samples[0].gt_bases, record.samples[0]['GT'], record.REF, record.ALT))
         if record.samples[0].gt_bases == snp.get("variant_genotype") :
             records_match.append(True)
         elif record.samples[0]['GT'] == '1/0':
@@ -74,6 +76,7 @@ def retrieve_match_all_records(vcf_reader, snp):
             records_match.append(False)
     if not records_match:
         print("Remove genotype, fetch has no records for variant {}".format(snp.get("variant_id")))
+        return(None)
     return(records_match)
 
 
@@ -90,14 +93,14 @@ def retrieve_match_snp_genotype(vcf_reader, genotypes):
         for snp in genotype.get("snp"):
             check_required_keys(snp=snp)
             records_match = retrieve_match_all_records(vcf_reader=vcf_reader, snp=snp)
-            if any(records_match):
+            if not records_match:
+                genotype_match_per_snp.pop(genotype.get("genotype_id"), None)
+                break # TODO: refactor code to break nested loop.
+            elif any(records_match):
                 genotype_match_per_snp.setdefault(genotype.get("genotype_id"), []).append(True)
             elif records_match:
                 genotype_match_per_snp.setdefault(genotype.get("genotype_id"), []).append(False)
-            else:
-                print("Something went wrong.")
-                genotype_match_per_snp.pop(genotype.get("genotype_id"), None)
-                break
+                
     return(genotype_match_per_snp)
 
 
