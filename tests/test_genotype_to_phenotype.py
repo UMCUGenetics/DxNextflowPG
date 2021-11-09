@@ -65,6 +65,22 @@ class TestInput():
             args_in=[setup_and_get_test_path + "fake_000000000000_R00C00.vcf.gz", "fake_000000000000_R00C00", "./references/sites_of_interest.yaml", "--output_prefix", "test_prefix"])
         assert parser    
 
+    def test_check_reqs_keys(self):
+        gt_to_pt.check_required_keys(snp={"chrom": 0, "start": 0, "end": 1, "variant_genotype": "A/A", "variant_id": "fake_id"})
+        assert True
+
+    def test_check_reqs_keys_missing_keys(self):
+        dir_snp_list = [
+            {"start": 0, "end": 1, "variant_genotype": "A/A", "variant_id": "fake_id"}, # missing chrom
+            {"chrom": 0, "end": 1, "variant_genotype": "A/A", "variant_id": "fake_id"},  # missing start
+            {"chrom": 0, "start": 0, "variant_genotype": "A/A", "variant_id": "fake_id"}, # missing end
+            {"chrom": 0, "start": 0, "end": 1, "variant_id": "fake_id"}, # missing variant_genotype
+            {"chrom": 0, "start": 0, "end": 1, "variant_genotype": "A/A"}, # missing variant_genotype
+        ]
+        for snp_dir in dir_snp_list:
+            with pytest.raises(ValueError) as missing_key_error:
+                gt_to_pt.check_required_keys(snp=snp_dir)
+            assert "missing" in str(missing_key_error.value).lower()
 
 class TestSnpGenotypes():
     def retrieve_match_and_assert(self, vcf_reader, snp_dir, exp_length, exp_bool):
