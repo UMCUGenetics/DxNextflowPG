@@ -9,7 +9,7 @@ def get_vcf_reader(setup_and_get_test_path):
     return(vcf_reader)
 
 
-class TestInput():
+class TestInputGenotypeToPhenotype():
     def test_parser_required_args(self, setup_and_get_test_path):
         parser = gt_to_pt.parse_arguments_and_check(
             args_in=[setup_and_get_test_path + "fake_000000000000_R00C00.vcf.gz", "fake_000000000000_R00C00", "./references/sites_of_interest.yaml"])
