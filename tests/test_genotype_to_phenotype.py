@@ -183,6 +183,8 @@ class TestGenotypeToPhenotype():
     ## if not all sites of a genotype are measured (maybe removed due to quality), no genotype should be predicted / linked to sample.
     ## sites with multiple alternatives aka not duploid
     ## pos 1 del, pos 2 ins, only match on expected genotype measurement type. (fetch will pick up both.)
+    ## output file generated.
+    ## output file name uses output_prefix.
     def test_main_translation_and_vcf_mismatch(self, setup_and_get_test_path):
         with pytest.raises(Warning) as warning_no_records:
             gt_to_pt.main(
