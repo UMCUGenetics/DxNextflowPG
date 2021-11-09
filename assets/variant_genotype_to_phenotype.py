@@ -50,6 +50,12 @@ def read_table(translation_file):
     return(translation_table)
     
 
+def check_required_keys(snp):
+    for key in ["chrom", "start", "end", "variant_genotype", "variant_id"]:
+        if key not in snp:
+            raise ValueError("Missing required field {} for snp in translation table.".format(key))
+
+
 def retrieve_match_all_records(vcf_reader, snp):
     records_match = []
     records = vcf_reader.fetch(snp.get("chrom"), snp.get("start"), snp.get("end"))
@@ -82,6 +88,7 @@ def retrieve_match_snp_genotype(vcf_reader, genotypes):
     genotype_match_per_snp = {}
     for genotype in genotypes:
         for snp in genotype.get("snp"):
+            check_required_keys(snp=snp)
             records_match = retrieve_match_all_records(vcf_reader=vcf_reader, snp=snp)
             if any(records_match):
                 genotype_match_per_snp.setdefault(genotype.get("genotype_id"), []).append(True)
