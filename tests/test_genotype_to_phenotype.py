@@ -174,3 +174,23 @@ class TestIndelGenotypes():
     def test_multi_ins(self, get_vcf_reader):
         variant_dir = {"chrom": "3", "start": 30000008, "end": 30000009, "variant_genotype": "C/C"}
         self.retrieve_match_and_assert(vcf_reader=get_vcf_reader, snp_dir=variant_dir, exp_length=2, exp_bool=True)
+
+
+class TestGenotypeToPhenotype():
+    # TODO: implement tests:
+    ## no matter the number of records match, it should result in a single genotype.
+    ## predicted genotype for each unique genotype gene/category in output, as long as valid and all snps are in VCF.
+    ## if not all sites of a genotype are measured (maybe removed due to quality), no genotype should be predicted / linked to sample.
+    ## sites with multiple alternatives aka not duploid
+    ## pos 1 del, pos 2 ins, only match on expected genotype measurement type. (fetch will pick up both.)
+    def test_main_translation_and_vcf_mismatch(self, setup_and_get_test_path):
+        with pytest.raises(Warning) as warning_no_records:
+            gt_to_pt.main(
+                translation_file="./references/sites_of_interest.yaml", 
+                vcf_file=setup_and_get_test_path + "/fake_000000000000_R00C00.vcf.gz", 
+                output_path=setup_and_get_test_path,
+                output_prefix="fake_000000000000_R00C00",
+                sample="fake_000000000000_R00C00"
+            )
+        assert "fetch has no records" in str(warning_no_records.value).lower()
+
