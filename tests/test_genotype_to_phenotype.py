@@ -186,7 +186,7 @@ class TestGenotypeToPhenotype():
     ## output file generated.
     ## output file name uses output_prefix.
     def test_main_translation_and_vcf_mismatch(self, setup_and_get_test_path):
-        with pytest.raises(Warning) as warning_no_records:
+        with pytest.warns(UserWarning, match="fetch has no records"):
             gt_to_pt.main(
                 translation_file="./references/sites_of_interest.yaml", 
                 vcf_file=setup_and_get_test_path + "/fake_000000000000_R00C00.vcf.gz", 
@@ -194,5 +194,4 @@ class TestGenotypeToPhenotype():
                 output_prefix="fake_000000000000_R00C00",
                 sample="fake_000000000000_R00C00"
             )
-        assert "fetch has no records" in str(warning_no_records.value).lower()
 

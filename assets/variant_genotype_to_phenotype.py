@@ -5,6 +5,7 @@ import os
 import pysam
 import sys
 import vcf as pyvcf
+from warnings import warn as warnings_warn
 import yaml
 
 
@@ -51,7 +52,7 @@ def read_table(translation_file):
     
 
 def check_required_keys(snp):
-    for key in ["chrom", "start", "end", "variant_genotype", "variant_id"]:
+    for key in ["chrom", "start", "end", "variant_genotype", "name"]:
         if key not in snp:
             raise ValueError("Missing required field {} for snp in translation table.".format(key))
 
@@ -61,7 +62,7 @@ def retrieve_match_all_records(vcf_reader, snp):
     try:
         records = vcf_reader.fetch(snp.get("chrom"), snp.get("start"), snp.get("end"))
     except ValueError:
-        raise Warning("Remove genotype, fetch has no records for variant {}".format(snp.get("variant_id")))
+        warnings_warn("Remove genotype, fetch has no records for variant {}".format(snp.get("name")))
         return(None)
     for record in records:
         if record.samples[0].gt_bases == snp.get("variant_genotype") :
@@ -75,7 +76,7 @@ def retrieve_match_all_records(vcf_reader, snp):
         else:
             records_match.append(False)
     if not records_match:
-        print("Remove genotype, fetch has no records for variant {}".format(snp.get("variant_id")))
+        print("Remove genotype, fetch has no records for variant {}".format(snp.get("name")))
         return(None)
     return(records_match)
 
