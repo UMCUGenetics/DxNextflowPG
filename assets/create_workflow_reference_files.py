@@ -42,9 +42,26 @@ def parse_arguments_and_check(args_in):
 	return(args)
 
 
-def check_file_exists(file):
-	if not pathlib.Path(file).isfile():
+def check_file(file):
+	if not pathlib.Path(file).is_file() and not pathlib.Path(file).is_dir():
 		raise FileNotFoundError(errno_ENOENT, os_strerror(errno_ENOENT), file)
+	elif not pathlib.Path(file).stat().st_size:
+		raise OSError("File is empty.")
+
+
+def read_config_section_and_check(section, config_file="./assets/create_workflow_reference_files.ini"):
+	config_parser = ConfigParser(converters={"jsonloads": json.loads})
+	check_file(file=config_file)
+	config_parser.read(config_file)
+	config_section = config_parser[section]
+	required_keys = ["ensembl_url", "species", "translation_table"]
+	for req_key in required_keys:
+		if req_key not in config_section:
+			raise KeyError("Required key {} not in config file.".format(req_key))
+	file_keys = ["translation_table"]
+	for file_key in file_keys:
+		check_file(config_section.get(file_key))
+	return(config_section)
 
 
 def morph_input_file(csv_file, dict_rename_cols):
@@ -263,7 +280,9 @@ def compare_files(old, new):
 
 
 def main(prev_bed_file, prev_yaml_file, output_path, output_prefix, config):
-	check_file_exists(file=config.get("translation_table"))
+	check_file(file=config.get("translation_table"))
+	if not args.output_prefix:
+		args.output_prefix = pathlib.Path(config.get("translation_table")).stem.lower()
 	df_phenotypes, df_genotypes = morph_input_file(
 		csv_file=config.get("translation_table"),
 		dict_rename_cols=config.getjsonloads("dict_rename_tf_cols")
@@ -308,13 +327,7 @@ def main(prev_bed_file, prev_yaml_file, output_path, output_prefix, config):
 
 if __name__ == '__main__':
 	args = parse_arguments_and_check(args_in=sys.argv[1:])
-
-	config_parser = ConfigParser(converters={"jsonloads": json.loads})
-	config_file = "./assets/create_workflow_reference_files.ini"
-	check_file_exists(file=config_file)
-	config_parser.read(config_file)
-	config_section = config_parser[args.config_section]
-
+	config_section = read_config_section_and_check(section=args.config_section, config_file="./assets/create_workflow_reference_files.ini")
 	main(
 		prev_bed_file=args.bed, 
 		prev_yaml_file=args.yaml,
