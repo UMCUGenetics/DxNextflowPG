@@ -7,6 +7,7 @@ from errno import ENOENT as errno_ENOENT
 import json
 from os import strerror as os_strerror
 import pathlib
+import requests
 import sys
 from warnings import warn as warnings_warn
 
