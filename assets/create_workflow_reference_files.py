@@ -17,7 +17,6 @@ from numpy import argsort as np_argsort
 import pandas as pd
 import yaml
 
-
 def parse_arguments_and_check(args_in):
 	parser = argparse.ArgumentParser(
 		description="Migrate translation table to a bed file with sites of interest " +
@@ -167,35 +166,34 @@ def get_data_ensembl(df_translation, ensembl_url, species):
 	return(df_metadata_sort)
 
 
-def get_invalid_genes_and_warn(df_metadata_variants):
-	filter_gene_names = []
-	df_grouped = df_metadata_variants.groupby("gene")['chrom'].nunique()
+def get_invalid_genes_and_warn(df_ens_metadata, genes_regex):
+	lst_filter_gene_names = df_ens_metadata.loc[df_ens_metadata.gene.str.contains(genes_regex), "gene"].to_list()
+	df_grouped = df_ens_metadata.groupby("gene")['chrom'].nunique()
 	if any(df_grouped > 1):
-		filter_gene_names += df_grouped.where(g > 1).dropna().keys().tolist()
+		lst_filter_gene_names += df_grouped.where(g > 1).dropna().keys().tolist()
 		warnings_warn("At least one gene is linked to variants from different chromosomes.\n{counts}".format(
-				counts=df_metadata_variants.groupby("gene", as_index=False)["chrom"].nunique()
+				counts=df_ens_metadata.groupby("gene", as_index=False)["chrom"].nunique()
 			)
 		)
-	genes_not_match = df_metadata_variants.query("gene != retrieved_gene")
-	if genes_not_match.gene.tolist():
-		filter_gene_names += genes_not_match.gene.tolist()
-		warnings_warn("Gene name from input file does not match with retrieved gene name.\n{}".format(genes_not_match))
-	return(filter_gene_names)
+	df_genes_not_match = df_ens_metadata.query("gene != retrieved_gene")
+	if df_genes_not_match.gene.tolist():
+		lst_filter_gene_names += df_genes_not_match.gene.tolist()
+		warnings_warn("Gene name from input file does not match with retrieved gene name.\n{}".format(df_genes_not_match))
+	return(lst_filter_gene_names)
 
 
-def filter_genotypes(df_genotypes, df_phenotypes, filter_gene_names, filter_rs_id):
-	filter_ids_gt = df_genotypes.loc[
-			~df_genotypes.rs_id.str.startswith("rs", na=False)
-			| df_genotypes.gene_and_rs_id.str.startswith("HLA", na=False)
-			| df_genotypes.gene.isin(filter_gene_names)
-			| df_genotypes.rs_id.isin(filter_rs_id)
+def filter_genotypes(df_genotypes, df_phenotypes, lst_filter_gene_names, lst_filter_rs_id):
+	lst_filter_ids_gt = df_genotypes.loc[
+			~df_genotypes.rs_id.str.startswith("rs", na=False) # no SVs
+			| df_genotypes.gene.isin(lst_filter_gene_names)
+			| df_genotypes.rs_id.isin(lst_filter_rs_id)
 		].genotype_id.unique().tolist()
-	filter_ids_pt = df_phenotypes.loc[df_phenotypes.phenotype_name.isna()].genotype_id.unique().tolist()
-	filter_ids = filter_ids_gt + filter_ids_pt
-	print("Following genotype IDs (n={len}) are removed. {ids}".format(len=len(filter_ids), ids=filter_ids))
+	lst_filter_ids_pt = df_phenotypes.loc[df_phenotypes.phenotype_name.isna()].genotype_id.unique().tolist()
+	lst_filter_ids = lst_filter_ids_gt + lst_filter_ids_pt
+	print("Following genotype IDs (n={len}) are removed. {ids}".format(len=len(lst_filter_ids), ids=lst_filter_ids))
 	return(
-		df_phenotypes[~df_phenotypes.genotype_id.isin(filter_ids)],
-		df_genotypes[~df_genotypes.genotype_id.isin(filter_ids)]
+		df_phenotypes[~df_phenotypes.genotype_id.isin(lst_filter_ids)],
+		df_genotypes[~df_genotypes.genotype_id.isin(lst_filter_ids)]
 	)
 
 
@@ -267,8 +265,12 @@ def generate_yaml_dict(df_phenotypes, df_metadata_variant_gt, output_path, outpu
 def compare_files(old, new):
 	if isinstance(old, dict) and isinstance(new, dict):
 		print("Differences between dictionaries:\n{}".format(DeepDiff(old, new, ignore_order=True).pretty()))
-	elif (isinstance(old, str) and pathlib.PurePath(old).suffix == ".bed"
-                and isinstance(new, str) and pathlib.PurePath(new).suffix == ".bed"):
+	elif (
+		isinstance(old, str) 
+		and pathlib.PurePath(old).suffix == ".bed"
+        and isinstance(new, str) 
+		and pathlib.PurePath(new).suffix == ".bed"
+		):
 		with open(old, 'r') as prev:
 			with open(new, 'r') as current:
 				diff = unified_diff(prev.readlines(), current.readlines(), fromfile='previous bed', tofile='current bed', n=0)
@@ -287,7 +289,7 @@ def main(prev_bed_file, prev_yaml_file, output_path, output_prefix, config):
 		csv_file=config.get("translation_table"),
 		dict_rename_cols=config.getjsonloads("dict_rename_tf_cols")
 		)
-	df_metadata_variants = get_data_ensembl(
+	df_ens_metadata = get_data_ensembl(
 		df_translation=df_genotypes.loc[
 			df_genotypes['rs_id'].str.startswith('rs', na=False),
 			['rs_id', 'gene_and_rs_id', 'gene']
@@ -295,21 +297,24 @@ def main(prev_bed_file, prev_yaml_file, output_path, output_prefix, config):
 		ensembl_url=config.get("ensembl_url"), 
 		species=config.get("species")
 		)
-	filter_gene_names = get_invalid_genes_and_warn(df_metadata_variants)
+	lst_filter_gene_names = get_invalid_genes_and_warn(
+		df_ens_metadata=df_ens_metadata, 
+		genes_regex=config.getjsonloads("filter_gene_regex")
+	)
 	df_phenotypes, df_genotypes = filter_genotypes(
 		df_genotypes=df_genotypes,
 		df_phenotypes=df_phenotypes,
-		filter_gene_names=filter_gene_names,
-		filter_rs_id=config.getjsonloads("filter_rs_id")
+		lst_filter_gene_names=lst_filter_gene_names,
+		lst_filter_rs_id=config.getjsonloads("lst_filter_rs_id")
 	)
-	write_bedfile(df_data=df_metadata_variants, output_path=output_path, output_prefix=output_prefix)
+	write_bedfile(df_data=df_ens_metadata, output_path=output_path, output_prefix=output_prefix)
 	compare_files(old=prev_bed_file, new=output_path + output_prefix + ".bed")
 
 	# df_sv = df_translation[~df_translation['rs_id'].str.startswith('rs', na=False) & df_translation['genotype_id'].str.match("[0-9]")]
 
 	df_metadata_variant_gt = (
             pd
-            .merge(df_metadata_variants, df_genotypes, how="left", left_on="name", right_on="gene_and_rs_id")
+            .merge(df_ens_metadata, df_genotypes, how="left", left_on="name", right_on="gene_and_rs_id")
             .dropna(axis=0, subset=["genotype_id"])
         )
 	output_yaml = generate_yaml_dict(
