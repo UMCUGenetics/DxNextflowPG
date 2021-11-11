@@ -18,7 +18,7 @@ def parse_arguments_and_check(args_in):
     parser.add_argument("input", type=str, help="File path and name of compressed VCF (.vcf.gz).")
     parser.add_argument("sample", type=str, help="Sample identifier.")
     parser.add_argument("table", type=str, help="File path and name of translation table (.yaml).")
-    parser.add_argument("-o", "--output_path", type=str, required=False, default=os.getcwd(), help="File path to store output.")
+    parser.add_argument("-o", "--output_path", type=str, required=False, default=pathlib.Path.cwd(), help="File path to store output.")
     parser.add_argument("-p", "--output_prefix", type=str, required=False,
                         help="Output prefix to use as output filename. (default: the provided sample identifier)")
     args = parser.parse_args(args_in)
@@ -31,8 +31,9 @@ def parse_arguments_and_check(args_in):
         pysam.tabix_index(args.input + ".gz", preset="vcf")
         args.input = args.input + ".gz"
     for input_file_or_dir in [args.table, args.input, args.input+".tbi", args.output_path]:
-        if not os.path.isfile(input_file_or_dir) and not os.path.isdir(input_file_or_dir):
-            raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), input_file_or_dir)
+       	if not pathlib.Path(input_file_or_dir).is_file() and not pathlib.Path(input_file_or_dir).is_dir():
+	        raise FileNotFoundError(errno_ENOENT, os_strerror(errno_ENOENT), input_file_or_dir)
+
     return(args)
 
 
