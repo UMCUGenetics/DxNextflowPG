@@ -64,11 +64,25 @@ def morph_input_file(csv_file, dict_rename_cols):
 	return(df_phenotypes, df_genotypes)
 
 
-def get_gene_metadata_ensembl(client, ens_rs_id, location, species):
-	client_out = client.overlap_region(
-		species=species,
-		region=location,
-		params={"feature": ["gene"], "logic_name": "ensembl_havana_gene_homo_sapiens_37"}
+def get_ensembl_request_response(server, ext, json=None, method="get"):
+	headers = {"Content-Type": "application/json", "Accept": "application/json"}
+	if method == "get":
+		r = requests.get(server+ext, headers=headers, json=json)
+	elif method == "post":
+		r = requests.post(server+ext, headers=headers, json=json)
+	if not r.ok:
+		r.raise_for_status()
+		sys.exit(1)
+	return(r.json())
+
+
+def get_gene_metadata_ensembl(server, ens_rs_id, location, species):
+	client_out = get_ensembl_request_response(
+		server=server,
+		ext="/overlap/region/{species}/{loc}?feature=gene;logic_name=ensembl_havana_gene_homo_sapiens_37".format(
+			species=species,
+			loc=location
+		)
 	)
 	if not client_out:
 		warnings_warn("Gene not found for rs ID {} in Ensembl".format(ens_rs_id))
@@ -95,24 +109,28 @@ def get_linked_gene_and_id(df_translation, ens_rs_id, retrieved_rs_synonyms):
 
 
 def get_data_ensembl(df_translation, ensembl_url, species):
-	client = ensembl_rest.EnsemblClient(ensembl_url)
-	ens_variants = client.variation_post(species=species, params={"ids": df_translation.rs_id.tolist()})
+	ens_variants = get_ensembl_request_response(
+		server=ensembl_url, 
+		ext="/variation/{species}".format(species=species),
+		data={"ids": df_translation.rs_id.tolist()},
+		method="post",
+	)
 	cols = ['chrom', 'start', 'end', 'name', 'gene', 'retrieved_gene', 'retrieved_id', 'ref', 'alt']
-	df_metadata_variants = pd.DataFrame(columns=cols)
+	df_ens_metadata = pd.DataFrame(columns=cols)
 	for ens_rs_id in ens_variants.keys():
 		map_info = ens_variants[ens_rs_id]["mappings"][0]
 		gene_name, gene_id, strand = get_gene_metadata_ensembl(
-			client=client, 
+            server=ensembl_url,
 			ens_rs_id=ens_rs_id, 
 			location=map_info["location"],
 			species=species
-			)
+		)
 		linked_gene, gene_and_rs_id = get_linked_gene_and_id(
 			df_translation=df_translation, 
 			ens_rs_id=ens_rs_id, 
 			retrieved_rs_synonyms=ens_variants[ens_rs_id]["synonyms"]
 			)
-		df_metadata_variants = df_metadata_variants.append(
+		df_ens_metadata = df_ens_metadata.append(
 			{
 				'chrom': map_info["seq_region_name"],
 				'start': map_info["start"]-1, # transform to zero based.
@@ -127,8 +145,8 @@ def get_data_ensembl(df_translation, ensembl_url, species):
 				'strand': strand,
 			}, ignore_index=True
 		)
-	df_metadata_sort = df_metadata_variants.sort_values(by="chrom", key=lambda x: np_argsort(
-		index_natsorted(zip(df_metadata_variants.chrom, df_metadata_variants.start))))
+	df_metadata_sort = df_ens_metadata.sort_values(by="chrom", key=lambda x: np_argsort(
+		index_natsorted(zip(df_ens_metadata.chrom, df_ens_metadata.start))))
 	return(df_metadata_sort)
 
 
