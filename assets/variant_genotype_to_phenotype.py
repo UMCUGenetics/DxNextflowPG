@@ -1,13 +1,16 @@
 #! venv/bin/python
+# standard libraries alphabetic order of main package.
 import argparse
-import errno
-import os
-import pysam
+from errno import ENOENT as errno_ENOENT
+from os import strerror as os_strerror
+import pathlib
 import sys
-import vcf as pyvcf
 from warnings import warn as warnings_warn
-import yaml
 
+# third party libraries alphabetic order of main package.
+import pysam
+import vcf as pyvcf
+import yaml
 
 def parse_arguments_and_check(args_in):
     parser = argparse.ArgumentParser(description="Translate variant genotype to a pharmacogentics phenotype.",

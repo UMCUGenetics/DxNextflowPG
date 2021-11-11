@@ -2,18 +2,19 @@
 # import statements, alphabetic order of main package.
 import argparse
 from configparser import ConfigParser
-from deepdiff import DeepDiff
 from difflib import unified_diff
-import ensembl_rest
 from errno import ENOENT as errno_ENOENT
 import json
-from natsort import index_natsorted
-from numpy import argsort as np_argsort
 from os import strerror as os_strerror
-import pandas as pd
 import pathlib
 import sys
 from warnings import warn as warnings_warn
+
+# third party libraries alphabetic order of main package.
+from deepdiff import DeepDiff
+from natsort import index_natsorted
+from numpy import argsort as np_argsort
+import pandas as pd
 import yaml
 
 
