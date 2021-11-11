@@ -46,12 +46,12 @@ def morph_input_file(csv_file, dict_rename_cols):
 	df_translation = pd.read_csv(csv_file).rename(columns=dict_rename_cols)
 	df_translation[['gene', 'rs_id']] = df_translation.gene_and_rs_id.str.split("_", expand=True,)
 	df_translation['variant_genotype'] = df_translation['variant_genotype'].str.replace(':', "/")
-
+	# split translation table into phenotype and genotype metadata.
 	df_phenotypes = (
-        df_translation["genotype_id", "gene_genotype", "gene", "genotype_realname", "phenotype_id", "phenotype_name"]
+		df_translation[["genotype_id", "gene_genotype", "gene", "genotype_realname", "phenotype_id", "phenotype_name"]]
 		.dropna(axis=0, subset=["gene", "phenotype_name"])
-        .set_index("genotype_id", drop=False)
-    )
+		.set_index("genotype_id", drop=False)
+	)
 	df_genotypes = df_translation.loc[
 		df_translation.genotype_id.isin(df_phenotypes.genotype_id.to_list()),
 		["genotype_id", "gene_and_rs_id", "gene", 'rs_id', 'variant_genotype']
