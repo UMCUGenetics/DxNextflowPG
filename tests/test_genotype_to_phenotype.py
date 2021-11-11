@@ -12,6 +12,27 @@ import vcf as pyvcf
 import assets.variant_genotype_to_phenotype as gt_to_pt
 
 @pytest.fixture(scope="module", autouse=True)
+def setup_and_get_test_path(tmp_path_factory):
+    test_tmp_path = tmp_path_factory.mktemp("data")
+
+    # create empty files
+    open(str(test_tmp_path) + "/empty.yaml", "a").close()
+    open(str(test_tmp_path) + "/empty.json", "a").close()
+    open(str(test_tmp_path) + "/empty.vcf.gz", "a").close()
+    open(str(test_tmp_path) + "/empty.vcf.gz.tbi", "a").close()
+    for vcf_file in ["./tests/test_data/no_records.vcf", "./tests/test_data/fake_000000000000_R00C00.vcf"]:
+        shutil.copy(vcf_file, test_tmp_path)
+        basename = PurePath.name(vcf_file)
+        tmp_vcf_file = str(test_tmp_path) + "/" + basename
+        pysam.tabix_compress(tmp_vcf_file, tmp_vcf_file + ".gz")
+        pysam.tabix_index(tmp_vcf_file + ".gz", preset="vcf")
+    shutil.copy(str(test_tmp_path) + "/" + "fake_000000000000_R00C00.vcf",
+                str(test_tmp_path) + "/" + "fake_000000000001_R01C01.vcf")
+    print(Path.iterdir(test_tmp_path))
+    return str(test_tmp_path) + "/"
+
+
+@pytest.fixture(scope="module", autouse=True)
 def get_vcf_reader(setup_and_get_test_path):
     vcf_reader = pyvcf.Reader(filename=setup_and_get_test_path + "/fake_000000000000_R00C00.vcf.gz")
     return(vcf_reader)
