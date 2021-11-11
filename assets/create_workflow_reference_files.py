@@ -33,8 +33,13 @@ def parse_arguments_and_check(args_in):
 						help="Previous yaml file. If provided, differences between previous and generated yaml file are shown.")
 	args = parser.parse_args(args_in)
 
-	if not args.output_prefix:
-		args.output_prefix = pathlib.Path(args.translation_file).stem.lower()
+	if args.bed:
+		check_file(file=args.bed)
+	if args.yaml:
+		check_file(file=args.yaml)
+	if args.output_path:
+		check_file(file=args.output_path)
+	return(args)
 
 
 def check_file_exists(file):
