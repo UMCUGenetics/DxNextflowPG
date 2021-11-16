@@ -80,7 +80,7 @@ def retrieve_match_all_records(vcf_reader, snp):
         else:
             records_match.append(False)
     if not records_match:
-        print("Remove genotype, fetch has no records for variant {}".format(snp.get("name")))
+        warnings_warn("Remove genotype, fetch has no records for variant {}".format(snp.get("name")))
         return(None)
     return(records_match)
 
@@ -126,6 +126,7 @@ def main(translation_file, vcf_file, output_path, output_prefix, sample):
     vcf_reader = read_vcf(vcf_file)
     translation_table = read_table(translation_file)
     genotype_match_per_snp = retrieve_match_snp_genotype(vcf_reader=vcf_reader, genotypes=translation_table.values())
+    # TODO: when empty genotype_match_per_snp, throw warning.
     retrieve_match_phenotype_and_write(
         genotype_match_per_snp=genotype_match_per_snp,
         translation_table=translation_table,
