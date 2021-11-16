@@ -1,0 +1,2 @@
+genotype_id,gene,genotype_realname,gene_genotype,gene_and_rs_id,variant_genotype,phenotype_id,phenotype_name
+1,"fakegene","*1/*1","fakegene:*1/*1","fake_gene_rs0000001","A:A",1,"EXTENSIVE METABOLIZER"

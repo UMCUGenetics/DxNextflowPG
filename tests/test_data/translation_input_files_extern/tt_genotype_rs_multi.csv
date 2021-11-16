@@ -1,0 +1,5 @@
+﻿genotype_id,gene,genotype_realname,gene_genotype,gene_and_rs_id,variant_genotype,phenotype_id,phenotype_name,remark
+1,"fakegene","wildtype/wildtype","fakegene:wildtype/wildtype","fakegene_rs0000001","A:A",1,"INTERMEDIATE METABOLIZER","genotype multiple rs"
+1,"fakegene","wildtype/wildtype","fakegene:wildtype/wildtype","fakegene_rs0000002","C:C",2,"INTERMEDIATE METABOLIZER","genotype multiple rs"
+2,"fakegene","*1/*1","fakegene:*1/*1","fakegene_rs0000001","A:T",1,"INTERMEDIATE METABOLIZER","genotype multiple rs"
+2,"fakegene","*1/*1","fakegene:*1/*1","fakegene_rs0000002","C:T",2,"INTERMEDIATE METABOLIZER","genotype multiple rs"
