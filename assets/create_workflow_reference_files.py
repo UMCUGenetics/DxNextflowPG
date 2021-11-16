@@ -137,12 +137,7 @@ def get_linked_gene_and_id(df_translation, ens_rs_id, retrieved_rs_synonyms):
 
 
 def get_data_ensembl(df_translation, ensembl_url, species):
-	ens_variants = get_ensembl_request_response(
-		server=ensembl_url, 
-		ext="/variation/{species}".format(species=species),
-		data={"ids": df_translation.rs_id.tolist()},
-		method="post",
-	)
+	get_variant_metadata_ensembl(server=ensembl_url, ids=df_translation.rs_id.tolist(), species=species)
 	cols = ['chrom', 'start', 'end', 'name', 'gene', 'retrieved_gene', 'retrieved_id', 'ref', 'alt']
 	df_ens_metadata = pd.DataFrame(columns=cols)
 	for ens_rs_id in ens_variants.keys():
