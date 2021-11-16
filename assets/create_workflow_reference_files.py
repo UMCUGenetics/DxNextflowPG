@@ -173,11 +173,13 @@ def get_data_ensembl(df_translation, ensembl_url, species):
 	return(df_metadata_sort)
 
 
-def get_invalid_genes_and_warn(df_ens_metadata, genes_regex):
-	lst_filter_gene_names = df_ens_metadata.loc[df_ens_metadata.gene.str.contains(genes_regex), "gene"].to_list()
+def get_invalid_genes_and_warn(df_ens_metadata, genes_regex=None):
+	lst_filter_gene_names = []
+	if genes_regex:
+		lst_filter_gene_names += df_ens_metadata.loc[df_ens_metadata.gene.str.contains(genes_regex), "gene"].to_list()
 	df_grouped = df_ens_metadata.groupby("gene")['chrom'].nunique()
 	if any(df_grouped > 1):
-		lst_filter_gene_names += df_grouped.where(g > 1).dropna().keys().tolist()
+		lst_filter_gene_names += df_grouped.where(df_grouped > 1).dropna().keys().tolist()
 		warnings_warn("At least one gene is linked to variants from different chromosomes.\n{counts}".format(
 				counts=df_ens_metadata.groupby("gene", as_index=False)["chrom"].nunique()
 			)
@@ -185,7 +187,7 @@ def get_invalid_genes_and_warn(df_ens_metadata, genes_regex):
 	df_genes_not_match = df_ens_metadata.query("gene != retrieved_gene")
 	if df_genes_not_match.gene.tolist():
 		lst_filter_gene_names += df_genes_not_match.gene.tolist()
-		warnings_warn("Gene name from input file does not match with retrieved gene name.\n{}".format(df_genes_not_match))
+		warnings_warn("No match between gene name from input file and retrieved gene name.\n{}".format(df_genes_not_match))
 	return(lst_filter_gene_names)
 
 
