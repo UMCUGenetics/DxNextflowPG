@@ -93,6 +93,17 @@ def get_ensembl_request_response(server, ext, json=None, method="get"):
 	return(r.json())
 
 
+def get_variant_metadata_ensembl(server, ids, species):
+	ens_variants = get_ensembl_request_response(
+		server=server,
+		ext="/variation/{species}".format(species=species),
+		json={"ids": ids},
+		method="post",
+	)
+	if not ens_variants:
+		warnings_warn("Variation identifiers not found in Ensembl:\n{}".format(ids))
+
+
 def get_gene_metadata_ensembl(server, ens_rs_id, location, species):
 	client_out = get_ensembl_request_response(
 		server=server,
