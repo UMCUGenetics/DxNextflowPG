@@ -242,6 +242,8 @@ def get_indel_notation_with_flanking_base(record_ref, record_alt, variant_genoty
 				ref_base + "/" + alt_base: "heterozygote",
 				alt_base + "/" + alt_base: "homozygote_alt",
 			}
+			if variant_genotype not in translate_notation:
+				raise KeyError("Variant genotype type not expected.")
 			genotype_simplified = translate_notation[variant_genotype]
 			found_notation = flanking_base_orientation[genotype_simplified]
 		# print("From {} to {} for {} {} using ref {} and alt {}".format(variant_genotype,
