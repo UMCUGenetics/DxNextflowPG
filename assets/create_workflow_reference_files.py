@@ -317,8 +317,8 @@ def main(prev_bed_file, prev_yaml_file, output_path, output_prefix, config):
 		df_genotypes=df_genotypes,
 		df_phenotypes=df_phenotypes,
 		lst_filter_gene_names=lst_filter_gene_names,
-		lst_filter_rs_id=config.getjsonloads("lst_filter_rs_id")
-	)
+		lst_filter_rs_id=config.getjsonloads("lst_filter_rs_id", None)
+	)		
 	write_bedfile(df_data=df_ens_metadata, output_path=output_path, output_prefix=output_prefix)
 	compare_files(old=prev_bed_file, new=output_path + output_prefix + ".bed")
 
