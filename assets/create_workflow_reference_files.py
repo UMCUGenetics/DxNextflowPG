@@ -229,10 +229,10 @@ def get_forward_orientation(variant_genotype):
 
 def get_indel_notation_with_flanking_base(record_ref, record_alt, variant_genotype):
 	flanking_base_orientation = {
-            "homozygote_ref": record_ref + "/" + record_ref,
-			"heterozygote": record_ref + "/" + record_alt,
-			"homozygote_alt": record_alt + "/" + record_alt,
-        }
+		"homozygote_ref": record_ref + "/" + record_ref,
+		"heterozygote": record_ref + "/" + record_alt,
+		"homozygote_alt": record_alt + "/" + record_alt,
+	}
 	ref = record_ref.ljust(len(record_alt), ".")
 	alt = record_alt.ljust(len(record_ref), ".")
 	for ref_base, alt_base in zip(ref, alt):
