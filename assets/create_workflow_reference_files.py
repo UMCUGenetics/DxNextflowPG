@@ -64,13 +64,45 @@ def read_config_section_and_check(section, config_file="./assets/create_workflow
 	return(config_section)
 
 
-def morph_input_file(csv_file, dict_rename_cols):
-	df_translation = pd.read_csv(csv_file).rename(columns=dict_rename_cols)
+def morph_translation_file(csv_file, dict_rename_cols=None):
+	df_translation = pd.read_csv(csv_file)
+	if dict_rename_cols:
+		df_translation = df_translation.rename(columns=dict_rename_cols)
+	required_cols = {"genotype_id", "gene_and_rs_id", "variant_genotype", "phenotype_id", "phenotype_name"}
+	if required_cols - set(df_translation.columns):
+		raise ValueError("Required columns are missing in translation file: {}".format(
+				required_cols - set(df_translation.columns)
+            )
+		)
+	if any(df_translation.variant_genotype.isna()):
+		raise ValueError("Variant_genotype value is required in translation file. Offending rows:\n{}".format(
+                    df_translation[df_translation.variant_genotype.isna()]
+                )
+		)
+	if any(df_translation.gene_and_rs_id.str.count("_") != 1):
+		raise ValueError("Expected separator _ in translation file, column 'gene_and_rs_id'. Offending rows:\n{}".format(
+				df_translation[df_translation.gene_and_rs_id.str.count("_") != 1]
+			)
+		)
 	df_translation[['gene', 'rs_id']] = df_translation.gene_and_rs_id.str.split("_", expand=True,)
-	df_translation['variant_genotype'] = df_translation['variant_genotype'].str.replace(':', "/")
+	if any(df_translation.variant_genotype.str.count(":|/") != 1 & df_translation.rs_id.str.startswith("rs", na=False)):
+		raise ValueError(
+			"Expected single separator ':' or '/' in translation file, column 'variant_genotype'. Offending rows:\n{}".format(
+				df_translation[df_translation.variant_genotype.str.count(":|/") != 1]
+			)
+		)
+	if any((df_translation.variant_genotype.str.replace("A|T|C|G|:|-|\\.|\\/", "", regex=True).str.len() != 0) & (df_translation.rs_id.str.startswith("rs", na=False))):
+		raise ValueError(
+			"Invalid character in variant genotype. Supported: 'A', 'T', 'C', 'G', ':', '-', '.', '/'"
+		)
+
+	df_translation['variant_genotype'] = df_translation.variant_genotype.str.replace(':', "/")
 	# split translation table into phenotype and genotype metadata.
+	phenotype_cols = [
+		"genotype_id", "gene_genotype", "gene", "genotype_realname", "phenotype_id", "phenotype_name"
+	]
 	df_phenotypes = (
-		df_translation[["genotype_id", "gene_genotype", "gene", "genotype_realname", "phenotype_id", "phenotype_name"]]
+		df_translation[df_translation.columns.intersection(phenotype_cols)]
 		.dropna(axis=0, subset=["gene", "phenotype_name"])
 		.set_index("genotype_id", drop=False)
 	)
@@ -297,7 +329,7 @@ def main(prev_bed_file, prev_yaml_file, output_path, output_prefix, config):
 	check_file(file=config.get("translation_table"))
 	if not args.output_prefix:
 		args.output_prefix = pathlib.Path(config.get("translation_table")).stem.lower()
-	df_phenotypes, df_genotypes = morph_input_file(
+	df_phenotypes, df_genotypes = morph_translation_file(
 		csv_file=config.get("translation_table"),
 		dict_rename_cols=config.getjsonloads("dict_rename_tf_cols")
 		)
