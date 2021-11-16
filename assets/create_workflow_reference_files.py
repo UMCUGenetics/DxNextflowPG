@@ -191,19 +191,20 @@ def get_invalid_genes_and_warn(df_ens_metadata, genes_regex=None):
 	return(lst_filter_gene_names)
 
 
-def filter_genotypes(df_genotypes, df_phenotypes, lst_filter_gene_names, lst_filter_rs_id):
-	lst_filter_ids_gt = df_genotypes.loc[
-			~df_genotypes.rs_id.str.startswith("rs", na=False) # no SVs
-			| df_genotypes.gene.isin(lst_filter_gene_names)
-			| df_genotypes.rs_id.isin(lst_filter_rs_id)
-		].genotype_id.unique().tolist()
+def filter_genotypes(df_genotypes, df_phenotypes, lst_filter_gene_names=None, lst_filter_rs_id=None):
+	lst_filter_ids_gt = df_genotypes.loc[~df_genotypes.rs_id.str.startswith("rs", na=False)].genotype_id.unique().tolist()  # no SVs
+	if lst_filter_gene_names:
+		lst_filter_ids_gt += df_genotypes.loc[df_genotypes.gene.isin(lst_filter_gene_names)].genotype_id.unique().tolist()
+	if lst_filter_rs_id:
+		lst_filter_ids_gt += df_genotypes.loc[df_genotypes.rs_id.isin(lst_filter_rs_id)].genotype_id.unique().tolist()
 	lst_filter_ids_pt = df_phenotypes.loc[df_phenotypes.phenotype_name.isna()].genotype_id.unique().tolist()
 	lst_filter_ids = lst_filter_ids_gt + lst_filter_ids_pt
 	print("Following genotype IDs (n={len}) are removed. {ids}".format(len=len(lst_filter_ids), ids=lst_filter_ids))
-	return(
-		df_phenotypes[~df_phenotypes.genotype_id.isin(lst_filter_ids)],
-		df_genotypes[~df_genotypes.genotype_id.isin(lst_filter_ids)]
-	)
+	df_filter_phenotypes = df_phenotypes[~df_phenotypes.genotype_id.isin(lst_filter_ids)]
+	df_filter_genotypes = df_genotypes[~df_genotypes.genotype_id.isin(lst_filter_ids)]
+	if df_filter_phenotypes.empty and df_filter_genotypes.empty:
+		raise Exception("All genotypes are removed.")
+	return(df_filter_phenotypes, df_filter_genotypes)
 
 
 def write_bedfile(df_data, output_prefix, output_path):
