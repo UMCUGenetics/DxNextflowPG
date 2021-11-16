@@ -13,40 +13,38 @@ import assets.variant_genotype_to_phenotype as gt_to_pt
 
 @pytest.fixture(scope="module", autouse=True)
 def setup_and_get_test_path(tmp_path_factory):
-    test_tmp_path = tmp_path_factory.mktemp("data")
-
+    test_tmp_path = str(tmp_path_factory.mktemp("tests")) + "/"
+    shutil.rmtree(test_tmp_path)
+    shutil.copytree("tests/test_data/", test_tmp_path)
+    test_tmp_path_vcf = test_tmp_path + "/vcf_files/"
     # create empty files
     open(str(test_tmp_path) + "/empty.yaml", "a").close()
     open(str(test_tmp_path) + "/empty.json", "a").close()
-    open(str(test_tmp_path) + "/empty.vcf.gz", "a").close()
-    open(str(test_tmp_path) + "/empty.vcf.gz.tbi", "a").close()
-    for vcf_file in ["./tests/test_data/no_records.vcf", "./tests/test_data/fake_000000000000_R00C00.vcf"]:
-        shutil.copy(vcf_file, test_tmp_path)
-        basename = PurePath.name(vcf_file)
-        tmp_vcf_file = str(test_tmp_path) + "/" + basename
+    for vcf_file in Path(test_tmp_path + "vcf_files").glob("**/*.vcf"):
+        basename = PurePath(vcf_file).name
+        tmp_vcf_file = str(test_tmp_path_vcf) + "/" + basename
         pysam.tabix_compress(tmp_vcf_file, tmp_vcf_file + ".gz")
         pysam.tabix_index(tmp_vcf_file + ".gz", preset="vcf")
-    shutil.copy(str(test_tmp_path) + "/" + "fake_000000000000_R00C00.vcf",
-                str(test_tmp_path) + "/" + "fake_000000000001_R01C01.vcf")
-    print(Path.iterdir(test_tmp_path))
+    shutil.copy(str(test_tmp_path_vcf) + "/" + "fake_000000000000_R00C00.vcf",
+                str(test_tmp_path_vcf) + "/" + "fake_000000000000_R00C00_copy.vcf")
     return str(test_tmp_path) + "/"
 
 
 @pytest.fixture(scope="module", autouse=True)
 def get_vcf_reader(setup_and_get_test_path):
-    vcf_reader = pyvcf.Reader(filename=setup_and_get_test_path + "/fake_000000000000_R00C00.vcf.gz")
+    vcf_reader = pyvcf.Reader(filename=setup_and_get_test_path + "/vcf_files/fake_000000000000_R00C00.vcf.gz")
     return(vcf_reader)
 
 
 class TestInputGenotypeToPhenotype():
     def test_parser_required_args(self, setup_and_get_test_path):
         parser = gt_to_pt.parse_arguments_and_check(
-            args_in=[setup_and_get_test_path + "fake_000000000000_R00C00.vcf.gz", "fake_000000000000_R00C00", "./references/sites_of_interest.yaml"])
+            args_in=[setup_and_get_test_path + "/vcf_files/fake_000000000000_R00C00.vcf.gz", "fake_000000000000_R00C00", "./references/sites_of_interest.yaml"])
         assert parser
 
     def test_parser_required_args_vcf(self, setup_and_get_test_path):
         parser = gt_to_pt.parse_arguments_and_check(
-            args_in=[setup_and_get_test_path + "fake_000000000001_R01C01.vcf", "fake_000000000000_R00C00", "./references/sites_of_interest.yaml"])
+            args_in=[setup_and_get_test_path + "/vcf_files/fake_000000000000_R00C00_copy.vcf", "fake_000000000000_R00C00", "./references/sites_of_interest.yaml"])
         assert parser
     
     def test_parser_non_existing_input(self, setup_and_get_test_path):
@@ -57,16 +55,16 @@ class TestInputGenotypeToPhenotype():
     def test_parser_non_existing_yaml(self, setup_and_get_test_path):
         with pytest.raises(FileNotFoundError):
             parser = gt_to_pt.parse_arguments_and_check(
-                args_in=[setup_and_get_test_path + "fake_000000000000_R00C00.vcf.gz", "fake_000000000000_R00C00", "./references/non_existing.yaml"])
+                args_in=[setup_and_get_test_path + "/vcf_files/fake_000000000000_R00C00.vcf.gz", "fake_000000000000_R00C00", "./references/non_existing.yaml"])
 
     def test_parser_unsupported_table(self, setup_and_get_test_path):
         with pytest.raises(TypeError):
             parser = gt_to_pt.parse_arguments_and_check(
-                args_in=[setup_and_get_test_path + "fake_000000000000_R00C00.vcf.gz", "fake_000000000000_R00C00", "./references/sites_of_interest.json"])
+                args_in=[setup_and_get_test_path + "/vcf_files/fake_000000000000_R00C00.vcf.gz", "fake_000000000000_R00C00", "./references/sites_of_interest.json"])
 
     def test_parser_empty_input(self, setup_and_get_test_path):
         with pytest.raises(ValueError) as no_records_error:
-            gt_to_pt.read_vcf(setup_and_get_test_path + "empty.vcf.gz")
+            gt_to_pt.read_vcf(setup_and_get_test_path + "/vcf_files/empty.vcf.gz")
         assert "empty" in str(no_records_error.value)
 
     def test_parser_empty_table(self, setup_and_get_test_path):
@@ -76,34 +74,34 @@ class TestInputGenotypeToPhenotype():
 
     def test_parser_no_records_input(self, setup_and_get_test_path):
         with pytest.raises(ValueError) as no_records_error:
-            gt_to_pt.read_vcf(setup_and_get_test_path + "no_records.vcf.gz")
+            gt_to_pt.read_vcf(setup_and_get_test_path + "/vcf_files/no_records.vcf.gz")
         assert "no records" in str(no_records_error.value)
 
     def test_parser_output_path(self, setup_and_get_test_path):
         parser = gt_to_pt.parse_arguments_and_check(
-            args_in=[setup_and_get_test_path + "fake_000000000000_R00C00.vcf.gz", "fake_000000000000_R00C00", "./references/sites_of_interest.yaml", "--output_path", "./test_output/"])
+            args_in=[setup_and_get_test_path + "/vcf_files/fake_000000000000_R00C00.vcf.gz", "fake_000000000000_R00C00", "./references/sites_of_interest.yaml", "--output_path", "./test_output/"])
         assert parser
     
     def test_parser_non_existing_output_path(self, setup_and_get_test_path):
         with pytest.raises(FileNotFoundError):
             parser = gt_to_pt.parse_arguments_and_check(
-                args_in=[setup_and_get_test_path + "fake_000000000000_R00C00.vcf.gz", "fake_000000000000_R00C00", "./references/sites_of_interest.yaml", "--output_path", "./fake_dir/"])
+                args_in=[setup_and_get_test_path + "/vcf_files/fake_000000000000_R00C00.vcf.gz", "fake_000000000000_R00C00", "./references/sites_of_interest.yaml", "--output_path", "./fake_dir/"])
 
     def test_parser_output_prefix(self, setup_and_get_test_path):
         parser = gt_to_pt.parse_arguments_and_check(
-            args_in=[setup_and_get_test_path + "fake_000000000000_R00C00.vcf.gz", "fake_000000000000_R00C00", "./references/sites_of_interest.yaml", "--output_prefix", "test_prefix"])
+            args_in=[setup_and_get_test_path + "/vcf_files/fake_000000000000_R00C00.vcf.gz", "fake_000000000000_R00C00", "./references/sites_of_interest.yaml", "--output_prefix", "test_prefix"])
         assert parser    
 
     def test_check_reqs_keys(self):
-        gt_to_pt.check_required_keys(snp={"chrom": 0, "start": 0, "end": 1, "variant_genotype": "A/A", "variant_id": "fake_id"})
+        gt_to_pt.check_required_keys(snp={"chrom": 0, "start": 0, "end": 1, "variant_genotype": "A/A", "name": "fake_id"})
         assert True
 
     def test_check_reqs_keys_missing_keys(self):
         dir_snp_list = [
-            {"start": 0, "end": 1, "variant_genotype": "A/A", "variant_id": "fake_id"}, # missing chrom
-            {"chrom": 0, "end": 1, "variant_genotype": "A/A", "variant_id": "fake_id"},  # missing start
-            {"chrom": 0, "start": 0, "variant_genotype": "A/A", "variant_id": "fake_id"}, # missing end
-            {"chrom": 0, "start": 0, "end": 1, "variant_id": "fake_id"}, # missing variant_genotype
+            {"start": 0, "end": 1, "variant_genotype": "A/A", "name": "fake_id"}, # missing chrom
+            {"chrom": 0, "end": 1, "variant_genotype": "A/A", "name": "fake_id"},  # missing start
+            {"chrom": 0, "start": 0, "variant_genotype": "A/A", "name": "fake_id"}, # missing end
+            {"chrom": 0, "start": 0, "end": 1, "name": "fake_id"}, # missing variant_genotype
             {"chrom": 0, "start": 0, "end": 1, "variant_genotype": "A/A"}, # missing variant_genotype
         ]
         for snp_dir in dir_snp_list:
@@ -218,7 +216,7 @@ class TestGenotypeToPhenotype():
         with pytest.warns(UserWarning, match="fetch has no records"):
             gt_to_pt.main(
                 translation_file="./references/sites_of_interest.yaml", 
-                vcf_file=setup_and_get_test_path + "/fake_000000000000_R00C00.vcf.gz", 
+                vcf_file=setup_and_get_test_path + "/vcf_files/fake_000000000000_R00C00.vcf.gz", 
                 output_path=setup_and_get_test_path,
                 output_prefix="fake_000000000000_R00C00",
                 sample="fake_000000000000_R00C00"
