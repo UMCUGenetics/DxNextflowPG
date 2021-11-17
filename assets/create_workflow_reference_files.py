@@ -243,7 +243,8 @@ def filter_genotypes(df_genotypes, df_phenotypes, lst_filter_gene_names=None, ls
 		lst_filter_ids_gt += df_genotypes.loc[df_genotypes.rs_id.isin(lst_filter_rs_id)].genotype_id.unique().tolist()
 	lst_filter_ids_pt = df_phenotypes.loc[df_phenotypes.phenotype_name.isna()].genotype_id.unique().tolist()
 	lst_filter_ids = lst_filter_ids_gt + lst_filter_ids_pt
-	print("Following genotype IDs (n={len}) are removed. {ids}".format(len=len(lst_filter_ids), ids=lst_filter_ids))
+	if len:
+		print("Following genotype IDs (n={len}) are removed. {ids}".format(len=len(lst_filter_ids), ids=lst_filter_ids))
 	df_filter_phenotypes = df_phenotypes[~df_phenotypes.genotype_id.isin(lst_filter_ids)]
 	df_filter_genotypes = df_genotypes[~df_genotypes.genotype_id.isin(lst_filter_ids)]
 	if df_filter_phenotypes.empty and df_filter_genotypes.empty:
