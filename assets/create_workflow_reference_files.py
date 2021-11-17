@@ -325,21 +325,25 @@ def write_yaml(yaml_dict, output_prefix, output_path):
 
 def compare_files(old, new):
 	if isinstance(old, dict) and isinstance(new, dict):
-		print("Differences between dictionaries:\n{}".format(DeepDiff(old, new, ignore_order=True).pretty()))
+		deepdiff_out = DeepDiff(old, new, ignore_order=True, verbose_level=2, report_repetition=True).pretty()
+		if not deepdiff_out:
+			print("Files are the same.")
+		else:
+			print("Differences between dictionaries:\n{}".format(deepdiff_out))
 	elif (
 		isinstance(old, str) 
 		and pathlib.PurePath(old).suffix == ".bed"
         and isinstance(new, str) 
 		and pathlib.PurePath(new).suffix == ".bed"
-		):
-		with open(old, 'r') as prev:
-			with open(new, 'r') as current:
-				diff = unified_diff(prev.readlines(), current.readlines(), fromfile='previous bed', tofile='current bed', n=0)
-				print("Differences between bed files:")
-				for line in diff:
-					print(line)
+	):
+		diff = unified_diff(open(old).readlines(), open(new).readlines(), n=0)
+		delta = ''.join(x for x in diff)
+		if not delta:
+			print("Files are the same.")
+		else:
+			print(delta)
 	else:
-		print("Comparison is not supported for this data type.")
+		warnings_warn("Comparison is not supported for this data type.")
 
 
 def main(prev_bed_file, prev_yaml_file, output_path, output_prefix, config):
