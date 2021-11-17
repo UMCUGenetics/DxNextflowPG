@@ -145,6 +145,7 @@ def get_variant_metadata_ensembl(server, ids, species):
 	)
 	if not ens_variants:
 		warnings_warn("Variation identifiers not found in Ensembl:\n{}".format(ids))
+	return(ens_variants)
 
 
 def get_gene_metadata_ensembl(server, ens_rs_id, location, species):
@@ -180,7 +181,7 @@ def get_linked_gene_and_id(df_translation, ens_rs_id, retrieved_rs_synonyms):
 
 
 def get_data_ensembl(df_translation, ensembl_url, species):
-	get_variant_metadata_ensembl(server=ensembl_url, ids=df_translation.rs_id.tolist(), species=species)
+	ens_variants = get_variant_metadata_ensembl(server=ensembl_url, ids=df_translation.rs_id.tolist(), species=species)
 	cols = ['chrom', 'start', 'end', 'name', 'gene', 'retrieved_gene', 'retrieved_id', 'ref', 'alt']
 	df_ens_metadata = pd.DataFrame(columns=cols)
 	for ens_rs_id in ens_variants.keys():
