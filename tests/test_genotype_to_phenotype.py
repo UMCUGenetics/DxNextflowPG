@@ -25,42 +25,42 @@ def setup_and_get_test_path(tmp_path_factory):
         tmp_vcf_file = str(test_tmp_path_vcf) + "/" + basename
         pysam.tabix_compress(tmp_vcf_file, tmp_vcf_file + ".gz")
         pysam.tabix_index(tmp_vcf_file + ".gz", preset="vcf")
-    shutil.copy(str(test_tmp_path_vcf) + "/" + "fake_000000000000_R00C00.vcf",
-                str(test_tmp_path_vcf) + "/" + "fake_000000000000_R00C00_copy.vcf")
+    shutil.copy(str(test_tmp_path_vcf) + "/" + "sample.vcf",
+                str(test_tmp_path_vcf) + "/" + "sample_copy.vcf")
     return str(test_tmp_path) + "/"
 
 
 @pytest.fixture(scope="module", autouse=True)
 def get_vcf_reader(setup_and_get_test_path):
-    vcf_reader = pyvcf.Reader(filename=setup_and_get_test_path + "/vcf_files/fake_000000000000_R00C00.vcf.gz")
+    vcf_reader = pyvcf.Reader(filename=setup_and_get_test_path + "/vcf_files/sample.vcf.gz")
     return(vcf_reader)
 
 
 class TestInputGenotypeToPhenotype():
     def test_parser_required_args(self, setup_and_get_test_path):
         parser = gt_to_pt.parse_arguments_and_check(
-            args_in=[setup_and_get_test_path + "/vcf_files/fake_000000000000_R00C00.vcf.gz", "fake_000000000000_R00C00", "./references/sites_of_interest.yaml"])
+            args_in=[setup_and_get_test_path + "/vcf_files/sample.vcf.gz", "sample", "./references/sites_of_interest.yaml"])
         assert parser
 
     def test_parser_required_args_vcf(self, setup_and_get_test_path):
         parser = gt_to_pt.parse_arguments_and_check(
-            args_in=[setup_and_get_test_path + "/vcf_files/fake_000000000000_R00C00_copy.vcf", "fake_000000000000_R00C00", "./references/sites_of_interest.yaml"])
+            args_in=[setup_and_get_test_path + "/vcf_files/sample_copy.vcf", "sample", "./references/sites_of_interest.yaml"])
         assert parser
     
     def test_parser_non_existing_input(self, setup_and_get_test_path):
         with pytest.raises(FileNotFoundError):
             parser = gt_to_pt.parse_arguments_and_check(
-                args_in=[setup_and_get_test_path + "non_existing.vcf.gz", "fake_000000000000_R00C00", "./references/sites_of_interest.yaml"])
+                args_in=[setup_and_get_test_path + "non_existing.vcf.gz", "sample", "./references/sites_of_interest.yaml"])
 
     def test_parser_non_existing_yaml(self, setup_and_get_test_path):
         with pytest.raises(FileNotFoundError):
             parser = gt_to_pt.parse_arguments_and_check(
-                args_in=[setup_and_get_test_path + "/vcf_files/fake_000000000000_R00C00.vcf.gz", "fake_000000000000_R00C00", "./references/non_existing.yaml"])
+                args_in=[setup_and_get_test_path + "/vcf_files/sample.vcf.gz", "sample", "./references/non_existing.yaml"])
 
     def test_parser_unsupported_table(self, setup_and_get_test_path):
         with pytest.raises(TypeError):
             parser = gt_to_pt.parse_arguments_and_check(
-                args_in=[setup_and_get_test_path + "/vcf_files/fake_000000000000_R00C00.vcf.gz", "fake_000000000000_R00C00", "./references/sites_of_interest.json"])
+                args_in=[setup_and_get_test_path + "/vcf_files/sample.vcf.gz", "sample", "./references/sites_of_interest.json"])
 
     def test_parser_empty_input(self, setup_and_get_test_path):
         with pytest.raises(ValueError) as no_records_error:
@@ -79,17 +79,17 @@ class TestInputGenotypeToPhenotype():
 
     def test_parser_output_path(self, setup_and_get_test_path):
         parser = gt_to_pt.parse_arguments_and_check(
-            args_in=[setup_and_get_test_path + "/vcf_files/fake_000000000000_R00C00.vcf.gz", "fake_000000000000_R00C00", "./references/sites_of_interest.yaml", "--output_path", "./test_output/"])
+            args_in=[setup_and_get_test_path + "/vcf_files/sample.vcf.gz", "sample", "./references/sites_of_interest.yaml", "--output_path", "./test_output/"])
         assert parser
     
     def test_parser_non_existing_output_path(self, setup_and_get_test_path):
         with pytest.raises(FileNotFoundError):
             parser = gt_to_pt.parse_arguments_and_check(
-                args_in=[setup_and_get_test_path + "/vcf_files/fake_000000000000_R00C00.vcf.gz", "fake_000000000000_R00C00", "./references/sites_of_interest.yaml", "--output_path", "./fake_dir/"])
+                args_in=[setup_and_get_test_path + "/vcf_files/sample.vcf.gz", "sample", "./references/sites_of_interest.yaml", "--output_path", "./fake_dir/"])
 
     def test_parser_output_prefix(self, setup_and_get_test_path):
         parser = gt_to_pt.parse_arguments_and_check(
-            args_in=[setup_and_get_test_path + "/vcf_files/fake_000000000000_R00C00.vcf.gz", "fake_000000000000_R00C00", "./references/sites_of_interest.yaml", "--output_prefix", "test_prefix"])
+            args_in=[setup_and_get_test_path + "/vcf_files/sample.vcf.gz", "sample", "./references/sites_of_interest.yaml", "--output_prefix", "test_prefix"])
         assert parser    
 
     def test_check_reqs_keys(self):
@@ -216,9 +216,9 @@ class TestGenotypeToPhenotype():
         with pytest.warns(UserWarning, match="fetch has no records"):
             gt_to_pt.main(
                 translation_file="./references/sites_of_interest.yaml", 
-                vcf_file=setup_and_get_test_path + "/vcf_files/fake_000000000000_R00C00.vcf.gz", 
+                vcf_file=setup_and_get_test_path + "/vcf_files/sample.vcf.gz", 
                 output_path=setup_and_get_test_path,
-                output_prefix="fake_000000000000_R00C00",
-                sample="fake_000000000000_R00C00"
+                output_prefix="sample",
+                sample="sample"
             )
 
