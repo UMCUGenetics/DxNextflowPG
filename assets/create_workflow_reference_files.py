@@ -353,7 +353,7 @@ def main(prev_bed_file, prev_yaml_file, output_path, output_prefix, config):
 	df_phenotypes, df_genotypes = morph_translation_file(
 		csv_file=config.get("translation_table"),
 		dict_rename_cols=config.getjsonloads("dict_rename_tf_cols")
-		)
+	)
 	df_ens_metadata = get_data_ensembl(
 		df_translation=df_genotypes.loc[
 			df_genotypes['rs_id'].str.startswith('rs', na=False),
@@ -361,7 +361,7 @@ def main(prev_bed_file, prev_yaml_file, output_path, output_prefix, config):
 		].drop_duplicates(), 	# Select variant rows and relevant metadata columns.
 		ensembl_url=config.get("ensembl_url"), 
 		species=config.get("species")
-		)
+	)
 	lst_filter_gene_names = get_invalid_genes_and_warn(
 		df_ens_metadata=df_ens_metadata, 
 		genes_regex=config.getjsonloads("filter_gene_regex")
@@ -378,10 +378,10 @@ def main(prev_bed_file, prev_yaml_file, output_path, output_prefix, config):
 	# df_sv = df_translation[~df_translation['rs_id'].str.startswith('rs', na=False) & df_translation['genotype_id'].str.match("[0-9]")]
 
 	df_metadata_variant_gt = (
-            pd
-            .merge(df_ens_metadata, df_genotypes, how="left", left_on="name", right_on="gene_and_rs_id")
-            .dropna(axis=0, subset=["genotype_id"])
-        )
+		pd
+		.merge(df_ens_metadata, df_genotypes, how="left", left_on="name", right_on="gene_and_rs_id")
+		.dropna(axis=0, subset=["genotype_id"])
+    )
 	output_yaml = generate_yaml_dict(df_phenotypes=df_phenotypes, df_metadata_variant_gt=df_metadata_variant_gt)
 	write_yaml(yaml_dict=output_yaml, output_prefix=output_prefix, output_path=output_path)
 	with open(prev_yaml_file) as yaml_file:
