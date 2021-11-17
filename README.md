@@ -7,6 +7,7 @@
   - [2.2. Workflow 'blocks'](#22-workflow-blocks)
   - [2.3. Running PG workflow](#23-running-pg-workflow)
   - [2.4. Assets and pytest](#24-assets-and-pytest)
+  - [2.5. Limitations](#25-limitations)
 - [3. Software dependencies](#3-software-dependencies)
   - [3.1. python environment](#31-python-environment)
   - [3.2. IAAP](#32-iaap)
@@ -49,6 +50,13 @@ To run pytest for a specific class with verbosity, use for example:
 pytest -v tests/test_genotype_to_phenotype.py::TestInput
 ```
 The scope of tests you want to run, can be selected. [specifying-tests-or-selecting-tests](https://docs.pytest.org/en/6.2.x/usage.html#specifying-tests-selecting-tests)
+
+Some pytests require testdata and is included in this repository alongside the actual test code.
+
+## 2.5. Limitations
+Not supported yet:
+- Structural variants, such as CNV, INDELs (> 1 bp)
+- INDELs of 1 bp with more than 2 alleles.
 # 3. Software dependencies
 ##  3.1. python environment
 - Login HPC
