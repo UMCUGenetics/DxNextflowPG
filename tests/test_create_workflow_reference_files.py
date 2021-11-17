@@ -149,22 +149,26 @@ class TestCreateRefsTranslationFile():
             csv_file=create_test_files + "/translation_input_files_extern/tt_correct.csv",
             dict_rename_cols={"non_existing_column": "fake_rename"}
         )
-        assert True
+        assert not tt_pheno.empty
+        assert not tt_geno.empty
     
     def test_tt_rename_columns(self, create_test_files):
         tt_pheno, tt_geno = create_ref.morph_translation_file(
             csv_file=create_test_files + "/translation_input_files_extern/tt_rename_columns.csv",
             dict_rename_cols={"variant_id": "gene_and_rs_id"}
         )
-        assert True
+        assert not tt_pheno.empty
+        assert not tt_geno.empty
 
     def test_tt_missing_gt_id(self, create_test_files):
         tt_pheno, tt_geno = create_ref.morph_translation_file(csv_file=create_test_files + "/translation_input_files_extern/tt_missing_genotype_id.csv")
-        assert True
+        assert not tt_pheno.empty
+        assert not tt_geno.empty
 
     def test_tt_missing_phenotypes(self, create_test_files):
         tt_pheno, tt_geno = create_ref.morph_translation_file(csv_file=create_test_files + "/translation_input_files_extern/tt_missing_phenotypes.csv")
-        assert True
+        assert not tt_pheno.empty
+        assert not tt_geno.empty
 
     def test_tt_missing_variant_gts(self, create_test_files):
         with pytest.raises(ValueError) as err_missing_variant_gt:
@@ -174,7 +178,8 @@ class TestCreateRefsTranslationFile():
 
     def test_tt_variant_gt_format(self, create_test_files):
         tt_pheno, tt_geno = create_ref.morph_translation_file(csv_file=create_test_files + "/translation_input_files_extern/tt_variant_genotype_format.csv")
-        assert True
+        assert not tt_pheno.empty
+        assert not tt_geno.empty
 
     def test_tt_variant_gt_unexpected_sep(self, create_test_files):
         with pytest.raises(ValueError) as err_unexpected_sep:
