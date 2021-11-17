@@ -348,8 +348,8 @@ def compare_files(old, new):
 
 def main(prev_bed_file, prev_yaml_file, output_path, output_prefix, config):
 	check_file(file=config.get("translation_table"))
-	if not args.output_prefix:
-		args.output_prefix = pathlib.Path(config.get("translation_table")).stem.lower()
+	if not output_prefix:
+		output_prefix = pathlib.Path(config.get("translation_table")).stem.lower()
 	df_phenotypes, df_genotypes = morph_translation_file(
 		csv_file=config.get("translation_table"),
 		dict_rename_cols=config.getjsonloads("dict_rename_tf_cols")
