@@ -1,0 +1,52 @@
+'577':
+  gene: TPMT
+  gene_genotype: TPMT:*3C/*3C
+  genotype_id: '577'
+  genotype_realname: '*3C/*3C'
+  phenotype_id: 528.0
+  phenotype_name: POOR METABOLIZER
+  snp:
+  - alt: C/G
+    chrom: '6'
+    end: 18130918
+    name: TPMT_rs1142345
+    ref: T
+    rs_id: rs1142345
+    start: 18130917
+    strand: -1.0
+    variant_genotype: C/C
+  - alt: T
+    chrom: '6'
+    end: 18139228
+    name: TPMT_rs1800460
+    ref: C
+    rs_id: rs1800460
+    start: 18139227
+    strand: -1.0
+    variant_genotype: C/C
+'578':
+  gene: TPMT
+  gene_genotype: TPMT:wildtype/*3C
+  genotype_id: '578'
+  genotype_realname: wildtype/*3C
+  phenotype_id: 527.0
+  phenotype_name: INTERMEDIATE METABOLIZER
+  snp:
+  - alt: C/G
+    chrom: '6'
+    end: 18130918
+    name: TPMT_rs1142345
+    ref: T
+    rs_id: rs1142345
+    start: 18130917
+    strand: -1.0
+    variant_genotype: T/C
+  - alt: T
+    chrom: '6'
+    end: 18139228
+    name: TPMT_rs1800460
+    ref: C
+    rs_id: rs1800460
+    start: 18139227
+    strand: -1.0
+    variant_genotype: C/C
