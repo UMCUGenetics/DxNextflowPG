@@ -1,24 +1,16 @@
 #! venv/bin/python
 # standard libraries alphabetic order of main package.
-import configparser
-import csv
-import shutil
 import pandas as pd
+from pathlib import Path
+import shutil
 
 # third party libraries alphabetic order of main package.
-import requests
 import pytest
+import requests
+import yaml
 
 # local libraries alphabetic order of main package.
 import assets.create_workflow_reference_files as create_ref
-
-
-# TODO implement these tests.
-"""
-rsID and/or location linked to multiple genes -> not unique for single genotype gene.
-variant with multiple alternative alleles ensembl
-variant with multiple alternative alleles translation table
-"""
 
 
 @pytest.fixture(scope="module")
@@ -27,6 +19,22 @@ def create_test_files(tmp_path_factory):
     shutil.rmtree(test_path)
     shutil.copytree("tests/test_data/", test_path)
     return test_path
+
+
+@pytest.fixture(scope="module")
+def get_test_yaml(create_test_files):
+    with open(create_test_files + "/translation_yaml/sites_of_interest.yaml") as yaml_file:
+        prev_yaml = yaml.load(yaml_file, Loader=yaml.FullLoader)
+    return prev_yaml
+
+
+@pytest.fixture(scope="module")
+def get_tmp_output_path(tmp_path_factory):
+    output_path = str(tmp_path_factory.mktemp("output")) + "/"
+    open(str(output_path) + "existing_output.bed", "a").close()
+    open(str(output_path) + "existing_output.yaml", "a").close()
+    return output_path
+
 
 class TestCreateRefsParser():
     def test_parser_optional_config_section(self):
@@ -121,8 +129,21 @@ class TestCreateRefsConfig():
 class TestCreateRefsTranslationFile():
     def test_tt_correct(self, create_test_files):
         tt_pheno, tt_geno = create_ref.morph_translation_file(csv_file=create_test_files + "/translation_input_files_extern/tt_correct.csv")
-        assert True
-
+        assert not tt_pheno.empty
+        assert not tt_geno.empty
+    
+    def test_tt_correct_with_sections(self, create_test_files):
+        tt_pheno, tt_geno = create_ref.morph_translation_file(
+            csv_file=create_test_files + "/translation_input_files_extern/tt_correct_with_sections.csv")
+        assert not tt_pheno.empty
+        assert not tt_geno.empty
+    
+    def test_tt_genotype_with_sv(self, create_test_files):
+        tt_pheno, tt_geno = create_ref.morph_translation_file(
+            csv_file=create_test_files + "/translation_input_files_extern/tt_genotype_with_sv.csv")
+        assert not tt_pheno.empty
+        assert not tt_geno.empty
+        
     def test_tt_rename_columns_not_exists(self, create_test_files):
         tt_pheno, tt_geno = create_ref.morph_translation_file(
             csv_file=create_test_files + "/translation_input_files_extern/tt_correct.csv",
@@ -211,8 +232,9 @@ class TestCreateRefsEnsembl():
 
     def test_rs_id_not_linked_to_gene(self):
         with pytest.warns(UserWarning, match="Variation identifiers not found in Ensembl"):
-            create_ref.get_variant_metadata_ensembl(server="http://grch37.rest.ensembl.org",
-                                                    ids=["fakers"], species="homo_sapiens")
+            create_ref.get_variant_metadata_ensembl(
+                server="http://grch37.rest.ensembl.org", ids=["fakers"], species="homo_sapiens"
+            )
 
 
 class TestCreateRefsInvalidGenes():
@@ -276,7 +298,6 @@ class TestCreateRefsFilterGenotypes():
         assert "All genotypes are removed." in str(genotypes_removed.value)
 
 
-# TODO implement these tests in TestCreateRefsVariantGenotypes
 class TestCreateRefsVariantGenotypeNotation():
     def test_forward_oriantation(self):
         dict_forward_reverse_genotypes = {
@@ -335,58 +356,221 @@ class TestCreateRefsVariantGenotypeNotation():
         assert "Variant genotype type not expected." in str(wrong_notation.value)
 
 
-# TODO implement these tests in TestCreateRefsCompareFiles
-"""
-compare files, not supported data type.
-compare files, dict yaml, only order different dict
-compare files, dict yaml, different variant 
-compare files, dict yaml, removed genotype
-compare files, dict yaml, removed random field.
-compare files, bed, removed rs site.
-compare files, bed, synonym rs id and thus name.
-"""
 class TestCreateRefsCompareFiles():
-    pass
+    def test_cf_not_supported_type(self, create_test_files):
+        with pytest.warns(UserWarning, match="Comparison is not supported for this data type."):
+            create_ref.compare_files(
+                old=create_test_files + "/ini_config/correct_config.ini",
+                new=create_test_files + "/ini_config/correct_config.ini"
+            )
+
+    def test_cf_yaml_same_files(self, get_test_yaml, capsys):
+        create_ref.compare_files(old=get_test_yaml, new=get_test_yaml)
+        captured = capsys.readouterr()
+        assert captured.out == "Files are the same.\n"
+    
+    def test_cf_yaml_removed_snp_site(self, create_test_files, get_test_yaml, capsys):
+        with open(create_test_files + "/translation_yaml/removed_snp_site.yaml") as yaml_file:
+	        dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
+        create_ref.compare_files(old=get_test_yaml, new=dict_new)
+        captured = capsys.readouterr()
+        assert "Differences between dictionaries:" in captured.out
+        assert "root['576']['snp'][1] removed" in captured.out
+        assert "root['577']['snp'][1]" in captured.out
+        assert "root['578']['snp'][1]" in captured.out
+
+    def test_cf_yaml_removed_snp_field_name(self, create_test_files, get_test_yaml, capsys):
+        with open(create_test_files + "/translation_yaml/removed_snp_field_name.yaml") as yaml_file:
+	        dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
+        create_ref.compare_files(old=get_test_yaml, new=dict_new)
+        captured = capsys.readouterr()
+        assert "Differences between dictionaries:" in captured.out
+        for gt in ['576', '577', '578']:
+            assert "root['{gt}']['snp'][0] removed".format(gt=gt) in captured.out
+            assert "root['{gt}']['snp'][1] removed".format(gt=gt) in captured.out
+
+    def test_cf_yaml_removed_genotype(self, create_test_files, get_test_yaml, capsys):
+        with open(create_test_files + "/translation_yaml/removed_genotype.yaml") as yaml_file:
+	        dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
+        create_ref.compare_files(old=get_test_yaml, new=dict_new)
+        captured = capsys.readouterr()
+        assert "Differences between dictionaries:" in captured.out
+        assert "root['576'] removed" in captured.out
+
+    def test_cf_yaml_diff_phenotype_metadata(self, create_test_files, get_test_yaml, capsys):
+        with open(create_test_files + "/translation_yaml/diff_phenotype_metadata.yaml") as yaml_file:
+	        dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
+        create_ref.compare_files(old=get_test_yaml, new=dict_new)
+        captured = capsys.readouterr()
+        assert "Differences between dictionaries:" in captured.out
+        assert "Value of root['576']['phenotype_id'] changed from 534.0 to 1534.0" in captured.out
+
+    def test_cf_yaml_diff_order_snp(self, create_test_files, get_test_yaml, capsys):
+        with open(create_test_files + "/translation_yaml/diff_order_snp.yaml") as yaml_file:
+	        dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
+        create_ref.compare_files(old=get_test_yaml, new=dict_new)
+        captured = capsys.readouterr()
+        assert captured.out == "Files are the same.\n"
+
+    def test_cf_yaml_diff_order_genotypes(self, create_test_files, get_test_yaml, capsys):
+        with open(create_test_files + "/translation_yaml/diff_order_genotypes.yaml") as yaml_file:
+	        dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
+        create_ref.compare_files(old=get_test_yaml, new=dict_new)
+        captured = capsys.readouterr()
+        assert captured.out == "Files are the same.\n"
+
+    def test_cf_yaml_diff_genotype_metadata(self, create_test_files, get_test_yaml, capsys):
+        with open(create_test_files + "/translation_yaml/diff_genotype_metadata.yaml") as yaml_file:
+	        dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
+        create_ref.compare_files(old=get_test_yaml, new=dict_new)
+        captured = capsys.readouterr()
+        assert "Differences between dictionaries:" in captured.out
+        for gt in ['576', '577', '578']:
+            for idx in [0, 1]:
+                assert "root['{gt}']['snp'][{i}] added to iterable.".format(gt=gt, i=idx) in captured.out
+                assert "root['{gt}']['snp'][{i}] removed from iterable.".format(gt=gt, i=idx) in captured.out
+            assert "Value of root['{gt}']['gene'] changed from".format(gt=gt) in captured.out
+            assert "Value of root['{gt}']['gene_genotype'] changed from".format(gt=gt), captured.out
+            assert "TPMT2" in captured.out
+
+    def test_cf_yaml_added_snp_site(self, create_test_files, get_test_yaml, capsys):
+        with open(create_test_files + "/translation_yaml/added_snp_site.yaml") as yaml_file:
+	        dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
+        create_ref.compare_files(old=get_test_yaml, new=dict_new)
+        captured = capsys.readouterr()
+        assert "Differences between dictionaries:" in captured.out
+        for gt in ['576', '577', '578']:
+            assert "root['{gt}']['snp'][2] added to iterable.".format(gt=gt) in captured.out
+
+    def test_cf_yaml_added_genotype(self, create_test_files, get_test_yaml, capsys):
+        with open(create_test_files + "/translation_yaml/added_genotype.yaml") as yaml_file:
+	        dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
+        create_ref.compare_files(old=get_test_yaml, new=dict_new)
+        captured = capsys.readouterr()
+        assert "Differences between dictionaries:" in captured.out
+        assert "root['579'] added" in captured.out
+
+    def test_cf_bed_same_file(self, create_test_files, capsys):
+        create_ref.compare_files(
+            old=create_test_files + "/bed_files/sites_of_interest.bed",
+            new=create_test_files + "/bed_files/sites_of_interest.bed"
+        )
+        captured = capsys.readouterr()
+        assert captured.out == "Files are the same.\n"
+    
+    def test_cf_bed_removed_site(self, create_test_files, capsys):
+        create_ref.compare_files(
+            old=create_test_files + "/bed_files/sites_of_interest.bed",
+            new=create_test_files + "/bed_files/removed_site.bed"
+        )
+        captured = capsys.readouterr()
+        assert "-6\t18130917\t18130918\tTPMT_rs1142345" in captured.out
+    
+    def test_cf_bed_diff_pos(self, create_test_files, capsys):
+        create_ref.compare_files(
+            old=create_test_files + "/bed_files/sites_of_interest.bed",
+            new=create_test_files + "/bed_files/diff_pos.bed"
+        )
+        captured = capsys.readouterr()
+        assert "-6\t18139227\t18139228\tTPMT_rs1800460" in captured.out
+        assert "+6\t18139200\t18139201\tTPMT_rs1800460" in captured.out
+    
+    def test_cf_bed_diff_name(self, create_test_files, capsys):
+        create_ref.compare_files(
+            old=create_test_files + "/bed_files/sites_of_interest.bed",
+            new=create_test_files + "/bed_files/diff_name.bed"
+        )
+        captured = capsys.readouterr()
+        assert "-6\t18139227\t18139228\tTPMT_rs1800460" in captured.out
+        assert "+6\t18139227\t18139228\tTPMT_rs1800000" in captured.out
+    
+    def test_cf_bed_added_site(self, create_test_files, capsys):
+        create_ref.compare_files(
+            old=create_test_files + "/bed_files/sites_of_interest.bed",
+            new=create_test_files + "/bed_files/added_site.bed"
+        )
+        captured = capsys.readouterr()
+        assert "+6\t18143954\t18143955\tTPMT_rs1800462" in captured.out
 
 
-# TODO implement these tests in TestCreateRefsYaml
-"""
-yaml write, file exists already. - -> ERROR, param 'force'?
-yaml write, file exists already, use force - -> succeed.
-variant genotypes 1 bp on reverse strand are changed to forward notation.
-- REF/REF
-- REF/ALT
-- ALT/REF
-- ALT/ALT
-variant genotypes > 1bp on reverse strand are changed to forward notation.
-- REF/REF
-- REF/ALT
-- ALT/REF
-- ALT/ALT
-variants genotypes indels notation standardized.
-- REF/REF
-- REF/ALT
-- ALT/REF
-- ALT/ALT
-"""
 class TestCreateRefsYaml():
-    pass
+    def test_generate_yaml_rev_strand(self):
+        df_data_rev = pd.DataFrame.from_dict(
+            {'row_1': ['1', 6, 1000, 1001, "fakeRS1", "name", "T/T", "A", "G", -1],
+             'row_2': ['1', 6, 1001, 1002, "fakeRS2", "name", "T/C", "A", "G", -1],
+             'row_3': ['1', 6, 1002, 1003, "fakeRS3", "name", "C/T", "A", "G", -1],
+             'row_4': ['1', 6, 1003, 1004, "fakeRS4", "name", "C/C", "A", "G", -1], },
+            orient='index',
+            columns=["genotype_id", "chrom", "start", "end", "rs_id", "name", "variant_genotype", "ref", "alt", "strand"]
+        )
+        df_pheno = pd.DataFrame.from_dict(
+            {'1': ['1', "fakegene", "wildtype/wildtype", "fakegene:wildtype/wildtype", 1, "POOR METABOLIZER"]},
+            orient='index',
+            columns=["genotype_id", "gene", "genotype_realname", "gene_genotype", "phenotype_id", "phenotype_name"]
+        )
+        yaml_dict = create_ref.generate_yaml_dict(df_phenotypes=df_pheno, df_metadata_variant_gt=df_data_rev)
+        assert '1' in yaml_dict
+        assert yaml_dict['1']['snp'][0]['variant_genotype'] == 'A/A'
+        assert yaml_dict['1']['snp'][1]['variant_genotype'] == 'A/G'
+        assert yaml_dict['1']['snp'][2]['variant_genotype'] == 'G/A'
+        assert yaml_dict['1']['snp'][3]['variant_genotype'] == 'G/G'
+    
+    def test_generate_yaml_rev_strand_indel(self):
+        df_data_rev = pd.DataFrame.from_dict(
+            {
+                'row_1': ['1', 6, 1000, 1001, "fakeRS1", "name", "./.", "A", "AA", -1],
+                'row_2': ['1', 6, 1001, 1002, "fakeRS2", "name", "./T", "A", "AA", -1],
+                'row_3': ['1', 6, 1002, 1003, "fakeRS3", "name", "T/T", "A", "AA", -1],
+                'row_4': ['2', 6, 1000, 1001, "fakeRS1", "name", "./.", "AA", "A", -1],
+                'row_5': ['2', 6, 1002, 1003, "fakeRS3", "name", "T/.", "AA", "A", -1],
+                'row_6': ['2', 6, 1003, 1004, "fakeRS4", "name", "T/T", "AA", "A", -1], 
+            },
+            orient='index',
+            columns=["genotype_id", "chrom", "start", "end", "rs_id", "name", "variant_genotype", "ref", "alt", "strand"]
+        )
+        df_pheno = pd.DataFrame.from_dict(
+            {'1': ['1', "fake_gene_ins", "wildtype/wildtype", "fake_gene_ins:wildtype/wildtype", 1, "POOR METABOLIZER"],
+             '2': ['2', "fake_gene_del", "wildtype/wildtype", "fake_gene_del:wildtype/wildtype", 1, "POOR METABOLIZER"]},
+            orient='index',
+            columns=["genotype_id", "gene", "genotype_realname", "gene_genotype", "phenotype_id", "phenotype_name"]
+        )
+        yaml_dict = create_ref.generate_yaml_dict(df_phenotypes=df_pheno, df_metadata_variant_gt=df_data_rev)
+        assert '1' in yaml_dict
+        assert '2' in yaml_dict
+        assert yaml_dict['1']['snp'][0]['variant_genotype'] == 'A/A'
+        assert yaml_dict['1']['snp'][1]['variant_genotype'] == 'A/AA'
+        assert yaml_dict['1']['snp'][2]['variant_genotype'] == 'AA/AA'
+        assert yaml_dict['2']['snp'][0]['variant_genotype'] == 'A/A'
+        assert yaml_dict['2']['snp'][1]['variant_genotype'] == 'AA/A'
+        assert yaml_dict['2']['snp'][2]['variant_genotype'] == 'AA/AA'
 
 
-# TODO implement these tests in TestCreateRefsBed
-"""
-write bedfile to non existing file - -> succeed
-write bedfile, file exists already - -> ERROR, param 'force'?
-"""
-class TestCreateRefsBed():
-    pass
+class TestCreateRefsWriteBed():
+    def test_write_bed(self, get_tmp_output_path):
+        df_data = pd.DataFrame.from_dict(
+            {'row_1': [1, 1000, 1001, "test"]},
+            orient='index',
+            columns=['chrom', 'start', 'end', 'name']
+        )
+        create_ref.write_bedfile(df_data=df_data, output_prefix="test", output_path=get_tmp_output_path)
+        assert Path(get_tmp_output_path + "test.bed").is_file()
+    
+    def test_write_bed_existing_file(self, get_tmp_output_path):
+        df_data = pd.DataFrame.from_dict(
+            {'row_1': [1, 1000, 1001, "test"]},
+            orient='index',
+            columns=['chrom', 'start', 'end', 'name']
+        )
+        create_ref.write_bedfile(df_data=df_data, output_prefix="existing_output", output_path=get_tmp_output_path)
+        assert Path(get_tmp_output_path + "existing_output.bed").is_file()
 
 
-# TODO implement these tests in TestCreateRefsOutput
-"""
-output file starts with output_prefix.
-output file saved in output path.
-"""
-class TestCreateRefsOutput():
-    pass
+class TestCreateRefsWriteYaml():
+    def test_write_yaml(self, get_tmp_output_path):
+        create_ref.write_yaml(yaml_dict={"key1": "value1"}, output_prefix="test", output_path=get_tmp_output_path)
+        assert Path(get_tmp_output_path + "test.yaml").is_file()
+    
+    def test_write_yaml_existing_file(self, get_tmp_output_path):
+        create_ref.write_yaml(yaml_dict={"key1": "value1"}, output_prefix="existing_output", output_path=get_tmp_output_path)
+        assert Path(get_tmp_output_path + "existing_output.yaml").is_file()
 
