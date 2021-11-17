@@ -88,13 +88,21 @@ def morph_translation_file(csv_file, dict_rename_cols=None):
 			)
 		)
 	df_translation[['gene', 'rs_id']] = df_translation.gene_and_rs_id.str.split("_", expand=True,)
-	if any(df_translation.variant_genotype.str.count(":|/") != 1 & df_translation.rs_id.str.startswith("rs", na=False)):
+	if any(
+		(df_translation.variant_genotype.str.count(":|/") != 1) 
+		& (~df_translation.variant_genotype.str.match("Missing", na=False))
+		& (df_translation.rs_id.str.startswith("rs", na=False))
+	):
 		raise ValueError(
 			"Expected single separator ':' or '/' in translation file, column 'variant_genotype'. Offending rows:\n{}".format(
 				df_translation[df_translation.variant_genotype.str.count(":|/") != 1]
 			)
 		)
-	if any((df_translation.variant_genotype.str.replace("A|T|C|G|:|-|\\.|\\/", "", regex=True).str.len() != 0) & (df_translation.rs_id.str.startswith("rs", na=False))):
+	if any(
+		(df_translation.variant_genotype.str.replace("A|T|C|G|:|-|\\.|\\/", "", regex=True).str.len() != 0) 
+		& (~df_translation.variant_genotype.str.match("Missing", na=False))
+		& (df_translation.rs_id.str.startswith("rs", na=False))
+	):
 		raise ValueError(
 			"Invalid character in variant genotype. Supported: 'A', 'T', 'C', 'G', ':', '-', '.', '/'"
 		)
