@@ -74,10 +74,13 @@ def morph_translation_file(csv_file, dict_rename_cols=None):
 				required_cols - set(df_translation.columns)
             )
 		)
+	# remove sections
+	if any(df_translation[df_translation['genotype_id'].astype(str).str.match('---')]):
+		df_translation = df_translation[~df_translation['genotype_id'].astype(str).str.match('---')]
 	if any(df_translation.variant_genotype.isna()):
 		raise ValueError("Variant_genotype value is required in translation file. Offending rows:\n{}".format(
-                    df_translation[df_translation.variant_genotype.isna()]
-                )
+				df_translation[df_translation.variant_genotype.isna()]
+            )
 		)
 	if any(df_translation.gene_and_rs_id.str.count("_") != 1):
 		raise ValueError("Expected separator _ in translation file, column 'gene_and_rs_id'. Offending rows:\n{}".format(
