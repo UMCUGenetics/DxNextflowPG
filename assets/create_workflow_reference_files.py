@@ -297,7 +297,7 @@ def get_indel_notation_with_flanking_base(record_ref, record_alt, variant_genoty
 	return(found_notation)
 
 
-def generate_yaml_dict(df_phenotypes, df_metadata_variant_gt, output_path, output_prefix):
+def generate_yaml_dict(df_phenotypes, df_metadata_variant_gt):
 	yaml_dict = df_phenotypes.to_dict('index')
 	for i, record in df_metadata_variant_gt.iterrows():
 		if "snp" not in yaml_dict[record.genotype_id].keys():
@@ -314,10 +314,13 @@ def generate_yaml_dict(df_phenotypes, df_metadata_variant_gt, output_path, outpu
 			)
 		yaml_dict[record.genotype_id]["snp"].append(
 			record[["chrom", "start", "end", "rs_id", "name", "variant_genotype", "ref", "alt", "strand"]].to_dict()
-			)
-	with open(output_path + output_prefix + ".yaml", "w") as file:
-		documents = yaml.dump(yaml_dict, file, default_flow_style=False)
+		)
 	return(yaml_dict)
+
+
+def write_yaml(yaml_dict, output_prefix, output_path):
+	with open("{path}/{prefix}.yaml".format(path=output_path, prefix=output_prefix), "w") as file:
+		documents = yaml.dump(yaml_dict, file, default_flow_style=False)
 
 
 def compare_files(old, new):
@@ -375,13 +378,8 @@ def main(prev_bed_file, prev_yaml_file, output_path, output_prefix, config):
             .merge(df_ens_metadata, df_genotypes, how="left", left_on="name", right_on="gene_and_rs_id")
             .dropna(axis=0, subset=["genotype_id"])
         )
-	output_yaml = generate_yaml_dict(
-        df_phenotypes=df_phenotypes, 
-		df_genotypes=df_genotypes,
-		df_metadata_variant_gt=df_metadata_variant_gt,
-		output_path=output_path, 
-		output_prefix=output_prefix
-	)
+	output_yaml = generate_yaml_dict(df_phenotypes=df_phenotypes, df_metadata_variant_gt=df_metadata_variant_gt)
+	write_yaml(yaml_dict=output_yaml, output_prefix=output_prefix, output_path=output_path)
 	with open(prev_yaml_file) as yaml_file:
 		prev_yaml = yaml.load(yaml_file, Loader=yaml.FullLoader)
 	compare_files(old=prev_yaml, new=output_yaml)
