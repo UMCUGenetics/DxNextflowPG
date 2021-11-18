@@ -162,6 +162,12 @@ class TestGtToPtIndelGenotypes():
         assert(len(matches) == exp_length)
         assert(all(matches) == exp_bool)
 
+    def test_no_match(self, get_vcf_reader):
+        variant_dir = {"chrom": "1", "start": 100, "end": 101, "variant_genotype": "T/T"}
+        with pytest.warns(UserWarning, match="fetch has no records"):
+            matches = gt_to_pt.retrieve_match_all_records(vcf_reader=get_vcf_reader, snp=variant_dir)
+        assert not matches
+    
     def test_single_del_ref_ref_match(self, get_vcf_reader):
         variant_dir = {"chrom": "2", "start": 20000000, "end": 20000001, "variant_genotype": "TA/TA"}
         self.retrieve_match_and_assert(vcf_reader=get_vcf_reader, snp_dir=variant_dir, exp_length=1, exp_bool=True)
@@ -216,32 +222,26 @@ class TestGtToPtIndelGenotypes():
 
 
 class TestGtToPtMatchSnpGenotype():
-    def test_match_snp_genotype_no_record(self, setup_and_get_test_path):
-        vcf_reader = pyvcf.Reader(filename=setup_and_get_test_path + "/vcf_files/sample.vcf.gz")
+    def test_match_snp_genotype_no_record(self, setup_and_get_test_path, get_vcf_reader):
         genotypes = gt_to_pt.read_yaml(
-            translation_file=setup_and_get_test_path + "translation_yaml/gt_missing_rs.yaml"
+            translation_file=setup_and_get_test_path + "/translation_yaml/gt_missing_rs.yaml"
         ).values()
-        with (
-            pytest.warns(UserWarning, match="fetch has no records"), 
-            pytest.warns(UserWarning, match="No genotype match found."),
-        ):
-            matched_gt = gt_to_pt.retrieve_match_snp_genotype(vcf_reader=vcf_reader, genotypes=genotypes)
+        with pytest.warns(UserWarning, match="No genotype match found."):
+            matched_gt = gt_to_pt.retrieve_match_snp_genotype(vcf_reader=get_vcf_reader, genotypes=genotypes)
         assert not matched_gt
 
-    def test_match_snp_genotype_gt_single_rs(self, setup_and_get_test_path):
-        vcf_reader = pyvcf.Reader(filename=setup_and_get_test_path + "/vcf_files/sample.vcf.gz")
+    def test_match_snp_genotype_gt_single_rs(self, setup_and_get_test_path, get_vcf_reader):
         genotypes = gt_to_pt.read_yaml(
             translation_file=setup_and_get_test_path + "translation_yaml/gt_single_rs.yaml"
         ).values()
-        matched_gt = gt_to_pt.retrieve_match_snp_genotype(vcf_reader=vcf_reader, genotypes=genotypes)
+        matched_gt = gt_to_pt.retrieve_match_snp_genotype(vcf_reader=get_vcf_reader, genotypes=genotypes)
         assert '0' in matched_gt
 
-    def test_match_snp_genotype_gt_multi_rs(self, setup_and_get_test_path):
-        vcf_reader = pyvcf.Reader(filename=setup_and_get_test_path + "/vcf_files/sample.vcf.gz")
+    def test_match_snp_genotype_gt_multi_rs(self, setup_and_get_test_path, get_vcf_reader):
         genotypes = gt_to_pt.read_yaml(
             translation_file=setup_and_get_test_path + "translation_yaml/gt_multi_rs.yaml"
         ).values()
-        matched_gt = gt_to_pt.retrieve_match_snp_genotype(vcf_reader=vcf_reader, genotypes=genotypes)
+        matched_gt = gt_to_pt.retrieve_match_snp_genotype(vcf_reader=get_vcf_reader, genotypes=genotypes)
         assert '0' in matched_gt
         assert matched_gt.get('0') == [True, True]
         assert '1' in matched_gt
