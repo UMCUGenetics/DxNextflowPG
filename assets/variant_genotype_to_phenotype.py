@@ -47,7 +47,7 @@ def read_vcf(vcf_file):
     return(vcf_reader)
 
 
-def read_table(translation_file):
+def read_yaml(translation_file):
     with open(translation_file) as translation_file:
         translation_table = yaml.safe_load(translation_file)
     if not translation_table:
@@ -129,7 +129,7 @@ def write_matched_phenotype(genotype_match_per_snp, translation_table, output_pa
 
 def main(translation_file, vcf_file, output_path, output_prefix, sample):
     vcf_reader = read_vcf(vcf_file)
-    translation_table = read_table(translation_file)
+    translation_table = read_yaml(translation_file)
     genotype_match_per_snp = retrieve_match_snp_genotype(vcf_reader=vcf_reader, genotypes=translation_table.values())
     # TODO: when empty genotype_match_per_snp, throw warning.
     if genotype_match_per_snp:
