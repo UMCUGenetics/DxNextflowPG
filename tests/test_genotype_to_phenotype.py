@@ -4,6 +4,7 @@ from pathlib import Path, PurePath
 import shutil
 
 # third party libraries alphabetic order of main package.
+import pandas as pd
 import pysam
 import pytest
 import vcf as pyvcf
@@ -36,7 +37,17 @@ def get_vcf_reader(setup_and_get_test_path):
     return(vcf_reader)
 
 
-class TestInputGenotypeToPhenotype():
+@pytest.fixture(scope="module")
+def get_tmp_output_path(tmp_path_factory):
+    output_path = str(tmp_path_factory.mktemp("output")) + "/"
+    # open(str(output_path) + "existing_output.bed", "a").close()
+    return output_path
+
+
+# TODO: implement tests:
+## pos 1 del, pos 2 ins, only match on expected genotype measurement type. (fetch will pick up both.)
+
+class TestGtToPtInputs():
     def test_parser_required_args(self, setup_and_get_test_path):
         parser = gt_to_pt.parse_arguments_and_check(
             args_in=[setup_and_get_test_path + "/vcf_files/sample.vcf.gz", "sample", "./references/sites_of_interest.yaml"])
@@ -69,7 +80,7 @@ class TestInputGenotypeToPhenotype():
 
     def test_parser_empty_table(self, setup_and_get_test_path):
         with pytest.raises(ValueError) as empty_error:
-            gt_to_pt.read_table(setup_and_get_test_path + "empty.yaml")
+            gt_to_pt.read_yaml(setup_and_get_test_path + "empty.yaml")
         assert "empty" in str(empty_error.value)
 
     def test_parser_no_records_input(self, setup_and_get_test_path):
@@ -109,7 +120,8 @@ class TestInputGenotypeToPhenotype():
                 gt_to_pt.check_required_keys(snp=snp_dir)
             assert "missing" in str(missing_key_error.value).lower()
 
-class TestSnpGenotypes():
+
+class TestGtToPtSnpGenotypes():
     def retrieve_match_and_assert(self, vcf_reader, snp_dir, exp_length, exp_bool):
         matches = gt_to_pt.retrieve_match_all_records(vcf_reader=vcf_reader, snp=snp_dir)
         assert(len(matches) == exp_length)
@@ -144,7 +156,7 @@ class TestSnpGenotypes():
         self.retrieve_match_and_assert(vcf_reader=get_vcf_reader, snp_dir=snp_dir, exp_length=2, exp_bool=True)
 
 
-class TestIndelGenotypes():
+class TestGtToPtIndelGenotypes():
     def retrieve_match_and_assert(self, vcf_reader, snp_dir, exp_length, exp_bool):
         matches = gt_to_pt.retrieve_match_all_records(vcf_reader=vcf_reader, snp=snp_dir)
         assert(len(matches) == exp_length)
@@ -203,22 +215,109 @@ class TestIndelGenotypes():
         self.retrieve_match_and_assert(vcf_reader=get_vcf_reader, snp_dir=variant_dir, exp_length=2, exp_bool=True)
 
 
-class TestGenotypeToPhenotype():
-    # TODO: implement tests:
-    ## no matter the number of records match, it should result in a single genotype.
-    ## predicted genotype for each unique genotype gene/category in output, as long as valid and all snps are in VCF.
-    ## if not all sites of a genotype are measured (maybe removed due to quality), no genotype should be predicted / linked to sample.
-    ## sites with multiple alternatives aka not duploid
-    ## pos 1 del, pos 2 ins, only match on expected genotype measurement type. (fetch will pick up both.)
-    ## output file generated.
-    ## output file name uses output_prefix.
-    def test_main_translation_and_vcf_mismatch(self, setup_and_get_test_path):
-        with pytest.warns(UserWarning, match="fetch has no records"):
-            gt_to_pt.main(
-                translation_file="./references/sites_of_interest.yaml", 
-                vcf_file=setup_and_get_test_path + "/vcf_files/sample.vcf.gz", 
-                output_path=setup_and_get_test_path,
-                output_prefix="sample",
-                sample="sample"
-            )
+class TestGtToPtMatchSnpGenotype():
+    def test_match_snp_genotype_no_record(self, setup_and_get_test_path):
+        vcf_reader = pyvcf.Reader(filename=setup_and_get_test_path + "/vcf_files/sample.vcf.gz")
+        genotypes = gt_to_pt.read_yaml(
+            translation_file=setup_and_get_test_path + "translation_yaml/gt_missing_rs.yaml"
+        ).values()
+        with (
+            pytest.warns(UserWarning, match="fetch has no records"), 
+            pytest.warns(UserWarning, match="No genotype match found."),
+        ):
+            matched_gt = gt_to_pt.retrieve_match_snp_genotype(vcf_reader=vcf_reader, genotypes=genotypes)
+        assert not matched_gt
+
+    def test_match_snp_genotype_gt_single_rs(self, setup_and_get_test_path):
+        vcf_reader = pyvcf.Reader(filename=setup_and_get_test_path + "/vcf_files/sample.vcf.gz")
+        genotypes = gt_to_pt.read_yaml(
+            translation_file=setup_and_get_test_path + "translation_yaml/gt_single_rs.yaml"
+        ).values()
+        matched_gt = gt_to_pt.retrieve_match_snp_genotype(vcf_reader=vcf_reader, genotypes=genotypes)
+        assert '0' in matched_gt
+
+    def test_match_snp_genotype_gt_multi_rs(self, setup_and_get_test_path):
+        vcf_reader = pyvcf.Reader(filename=setup_and_get_test_path + "/vcf_files/sample.vcf.gz")
+        genotypes = gt_to_pt.read_yaml(
+            translation_file=setup_and_get_test_path + "translation_yaml/gt_multi_rs.yaml"
+        ).values()
+        matched_gt = gt_to_pt.retrieve_match_snp_genotype(vcf_reader=vcf_reader, genotypes=genotypes)
+        assert '0' in matched_gt
+        assert matched_gt.get('0') == [True, True]
+        assert '1' in matched_gt
+        assert matched_gt.get('1') == [True, False]
+
+
+class TestGtToPtWriteMatchedPhenotype():
+    def count_lines(self, filename):
+        with open(filename) as f:
+            for i, l in enumerate(f):
+                pass
+        return i + 1
+
+    def test_write_matched_pt_check_format_output(self, setup_and_get_test_path, get_tmp_output_path):
+        matched_gt = {'0': [True]}
+        translation = gt_to_pt.read_yaml(
+            translation_file=setup_and_get_test_path + "/translation_yaml/gt_single_rs.yaml"
+        )
+        gt_to_pt.write_matched_phenotype(
+            genotype_match_per_snp=matched_gt, 
+            translation_table=translation, 
+            output_path=get_tmp_output_path,
+            output_prefix="test_output_sample", 
+            sample="sample"
+        )
+        assert Path(get_tmp_output_path + "/test_output_sample.txt").is_file()
+        data = pd.read_csv(get_tmp_output_path + "/test_output_sample.txt", sep="\t")
+        expected_columns = ["sample", "genotype_match", "phenotype_id", "phenotype_match"]
+        assert len(set(expected_columns).intersection(data)) == len(expected_columns)
+        assert len(data.index) == 1 # test single match aka single row.
+        assert data.loc[0,'genotype_match'] == "fakegene:wildtype/wildtype"
+        assert data.loc[0, "phenotype_id"] == 0
+        assert data.loc[0, "phenotype_match"] == "POOR METABOLIZER"
+
+    def test_write_matched_pt_single_match(self, setup_and_get_test_path, get_tmp_output_path):
+        matched_gt = {'0': [True, True]}
+        translation = gt_to_pt.read_yaml(
+            translation_file=setup_and_get_test_path + "/translation_yaml/gt_multi_rs.yaml"
+        )
+        gt_to_pt.write_matched_phenotype(
+            genotype_match_per_snp=matched_gt,
+            translation_table=translation,
+            output_path=get_tmp_output_path,
+            output_prefix="test_output_sample",
+            sample="sample"
+        )
+        n_lines = self.count_lines(filename=get_tmp_output_path + "/test_output_sample.txt")
+        assert n_lines == 2
+
+    def test_write_matched_pt_two_gt_single_match(self, setup_and_get_test_path, get_tmp_output_path):
+        matched_gt = {'0': [True, True], '1': [True, False]}
+        translation = gt_to_pt.read_yaml(
+            translation_file=setup_and_get_test_path + "/translation_yaml/gt_multi_rs.yaml"
+        )
+        gt_to_pt.write_matched_phenotype(
+            genotype_match_per_snp=matched_gt,
+            translation_table=translation,
+            output_path=get_tmp_output_path,
+            output_prefix="test_output_sample",
+            sample="sample"
+        )
+        n_lines = self.count_lines(filename=get_tmp_output_path + "/test_output_sample.txt")
+        assert n_lines == 2
+
+    def test_write_matched_pt_multi_match(self, setup_and_get_test_path, get_tmp_output_path):
+        matched_gt = {'0': [True, True], '1': [True, True]}
+        translation = gt_to_pt.read_yaml(
+            translation_file=setup_and_get_test_path + "/translation_yaml/gt_multi_rs.yaml"
+        )
+        gt_to_pt.write_matched_phenotype(
+            genotype_match_per_snp=matched_gt,
+            translation_table=translation,
+            output_path=get_tmp_output_path,
+            output_prefix="test_output_sample",
+            sample="sample"
+        )
+        n_lines = self.count_lines(filename=get_tmp_output_path + "/test_output_sample.txt")
+        assert n_lines == 3
 
