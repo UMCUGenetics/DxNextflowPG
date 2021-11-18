@@ -93,19 +93,24 @@ def retrieve_match_snp_genotype(vcf_reader, genotypes):
     At least one VCF record should match the required snp genotype to conclude the sample
     matches.
     '''
+    filter_genotype = []
     genotype_match_per_snp = {}
     for genotype in genotypes:
+        if genotype.get("genotype_id") in filter_genotype:
+            continue
         for snp in genotype.get("snp"):
             check_required_keys(snp=snp)
             records_match = retrieve_match_all_records(vcf_reader=vcf_reader, snp=snp)
             if not records_match:
                 genotype_match_per_snp.pop(genotype.get("genotype_id"), None)
-                break # TODO: refactor code to break nested loop.
+                filter_genotype.append(genotype.get("genotype_id"))
+                break
             elif any(records_match):
                 genotype_match_per_snp.setdefault(genotype.get("genotype_id"), []).append(True)
             elif records_match:
                 genotype_match_per_snp.setdefault(genotype.get("genotype_id"), []).append(False)
-                
+    if not genotype_match_per_snp:
+        warnings_warn("No genotype match found.")
     return(genotype_match_per_snp)
 
 
