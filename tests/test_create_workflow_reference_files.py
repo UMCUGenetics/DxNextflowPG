@@ -262,6 +262,7 @@ class TestCreateRefsInvalidGenes():
             create_ref.get_invalid_genes_and_warn(df_ens_metadata=df_metadata, genes_regex=None)
 
 
+# TODO: remove sites with multiple alternatives (based on Ensembl) aka not duploid
 class TestCreateRefsFilterGenotypes():
     def test_filter_genotypes_succes(self, create_test_files):
         df_phenotypes, df_genotypes = create_ref.morph_translation_file(    
