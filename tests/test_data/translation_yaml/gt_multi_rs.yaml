@@ -1,0 +1,52 @@
+'0':
+  gene: fakegene
+  gene_genotype: fakegene:wildtype/wildtype
+  genotype_id: '0'
+  genotype_realname: wildtype/wildtype
+  phenotype_id: 0
+  phenotype_name: POOR METABOLIZER
+  snp:
+  - alt: T
+    chrom: '1'
+    end: 10000001
+    name: fakegene_rs0000001
+    ref: C
+    rs_id: rs0000001
+    start: 10000000
+    strand: -1.0
+    variant_genotype: C/C
+  - alt: T
+    chrom: '1'
+    end: 10000002
+    name: fakegene_rs0000002
+    ref: C
+    rs_id: rs0000001
+    start: 10000001
+    strand: -1.0
+    variant_genotype: C/T
+'1':
+  gene: fakegene
+  gene_genotype: fakegene:*1/*1
+  genotype_id: '1'
+  genotype_realname: '*1/*1'
+  phenotype_id: 1
+  phenotype_name: INTERMEDIATE METABOLIZER
+  snp:
+  - alt: T
+    chrom: '1'
+    end: 10000001
+    name: fakegene_rs0000001
+    ref: C
+    rs_id: rs0000001
+    start: 10000000
+    strand: -1.0
+    variant_genotype: C/C
+  - alt: T
+    chrom: '1'
+    end: 10000002
+    name: fakegene_rs0000002
+    ref: C
+    rs_id: rs0000001
+    start: 10000001
+    strand: -1.0
+    variant_genotype: T/T
