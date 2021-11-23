@@ -220,25 +220,25 @@ class TestCreateRefsTranslationFile():
 class TestCreateRefsEnsembl():
     def test_ensembl(self):
         query_result = create_ref.get_ensembl_request_response(
-            server="http://grch37.rest.ensembl.org", ext="/variation/homo_sapiens/", json={"ids": ["rs1799853"]}, method="post"
+            server="http://rest.ensembl.org", ext="/variation/homo_sapiens/", json={"ids": ["rs1799853"]}, method="post"
         )
         assert query_result
     
     def test_ensembl_typo(self):
         with pytest.raises(requests.exceptions.ConnectionError):
             query_result = create_ref.get_ensembl_request_response(
-                server="http://grch37.rest.ensembl_typo.org", ext="/variation/homo_sapiens/", json={"ids": ["rs1799853"]}, method="post"
+                server="http://rest.ensembl_typo.org", ext="/variation/homo_sapiens/", json={"ids": ["rs1799853"]}, method="post"
             )
 
     def test_rs_id_not_linked_to_gene(self):
         with pytest.warns(UserWarning, match="Gene not found"):
-            create_ref.get_gene_metadata_ensembl(server="http://grch37.rest.ensembl.org",
+            create_ref.get_gene_metadata_ensembl(server="http://rest.ensembl.org",
                                                  ens_rs_id="rs1633021", location="6:29746868-29746869", species="homo_sapiens")
 
     def test_rs_id_not_linked_to_gene(self):
         with pytest.warns(UserWarning, match="Variation identifiers not found in Ensembl"):
             create_ref.get_variant_metadata_ensembl(
-                server="http://grch37.rest.ensembl.org", ids=["fakers"], species="homo_sapiens"
+                server="http://rest.ensembl.org", ids=["fakers"], species="homo_sapiens"
             )
 
 

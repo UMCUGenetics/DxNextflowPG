@@ -6,8 +6,9 @@
   - [2.1. Git branching model](#21-git-branching-model)
   - [2.2. Workflow 'blocks'](#22-workflow-blocks)
   - [2.3. Running PG workflow](#23-running-pg-workflow)
-  - [2.4. Assets and pytest](#24-assets-and-pytest)
-  - [2.5. Limitations](#25-limitations)
+  - [2.4. Genome builds / versions.](#24-genome-builds--versions)
+  - [2.5. Assets and pytest](#25-assets-and-pytest)
+  - [2.6. Limitations](#26-limitations)
 - [3. Software dependencies](#3-software-dependencies)
   - [3.1. python environment](#31-python-environment)
   - [3.2. IAAP](#32-iaap)
@@ -32,8 +33,10 @@ This workflow contains the following blocks:
 ```bash
 nextflow run beadarray.nf -c beadarray.config --idat_path <idat_dir_path> --outdir <output_dir_path> --email <email> [-profile slurm|mac]
 ```
+## 2.4. Genome builds / versions.
+GRCh38 is used.
 
-## 2.4. Assets and pytest
+## 2.5. Assets and pytest
 Several custom python scripts used within the workflow are added to the assets directory.
 Pytests are included for some of these custom python scripts.
 
@@ -53,10 +56,16 @@ The scope of tests you want to run, can be selected. [specifying-tests-or-select
 
 Some pytests require testdata and is included in this repository alongside the actual test code.
 
-## 2.5. Limitations
+## 2.6. Limitations
 Not supported yet:
-- Structural variants, such as CNV, INDELs (> 1 bp)
+- Structural variants, such as CNV, INDELs (> 1 bp) 
 - INDELs of 1 bp with more than 2 alleles.
+
+Other remarks:
+- ENSEMBL REST API
+  - Since ensembl REST Api is only available for a single GRCh38, version cannot be specified. Assumed that patches will not effect the sites of interests.
+
+TODO: retrieve MAF for GRCh38 or remove BAFREGRESS.
 # 3. Software dependencies
 ##  3.1. python environment
 - Login HPC
