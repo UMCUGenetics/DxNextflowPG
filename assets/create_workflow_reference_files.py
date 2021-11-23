@@ -151,7 +151,7 @@ def get_variant_metadata_ensembl(server, ids, species):
 def get_gene_metadata_ensembl(server, ens_rs_id, location, species):
 	client_out = get_ensembl_request_response(
 		server=server,
-		ext="/overlap/region/{species}/{loc}?feature=gene;logic_name=ensembl_havana_gene_homo_sapiens_37".format(
+		ext="/overlap/region/{species}/{loc}?feature=gene;logic_name=ensembl_havana_gene_homo_sapiens".format(
 			species=species,
 			loc=location
 		)
@@ -381,7 +381,7 @@ def main(prev_bed_file, prev_yaml_file, output_path, output_prefix, config):
 
 	df_metadata_variant_gt = (
 		pd
-		.merge(df_ens_metadata, df_genotypes, how="left", left_on="name", right_on="gene_and_rs_id")
+            .merge(df_ens_metadata, df_genotypes, how="left", left_on=["name", "rs_id", "gene"], right_on=["gene_and_rs_id", "rs_id", "gene"])
 		.dropna(axis=0, subset=["genotype_id"])
     )
 	output_yaml = generate_yaml_dict(df_phenotypes=df_phenotypes, df_metadata_variant_gt=df_metadata_variant_gt)
