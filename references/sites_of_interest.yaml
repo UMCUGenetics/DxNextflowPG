@@ -1,3 +1,38 @@
+'10':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:wildtype/wildtype
+  genotype_id: '10'
+  genotype_realname: wildtype/wildtype
+  phenotype_id: 1342.0
+  phenotype_name: EXTENSIVE METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/G
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: A/A
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/T
 '102':
   gene: CYP2C9
   gene_genotype: CYP2C9:*2/*2
@@ -8,40 +43,145 @@
   snp:
   - alt: T
     chrom: '10'
-    end: 96702047
+    end: 94942290
     name: CYP2C9_rs1799853
     ref: C
     rs_id: rs1799853
-    start: 96702046
-    strand: 1.0
+    start: 94942289
+    strand: 1
     variant_genotype: T/T
   - alt: T
     chrom: '10'
-    end: 96740981
+    end: 94981224
     name: CYP2C9_rs28371685
     ref: C
     rs_id: rs28371685
-    start: 96740980
-    strand: 1.0
+    start: 94981223
+    strand: 1
     variant_genotype: C/C
   - alt: C/G
     chrom: '10'
-    end: 96741053
+    end: 94981296
     name: CYP2C9_rs1057910
     ref: A
     rs_id: rs1057910
-    start: 96741052
-    strand: 1.0
+    start: 94981295
+    strand: 1
     variant_genotype: A/A
   - alt: A/G
     chrom: '10'
-    end: 96741058
+    end: 94981301
     name: CYP2C9_rs28371686
     ref: C
     rs_id: rs28371686
-    start: 96741057
-    strand: 1.0
+    start: 94981300
+    strand: 1
     variant_genotype: C/C
+'11':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:*18/*18
+  genotype_id: '11'
+  genotype_realname: '*18/*18'
+  phenotype_id: 1344.0
+  phenotype_name: POOR METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/G
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: A/A
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: C/C
+'12':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:wildtype/*18
+  genotype_id: '12'
+  genotype_realname: wildtype/*18
+  phenotype_id: 1343.0
+  phenotype_name: INTERMEDIATE METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/G
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: A/A
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/C
+'13':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:*4/*4
+  genotype_id: '13'
+  genotype_realname: '*4/*4'
+  phenotype_id: 1342.0
+  phenotype_name: EXTENSIVE METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/G
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: G/G
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/T
 '135':
   gene: CYP2C9
   gene_genotype: CYP2C9:wildtype/*2
@@ -52,39 +192,39 @@
   snp:
   - alt: T
     chrom: '10'
-    end: 96702047
+    end: 94942290
     name: CYP2C9_rs1799853
     ref: C
     rs_id: rs1799853
-    start: 96702046
-    strand: 1.0
+    start: 94942289
+    strand: 1
     variant_genotype: C/T
   - alt: T
     chrom: '10'
-    end: 96740981
+    end: 94981224
     name: CYP2C9_rs28371685
     ref: C
     rs_id: rs28371685
-    start: 96740980
-    strand: 1.0
+    start: 94981223
+    strand: 1
     variant_genotype: C/C
   - alt: C/G
     chrom: '10'
-    end: 96741053
+    end: 94981296
     name: CYP2C9_rs1057910
     ref: A
     rs_id: rs1057910
-    start: 96741052
-    strand: 1.0
+    start: 94981295
+    strand: 1
     variant_genotype: A/A
   - alt: A/G
     chrom: '10'
-    end: 96741058
+    end: 94981301
     name: CYP2C9_rs28371686
     ref: C
     rs_id: rs28371686
-    start: 96741057
-    strand: 1.0
+    start: 94981300
+    strand: 1
     variant_genotype: C/C
 '137':
   gene: CYP2C9
@@ -96,39 +236,74 @@
   snp:
   - alt: T
     chrom: '10'
-    end: 96702047
+    end: 94942290
     name: CYP2C9_rs1799853
     ref: C
     rs_id: rs1799853
-    start: 96702046
-    strand: 1.0
+    start: 94942289
+    strand: 1
     variant_genotype: C/T
   - alt: T
     chrom: '10'
-    end: 96740981
+    end: 94981224
     name: CYP2C9_rs28371685
     ref: C
     rs_id: rs28371685
-    start: 96740980
-    strand: 1.0
+    start: 94981223
+    strand: 1
     variant_genotype: C/T
   - alt: C/G
     chrom: '10'
-    end: 96741053
+    end: 94981296
     name: CYP2C9_rs1057910
     ref: A
     rs_id: rs1057910
-    start: 96741052
-    strand: 1.0
+    start: 94981295
+    strand: 1
     variant_genotype: A/A
   - alt: A/G
     chrom: '10'
-    end: 96741058
+    end: 94981301
     name: CYP2C9_rs28371686
     ref: C
     rs_id: rs28371686
-    start: 96741057
-    strand: 1.0
+    start: 94981300
+    strand: 1
+    variant_genotype: C/C
+'14':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:*4/*4_*18/*18
+  genotype_id: '14'
+  genotype_realname: '*16/*16'
+  phenotype_id: 1344.0
+  phenotype_name: POOR METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/G
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: G/G
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
     variant_genotype: C/C
 '149':
   gene: CYP2C9
@@ -140,40 +315,110 @@
   snp:
   - alt: T
     chrom: '10'
-    end: 96702047
+    end: 94942290
     name: CYP2C9_rs1799853
     ref: C
     rs_id: rs1799853
-    start: 96702046
-    strand: 1.0
+    start: 94942289
+    strand: 1
     variant_genotype: C/T
   - alt: T
     chrom: '10'
-    end: 96740981
+    end: 94981224
     name: CYP2C9_rs28371685
     ref: C
     rs_id: rs28371685
-    start: 96740980
-    strand: 1.0
+    start: 94981223
+    strand: 1
     variant_genotype: C/C
   - alt: C/G
     chrom: '10'
-    end: 96741053
+    end: 94981296
     name: CYP2C9_rs1057910
     ref: A
     rs_id: rs1057910
-    start: 96741052
-    strand: 1.0
+    start: 94981295
+    strand: 1
     variant_genotype: A/A
   - alt: A/G
     chrom: '10'
-    end: 96741058
+    end: 94981301
     name: CYP2C9_rs28371686
     ref: C
     rs_id: rs28371686
-    start: 96741057
-    strand: 1.0
+    start: 94981300
+    strand: 1
     variant_genotype: C/G
+'15':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:*4/*4_wildtype/*18
+  genotype_id: '15'
+  genotype_realname: '*4/*16'
+  phenotype_id: 1343.0
+  phenotype_name: INTERMEDIATE METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/G
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: G/G
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/C
+'16':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:wildtype/*4
+  genotype_id: '16'
+  genotype_realname: wildtype/*4
+  phenotype_id: 1342.0
+  phenotype_name: EXTENSIVE METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/G
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: A/G
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/T
 '161':
   gene: CYP2C9
   gene_genotype: CYP2C9:wildtype/*3_wildtype/*2
@@ -184,40 +429,425 @@
   snp:
   - alt: T
     chrom: '10'
-    end: 96702047
+    end: 94942290
     name: CYP2C9_rs1799853
     ref: C
     rs_id: rs1799853
-    start: 96702046
-    strand: 1.0
+    start: 94942289
+    strand: 1
     variant_genotype: C/T
   - alt: T
     chrom: '10'
-    end: 96740981
+    end: 94981224
     name: CYP2C9_rs28371685
     ref: C
     rs_id: rs28371685
-    start: 96740980
-    strand: 1.0
+    start: 94981223
+    strand: 1
     variant_genotype: C/C
   - alt: C/G
     chrom: '10'
-    end: 96741053
+    end: 94981296
     name: CYP2C9_rs1057910
     ref: A
     rs_id: rs1057910
-    start: 96741052
-    strand: 1.0
+    start: 94981295
+    strand: 1
     variant_genotype: A/C
   - alt: A/G
     chrom: '10'
-    end: 96741058
+    end: 94981301
     name: CYP2C9_rs28371686
     ref: C
     rs_id: rs28371686
-    start: 96741057
-    strand: 1.0
+    start: 94981300
+    strand: 1
     variant_genotype: C/C
+'17':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:wildtype/*4_*18/*18
+  genotype_id: '17'
+  genotype_realname: '*16/*18'
+  phenotype_id: 1344.0
+  phenotype_name: POOR METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/G
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: A/G
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: C/C
+'18':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:wildtype/*4_wildtype/*18
+  genotype_id: '18'
+  genotype_realname: wildtype/*16 or *4/*18
+  phenotype_id: 1343.0
+  phenotype_name: INTERMEDIATE METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/G
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: A/G
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/C
+'19':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:*9/*9
+  genotype_id: '19'
+  genotype_realname: '*9/*9'
+  phenotype_id: 1344.0
+  phenotype_name: POOR METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: T/T
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: A/A
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/T
+'22':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:*4/*4_*9/*9
+  genotype_id: '22'
+  genotype_realname: '*6/*6'
+  phenotype_id: 1344.0
+  phenotype_name: POOR METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: T/T
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: G/G
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/T
+'25':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:wildtype/*4_*9/*9
+  genotype_id: '25'
+  genotype_realname: '*6/*9'
+  phenotype_id: 1344.0
+  phenotype_name: POOR METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: T/T
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: A/G
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/T
+'28':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:wildtype/*9
+  genotype_id: '28'
+  genotype_realname: wildtype/*9
+  phenotype_id: 1343.0
+  phenotype_name: INTERMEDIATE METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/T
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: A/A
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/T
+'30':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:wildtype/*18_wildtype/*9
+  genotype_id: '30'
+  genotype_realname: '*9/*18'
+  phenotype_id: 1344.0
+  phenotype_name: POOR METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/T
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: A/A
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/C
+'31':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:*4/*4_wildtype/*9
+  genotype_id: '31'
+  genotype_realname: '*4/*6'
+  phenotype_id: 1343.0
+  phenotype_name: INTERMEDIATE METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/T
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: G/G
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/T
+'33':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:*4/*4_wildtype/*18_wildtype/*9
+  genotype_id: '33'
+  genotype_realname: '*6/*16'
+  phenotype_id: 1344.0
+  phenotype_name: POOR METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/T
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: G/G
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/C
+'34':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:wildtype/*4_wildtype/*9
+  genotype_id: '34'
+  genotype_realname: wildtype/*6 or *4/*9
+  phenotype_id: 1343.0
+  phenotype_name: INTERMEDIATE METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/T
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: A/G
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/T
+'36':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:wildtype/*4_wildtype/*18_wildtype/*9
+  genotype_id: '36'
+  genotype_realname: '*9/*16 or *6/*18'
+  phenotype_id: 1344.0
+  phenotype_name: POOR METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/T
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: A/G
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/C
 '37':
   gene: CYP2C9
   gene_genotype: CYP2C9:wildtype/wildtype
@@ -228,39 +858,39 @@
   snp:
   - alt: T
     chrom: '10'
-    end: 96702047
+    end: 94942290
     name: CYP2C9_rs1799853
     ref: C
     rs_id: rs1799853
-    start: 96702046
-    strand: 1.0
+    start: 94942289
+    strand: 1
     variant_genotype: C/C
   - alt: T
     chrom: '10'
-    end: 96740981
+    end: 94981224
     name: CYP2C9_rs28371685
     ref: C
     rs_id: rs28371685
-    start: 96740980
-    strand: 1.0
+    start: 94981223
+    strand: 1
     variant_genotype: C/C
   - alt: C/G
     chrom: '10'
-    end: 96741053
+    end: 94981296
     name: CYP2C9_rs1057910
     ref: A
     rs_id: rs1057910
-    start: 96741052
-    strand: 1.0
+    start: 94981295
+    strand: 1
     variant_genotype: A/A
   - alt: A/G
     chrom: '10'
-    end: 96741058
+    end: 94981301
     name: CYP2C9_rs28371686
     ref: C
     rs_id: rs28371686
-    start: 96741057
-    strand: 1.0
+    start: 94981300
+    strand: 1
     variant_genotype: C/C
 '38':
   gene: CYP2C9
@@ -272,39 +902,39 @@
   snp:
   - alt: T
     chrom: '10'
-    end: 96702047
+    end: 94942290
     name: CYP2C9_rs1799853
     ref: C
     rs_id: rs1799853
-    start: 96702046
-    strand: 1.0
+    start: 94942289
+    strand: 1
     variant_genotype: C/C
   - alt: T
     chrom: '10'
-    end: 96740981
+    end: 94981224
     name: CYP2C9_rs28371685
     ref: C
     rs_id: rs28371685
-    start: 96740980
-    strand: 1.0
+    start: 94981223
+    strand: 1
     variant_genotype: T/T
   - alt: C/G
     chrom: '10'
-    end: 96741053
+    end: 94981296
     name: CYP2C9_rs1057910
     ref: A
     rs_id: rs1057910
-    start: 96741052
-    strand: 1.0
+    start: 94981295
+    strand: 1
     variant_genotype: A/A
   - alt: A/G
     chrom: '10'
-    end: 96741058
+    end: 94981301
     name: CYP2C9_rs28371686
     ref: C
     rs_id: rs28371686
-    start: 96741057
-    strand: 1.0
+    start: 94981300
+    strand: 1
     variant_genotype: C/C
 '39':
   gene: CYP2C9
@@ -316,39 +946,39 @@
   snp:
   - alt: T
     chrom: '10'
-    end: 96702047
+    end: 94942290
     name: CYP2C9_rs1799853
     ref: C
     rs_id: rs1799853
-    start: 96702046
-    strand: 1.0
+    start: 94942289
+    strand: 1
     variant_genotype: C/C
   - alt: T
     chrom: '10'
-    end: 96740981
+    end: 94981224
     name: CYP2C9_rs28371685
     ref: C
     rs_id: rs28371685
-    start: 96740980
-    strand: 1.0
+    start: 94981223
+    strand: 1
     variant_genotype: C/T
   - alt: C/G
     chrom: '10'
-    end: 96741053
+    end: 94981296
     name: CYP2C9_rs1057910
     ref: A
     rs_id: rs1057910
-    start: 96741052
-    strand: 1.0
+    start: 94981295
+    strand: 1
     variant_genotype: A/A
   - alt: A/G
     chrom: '10'
-    end: 96741058
+    end: 94981301
     name: CYP2C9_rs28371686
     ref: C
     rs_id: rs28371686
-    start: 96741057
-    strand: 1.0
+    start: 94981300
+    strand: 1
     variant_genotype: C/C
 '46':
   gene: CYP2C9
@@ -360,40 +990,390 @@
   snp:
   - alt: T
     chrom: '10'
-    end: 96702047
+    end: 94942290
     name: CYP2C9_rs1799853
     ref: C
     rs_id: rs1799853
-    start: 96702046
-    strand: 1.0
+    start: 94942289
+    strand: 1
     variant_genotype: C/C
   - alt: T
     chrom: '10'
-    end: 96740981
+    end: 94981224
     name: CYP2C9_rs28371685
     ref: C
     rs_id: rs28371685
-    start: 96740980
-    strand: 1.0
+    start: 94981223
+    strand: 1
     variant_genotype: C/C
   - alt: C/G
     chrom: '10'
-    end: 96741053
+    end: 94981296
     name: CYP2C9_rs1057910
     ref: A
     rs_id: rs1057910
-    start: 96741052
-    strand: 1.0
+    start: 94981295
+    strand: 1
     variant_genotype: A/A
   - alt: A/G
     chrom: '10'
-    end: 96741058
+    end: 94981301
     name: CYP2C9_rs28371686
     ref: C
     rs_id: rs28371686
-    start: 96741057
-    strand: 1.0
+    start: 94981300
+    strand: 1
     variant_genotype: G/G
+'475':
+  gene: CYP3A5
+  gene_genotype: CYP3A5:wildtype/wildtype
+  genotype_id: '475'
+  genotype_realname: wildtype/wildtype
+  phenotype_id: 540.0
+  phenotype_name: EXTENSIVE METABOLIZER
+  snp:
+  - alt: AA
+    chrom: '7'
+    end: 99652771
+    name: CYP3A5_rs41303343
+    ref: A
+    rs_id: rs41303343
+    start: 99652770
+    strand: -1
+    variant_genotype: A/A
+  - alt: T
+    chrom: '7'
+    end: 99665212
+    name: CYP3A5_rs10264272
+    ref: C
+    rs_id: rs10264272
+    start: 99665211
+    strand: -1
+    variant_genotype: C/C
+  - alt: C
+    chrom: '7'
+    end: 99672916
+    name: CYP3A5_rs776746
+    ref: T
+    rs_id: rs776746
+    start: 99672915
+    strand: -1
+    variant_genotype: T/T
+'476':
+  gene: CYP3A5
+  gene_genotype: CYP3A5:*7/*7
+  genotype_id: '476'
+  genotype_realname: '*7/*7'
+  phenotype_id: 538.0
+  phenotype_name: POOR METABOLIZER (MOST PREVALENT)
+  snp:
+  - alt: AA
+    chrom: '7'
+    end: 99652771
+    name: CYP3A5_rs41303343
+    ref: A
+    rs_id: rs41303343
+    start: 99652770
+    strand: -1
+    variant_genotype: AA/AA
+  - alt: T
+    chrom: '7'
+    end: 99665212
+    name: CYP3A5_rs10264272
+    ref: C
+    rs_id: rs10264272
+    start: 99665211
+    strand: -1
+    variant_genotype: C/C
+  - alt: C
+    chrom: '7'
+    end: 99672916
+    name: CYP3A5_rs776746
+    ref: T
+    rs_id: rs776746
+    start: 99672915
+    strand: -1
+    variant_genotype: T/T
+'477':
+  gene: CYP3A5
+  gene_genotype: CYP3A5:wildtype/*7
+  genotype_id: '477'
+  genotype_realname: wildtype/*7
+  phenotype_id: 539.0
+  phenotype_name: INTERMEDIATE METABOLIZER
+  snp:
+  - alt: AA
+    chrom: '7'
+    end: 99652771
+    name: CYP3A5_rs41303343
+    ref: A
+    rs_id: rs41303343
+    start: 99652770
+    strand: -1
+    variant_genotype: A/AA
+  - alt: T
+    chrom: '7'
+    end: 99665212
+    name: CYP3A5_rs10264272
+    ref: C
+    rs_id: rs10264272
+    start: 99665211
+    strand: -1
+    variant_genotype: C/C
+  - alt: C
+    chrom: '7'
+    end: 99672916
+    name: CYP3A5_rs776746
+    ref: T
+    rs_id: rs776746
+    start: 99672915
+    strand: -1
+    variant_genotype: T/T
+'478':
+  gene: CYP3A5
+  gene_genotype: CYP3A5:*6/*6
+  genotype_id: '478'
+  genotype_realname: '*6/*6'
+  phenotype_id: 538.0
+  phenotype_name: POOR METABOLIZER (MOST PREVALENT)
+  snp:
+  - alt: AA
+    chrom: '7'
+    end: 99652771
+    name: CYP3A5_rs41303343
+    ref: A
+    rs_id: rs41303343
+    start: 99652770
+    strand: -1
+    variant_genotype: A/A
+  - alt: T
+    chrom: '7'
+    end: 99665212
+    name: CYP3A5_rs10264272
+    ref: C
+    rs_id: rs10264272
+    start: 99665211
+    strand: -1
+    variant_genotype: T/T
+  - alt: C
+    chrom: '7'
+    end: 99672916
+    name: CYP3A5_rs776746
+    ref: T
+    rs_id: rs776746
+    start: 99672915
+    strand: -1
+    variant_genotype: T/T
+'481':
+  gene: CYP3A5
+  gene_genotype: CYP3A5:wildtype/*6
+  genotype_id: '481'
+  genotype_realname: wildtype/*6
+  phenotype_id: 539.0
+  phenotype_name: INTERMEDIATE METABOLIZER
+  snp:
+  - alt: AA
+    chrom: '7'
+    end: 99652771
+    name: CYP3A5_rs41303343
+    ref: A
+    rs_id: rs41303343
+    start: 99652770
+    strand: -1
+    variant_genotype: A/A
+  - alt: T
+    chrom: '7'
+    end: 99665212
+    name: CYP3A5_rs10264272
+    ref: C
+    rs_id: rs10264272
+    start: 99665211
+    strand: -1
+    variant_genotype: C/T
+  - alt: C
+    chrom: '7'
+    end: 99672916
+    name: CYP3A5_rs776746
+    ref: T
+    rs_id: rs776746
+    start: 99672915
+    strand: -1
+    variant_genotype: T/T
+'483':
+  gene: CYP3A5
+  gene_genotype: CYP3A5:wildtype/*6_wildtype/*7
+  genotype_id: '483'
+  genotype_realname: '*6/*7'
+  phenotype_id: 538.0
+  phenotype_name: POOR METABOLIZER (MOST PREVALENT)
+  snp:
+  - alt: AA
+    chrom: '7'
+    end: 99652771
+    name: CYP3A5_rs41303343
+    ref: A
+    rs_id: rs41303343
+    start: 99652770
+    strand: -1
+    variant_genotype: A/AA
+  - alt: T
+    chrom: '7'
+    end: 99665212
+    name: CYP3A5_rs10264272
+    ref: C
+    rs_id: rs10264272
+    start: 99665211
+    strand: -1
+    variant_genotype: C/T
+  - alt: C
+    chrom: '7'
+    end: 99672916
+    name: CYP3A5_rs776746
+    ref: T
+    rs_id: rs776746
+    start: 99672915
+    strand: -1
+    variant_genotype: T/T
+'484':
+  gene: CYP3A5
+  gene_genotype: CYP3A5:*3/*3
+  genotype_id: '484'
+  genotype_realname: '*3/*3'
+  phenotype_id: 538.0
+  phenotype_name: POOR METABOLIZER (MOST PREVALENT)
+  snp:
+  - alt: AA
+    chrom: '7'
+    end: 99652771
+    name: CYP3A5_rs41303343
+    ref: A
+    rs_id: rs41303343
+    start: 99652770
+    strand: -1
+    variant_genotype: A/A
+  - alt: T
+    chrom: '7'
+    end: 99665212
+    name: CYP3A5_rs10264272
+    ref: C
+    rs_id: rs10264272
+    start: 99665211
+    strand: -1
+    variant_genotype: C/C
+  - alt: C
+    chrom: '7'
+    end: 99672916
+    name: CYP3A5_rs776746
+    ref: T
+    rs_id: rs776746
+    start: 99672915
+    strand: -1
+    variant_genotype: C/C
+'493':
+  gene: CYP3A5
+  gene_genotype: CYP3A5:wildtype/*3
+  genotype_id: '493'
+  genotype_realname: wildtype/*3
+  phenotype_id: 539.0
+  phenotype_name: INTERMEDIATE METABOLIZER
+  snp:
+  - alt: AA
+    chrom: '7'
+    end: 99652771
+    name: CYP3A5_rs41303343
+    ref: A
+    rs_id: rs41303343
+    start: 99652770
+    strand: -1
+    variant_genotype: A/A
+  - alt: T
+    chrom: '7'
+    end: 99665212
+    name: CYP3A5_rs10264272
+    ref: C
+    rs_id: rs10264272
+    start: 99665211
+    strand: -1
+    variant_genotype: C/C
+  - alt: C
+    chrom: '7'
+    end: 99672916
+    name: CYP3A5_rs776746
+    ref: T
+    rs_id: rs776746
+    start: 99672915
+    strand: -1
+    variant_genotype: T/C
+'495':
+  gene: CYP3A5
+  gene_genotype: CYP3A5:wildtype/*7_wildtype/*3
+  genotype_id: '495'
+  genotype_realname: '*3/*7'
+  phenotype_id: 538.0
+  phenotype_name: POOR METABOLIZER (MOST PREVALENT)
+  snp:
+  - alt: AA
+    chrom: '7'
+    end: 99652771
+    name: CYP3A5_rs41303343
+    ref: A
+    rs_id: rs41303343
+    start: 99652770
+    strand: -1
+    variant_genotype: A/AA
+  - alt: T
+    chrom: '7'
+    end: 99665212
+    name: CYP3A5_rs10264272
+    ref: C
+    rs_id: rs10264272
+    start: 99665211
+    strand: -1
+    variant_genotype: C/C
+  - alt: C
+    chrom: '7'
+    end: 99672916
+    name: CYP3A5_rs776746
+    ref: T
+    rs_id: rs776746
+    start: 99672915
+    strand: -1
+    variant_genotype: T/C
+'499':
+  gene: CYP3A5
+  gene_genotype: CYP3A5:wildtype/*6_wildtype/*3
+  genotype_id: '499'
+  genotype_realname: '*3/*6'
+  phenotype_id: 538.0
+  phenotype_name: POOR METABOLIZER (MOST PREVALENT)
+  snp:
+  - alt: AA
+    chrom: '7'
+    end: 99652771
+    name: CYP3A5_rs41303343
+    ref: A
+    rs_id: rs41303343
+    start: 99652770
+    strand: -1
+    variant_genotype: A/A
+  - alt: T
+    chrom: '7'
+    end: 99665212
+    name: CYP3A5_rs10264272
+    ref: C
+    rs_id: rs10264272
+    start: 99665211
+    strand: -1
+    variant_genotype: C/T
+  - alt: C
+    chrom: '7'
+    end: 99672916
+    name: CYP3A5_rs776746
+    ref: T
+    rs_id: rs776746
+    start: 99672915
+    strand: -1
+    variant_genotype: T/C
 '502':
   gene: DPYD
   gene_genotype: DPYD:wildtype/wildtype
@@ -404,83 +1384,83 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: T/T
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: C/C
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: A/A
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: C/C
 '503':
   gene: DPYD
   gene_genotype: DPYD:1236G>A/1236G>A
   genotype_id: '503'
   genotype_realname: 1236G>A/1236G>A
-  phenotype_id: 543.0
-  phenotype_name: GENE ACTIVITY SCORE 1
+  phenotype_id: 1346.0
+  phenotype_name: GENE ACTIVITY SCORE 0,5
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: T/T
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: C/C
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: A/A
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: T/T
 '504':
   gene: DPYD
@@ -492,83 +1472,83 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: T/T
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: C/C
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: A/A
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: C/T
 '505':
   gene: DPYD
   gene_genotype: DPYD:2846A>T/2846A>T
   genotype_id: '505'
   genotype_realname: 2846A>T/2846A>T
-  phenotype_id: 543.0
-  phenotype_name: GENE ACTIVITY SCORE 1
+  phenotype_id: 1346.0
+  phenotype_name: GENE ACTIVITY SCORE 0,5
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: A/A
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: C/C
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: A/A
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: C/C
 '508':
   gene: DPYD
@@ -580,39 +1560,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: T/A
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: C/C
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: A/A
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: C/C
 '511':
   gene: DPYD
@@ -624,39 +1604,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: T/T
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: C/C
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: C/C
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: C/C
 '512':
   gene: DPYD
@@ -668,39 +1648,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: T/T
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: C/C
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: C/C
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: T/T
 '513':
   gene: DPYD
@@ -712,39 +1692,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: T/T
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: C/C
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: C/C
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: C/T
 '514':
   gene: DPYD
@@ -756,39 +1736,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: A/A
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: C/C
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: C/C
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: C/C
 '515':
   gene: DPYD
@@ -800,39 +1780,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: A/A
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: C/C
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: C/C
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: T/T
 '516':
   gene: DPYD
@@ -844,39 +1824,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: A/A
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: C/C
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: C/C
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: C/T
 '517':
   gene: DPYD
@@ -888,39 +1868,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: T/A
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: C/C
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: C/C
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: C/C
 '518':
   gene: DPYD
@@ -932,39 +1912,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: T/A
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: C/C
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: C/C
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: T/T
 '519':
   gene: DPYD
@@ -976,39 +1956,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: T/A
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: C/C
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: C/C
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: C/T
 '520':
   gene: DPYD
@@ -1020,39 +2000,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: T/T
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: C/C
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: A/C
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: C/C
 '521':
   gene: DPYD
@@ -1064,39 +2044,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: T/T
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: C/C
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: A/C
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: T/T
 '523':
   gene: DPYD
@@ -1108,39 +2088,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: A/A
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: C/C
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: A/C
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: C/C
 '529':
   gene: DPYD
@@ -1152,39 +2132,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: T/T
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: T/T
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: A/A
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: C/C
 '530':
   gene: DPYD
@@ -1196,39 +2176,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: T/T
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: T/T
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: A/A
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: T/T
 '531':
   gene: DPYD
@@ -1240,39 +2220,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: T/T
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: T/T
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: A/A
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: C/T
 '532':
   gene: DPYD
@@ -1284,39 +2264,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: A/A
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: T/T
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: A/A
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: C/C
 '533':
   gene: DPYD
@@ -1328,39 +2308,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: A/A
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: T/T
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: A/A
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: T/T
 '534':
   gene: DPYD
@@ -1372,39 +2352,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: A/A
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: T/T
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: A/A
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: C/T
 '535':
   gene: DPYD
@@ -1416,39 +2396,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: T/A
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: T/T
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: A/A
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: C/C
 '536':
   gene: DPYD
@@ -1460,39 +2440,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: T/A
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: T/T
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: A/A
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: T/T
 '537':
   gene: DPYD
@@ -1504,39 +2484,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: T/A
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: T/T
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: A/A
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: C/T
 '538':
   gene: DPYD
@@ -1548,39 +2528,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: T/T
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: T/T
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: C/C
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: C/C
 '539':
   gene: DPYD
@@ -1592,39 +2572,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: T/T
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: T/T
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: C/C
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: T/T
 '540':
   gene: DPYD
@@ -1636,39 +2616,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: T/T
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: T/T
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: C/C
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: C/T
 '541':
   gene: DPYD
@@ -1680,39 +2660,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: A/A
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: T/T
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: C/C
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: C/C
 '542':
   gene: DPYD
@@ -1724,39 +2704,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: T/A
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: T/T
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: C/C
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: C/C
 '543':
   gene: DPYD
@@ -1768,39 +2748,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: T/T
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: T/T
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: A/C
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: C/C
 '544':
   gene: DPYD
@@ -1812,39 +2792,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: T/T
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: T/T
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: A/C
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: T/T
 '545':
   gene: DPYD
@@ -1856,39 +2836,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: T/T
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: T/T
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: A/C
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: C/T
 '546':
   gene: DPYD
@@ -1900,39 +2880,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: A/A
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: T/T
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: A/C
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: C/C
 '547':
   gene: DPYD
@@ -1944,39 +2924,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: T/A
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: T/T
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: A/C
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: C/C
 '548':
   gene: DPYD
@@ -1988,39 +2968,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: T/T
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: C/T
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: A/A
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: C/C
 '549':
   gene: DPYD
@@ -2032,39 +3012,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: T/T
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: C/T
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: A/A
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: T/T
 '55':
   gene: CYP2C9
@@ -2076,39 +3056,39 @@
   snp:
   - alt: T
     chrom: '10'
-    end: 96702047
+    end: 94942290
     name: CYP2C9_rs1799853
     ref: C
     rs_id: rs1799853
-    start: 96702046
-    strand: 1.0
+    start: 94942289
+    strand: 1
     variant_genotype: C/C
   - alt: T
     chrom: '10'
-    end: 96740981
+    end: 94981224
     name: CYP2C9_rs28371685
     ref: C
     rs_id: rs28371685
-    start: 96740980
-    strand: 1.0
+    start: 94981223
+    strand: 1
     variant_genotype: C/C
   - alt: C/G
     chrom: '10'
-    end: 96741053
+    end: 94981296
     name: CYP2C9_rs1057910
     ref: A
     rs_id: rs1057910
-    start: 96741052
-    strand: 1.0
+    start: 94981295
+    strand: 1
     variant_genotype: A/A
   - alt: A/G
     chrom: '10'
-    end: 96741058
+    end: 94981301
     name: CYP2C9_rs28371686
     ref: C
     rs_id: rs28371686
-    start: 96741057
-    strand: 1.0
+    start: 94981300
+    strand: 1
     variant_genotype: C/G
 '551':
   gene: DPYD
@@ -2120,39 +3100,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: A/A
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: C/T
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: A/A
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: C/C
 '557':
   gene: DPYD
@@ -2164,39 +3144,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: T/T
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: C/T
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: C/C
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: C/C
 '558':
   gene: DPYD
@@ -2208,39 +3188,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: T/T
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: C/T
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: C/C
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: T/T
 '559':
   gene: DPYD
@@ -2252,39 +3232,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: T/T
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: C/T
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: C/C
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: C/T
 '560':
   gene: DPYD
@@ -2296,39 +3276,39 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: A/A
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: C/T
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: C/C
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: C/C
 '561':
   gene: DPYD
@@ -2340,40 +3320,91 @@
   snp:
   - alt: A
     chrom: '1'
-    end: 97547947
+    end: 97082391
     name: DPYD_rs67376798
     ref: T
     rs_id: rs67376798
-    start: 97547946
-    strand: -1.0
+    start: 97082390
+    strand: -1
     variant_genotype: T/A
   - alt: G/T
     chrom: '1'
-    end: 97915614
+    end: 97450058
     name: DPYD_rs3918290
     ref: C
     rs_id: rs3918290
-    start: 97915613
-    strand: -1.0
+    start: 97450057
+    strand: -1
     variant_genotype: C/T
   - alt: C/T
     chrom: '1'
-    end: 97981343
+    end: 97515787
     name: DPYD_rs55886062
     ref: A
     rs_id: rs55886062
-    start: 97981342
-    strand: -1.0
+    start: 97515786
+    strand: -1
     variant_genotype: C/C
   - alt: T
     chrom: '1'
-    end: 98039419
+    end: 97573863
     name: DPYD_rs56038477
     ref: C
     rs_id: rs56038477
-    start: 98039418
-    strand: -1.0
+    start: 97573862
+    strand: -1
     variant_genotype: C/C
+'567':
+  gene: F5
+  gene_genotype: F5:wildtype/wildtype
+  genotype_id: '567'
+  genotype_realname: wildtype/wildtype
+  phenotype_id: 533.0
+  phenotype_name: FACTOR V LEIDEN, ABSENT
+  snp:
+  - alt: A/T
+    chrom: '1'
+    end: 169549811
+    name: F5_rs6025
+    ref: C
+    rs_id: rs6025
+    start: 169549810
+    strand: -1
+    variant_genotype: C/C
+'568':
+  gene: F5
+  gene_genotype: F5:1691G>A/1691G>A
+  genotype_id: '568'
+  genotype_realname: 1691G>A/1691G>A
+  phenotype_id: 503.0
+  phenotype_name: FACTOR V LEIDEN HOMOZYGOUS
+  snp:
+  - alt: A/T
+    chrom: '1'
+    end: 169549811
+    name: F5_rs6025
+    ref: C
+    rs_id: rs6025
+    start: 169549810
+    strand: -1
+    variant_genotype: T/T
+'569':
+  gene: F5
+  gene_genotype: F5:wildtype/1691G>A
+  genotype_id: '569'
+  genotype_realname: wildtype/1691G>A
+  phenotype_id: 504.0
+  phenotype_name: FACTOR V LEIDEN HETEROZYGOUS
+  snp:
+  - alt: A/T
+    chrom: '1'
+    end: 169549811
+    name: F5_rs6025
+    ref: C
+    rs_id: rs6025
+    start: 169549810
+    strand: -1
+    variant_genotype: C/T
 '57':
   gene: CYP2C9
   gene_genotype: CYP2C9:wildtype/*11_wildtype/*5
@@ -2384,39 +3415,39 @@
   snp:
   - alt: T
     chrom: '10'
-    end: 96702047
+    end: 94942290
     name: CYP2C9_rs1799853
     ref: C
     rs_id: rs1799853
-    start: 96702046
-    strand: 1.0
+    start: 94942289
+    strand: 1
     variant_genotype: C/C
   - alt: T
     chrom: '10'
-    end: 96740981
+    end: 94981224
     name: CYP2C9_rs28371685
     ref: C
     rs_id: rs28371685
-    start: 96740980
-    strand: 1.0
+    start: 94981223
+    strand: 1
     variant_genotype: C/T
   - alt: C/G
     chrom: '10'
-    end: 96741053
+    end: 94981296
     name: CYP2C9_rs1057910
     ref: A
     rs_id: rs1057910
-    start: 96741052
-    strand: 1.0
+    start: 94981295
+    strand: 1
     variant_genotype: A/A
   - alt: A/G
     chrom: '10'
-    end: 96741058
+    end: 94981301
     name: CYP2C9_rs28371686
     ref: C
     rs_id: rs28371686
-    start: 96741057
-    strand: 1.0
+    start: 94981300
+    strand: 1
     variant_genotype: C/G
 '573':
   gene: SLCO1B1
@@ -2428,12 +3459,12 @@
   snp:
   - alt: C
     chrom: '12'
-    end: 21331549
+    end: 21178615
     name: SLCO1B1_rs4149056
     ref: T
     rs_id: rs4149056
-    start: 21331548
-    strand: 1.0
+    start: 21178614
+    strand: 1
     variant_genotype: T/T
 '574':
   gene: SLCO1B1
@@ -2445,12 +3476,12 @@
   snp:
   - alt: C
     chrom: '12'
-    end: 21331549
+    end: 21178615
     name: SLCO1B1_rs4149056
     ref: T
     rs_id: rs4149056
-    start: 21331548
-    strand: 1.0
+    start: 21178614
+    strand: 1
     variant_genotype: C/C
 '575':
   gene: SLCO1B1
@@ -2462,12 +3493,12 @@
   snp:
   - alt: C
     chrom: '12'
-    end: 21331549
+    end: 21178615
     name: SLCO1B1_rs4149056
     ref: T
     rs_id: rs4149056
-    start: 21331548
-    strand: 1.0
+    start: 21178614
+    strand: 1
     variant_genotype: T/C
 '576':
   gene: TPMT
@@ -2479,30 +3510,30 @@
   snp:
   - alt: C/G
     chrom: '6'
-    end: 18130918
+    end: 18130687
     name: TPMT_rs1142345
     ref: T
     rs_id: rs1142345
-    start: 18130917
-    strand: -1.0
+    start: 18130686
+    strand: -1
     variant_genotype: T/T
   - alt: T
     chrom: '6'
-    end: 18139228
+    end: 18138997
     name: TPMT_rs1800460
     ref: C
     rs_id: rs1800460
-    start: 18139227
-    strand: -1.0
+    start: 18138996
+    strand: -1
     variant_genotype: C/C
   - alt: G
     chrom: '6'
-    end: 18143955
+    end: 18143724
     name: TPMT_rs1800462
     ref: C
     rs_id: rs1800462
-    start: 18143954
-    strand: -1.0
+    start: 18143723
+    strand: -1
     variant_genotype: C/C
 '577':
   gene: TPMT
@@ -2514,30 +3545,30 @@
   snp:
   - alt: C/G
     chrom: '6'
-    end: 18130918
+    end: 18130687
     name: TPMT_rs1142345
     ref: T
     rs_id: rs1142345
-    start: 18130917
-    strand: -1.0
+    start: 18130686
+    strand: -1
     variant_genotype: C/C
   - alt: T
     chrom: '6'
-    end: 18139228
+    end: 18138997
     name: TPMT_rs1800460
     ref: C
     rs_id: rs1800460
-    start: 18139227
-    strand: -1.0
+    start: 18138996
+    strand: -1
     variant_genotype: C/C
   - alt: G
     chrom: '6'
-    end: 18143955
+    end: 18143724
     name: TPMT_rs1800462
     ref: C
     rs_id: rs1800462
-    start: 18143954
-    strand: -1.0
+    start: 18143723
+    strand: -1
     variant_genotype: C/C
 '578':
   gene: TPMT
@@ -2549,30 +3580,30 @@
   snp:
   - alt: C/G
     chrom: '6'
-    end: 18130918
+    end: 18130687
     name: TPMT_rs1142345
     ref: T
     rs_id: rs1142345
-    start: 18130917
-    strand: -1.0
+    start: 18130686
+    strand: -1
     variant_genotype: T/C
   - alt: T
     chrom: '6'
-    end: 18139228
+    end: 18138997
     name: TPMT_rs1800460
     ref: C
     rs_id: rs1800460
-    start: 18139227
-    strand: -1.0
+    start: 18138996
+    strand: -1
     variant_genotype: C/C
   - alt: G
     chrom: '6'
-    end: 18143955
+    end: 18143724
     name: TPMT_rs1800462
     ref: C
     rs_id: rs1800462
-    start: 18143954
-    strand: -1.0
+    start: 18143723
+    strand: -1
     variant_genotype: C/C
 '579':
   gene: TPMT
@@ -2584,30 +3615,30 @@
   snp:
   - alt: C/G
     chrom: '6'
-    end: 18130918
+    end: 18130687
     name: TPMT_rs1142345
     ref: T
     rs_id: rs1142345
-    start: 18130917
-    strand: -1.0
+    start: 18130686
+    strand: -1
     variant_genotype: T/T
   - alt: T
     chrom: '6'
-    end: 18139228
+    end: 18138997
     name: TPMT_rs1800460
     ref: C
     rs_id: rs1800460
-    start: 18139227
-    strand: -1.0
+    start: 18138996
+    strand: -1
     variant_genotype: T/T
   - alt: G
     chrom: '6'
-    end: 18143955
+    end: 18143724
     name: TPMT_rs1800462
     ref: C
     rs_id: rs1800462
-    start: 18143954
-    strand: -1.0
+    start: 18143723
+    strand: -1
     variant_genotype: C/C
 '580':
   gene: TPMT
@@ -2619,30 +3650,30 @@
   snp:
   - alt: C/G
     chrom: '6'
-    end: 18130918
+    end: 18130687
     name: TPMT_rs1142345
     ref: T
     rs_id: rs1142345
-    start: 18130917
-    strand: -1.0
+    start: 18130686
+    strand: -1
     variant_genotype: C/C
   - alt: T
     chrom: '6'
-    end: 18139228
+    end: 18138997
     name: TPMT_rs1800460
     ref: C
     rs_id: rs1800460
-    start: 18139227
-    strand: -1.0
+    start: 18138996
+    strand: -1
     variant_genotype: T/T
   - alt: G
     chrom: '6'
-    end: 18143955
+    end: 18143724
     name: TPMT_rs1800462
     ref: C
     rs_id: rs1800462
-    start: 18143954
-    strand: -1.0
+    start: 18143723
+    strand: -1
     variant_genotype: C/C
 '581':
   gene: TPMT
@@ -2654,30 +3685,30 @@
   snp:
   - alt: C/G
     chrom: '6'
-    end: 18130918
+    end: 18130687
     name: TPMT_rs1142345
     ref: T
     rs_id: rs1142345
-    start: 18130917
-    strand: -1.0
+    start: 18130686
+    strand: -1
     variant_genotype: T/C
   - alt: T
     chrom: '6'
-    end: 18139228
+    end: 18138997
     name: TPMT_rs1800460
     ref: C
     rs_id: rs1800460
-    start: 18139227
-    strand: -1.0
+    start: 18138996
+    strand: -1
     variant_genotype: T/T
   - alt: G
     chrom: '6'
-    end: 18143955
+    end: 18143724
     name: TPMT_rs1800462
     ref: C
     rs_id: rs1800462
-    start: 18143954
-    strand: -1.0
+    start: 18143723
+    strand: -1
     variant_genotype: C/C
 '582':
   gene: TPMT
@@ -2689,30 +3720,30 @@
   snp:
   - alt: C/G
     chrom: '6'
-    end: 18130918
+    end: 18130687
     name: TPMT_rs1142345
     ref: T
     rs_id: rs1142345
-    start: 18130917
-    strand: -1.0
+    start: 18130686
+    strand: -1
     variant_genotype: T/T
   - alt: T
     chrom: '6'
-    end: 18139228
+    end: 18138997
     name: TPMT_rs1800460
     ref: C
     rs_id: rs1800460
-    start: 18139227
-    strand: -1.0
+    start: 18138996
+    strand: -1
     variant_genotype: C/T
   - alt: G
     chrom: '6'
-    end: 18143955
+    end: 18143724
     name: TPMT_rs1800462
     ref: C
     rs_id: rs1800462
-    start: 18143954
-    strand: -1.0
+    start: 18143723
+    strand: -1
     variant_genotype: C/C
 '583':
   gene: TPMT
@@ -2724,30 +3755,30 @@
   snp:
   - alt: C/G
     chrom: '6'
-    end: 18130918
+    end: 18130687
     name: TPMT_rs1142345
     ref: T
     rs_id: rs1142345
-    start: 18130917
-    strand: -1.0
+    start: 18130686
+    strand: -1
     variant_genotype: C/C
   - alt: T
     chrom: '6'
-    end: 18139228
+    end: 18138997
     name: TPMT_rs1800460
     ref: C
     rs_id: rs1800460
-    start: 18139227
-    strand: -1.0
+    start: 18138996
+    strand: -1
     variant_genotype: C/T
   - alt: G
     chrom: '6'
-    end: 18143955
+    end: 18143724
     name: TPMT_rs1800462
     ref: C
     rs_id: rs1800462
-    start: 18143954
-    strand: -1.0
+    start: 18143723
+    strand: -1
     variant_genotype: C/C
 '584':
   gene: TPMT
@@ -2759,30 +3790,30 @@
   snp:
   - alt: C/G
     chrom: '6'
-    end: 18130918
+    end: 18130687
     name: TPMT_rs1142345
     ref: T
     rs_id: rs1142345
-    start: 18130917
-    strand: -1.0
+    start: 18130686
+    strand: -1
     variant_genotype: T/C
   - alt: T
     chrom: '6'
-    end: 18139228
+    end: 18138997
     name: TPMT_rs1800460
     ref: C
     rs_id: rs1800460
-    start: 18139227
-    strand: -1.0
+    start: 18138996
+    strand: -1
     variant_genotype: C/T
   - alt: G
     chrom: '6'
-    end: 18143955
+    end: 18143724
     name: TPMT_rs1800462
     ref: C
     rs_id: rs1800462
-    start: 18143954
-    strand: -1.0
+    start: 18143723
+    strand: -1
     variant_genotype: C/C
 '585':
   gene: TPMT
@@ -2794,30 +3825,30 @@
   snp:
   - alt: C/G
     chrom: '6'
-    end: 18130918
+    end: 18130687
     name: TPMT_rs1142345
     ref: T
     rs_id: rs1142345
-    start: 18130917
-    strand: -1.0
+    start: 18130686
+    strand: -1
     variant_genotype: T/T
   - alt: T
     chrom: '6'
-    end: 18139228
+    end: 18138997
     name: TPMT_rs1800460
     ref: C
     rs_id: rs1800460
-    start: 18139227
-    strand: -1.0
+    start: 18138996
+    strand: -1
     variant_genotype: C/C
   - alt: G
     chrom: '6'
-    end: 18143955
+    end: 18143724
     name: TPMT_rs1800462
     ref: C
     rs_id: rs1800462
-    start: 18143954
-    strand: -1.0
+    start: 18143723
+    strand: -1
     variant_genotype: G/G
 '594':
   gene: TPMT
@@ -2829,30 +3860,30 @@
   snp:
   - alt: C/G
     chrom: '6'
-    end: 18130918
+    end: 18130687
     name: TPMT_rs1142345
     ref: T
     rs_id: rs1142345
-    start: 18130917
-    strand: -1.0
+    start: 18130686
+    strand: -1
     variant_genotype: T/T
   - alt: T
     chrom: '6'
-    end: 18139228
+    end: 18138997
     name: TPMT_rs1800460
     ref: C
     rs_id: rs1800460
-    start: 18139227
-    strand: -1.0
+    start: 18138996
+    strand: -1
     variant_genotype: C/C
   - alt: G
     chrom: '6'
-    end: 18143955
+    end: 18143724
     name: TPMT_rs1800462
     ref: C
     rs_id: rs1800462
-    start: 18143954
-    strand: -1.0
+    start: 18143723
+    strand: -1
     variant_genotype: C/G
 '596':
   gene: TPMT
@@ -2864,30 +3895,30 @@
   snp:
   - alt: C/G
     chrom: '6'
-    end: 18130918
+    end: 18130687
     name: TPMT_rs1142345
     ref: T
     rs_id: rs1142345
-    start: 18130917
-    strand: -1.0
+    start: 18130686
+    strand: -1
     variant_genotype: T/C
   - alt: T
     chrom: '6'
-    end: 18139228
+    end: 18138997
     name: TPMT_rs1800460
     ref: C
     rs_id: rs1800460
-    start: 18139227
-    strand: -1.0
+    start: 18138996
+    strand: -1
     variant_genotype: C/C
   - alt: G
     chrom: '6'
-    end: 18143955
+    end: 18143724
     name: TPMT_rs1800462
     ref: C
     rs_id: rs1800462
-    start: 18143954
-    strand: -1.0
+    start: 18143723
+    strand: -1
     variant_genotype: C/G
 '600':
   gene: TPMT
@@ -2899,30 +3930,30 @@
   snp:
   - alt: C/G
     chrom: '6'
-    end: 18130918
+    end: 18130687
     name: TPMT_rs1142345
     ref: T
     rs_id: rs1142345
-    start: 18130917
-    strand: -1.0
+    start: 18130686
+    strand: -1
     variant_genotype: T/T
   - alt: T
     chrom: '6'
-    end: 18139228
+    end: 18138997
     name: TPMT_rs1800460
     ref: C
     rs_id: rs1800460
-    start: 18139227
-    strand: -1.0
+    start: 18138996
+    strand: -1
     variant_genotype: C/T
   - alt: G
     chrom: '6'
-    end: 18143955
+    end: 18143724
     name: TPMT_rs1800462
     ref: C
     rs_id: rs1800462
-    start: 18143954
-    strand: -1.0
+    start: 18143723
+    strand: -1
     variant_genotype: C/G
 '630':
   gene: VKORC1
@@ -2934,12 +3965,12 @@
   snp:
   - alt: A/C
     chrom: '16'
-    end: 31104878
+    end: 31093557
     name: VKORC1_rs9934438
     ref: G
     rs_id: rs9934438
-    start: 31104877
-    strand: -1.0
+    start: 31093556
+    strand: -1
     variant_genotype: G/G
 '631':
   gene: VKORC1
@@ -2951,12 +3982,12 @@
   snp:
   - alt: A/C
     chrom: '16'
-    end: 31104878
+    end: 31093557
     name: VKORC1_rs9934438
     ref: G
     rs_id: rs9934438
-    start: 31104877
-    strand: -1.0
+    start: 31093556
+    strand: -1
     variant_genotype: A/A
 '632':
   gene: VKORC1
@@ -2968,12 +3999,12 @@
   snp:
   - alt: A/C
     chrom: '16'
-    end: 31104878
+    end: 31093557
     name: VKORC1_rs9934438
     ref: G
     rs_id: rs9934438
-    start: 31104877
-    strand: -1.0
+    start: 31093556
+    strand: -1
     variant_genotype: G/A
 '64':
   gene: CYP2C9
@@ -2985,39 +4016,39 @@
   snp:
   - alt: T
     chrom: '10'
-    end: 96702047
+    end: 94942290
     name: CYP2C9_rs1799853
     ref: C
     rs_id: rs1799853
-    start: 96702046
-    strand: 1.0
+    start: 94942289
+    strand: 1
     variant_genotype: C/C
   - alt: T
     chrom: '10'
-    end: 96740981
+    end: 94981224
     name: CYP2C9_rs28371685
     ref: C
     rs_id: rs28371685
-    start: 96740980
-    strand: 1.0
+    start: 94981223
+    strand: 1
     variant_genotype: C/C
   - alt: C/G
     chrom: '10'
-    end: 96741053
+    end: 94981296
     name: CYP2C9_rs1057910
     ref: A
     rs_id: rs1057910
-    start: 96741052
-    strand: 1.0
+    start: 94981295
+    strand: 1
     variant_genotype: C/C
   - alt: A/G
     chrom: '10'
-    end: 96741058
+    end: 94981301
     name: CYP2C9_rs28371686
     ref: C
     rs_id: rs28371686
-    start: 96741057
-    strand: 1.0
+    start: 94981300
+    strand: 1
     variant_genotype: C/C
 '83':
   gene: CYP2C9
@@ -3029,40 +4060,1360 @@
   snp:
   - alt: T
     chrom: '10'
-    end: 96702047
+    end: 94942290
     name: CYP2C9_rs1799853
     ref: C
     rs_id: rs1799853
-    start: 96702046
-    strand: 1.0
+    start: 94942289
+    strand: 1
     variant_genotype: C/C
   - alt: T
     chrom: '10'
-    end: 96740981
+    end: 94981224
     name: CYP2C9_rs28371685
     ref: C
     rs_id: rs28371685
-    start: 96740980
-    strand: 1.0
+    start: 94981223
+    strand: 1
     variant_genotype: C/C
   - alt: C/G
     chrom: '10'
-    end: 96741053
+    end: 94981296
     name: CYP2C9_rs1057910
     ref: A
     rs_id: rs1057910
-    start: 96741052
-    strand: 1.0
+    start: 94981295
+    strand: 1
     variant_genotype: A/C
   - alt: A/G
     chrom: '10'
-    end: 96741058
+    end: 94981301
     name: CYP2C9_rs28371686
     ref: C
     rs_id: rs28371686
-    start: 96741057
-    strand: 1.0
+    start: 94981300
+    strand: 1
     variant_genotype: C/C
+'85':
+  gene: CYP2C9
+  gene_genotype: CYP2C9:wildtype/*3_wildtype/*11
+  genotype_id: '85'
+  genotype_realname: '*3/*11'
+  phenotype_id: 513.0
+  phenotype_name: POOR METABOLIZER
+  snp:
+  - alt: T
+    chrom: '10'
+    end: 94942290
+    name: CYP2C9_rs1799853
+    ref: C
+    rs_id: rs1799853
+    start: 94942289
+    strand: 1
+    variant_genotype: C/C
+  - alt: T
+    chrom: '10'
+    end: 94981224
+    name: CYP2C9_rs28371685
+    ref: C
+    rs_id: rs28371685
+    start: 94981223
+    strand: 1
+    variant_genotype: C/T
+  - alt: C/G
+    chrom: '10'
+    end: 94981296
+    name: CYP2C9_rs1057910
+    ref: A
+    rs_id: rs1057910
+    start: 94981295
+    strand: 1
+    variant_genotype: A/C
+  - alt: A/G
+    chrom: '10'
+    end: 94981301
+    name: CYP2C9_rs28371686
+    ref: C
+    rs_id: rs28371686
+    start: 94981300
+    strand: 1
+    variant_genotype: C/C
+'887':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:wildtype/wildtype
+  genotype_id: '887'
+  genotype_realname: wildtype/wildtype
+  phenotype_id: 1342.0
+  phenotype_name: EXTENSIVE METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/G
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: A/A
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/T
+  - alt: A/T
+    chrom: '19'
+    end: 41016810
+    name: CYP2B6_rs3211371
+    ref: C
+    rs_id: rs3211371
+    start: 41016809
+    strand: 1
+    variant_genotype: C/C
+'888':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:*18/*18
+  genotype_id: '888'
+  genotype_realname: '*18/*18'
+  phenotype_id: 1344.0
+  phenotype_name: POOR METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/G
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: A/A
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: C/C
+  - alt: A/T
+    chrom: '19'
+    end: 41016810
+    name: CYP2B6_rs3211371
+    ref: C
+    rs_id: rs3211371
+    start: 41016809
+    strand: 1
+    variant_genotype: C/C
+'889':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:wildtype/*18
+  genotype_id: '889'
+  genotype_realname: wildtype/*18
+  phenotype_id: 1343.0
+  phenotype_name: INTERMEDIATE METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/G
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: A/A
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/C
+  - alt: A/T
+    chrom: '19'
+    end: 41016810
+    name: CYP2B6_rs3211371
+    ref: C
+    rs_id: rs3211371
+    start: 41016809
+    strand: 1
+    variant_genotype: C/C
+'890':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:*4/*4
+  genotype_id: '890'
+  genotype_realname: '*4/*4'
+  phenotype_id: 1342.0
+  phenotype_name: EXTENSIVE METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/G
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: G/G
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/T
+  - alt: A/T
+    chrom: '19'
+    end: 41016810
+    name: CYP2B6_rs3211371
+    ref: C
+    rs_id: rs3211371
+    start: 41016809
+    strand: 1
+    variant_genotype: C/C
+'891':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:*4/*4_*18/*18
+  genotype_id: '891'
+  genotype_realname: '*16/*16'
+  phenotype_id: 1344.0
+  phenotype_name: POOR METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/G
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: G/G
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: C/C
+  - alt: A/T
+    chrom: '19'
+    end: 41016810
+    name: CYP2B6_rs3211371
+    ref: C
+    rs_id: rs3211371
+    start: 41016809
+    strand: 1
+    variant_genotype: C/C
+'892':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:*4/*4_wildtype/*18
+  genotype_id: '892'
+  genotype_realname: '*4/*16'
+  phenotype_id: 1343.0
+  phenotype_name: INTERMEDIATE METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/G
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: G/G
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/C
+  - alt: A/T
+    chrom: '19'
+    end: 41016810
+    name: CYP2B6_rs3211371
+    ref: C
+    rs_id: rs3211371
+    start: 41016809
+    strand: 1
+    variant_genotype: C/C
+'893':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:wildtype/*4
+  genotype_id: '893'
+  genotype_realname: wildtype/*4
+  phenotype_id: 1342.0
+  phenotype_name: EXTENSIVE METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/G
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: A/G
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/T
+  - alt: A/T
+    chrom: '19'
+    end: 41016810
+    name: CYP2B6_rs3211371
+    ref: C
+    rs_id: rs3211371
+    start: 41016809
+    strand: 1
+    variant_genotype: C/C
+'894':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:wildtype/*4_*18/*18
+  genotype_id: '894'
+  genotype_realname: '*16/*18'
+  phenotype_id: 1344.0
+  phenotype_name: POOR METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/G
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: A/G
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: C/C
+  - alt: A/T
+    chrom: '19'
+    end: 41016810
+    name: CYP2B6_rs3211371
+    ref: C
+    rs_id: rs3211371
+    start: 41016809
+    strand: 1
+    variant_genotype: C/C
+'895':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:wildtype/*4_wildtype/*18
+  genotype_id: '895'
+  genotype_realname: wildtype/*16 or *4/*18
+  phenotype_id: 1343.0
+  phenotype_name: INTERMEDIATE METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/G
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: A/G
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/C
+  - alt: A/T
+    chrom: '19'
+    end: 41016810
+    name: CYP2B6_rs3211371
+    ref: C
+    rs_id: rs3211371
+    start: 41016809
+    strand: 1
+    variant_genotype: C/C
+'896':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:*9/*9
+  genotype_id: '896'
+  genotype_realname: '*9/*9'
+  phenotype_id: 1344.0
+  phenotype_name: POOR METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: T/T
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: A/A
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/T
+  - alt: A/T
+    chrom: '19'
+    end: 41016810
+    name: CYP2B6_rs3211371
+    ref: C
+    rs_id: rs3211371
+    start: 41016809
+    strand: 1
+    variant_genotype: C/C
+'899':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:*4/*4_*9/*9
+  genotype_id: '899'
+  genotype_realname: '*6/*6'
+  phenotype_id: 1344.0
+  phenotype_name: POOR METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: T/T
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: G/G
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/T
+  - alt: A/T
+    chrom: '19'
+    end: 41016810
+    name: CYP2B6_rs3211371
+    ref: C
+    rs_id: rs3211371
+    start: 41016809
+    strand: 1
+    variant_genotype: C/C
+'902':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:wildtype/*4_*9/*9
+  genotype_id: '902'
+  genotype_realname: '*6/*9'
+  phenotype_id: 1344.0
+  phenotype_name: POOR METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: T/T
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: A/G
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/T
+  - alt: A/T
+    chrom: '19'
+    end: 41016810
+    name: CYP2B6_rs3211371
+    ref: C
+    rs_id: rs3211371
+    start: 41016809
+    strand: 1
+    variant_genotype: C/C
+'905':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:wildtype/*9
+  genotype_id: '905'
+  genotype_realname: wildtype/*9
+  phenotype_id: 1343.0
+  phenotype_name: INTERMEDIATE METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/T
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: A/A
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/T
+  - alt: A/T
+    chrom: '19'
+    end: 41016810
+    name: CYP2B6_rs3211371
+    ref: C
+    rs_id: rs3211371
+    start: 41016809
+    strand: 1
+    variant_genotype: C/C
+'907':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:wildtype/*18_wildtype/*9
+  genotype_id: '907'
+  genotype_realname: '*9/*18'
+  phenotype_id: 1344.0
+  phenotype_name: POOR METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/T
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: A/A
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/C
+  - alt: A/T
+    chrom: '19'
+    end: 41016810
+    name: CYP2B6_rs3211371
+    ref: C
+    rs_id: rs3211371
+    start: 41016809
+    strand: 1
+    variant_genotype: C/C
+'908':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:*4/*4_wildtype/*9
+  genotype_id: '908'
+  genotype_realname: '*4/*6'
+  phenotype_id: 1343.0
+  phenotype_name: INTERMEDIATE METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/T
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: G/G
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/T
+  - alt: A/T
+    chrom: '19'
+    end: 41016810
+    name: CYP2B6_rs3211371
+    ref: C
+    rs_id: rs3211371
+    start: 41016809
+    strand: 1
+    variant_genotype: C/C
+'910':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:*4/*4_wildtype/*18_wildtype/*9
+  genotype_id: '910'
+  genotype_realname: '*6/*16'
+  phenotype_id: 1344.0
+  phenotype_name: POOR METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/T
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: G/G
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/C
+  - alt: A/T
+    chrom: '19'
+    end: 41016810
+    name: CYP2B6_rs3211371
+    ref: C
+    rs_id: rs3211371
+    start: 41016809
+    strand: 1
+    variant_genotype: C/C
+'911':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:wildtype/*4_wildtype/*9
+  genotype_id: '911'
+  genotype_realname: wildtype/*6 or *4/*9
+  phenotype_id: 1343.0
+  phenotype_name: INTERMEDIATE METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/T
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: A/G
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/T
+  - alt: A/T
+    chrom: '19'
+    end: 41016810
+    name: CYP2B6_rs3211371
+    ref: C
+    rs_id: rs3211371
+    start: 41016809
+    strand: 1
+    variant_genotype: C/C
+'913':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:wildtype/*4_wildtype/*18_wildtype/*9
+  genotype_id: '913'
+  genotype_realname: '*9/*16 or *6/*18'
+  phenotype_id: 1344.0
+  phenotype_name: POOR METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/T
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: A/G
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/C
+  - alt: A/T
+    chrom: '19'
+    end: 41016810
+    name: CYP2B6_rs3211371
+    ref: C
+    rs_id: rs3211371
+    start: 41016809
+    strand: 1
+    variant_genotype: C/C
+'914':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:*5/*5
+  genotype_id: '914'
+  genotype_realname: '*5/*5'
+  phenotype_id: 1372.0
+  phenotype_name: CYP2B6 *5/*5
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/G
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: A/A
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/T
+  - alt: A/T
+    chrom: '19'
+    end: 41016810
+    name: CYP2B6_rs3211371
+    ref: C
+    rs_id: rs3211371
+    start: 41016809
+    strand: 1
+    variant_genotype: T/T
+'926':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:*4/*4_*5/*5_*9/*9
+  genotype_id: '926'
+  genotype_realname: '*7/*7'
+  phenotype_id: 1344.0
+  phenotype_name: POOR METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: T/T
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: G/G
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/T
+  - alt: A/T
+    chrom: '19'
+    end: 41016810
+    name: CYP2B6_rs3211371
+    ref: C
+    rs_id: rs3211371
+    start: 41016809
+    strand: 1
+    variant_genotype: T/T
+'932':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:wildtype/*4_*5/*5_wildtype/*9
+  genotype_id: '932'
+  genotype_realname: '*5/*7'
+  phenotype_id: 1373.0
+  phenotype_name: CYP2B6 *5/*6 OR *5/*18 OR *5/*7 OR *5/*9
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/T
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: A/G
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/T
+  - alt: A/T
+    chrom: '19'
+    end: 41016810
+    name: CYP2B6_rs3211371
+    ref: C
+    rs_id: rs3211371
+    start: 41016809
+    strand: 1
+    variant_genotype: T/T
+'933':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:wildtype/*5
+  genotype_id: '933'
+  genotype_realname: wildtype/*5
+  phenotype_id: 1371.0
+  phenotype_name: CYP2B6 *1/*5 OR *4/*5
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/G
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: A/A
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/T
+  - alt: A/T
+    chrom: '19'
+    end: 41016810
+    name: CYP2B6_rs3211371
+    ref: C
+    rs_id: rs3211371
+    start: 41016809
+    strand: 1
+    variant_genotype: C/T
+'935':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:wildtype/*18_wildtype/*5
+  genotype_id: '935'
+  genotype_realname: '*5/*18'
+  phenotype_id: 1373.0
+  phenotype_name: CYP2B6 *5/*6 OR *5/*18 OR *5/*7 OR *5/*9
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/G
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: A/A
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/C
+  - alt: A/T
+    chrom: '19'
+    end: 41016810
+    name: CYP2B6_rs3211371
+    ref: C
+    rs_id: rs3211371
+    start: 41016809
+    strand: 1
+    variant_genotype: C/T
+'939':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:wildtype/*4_wildtype/*5
+  genotype_id: '939'
+  genotype_realname: '*4/*5'
+  phenotype_id: 1371.0
+  phenotype_name: CYP2B6 *1/*5 OR *4/*5
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/G
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: A/G
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/T
+  - alt: A/T
+    chrom: '19'
+    end: 41016810
+    name: CYP2B6_rs3211371
+    ref: C
+    rs_id: rs3211371
+    start: 41016809
+    strand: 1
+    variant_genotype: C/T
+'945':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:*4/*4_wildtype/*5_*9/*9
+  genotype_id: '945'
+  genotype_realname: '*6/*7'
+  phenotype_id: 1344.0
+  phenotype_name: POOR METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: T/T
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: G/G
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/T
+  - alt: A/T
+    chrom: '19'
+    end: 41016810
+    name: CYP2B6_rs3211371
+    ref: C
+    rs_id: rs3211371
+    start: 41016809
+    strand: 1
+    variant_genotype: C/T
+'946':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:wildtype/*4_wildtype/*5_*9/*9
+  genotype_id: '946'
+  genotype_realname: '*7/*9'
+  phenotype_id: 1344.0
+  phenotype_name: POOR METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: T/T
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: A/G
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/T
+  - alt: A/T
+    chrom: '19'
+    end: 41016810
+    name: CYP2B6_rs3211371
+    ref: C
+    rs_id: rs3211371
+    start: 41016809
+    strand: 1
+    variant_genotype: C/T
+'947':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:wildtype/*5_wildtype/*9
+  genotype_id: '947'
+  genotype_realname: '*5/*9'
+  phenotype_id: 1373.0
+  phenotype_name: CYP2B6 *5/*6 OR *5/*18 OR *5/*7 OR *5/*9
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/T
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: A/A
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/T
+  - alt: A/T
+    chrom: '19'
+    end: 41016810
+    name: CYP2B6_rs3211371
+    ref: C
+    rs_id: rs3211371
+    start: 41016809
+    strand: 1
+    variant_genotype: C/T
+'950':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:*4/*4_wildtype/*5_wildtype/*9
+  genotype_id: '950'
+  genotype_realname: '*4/*7'
+  phenotype_id: 1343.0
+  phenotype_name: INTERMEDIATE METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/T
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: G/G
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/T
+  - alt: A/T
+    chrom: '19'
+    end: 41016810
+    name: CYP2B6_rs3211371
+    ref: C
+    rs_id: rs3211371
+    start: 41016809
+    strand: 1
+    variant_genotype: C/T
+'951':
+  gene: CYP2B6
+  gene_genotype: CYP2B6:wildtype/*4_wildtype/*5_wildtype/*9
+  genotype_id: '951'
+  genotype_realname: wildtype/*7 OR *5/*6
+  phenotype_id: 1343.0
+  phenotype_name: INTERMEDIATE METABOLIZER
+  snp:
+  - alt: A/T
+    chrom: '19'
+    end: 41006936
+    name: CYP2B6_rs3745274
+    ref: G
+    rs_id: rs3745274
+    start: 41006935
+    strand: 1
+    variant_genotype: G/T
+  - alt: G
+    chrom: '19'
+    end: 41009358
+    name: CYP2B6_rs2279343
+    ref: A
+    rs_id: rs2279343
+    start: 41009357
+    strand: 1
+    variant_genotype: A/G
+  - alt: C
+    chrom: '19'
+    end: 41012316
+    name: CYP2B6_rs28399499
+    ref: T
+    rs_id: rs28399499
+    start: 41012315
+    strand: 1
+    variant_genotype: T/T
+  - alt: A/T
+    chrom: '19'
+    end: 41016810
+    name: CYP2B6_rs3211371
+    ref: C
+    rs_id: rs3211371
+    start: 41016809
+    strand: 1
+    variant_genotype: C/T
 '97':
   gene: CYP2C9
   gene_genotype: CYP2C9:wildtype/*3_wildtype/*5
@@ -3073,37 +5424,37 @@
   snp:
   - alt: T
     chrom: '10'
-    end: 96702047
+    end: 94942290
     name: CYP2C9_rs1799853
     ref: C
     rs_id: rs1799853
-    start: 96702046
-    strand: 1.0
+    start: 94942289
+    strand: 1
     variant_genotype: C/C
   - alt: T
     chrom: '10'
-    end: 96740981
+    end: 94981224
     name: CYP2C9_rs28371685
     ref: C
     rs_id: rs28371685
-    start: 96740980
-    strand: 1.0
+    start: 94981223
+    strand: 1
     variant_genotype: C/C
   - alt: C/G
     chrom: '10'
-    end: 96741053
+    end: 94981296
     name: CYP2C9_rs1057910
     ref: A
     rs_id: rs1057910
-    start: 96741052
-    strand: 1.0
+    start: 94981295
+    strand: 1
     variant_genotype: A/C
   - alt: A/G
     chrom: '10'
-    end: 96741058
+    end: 94981301
     name: CYP2C9_rs28371686
     ref: C
     rs_id: rs28371686
-    start: 96741057
-    strand: 1.0
+    start: 94981300
+    strand: 1
     variant_genotype: C/G
