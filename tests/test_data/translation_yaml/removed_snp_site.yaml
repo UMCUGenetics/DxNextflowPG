@@ -7,7 +7,7 @@
   phenotype_name: EXTENSIVE METABOLIZER
   snp:
   - alt: C/G
-    chrom: '6'
+    chrom: "chr6"
     end: 18130918
     name: TPMT_rs1142345
     ref: T
@@ -24,7 +24,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: C/G
-    chrom: '6'
+    chrom: "chr6"
     end: 18130918
     name: TPMT_rs1142345
     ref: T
@@ -41,7 +41,7 @@
   phenotype_name: INTERMEDIATE METABOLIZER
   snp:
   - alt: C/G
-    chrom: '6'
+    chrom: "chr6"
     end: 18130918
     name: TPMT_rs1142345
     ref: T

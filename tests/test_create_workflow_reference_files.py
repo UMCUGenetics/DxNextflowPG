@@ -233,7 +233,7 @@ class TestCreateRefsEnsembl():
     def test_rs_id_not_linked_to_gene(self):
         with pytest.warns(UserWarning, match="Gene not found"):
             create_ref.get_gene_metadata_ensembl(server="http://rest.ensembl.org",
-                                                 ens_rs_id="rs1633021", location="6:29746868-29746869", species="homo_sapiens")
+                                                 ens_rs_id="rs1633021", location="chr6:29746868-29746869", species="homo_sapiens")
 
     def test_rs_id_not_linked_to_gene(self):
         with pytest.warns(UserWarning, match="Variation identifiers not found in Ensembl"):
@@ -245,7 +245,7 @@ class TestCreateRefsEnsembl():
 class TestCreateRefsInvalidGenes():
     def test_gene_with_variants_of_diff_chroms(self):
         df_metadata = pd.DataFrame.from_dict(
-            {'row_1': ["fakegene", "fakegene", 1], 'row_2': ["fakegene", "fakegene", 2], },
+            {'row_1': ["fakegene", "fakegene", 'chr1'], 'row_2': ["fakegene", "fakegene", 'chr2'], },
             orient='index',
             columns=['gene', 'retrieved_gene', 'chrom']
         )
@@ -254,7 +254,7 @@ class TestCreateRefsInvalidGenes():
 
     def test_gene_no_match_retrieved(self):
         df_metadata = pd.DataFrame.from_dict(
-            {'row_1': ["fakegene", "fakegene2", 1]},
+            {'row_1': ["fakegene", "fakegene2", "chr1"]},
             orient='index',
             columns=['gene', 'retrieved_gene', 'chrom']
         )
@@ -470,7 +470,7 @@ class TestCreateRefsCompareFiles():
             new=create_test_files + "/bed_files/removed_site.bed"
         )
         captured = capsys.readouterr()
-        assert "-6\t18130917\t18130918\tTPMT_rs1142345" in captured.out
+        assert "-chr6\t18130917\t18130918\tTPMT_rs1142345" in captured.out
     
     def test_cf_bed_diff_pos(self, create_test_files, capsys):
         create_ref.compare_files(
@@ -478,8 +478,8 @@ class TestCreateRefsCompareFiles():
             new=create_test_files + "/bed_files/diff_pos.bed"
         )
         captured = capsys.readouterr()
-        assert "-6\t18139227\t18139228\tTPMT_rs1800460" in captured.out
-        assert "+6\t18139200\t18139201\tTPMT_rs1800460" in captured.out
+        assert "-chr6\t18139227\t18139228\tTPMT_rs1800460" in captured.out
+        assert "+chr6\t18139200\t18139201\tTPMT_rs1800460" in captured.out
     
     def test_cf_bed_diff_name(self, create_test_files, capsys):
         create_ref.compare_files(
@@ -487,8 +487,8 @@ class TestCreateRefsCompareFiles():
             new=create_test_files + "/bed_files/diff_name.bed"
         )
         captured = capsys.readouterr()
-        assert "-6\t18139227\t18139228\tTPMT_rs1800460" in captured.out
-        assert "+6\t18139227\t18139228\tTPMT_rs1800000" in captured.out
+        assert "-chr6\t18139227\t18139228\tTPMT_rs1800460" in captured.out
+        assert "+chr6\t18139227\t18139228\tTPMT_rs1800000" in captured.out
     
     def test_cf_bed_added_site(self, create_test_files, capsys):
         create_ref.compare_files(
@@ -496,16 +496,16 @@ class TestCreateRefsCompareFiles():
             new=create_test_files + "/bed_files/added_site.bed"
         )
         captured = capsys.readouterr()
-        assert "+6\t18143954\t18143955\tTPMT_rs1800462" in captured.out
+        assert "+chr6\t18143954\t18143955\tTPMT_rs1800462" in captured.out
 
 
 class TestCreateRefsYaml():
     def test_generate_yaml_rev_strand(self):
         df_data_rev = pd.DataFrame.from_dict(
-            {'row_1': ['1', 6, 1000, 1001, "fakeRS1", "name", "T/T", "A", "G", -1],
-             'row_2': ['1', 6, 1001, 1002, "fakeRS2", "name", "T/C", "A", "G", -1],
-             'row_3': ['1', 6, 1002, 1003, "fakeRS3", "name", "C/T", "A", "G", -1],
-             'row_4': ['1', 6, 1003, 1004, "fakeRS4", "name", "C/C", "A", "G", -1], },
+            {'row_1': ['1', "chr6", 1000, 1001, "fakeRS1", "name", "T/T", "A", "G", -1],
+             'row_2': ['1', "chr6", 1001, 1002, "fakeRS2", "name", "T/C", "A", "G", -1],
+             'row_3': ['1', "chr6", 1002, 1003, "fakeRS3", "name", "C/T", "A", "G", -1],
+             'row_4': ['1', "chr6", 1003, 1004, "fakeRS4", "name", "C/C", "A", "G", -1], },
             orient='index',
             columns=["genotype_id", "chrom", "start", "end", "rs_id", "name", "variant_genotype", "ref", "alt", "strand"]
         )
@@ -524,12 +524,12 @@ class TestCreateRefsYaml():
     def test_generate_yaml_rev_strand_indel(self):
         df_data_rev = pd.DataFrame.from_dict(
             {
-                'row_1': ['1', 6, 1000, 1001, "fakeRS1", "name", "./.", "A", "AA", -1],
-                'row_2': ['1', 6, 1001, 1002, "fakeRS2", "name", "./T", "A", "AA", -1],
-                'row_3': ['1', 6, 1002, 1003, "fakeRS3", "name", "T/T", "A", "AA", -1],
-                'row_4': ['2', 6, 1000, 1001, "fakeRS1", "name", "./.", "AA", "A", -1],
-                'row_5': ['2', 6, 1002, 1003, "fakeRS3", "name", "T/.", "AA", "A", -1],
-                'row_6': ['2', 6, 1003, 1004, "fakeRS4", "name", "T/T", "AA", "A", -1], 
+                'row_1': ['1', "chr6", 1000, 1001, "fakeRS1", "name", "./.", "A", "AA", -1],
+                'row_2': ['1', "chr6", 1001, 1002, "fakeRS2", "name", "./T", "A", "AA", -1],
+                'row_3': ['1', "chr6", 1002, 1003, "fakeRS3", "name", "T/T", "A", "AA", -1],
+                'row_4': ['2', "chr6", 1000, 1001, "fakeRS1", "name", "./.", "AA", "A", -1],
+                'row_5': ['2', "chr6", 1002, 1003, "fakeRS3", "name", "T/.", "AA", "A", -1],
+                'row_6': ['2', "chr6", 1003, 1004, "fakeRS4", "name", "T/T", "AA", "A", -1], 
             },
             orient='index',
             columns=["genotype_id", "chrom", "start", "end", "rs_id", "name", "variant_genotype", "ref", "alt", "strand"]
@@ -554,7 +554,7 @@ class TestCreateRefsYaml():
 class TestCreateRefsWriteBed():
     def test_write_bed(self, get_tmp_output_path):
         df_data = pd.DataFrame.from_dict(
-            {'row_1': [1, 1000, 1001, "test"]},
+            {'row_1': ["chr1", 1000, 1001, "test"]},
             orient='index',
             columns=['chrom', 'start', 'end', 'name']
         )
@@ -563,7 +563,7 @@ class TestCreateRefsWriteBed():
     
     def test_write_bed_existing_file(self, get_tmp_output_path):
         df_data = pd.DataFrame.from_dict(
-            {'row_1': [1, 1000, 1001, "test"]},
+            {'row_1': ["chr1", 1000, 1001, "test"]},
             orient='index',
             columns=['chrom', 'start', 'end', 'name']
         )

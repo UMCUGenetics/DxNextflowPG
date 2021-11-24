@@ -7,7 +7,7 @@
   phenotype_name: EXTENSIVE METABOLIZER
   snp:
   - alt: C/G
-    chrom: '6'
+    chrom: "chr6"
     end: 18130918
     ref: T
     rs_id: rs1142345
@@ -15,7 +15,7 @@
     strand: -1.0
     variant_genotype: T/T
   - alt: T
-    chrom: '6'
+    chrom: "chr6"
     end: 18139228
     ref: C
     rs_id: rs1800460
@@ -31,7 +31,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: C/G
-    chrom: '6'
+    chrom: "chr6"
     end: 18130918
     ref: T
     rs_id: rs1142345
@@ -39,7 +39,7 @@
     strand: -1.0
     variant_genotype: C/C
   - alt: T
-    chrom: '6'
+    chrom: "chr6"
     end: 18139228
     ref: C
     rs_id: rs1800460
@@ -55,7 +55,7 @@
   phenotype_name: INTERMEDIATE METABOLIZER
   snp:
   - alt: C/G
-    chrom: '6'
+    chrom: "chr6"
     end: 18130918
     ref: T
     rs_id: rs1142345
@@ -63,7 +63,7 @@
     strand: -1.0
     variant_genotype: T/C
   - alt: T
-    chrom: '6'
+    chrom: "chr6"
     end: 18139228
     ref: C
     rs_id: rs1800460

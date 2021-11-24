@@ -199,7 +199,7 @@ def get_data_ensembl(df_translation, ensembl_url, species):
 			)
 		df_ens_metadata = df_ens_metadata.append(
 			{
-				'chrom': map_info["seq_region_name"],
+				'chrom': "chr" + map_info["seq_region_name"],
 				'start': map_info["start"]-1, # transform to zero based.
 				'end': map_info["end"],
 				'name': gene_and_rs_id,

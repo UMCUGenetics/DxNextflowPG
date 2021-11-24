@@ -7,7 +7,7 @@
   phenotype_name: EXTENSIVE METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -16,7 +16,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -25,7 +25,7 @@
     strand: 1
     variant_genotype: A/A
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -42,7 +42,7 @@
   phenotype_name: '*2/*2'
   snp:
   - alt: T
-    chrom: '10'
+    chrom: chr10
     end: 94942290
     name: CYP2C9_rs1799853
     ref: C
@@ -51,7 +51,7 @@
     strand: 1
     variant_genotype: T/T
   - alt: T
-    chrom: '10'
+    chrom: chr10
     end: 94981224
     name: CYP2C9_rs28371685
     ref: C
@@ -60,7 +60,7 @@
     strand: 1
     variant_genotype: C/C
   - alt: C/G
-    chrom: '10'
+    chrom: chr10
     end: 94981296
     name: CYP2C9_rs1057910
     ref: A
@@ -69,7 +69,7 @@
     strand: 1
     variant_genotype: A/A
   - alt: A/G
-    chrom: '10'
+    chrom: chr10
     end: 94981301
     name: CYP2C9_rs28371686
     ref: C
@@ -86,7 +86,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -95,7 +95,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -104,7 +104,7 @@
     strand: 1
     variant_genotype: A/A
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -121,7 +121,7 @@
   phenotype_name: INTERMEDIATE METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -130,7 +130,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -139,7 +139,7 @@
     strand: 1
     variant_genotype: A/A
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -156,7 +156,7 @@
   phenotype_name: EXTENSIVE METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -165,7 +165,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -174,7 +174,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -191,7 +191,7 @@
   phenotype_name: '*1/*2'
   snp:
   - alt: T
-    chrom: '10'
+    chrom: chr10
     end: 94942290
     name: CYP2C9_rs1799853
     ref: C
@@ -200,7 +200,7 @@
     strand: 1
     variant_genotype: C/T
   - alt: T
-    chrom: '10'
+    chrom: chr10
     end: 94981224
     name: CYP2C9_rs28371685
     ref: C
@@ -209,7 +209,7 @@
     strand: 1
     variant_genotype: C/C
   - alt: C/G
-    chrom: '10'
+    chrom: chr10
     end: 94981296
     name: CYP2C9_rs1057910
     ref: A
@@ -218,7 +218,7 @@
     strand: 1
     variant_genotype: A/A
   - alt: A/G
-    chrom: '10'
+    chrom: chr10
     end: 94981301
     name: CYP2C9_rs28371686
     ref: C
@@ -235,7 +235,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: T
-    chrom: '10'
+    chrom: chr10
     end: 94942290
     name: CYP2C9_rs1799853
     ref: C
@@ -244,7 +244,7 @@
     strand: 1
     variant_genotype: C/T
   - alt: T
-    chrom: '10'
+    chrom: chr10
     end: 94981224
     name: CYP2C9_rs28371685
     ref: C
@@ -253,7 +253,7 @@
     strand: 1
     variant_genotype: C/T
   - alt: C/G
-    chrom: '10'
+    chrom: chr10
     end: 94981296
     name: CYP2C9_rs1057910
     ref: A
@@ -262,7 +262,7 @@
     strand: 1
     variant_genotype: A/A
   - alt: A/G
-    chrom: '10'
+    chrom: chr10
     end: 94981301
     name: CYP2C9_rs28371686
     ref: C
@@ -279,7 +279,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -288,7 +288,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -297,7 +297,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -314,7 +314,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: T
-    chrom: '10'
+    chrom: chr10
     end: 94942290
     name: CYP2C9_rs1799853
     ref: C
@@ -323,7 +323,7 @@
     strand: 1
     variant_genotype: C/T
   - alt: T
-    chrom: '10'
+    chrom: chr10
     end: 94981224
     name: CYP2C9_rs28371685
     ref: C
@@ -332,7 +332,7 @@
     strand: 1
     variant_genotype: C/C
   - alt: C/G
-    chrom: '10'
+    chrom: chr10
     end: 94981296
     name: CYP2C9_rs1057910
     ref: A
@@ -341,7 +341,7 @@
     strand: 1
     variant_genotype: A/A
   - alt: A/G
-    chrom: '10'
+    chrom: chr10
     end: 94981301
     name: CYP2C9_rs28371686
     ref: C
@@ -358,7 +358,7 @@
   phenotype_name: INTERMEDIATE METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -367,7 +367,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -376,7 +376,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -393,7 +393,7 @@
   phenotype_name: EXTENSIVE METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -402,7 +402,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -411,7 +411,7 @@
     strand: 1
     variant_genotype: A/G
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -428,7 +428,7 @@
   phenotype_name: '*2/*3'
   snp:
   - alt: T
-    chrom: '10'
+    chrom: chr10
     end: 94942290
     name: CYP2C9_rs1799853
     ref: C
@@ -437,7 +437,7 @@
     strand: 1
     variant_genotype: C/T
   - alt: T
-    chrom: '10'
+    chrom: chr10
     end: 94981224
     name: CYP2C9_rs28371685
     ref: C
@@ -446,7 +446,7 @@
     strand: 1
     variant_genotype: C/C
   - alt: C/G
-    chrom: '10'
+    chrom: chr10
     end: 94981296
     name: CYP2C9_rs1057910
     ref: A
@@ -455,7 +455,7 @@
     strand: 1
     variant_genotype: A/C
   - alt: A/G
-    chrom: '10'
+    chrom: chr10
     end: 94981301
     name: CYP2C9_rs28371686
     ref: C
@@ -472,7 +472,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -481,7 +481,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -490,7 +490,7 @@
     strand: 1
     variant_genotype: A/G
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -507,7 +507,7 @@
   phenotype_name: INTERMEDIATE METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -516,7 +516,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -525,7 +525,7 @@
     strand: 1
     variant_genotype: A/G
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -542,7 +542,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -551,7 +551,7 @@
     strand: 1
     variant_genotype: T/T
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -560,7 +560,7 @@
     strand: 1
     variant_genotype: A/A
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -577,7 +577,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -586,7 +586,7 @@
     strand: 1
     variant_genotype: T/T
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -595,7 +595,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -612,7 +612,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -621,7 +621,7 @@
     strand: 1
     variant_genotype: T/T
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -630,7 +630,7 @@
     strand: 1
     variant_genotype: A/G
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -647,7 +647,7 @@
   phenotype_name: INTERMEDIATE METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -656,7 +656,7 @@
     strand: 1
     variant_genotype: G/T
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -665,7 +665,7 @@
     strand: 1
     variant_genotype: A/A
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -682,7 +682,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -691,7 +691,7 @@
     strand: 1
     variant_genotype: G/T
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -700,7 +700,7 @@
     strand: 1
     variant_genotype: A/A
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -717,7 +717,7 @@
   phenotype_name: INTERMEDIATE METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -726,7 +726,7 @@
     strand: 1
     variant_genotype: G/T
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -735,7 +735,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -752,7 +752,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -761,7 +761,7 @@
     strand: 1
     variant_genotype: G/T
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -770,7 +770,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -787,7 +787,7 @@
   phenotype_name: INTERMEDIATE METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -796,7 +796,7 @@
     strand: 1
     variant_genotype: G/T
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -805,7 +805,7 @@
     strand: 1
     variant_genotype: A/G
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -822,7 +822,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -831,7 +831,7 @@
     strand: 1
     variant_genotype: G/T
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -840,7 +840,7 @@
     strand: 1
     variant_genotype: A/G
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -857,7 +857,7 @@
   phenotype_name: '*1/*1'
   snp:
   - alt: T
-    chrom: '10'
+    chrom: chr10
     end: 94942290
     name: CYP2C9_rs1799853
     ref: C
@@ -866,7 +866,7 @@
     strand: 1
     variant_genotype: C/C
   - alt: T
-    chrom: '10'
+    chrom: chr10
     end: 94981224
     name: CYP2C9_rs28371685
     ref: C
@@ -875,7 +875,7 @@
     strand: 1
     variant_genotype: C/C
   - alt: C/G
-    chrom: '10'
+    chrom: chr10
     end: 94981296
     name: CYP2C9_rs1057910
     ref: A
@@ -884,7 +884,7 @@
     strand: 1
     variant_genotype: A/A
   - alt: A/G
-    chrom: '10'
+    chrom: chr10
     end: 94981301
     name: CYP2C9_rs28371686
     ref: C
@@ -901,7 +901,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: T
-    chrom: '10'
+    chrom: chr10
     end: 94942290
     name: CYP2C9_rs1799853
     ref: C
@@ -910,7 +910,7 @@
     strand: 1
     variant_genotype: C/C
   - alt: T
-    chrom: '10'
+    chrom: chr10
     end: 94981224
     name: CYP2C9_rs28371685
     ref: C
@@ -919,7 +919,7 @@
     strand: 1
     variant_genotype: T/T
   - alt: C/G
-    chrom: '10'
+    chrom: chr10
     end: 94981296
     name: CYP2C9_rs1057910
     ref: A
@@ -928,7 +928,7 @@
     strand: 1
     variant_genotype: A/A
   - alt: A/G
-    chrom: '10'
+    chrom: chr10
     end: 94981301
     name: CYP2C9_rs28371686
     ref: C
@@ -945,7 +945,7 @@
   phenotype_name: INTERMEDIATE METABOLIZER
   snp:
   - alt: T
-    chrom: '10'
+    chrom: chr10
     end: 94942290
     name: CYP2C9_rs1799853
     ref: C
@@ -954,7 +954,7 @@
     strand: 1
     variant_genotype: C/C
   - alt: T
-    chrom: '10'
+    chrom: chr10
     end: 94981224
     name: CYP2C9_rs28371685
     ref: C
@@ -963,7 +963,7 @@
     strand: 1
     variant_genotype: C/T
   - alt: C/G
-    chrom: '10'
+    chrom: chr10
     end: 94981296
     name: CYP2C9_rs1057910
     ref: A
@@ -972,7 +972,7 @@
     strand: 1
     variant_genotype: A/A
   - alt: A/G
-    chrom: '10'
+    chrom: chr10
     end: 94981301
     name: CYP2C9_rs28371686
     ref: C
@@ -989,7 +989,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: T
-    chrom: '10'
+    chrom: chr10
     end: 94942290
     name: CYP2C9_rs1799853
     ref: C
@@ -998,7 +998,7 @@
     strand: 1
     variant_genotype: C/C
   - alt: T
-    chrom: '10'
+    chrom: chr10
     end: 94981224
     name: CYP2C9_rs28371685
     ref: C
@@ -1007,7 +1007,7 @@
     strand: 1
     variant_genotype: C/C
   - alt: C/G
-    chrom: '10'
+    chrom: chr10
     end: 94981296
     name: CYP2C9_rs1057910
     ref: A
@@ -1016,7 +1016,7 @@
     strand: 1
     variant_genotype: A/A
   - alt: A/G
-    chrom: '10'
+    chrom: chr10
     end: 94981301
     name: CYP2C9_rs28371686
     ref: C
@@ -1033,7 +1033,7 @@
   phenotype_name: EXTENSIVE METABOLIZER
   snp:
   - alt: AA
-    chrom: '7'
+    chrom: chr7
     end: 99652771
     name: CYP3A5_rs41303343
     ref: A
@@ -1042,7 +1042,7 @@
     strand: -1
     variant_genotype: A/A
   - alt: T
-    chrom: '7'
+    chrom: chr7
     end: 99665212
     name: CYP3A5_rs10264272
     ref: C
@@ -1051,7 +1051,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: C
-    chrom: '7'
+    chrom: chr7
     end: 99672916
     name: CYP3A5_rs776746
     ref: T
@@ -1068,7 +1068,7 @@
   phenotype_name: POOR METABOLIZER (MOST PREVALENT)
   snp:
   - alt: AA
-    chrom: '7'
+    chrom: chr7
     end: 99652771
     name: CYP3A5_rs41303343
     ref: A
@@ -1077,7 +1077,7 @@
     strand: -1
     variant_genotype: AA/AA
   - alt: T
-    chrom: '7'
+    chrom: chr7
     end: 99665212
     name: CYP3A5_rs10264272
     ref: C
@@ -1086,7 +1086,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: C
-    chrom: '7'
+    chrom: chr7
     end: 99672916
     name: CYP3A5_rs776746
     ref: T
@@ -1103,7 +1103,7 @@
   phenotype_name: INTERMEDIATE METABOLIZER
   snp:
   - alt: AA
-    chrom: '7'
+    chrom: chr7
     end: 99652771
     name: CYP3A5_rs41303343
     ref: A
@@ -1112,7 +1112,7 @@
     strand: -1
     variant_genotype: A/AA
   - alt: T
-    chrom: '7'
+    chrom: chr7
     end: 99665212
     name: CYP3A5_rs10264272
     ref: C
@@ -1121,7 +1121,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: C
-    chrom: '7'
+    chrom: chr7
     end: 99672916
     name: CYP3A5_rs776746
     ref: T
@@ -1138,7 +1138,7 @@
   phenotype_name: POOR METABOLIZER (MOST PREVALENT)
   snp:
   - alt: AA
-    chrom: '7'
+    chrom: chr7
     end: 99652771
     name: CYP3A5_rs41303343
     ref: A
@@ -1147,7 +1147,7 @@
     strand: -1
     variant_genotype: A/A
   - alt: T
-    chrom: '7'
+    chrom: chr7
     end: 99665212
     name: CYP3A5_rs10264272
     ref: C
@@ -1156,7 +1156,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: C
-    chrom: '7'
+    chrom: chr7
     end: 99672916
     name: CYP3A5_rs776746
     ref: T
@@ -1173,7 +1173,7 @@
   phenotype_name: INTERMEDIATE METABOLIZER
   snp:
   - alt: AA
-    chrom: '7'
+    chrom: chr7
     end: 99652771
     name: CYP3A5_rs41303343
     ref: A
@@ -1182,7 +1182,7 @@
     strand: -1
     variant_genotype: A/A
   - alt: T
-    chrom: '7'
+    chrom: chr7
     end: 99665212
     name: CYP3A5_rs10264272
     ref: C
@@ -1191,7 +1191,7 @@
     strand: -1
     variant_genotype: C/T
   - alt: C
-    chrom: '7'
+    chrom: chr7
     end: 99672916
     name: CYP3A5_rs776746
     ref: T
@@ -1208,7 +1208,7 @@
   phenotype_name: POOR METABOLIZER (MOST PREVALENT)
   snp:
   - alt: AA
-    chrom: '7'
+    chrom: chr7
     end: 99652771
     name: CYP3A5_rs41303343
     ref: A
@@ -1217,7 +1217,7 @@
     strand: -1
     variant_genotype: A/AA
   - alt: T
-    chrom: '7'
+    chrom: chr7
     end: 99665212
     name: CYP3A5_rs10264272
     ref: C
@@ -1226,7 +1226,7 @@
     strand: -1
     variant_genotype: C/T
   - alt: C
-    chrom: '7'
+    chrom: chr7
     end: 99672916
     name: CYP3A5_rs776746
     ref: T
@@ -1243,7 +1243,7 @@
   phenotype_name: POOR METABOLIZER (MOST PREVALENT)
   snp:
   - alt: AA
-    chrom: '7'
+    chrom: chr7
     end: 99652771
     name: CYP3A5_rs41303343
     ref: A
@@ -1252,7 +1252,7 @@
     strand: -1
     variant_genotype: A/A
   - alt: T
-    chrom: '7'
+    chrom: chr7
     end: 99665212
     name: CYP3A5_rs10264272
     ref: C
@@ -1261,7 +1261,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: C
-    chrom: '7'
+    chrom: chr7
     end: 99672916
     name: CYP3A5_rs776746
     ref: T
@@ -1278,7 +1278,7 @@
   phenotype_name: INTERMEDIATE METABOLIZER
   snp:
   - alt: AA
-    chrom: '7'
+    chrom: chr7
     end: 99652771
     name: CYP3A5_rs41303343
     ref: A
@@ -1287,7 +1287,7 @@
     strand: -1
     variant_genotype: A/A
   - alt: T
-    chrom: '7'
+    chrom: chr7
     end: 99665212
     name: CYP3A5_rs10264272
     ref: C
@@ -1296,7 +1296,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: C
-    chrom: '7'
+    chrom: chr7
     end: 99672916
     name: CYP3A5_rs776746
     ref: T
@@ -1313,7 +1313,7 @@
   phenotype_name: POOR METABOLIZER (MOST PREVALENT)
   snp:
   - alt: AA
-    chrom: '7'
+    chrom: chr7
     end: 99652771
     name: CYP3A5_rs41303343
     ref: A
@@ -1322,7 +1322,7 @@
     strand: -1
     variant_genotype: A/AA
   - alt: T
-    chrom: '7'
+    chrom: chr7
     end: 99665212
     name: CYP3A5_rs10264272
     ref: C
@@ -1331,7 +1331,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: C
-    chrom: '7'
+    chrom: chr7
     end: 99672916
     name: CYP3A5_rs776746
     ref: T
@@ -1348,7 +1348,7 @@
   phenotype_name: POOR METABOLIZER (MOST PREVALENT)
   snp:
   - alt: AA
-    chrom: '7'
+    chrom: chr7
     end: 99652771
     name: CYP3A5_rs41303343
     ref: A
@@ -1357,7 +1357,7 @@
     strand: -1
     variant_genotype: A/A
   - alt: T
-    chrom: '7'
+    chrom: chr7
     end: 99665212
     name: CYP3A5_rs10264272
     ref: C
@@ -1366,7 +1366,7 @@
     strand: -1
     variant_genotype: C/T
   - alt: C
-    chrom: '7'
+    chrom: chr7
     end: 99672916
     name: CYP3A5_rs776746
     ref: T
@@ -1383,7 +1383,7 @@
   phenotype_name: GENE ACTIVITY SCORE 2 (EXTENSIVE METABOLIZER)
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -1392,7 +1392,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -1401,7 +1401,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -1410,7 +1410,7 @@
     strand: -1
     variant_genotype: A/A
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -1427,7 +1427,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0,5
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -1436,7 +1436,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -1445,7 +1445,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -1454,7 +1454,7 @@
     strand: -1
     variant_genotype: A/A
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -1471,7 +1471,7 @@
   phenotype_name: GENE ACTIVITY SCORE 1,5
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -1480,7 +1480,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -1489,7 +1489,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -1498,7 +1498,7 @@
     strand: -1
     variant_genotype: A/A
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -1515,7 +1515,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0,5
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -1524,7 +1524,7 @@
     strand: -1
     variant_genotype: A/A
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -1533,7 +1533,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -1542,7 +1542,7 @@
     strand: -1
     variant_genotype: A/A
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -1559,7 +1559,7 @@
   phenotype_name: GENE ACTIVITY SCORE 1,5
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -1568,7 +1568,7 @@
     strand: -1
     variant_genotype: T/A
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -1577,7 +1577,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -1586,7 +1586,7 @@
     strand: -1
     variant_genotype: A/A
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -1603,7 +1603,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -1612,7 +1612,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -1621,7 +1621,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -1630,7 +1630,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -1647,7 +1647,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -1656,7 +1656,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -1665,7 +1665,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -1674,7 +1674,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -1691,7 +1691,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -1700,7 +1700,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -1709,7 +1709,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -1718,7 +1718,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -1735,7 +1735,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -1744,7 +1744,7 @@
     strand: -1
     variant_genotype: A/A
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -1753,7 +1753,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -1762,7 +1762,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -1779,7 +1779,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -1788,7 +1788,7 @@
     strand: -1
     variant_genotype: A/A
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -1797,7 +1797,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -1806,7 +1806,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -1823,7 +1823,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -1832,7 +1832,7 @@
     strand: -1
     variant_genotype: A/A
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -1841,7 +1841,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -1850,7 +1850,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -1867,7 +1867,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -1876,7 +1876,7 @@
     strand: -1
     variant_genotype: T/A
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -1885,7 +1885,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -1894,7 +1894,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -1911,7 +1911,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -1920,7 +1920,7 @@
     strand: -1
     variant_genotype: T/A
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -1929,7 +1929,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -1938,7 +1938,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -1955,7 +1955,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -1964,7 +1964,7 @@
     strand: -1
     variant_genotype: T/A
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -1973,7 +1973,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -1982,7 +1982,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -1999,7 +1999,7 @@
   phenotype_name: GENE ACTIVITY SCORE 1
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -2008,7 +2008,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -2017,7 +2017,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -2026,7 +2026,7 @@
     strand: -1
     variant_genotype: A/C
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -2043,7 +2043,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0,5
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -2052,7 +2052,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -2061,7 +2061,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -2070,7 +2070,7 @@
     strand: -1
     variant_genotype: A/C
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -2087,7 +2087,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0,5
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -2096,7 +2096,7 @@
     strand: -1
     variant_genotype: A/A
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -2105,7 +2105,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -2114,7 +2114,7 @@
     strand: -1
     variant_genotype: A/C
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -2131,7 +2131,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -2140,7 +2140,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -2149,7 +2149,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -2158,7 +2158,7 @@
     strand: -1
     variant_genotype: A/A
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -2175,7 +2175,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -2184,7 +2184,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -2193,7 +2193,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -2202,7 +2202,7 @@
     strand: -1
     variant_genotype: A/A
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -2219,7 +2219,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -2228,7 +2228,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -2237,7 +2237,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -2246,7 +2246,7 @@
     strand: -1
     variant_genotype: A/A
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -2263,7 +2263,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -2272,7 +2272,7 @@
     strand: -1
     variant_genotype: A/A
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -2281,7 +2281,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -2290,7 +2290,7 @@
     strand: -1
     variant_genotype: A/A
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -2307,7 +2307,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -2316,7 +2316,7 @@
     strand: -1
     variant_genotype: A/A
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -2325,7 +2325,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -2334,7 +2334,7 @@
     strand: -1
     variant_genotype: A/A
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -2351,7 +2351,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -2360,7 +2360,7 @@
     strand: -1
     variant_genotype: A/A
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -2369,7 +2369,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -2378,7 +2378,7 @@
     strand: -1
     variant_genotype: A/A
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -2395,7 +2395,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -2404,7 +2404,7 @@
     strand: -1
     variant_genotype: T/A
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -2413,7 +2413,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -2422,7 +2422,7 @@
     strand: -1
     variant_genotype: A/A
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -2439,7 +2439,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -2448,7 +2448,7 @@
     strand: -1
     variant_genotype: T/A
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -2457,7 +2457,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -2466,7 +2466,7 @@
     strand: -1
     variant_genotype: A/A
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -2483,7 +2483,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -2492,7 +2492,7 @@
     strand: -1
     variant_genotype: T/A
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -2501,7 +2501,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -2510,7 +2510,7 @@
     strand: -1
     variant_genotype: A/A
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -2527,7 +2527,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -2536,7 +2536,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -2545,7 +2545,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -2554,7 +2554,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -2571,7 +2571,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -2580,7 +2580,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -2589,7 +2589,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -2598,7 +2598,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -2615,7 +2615,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -2624,7 +2624,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -2633,7 +2633,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -2642,7 +2642,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -2659,7 +2659,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -2668,7 +2668,7 @@
     strand: -1
     variant_genotype: A/A
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -2677,7 +2677,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -2686,7 +2686,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -2703,7 +2703,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -2712,7 +2712,7 @@
     strand: -1
     variant_genotype: T/A
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -2721,7 +2721,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -2730,7 +2730,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -2747,7 +2747,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -2756,7 +2756,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -2765,7 +2765,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -2774,7 +2774,7 @@
     strand: -1
     variant_genotype: A/C
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -2791,7 +2791,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -2800,7 +2800,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -2809,7 +2809,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -2818,7 +2818,7 @@
     strand: -1
     variant_genotype: A/C
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -2835,7 +2835,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -2844,7 +2844,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -2853,7 +2853,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -2862,7 +2862,7 @@
     strand: -1
     variant_genotype: A/C
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -2879,7 +2879,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -2888,7 +2888,7 @@
     strand: -1
     variant_genotype: A/A
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -2897,7 +2897,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -2906,7 +2906,7 @@
     strand: -1
     variant_genotype: A/C
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -2923,7 +2923,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -2932,7 +2932,7 @@
     strand: -1
     variant_genotype: T/A
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -2941,7 +2941,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -2950,7 +2950,7 @@
     strand: -1
     variant_genotype: A/C
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -2967,7 +2967,7 @@
   phenotype_name: GENE ACTIVITY SCORE 1
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -2976,7 +2976,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -2985,7 +2985,7 @@
     strand: -1
     variant_genotype: C/T
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -2994,7 +2994,7 @@
     strand: -1
     variant_genotype: A/A
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -3011,7 +3011,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0,5
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -3020,7 +3020,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -3029,7 +3029,7 @@
     strand: -1
     variant_genotype: C/T
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -3038,7 +3038,7 @@
     strand: -1
     variant_genotype: A/A
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -3055,7 +3055,7 @@
   phenotype_name: INTERMEDIATE METABOLIZER
   snp:
   - alt: T
-    chrom: '10'
+    chrom: chr10
     end: 94942290
     name: CYP2C9_rs1799853
     ref: C
@@ -3064,7 +3064,7 @@
     strand: 1
     variant_genotype: C/C
   - alt: T
-    chrom: '10'
+    chrom: chr10
     end: 94981224
     name: CYP2C9_rs28371685
     ref: C
@@ -3073,7 +3073,7 @@
     strand: 1
     variant_genotype: C/C
   - alt: C/G
-    chrom: '10'
+    chrom: chr10
     end: 94981296
     name: CYP2C9_rs1057910
     ref: A
@@ -3082,7 +3082,7 @@
     strand: 1
     variant_genotype: A/A
   - alt: A/G
-    chrom: '10'
+    chrom: chr10
     end: 94981301
     name: CYP2C9_rs28371686
     ref: C
@@ -3099,7 +3099,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0,5
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -3108,7 +3108,7 @@
     strand: -1
     variant_genotype: A/A
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -3117,7 +3117,7 @@
     strand: -1
     variant_genotype: C/T
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -3126,7 +3126,7 @@
     strand: -1
     variant_genotype: A/A
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -3143,7 +3143,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -3152,7 +3152,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -3161,7 +3161,7 @@
     strand: -1
     variant_genotype: C/T
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -3170,7 +3170,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -3187,7 +3187,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -3196,7 +3196,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -3205,7 +3205,7 @@
     strand: -1
     variant_genotype: C/T
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -3214,7 +3214,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -3231,7 +3231,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -3240,7 +3240,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -3249,7 +3249,7 @@
     strand: -1
     variant_genotype: C/T
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -3258,7 +3258,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -3275,7 +3275,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -3284,7 +3284,7 @@
     strand: -1
     variant_genotype: A/A
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -3293,7 +3293,7 @@
     strand: -1
     variant_genotype: C/T
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -3302,7 +3302,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -3319,7 +3319,7 @@
   phenotype_name: GENE ACTIVITY SCORE 0
   snp:
   - alt: A
-    chrom: '1'
+    chrom: chr1
     end: 97082391
     name: DPYD_rs67376798
     ref: T
@@ -3328,7 +3328,7 @@
     strand: -1
     variant_genotype: T/A
   - alt: G/T
-    chrom: '1'
+    chrom: chr1
     end: 97450058
     name: DPYD_rs3918290
     ref: C
@@ -3337,7 +3337,7 @@
     strand: -1
     variant_genotype: C/T
   - alt: C/T
-    chrom: '1'
+    chrom: chr1
     end: 97515787
     name: DPYD_rs55886062
     ref: A
@@ -3346,7 +3346,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: T
-    chrom: '1'
+    chrom: chr1
     end: 97573863
     name: DPYD_rs56038477
     ref: C
@@ -3363,7 +3363,7 @@
   phenotype_name: FACTOR V LEIDEN, ABSENT
   snp:
   - alt: A/T
-    chrom: '1'
+    chrom: chr1
     end: 169549811
     name: F5_rs6025
     ref: C
@@ -3380,7 +3380,7 @@
   phenotype_name: FACTOR V LEIDEN HOMOZYGOUS
   snp:
   - alt: A/T
-    chrom: '1'
+    chrom: chr1
     end: 169549811
     name: F5_rs6025
     ref: C
@@ -3397,7 +3397,7 @@
   phenotype_name: FACTOR V LEIDEN HETEROZYGOUS
   snp:
   - alt: A/T
-    chrom: '1'
+    chrom: chr1
     end: 169549811
     name: F5_rs6025
     ref: C
@@ -3414,7 +3414,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: T
-    chrom: '10'
+    chrom: chr10
     end: 94942290
     name: CYP2C9_rs1799853
     ref: C
@@ -3423,7 +3423,7 @@
     strand: 1
     variant_genotype: C/C
   - alt: T
-    chrom: '10'
+    chrom: chr10
     end: 94981224
     name: CYP2C9_rs28371685
     ref: C
@@ -3432,7 +3432,7 @@
     strand: 1
     variant_genotype: C/T
   - alt: C/G
-    chrom: '10'
+    chrom: chr10
     end: 94981296
     name: CYP2C9_rs1057910
     ref: A
@@ -3441,7 +3441,7 @@
     strand: 1
     variant_genotype: A/A
   - alt: A/G
-    chrom: '10'
+    chrom: chr10
     end: 94981301
     name: CYP2C9_rs28371686
     ref: C
@@ -3458,7 +3458,7 @@
   phenotype_name: NORMAL FUNCTION
   snp:
   - alt: C
-    chrom: '12'
+    chrom: chr12
     end: 21178615
     name: SLCO1B1_rs4149056
     ref: T
@@ -3475,7 +3475,7 @@
   phenotype_name: POOR FUNCTION
   snp:
   - alt: C
-    chrom: '12'
+    chrom: chr12
     end: 21178615
     name: SLCO1B1_rs4149056
     ref: T
@@ -3492,7 +3492,7 @@
   phenotype_name: DECREASED FUNCTION
   snp:
   - alt: C
-    chrom: '12'
+    chrom: chr12
     end: 21178615
     name: SLCO1B1_rs4149056
     ref: T
@@ -3509,7 +3509,7 @@
   phenotype_name: EXTENSIVE METABOLIZER
   snp:
   - alt: C/G
-    chrom: '6'
+    chrom: chr6
     end: 18130687
     name: TPMT_rs1142345
     ref: T
@@ -3518,7 +3518,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: T
-    chrom: '6'
+    chrom: chr6
     end: 18138997
     name: TPMT_rs1800460
     ref: C
@@ -3527,7 +3527,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: G
-    chrom: '6'
+    chrom: chr6
     end: 18143724
     name: TPMT_rs1800462
     ref: C
@@ -3544,7 +3544,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: C/G
-    chrom: '6'
+    chrom: chr6
     end: 18130687
     name: TPMT_rs1142345
     ref: T
@@ -3553,7 +3553,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: T
-    chrom: '6'
+    chrom: chr6
     end: 18138997
     name: TPMT_rs1800460
     ref: C
@@ -3562,7 +3562,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: G
-    chrom: '6'
+    chrom: chr6
     end: 18143724
     name: TPMT_rs1800462
     ref: C
@@ -3579,7 +3579,7 @@
   phenotype_name: INTERMEDIATE METABOLIZER
   snp:
   - alt: C/G
-    chrom: '6'
+    chrom: chr6
     end: 18130687
     name: TPMT_rs1142345
     ref: T
@@ -3588,7 +3588,7 @@
     strand: -1
     variant_genotype: T/C
   - alt: T
-    chrom: '6'
+    chrom: chr6
     end: 18138997
     name: TPMT_rs1800460
     ref: C
@@ -3597,7 +3597,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: G
-    chrom: '6'
+    chrom: chr6
     end: 18143724
     name: TPMT_rs1800462
     ref: C
@@ -3614,7 +3614,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: C/G
-    chrom: '6'
+    chrom: chr6
     end: 18130687
     name: TPMT_rs1142345
     ref: T
@@ -3623,7 +3623,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: T
-    chrom: '6'
+    chrom: chr6
     end: 18138997
     name: TPMT_rs1800460
     ref: C
@@ -3632,7 +3632,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: G
-    chrom: '6'
+    chrom: chr6
     end: 18143724
     name: TPMT_rs1800462
     ref: C
@@ -3649,7 +3649,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: C/G
-    chrom: '6'
+    chrom: chr6
     end: 18130687
     name: TPMT_rs1142345
     ref: T
@@ -3658,7 +3658,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: T
-    chrom: '6'
+    chrom: chr6
     end: 18138997
     name: TPMT_rs1800460
     ref: C
@@ -3667,7 +3667,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: G
-    chrom: '6'
+    chrom: chr6
     end: 18143724
     name: TPMT_rs1800462
     ref: C
@@ -3684,7 +3684,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: C/G
-    chrom: '6'
+    chrom: chr6
     end: 18130687
     name: TPMT_rs1142345
     ref: T
@@ -3693,7 +3693,7 @@
     strand: -1
     variant_genotype: T/C
   - alt: T
-    chrom: '6'
+    chrom: chr6
     end: 18138997
     name: TPMT_rs1800460
     ref: C
@@ -3702,7 +3702,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: G
-    chrom: '6'
+    chrom: chr6
     end: 18143724
     name: TPMT_rs1800462
     ref: C
@@ -3719,7 +3719,7 @@
   phenotype_name: INTERMEDIATE METABOLIZER
   snp:
   - alt: C/G
-    chrom: '6'
+    chrom: chr6
     end: 18130687
     name: TPMT_rs1142345
     ref: T
@@ -3728,7 +3728,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: T
-    chrom: '6'
+    chrom: chr6
     end: 18138997
     name: TPMT_rs1800460
     ref: C
@@ -3737,7 +3737,7 @@
     strand: -1
     variant_genotype: C/T
   - alt: G
-    chrom: '6'
+    chrom: chr6
     end: 18143724
     name: TPMT_rs1800462
     ref: C
@@ -3754,7 +3754,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: C/G
-    chrom: '6'
+    chrom: chr6
     end: 18130687
     name: TPMT_rs1142345
     ref: T
@@ -3763,7 +3763,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: T
-    chrom: '6'
+    chrom: chr6
     end: 18138997
     name: TPMT_rs1800460
     ref: C
@@ -3772,7 +3772,7 @@
     strand: -1
     variant_genotype: C/T
   - alt: G
-    chrom: '6'
+    chrom: chr6
     end: 18143724
     name: TPMT_rs1800462
     ref: C
@@ -3789,7 +3789,7 @@
   phenotype_name: INTERMEDIATE METABOLIZER
   snp:
   - alt: C/G
-    chrom: '6'
+    chrom: chr6
     end: 18130687
     name: TPMT_rs1142345
     ref: T
@@ -3798,7 +3798,7 @@
     strand: -1
     variant_genotype: T/C
   - alt: T
-    chrom: '6'
+    chrom: chr6
     end: 18138997
     name: TPMT_rs1800460
     ref: C
@@ -3807,7 +3807,7 @@
     strand: -1
     variant_genotype: C/T
   - alt: G
-    chrom: '6'
+    chrom: chr6
     end: 18143724
     name: TPMT_rs1800462
     ref: C
@@ -3824,7 +3824,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: C/G
-    chrom: '6'
+    chrom: chr6
     end: 18130687
     name: TPMT_rs1142345
     ref: T
@@ -3833,7 +3833,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: T
-    chrom: '6'
+    chrom: chr6
     end: 18138997
     name: TPMT_rs1800460
     ref: C
@@ -3842,7 +3842,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: G
-    chrom: '6'
+    chrom: chr6
     end: 18143724
     name: TPMT_rs1800462
     ref: C
@@ -3859,7 +3859,7 @@
   phenotype_name: INTERMEDIATE METABOLIZER
   snp:
   - alt: C/G
-    chrom: '6'
+    chrom: chr6
     end: 18130687
     name: TPMT_rs1142345
     ref: T
@@ -3868,7 +3868,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: T
-    chrom: '6'
+    chrom: chr6
     end: 18138997
     name: TPMT_rs1800460
     ref: C
@@ -3877,7 +3877,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: G
-    chrom: '6'
+    chrom: chr6
     end: 18143724
     name: TPMT_rs1800462
     ref: C
@@ -3894,7 +3894,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: C/G
-    chrom: '6'
+    chrom: chr6
     end: 18130687
     name: TPMT_rs1142345
     ref: T
@@ -3903,7 +3903,7 @@
     strand: -1
     variant_genotype: T/C
   - alt: T
-    chrom: '6'
+    chrom: chr6
     end: 18138997
     name: TPMT_rs1800460
     ref: C
@@ -3912,7 +3912,7 @@
     strand: -1
     variant_genotype: C/C
   - alt: G
-    chrom: '6'
+    chrom: chr6
     end: 18143724
     name: TPMT_rs1800462
     ref: C
@@ -3929,7 +3929,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: C/G
-    chrom: '6'
+    chrom: chr6
     end: 18130687
     name: TPMT_rs1142345
     ref: T
@@ -3938,7 +3938,7 @@
     strand: -1
     variant_genotype: T/T
   - alt: T
-    chrom: '6'
+    chrom: chr6
     end: 18138997
     name: TPMT_rs1800460
     ref: C
@@ -3947,7 +3947,7 @@
     strand: -1
     variant_genotype: C/T
   - alt: G
-    chrom: '6'
+    chrom: chr6
     end: 18143724
     name: TPMT_rs1800462
     ref: C
@@ -3964,7 +3964,7 @@
   phenotype_name: 1173CC (WILD TYPE)
   snp:
   - alt: A/C
-    chrom: '16'
+    chrom: chr16
     end: 31093557
     name: VKORC1_rs9934438
     ref: G
@@ -3981,7 +3981,7 @@
   phenotype_name: 1173TT
   snp:
   - alt: A/C
-    chrom: '16'
+    chrom: chr16
     end: 31093557
     name: VKORC1_rs9934438
     ref: G
@@ -3998,7 +3998,7 @@
   phenotype_name: 1173CT
   snp:
   - alt: A/C
-    chrom: '16'
+    chrom: chr16
     end: 31093557
     name: VKORC1_rs9934438
     ref: G
@@ -4015,7 +4015,7 @@
   phenotype_name: '*3/*3'
   snp:
   - alt: T
-    chrom: '10'
+    chrom: chr10
     end: 94942290
     name: CYP2C9_rs1799853
     ref: C
@@ -4024,7 +4024,7 @@
     strand: 1
     variant_genotype: C/C
   - alt: T
-    chrom: '10'
+    chrom: chr10
     end: 94981224
     name: CYP2C9_rs28371685
     ref: C
@@ -4033,7 +4033,7 @@
     strand: 1
     variant_genotype: C/C
   - alt: C/G
-    chrom: '10'
+    chrom: chr10
     end: 94981296
     name: CYP2C9_rs1057910
     ref: A
@@ -4042,7 +4042,7 @@
     strand: 1
     variant_genotype: C/C
   - alt: A/G
-    chrom: '10'
+    chrom: chr10
     end: 94981301
     name: CYP2C9_rs28371686
     ref: C
@@ -4059,7 +4059,7 @@
   phenotype_name: '*1/*3'
   snp:
   - alt: T
-    chrom: '10'
+    chrom: chr10
     end: 94942290
     name: CYP2C9_rs1799853
     ref: C
@@ -4068,7 +4068,7 @@
     strand: 1
     variant_genotype: C/C
   - alt: T
-    chrom: '10'
+    chrom: chr10
     end: 94981224
     name: CYP2C9_rs28371685
     ref: C
@@ -4077,7 +4077,7 @@
     strand: 1
     variant_genotype: C/C
   - alt: C/G
-    chrom: '10'
+    chrom: chr10
     end: 94981296
     name: CYP2C9_rs1057910
     ref: A
@@ -4086,7 +4086,7 @@
     strand: 1
     variant_genotype: A/C
   - alt: A/G
-    chrom: '10'
+    chrom: chr10
     end: 94981301
     name: CYP2C9_rs28371686
     ref: C
@@ -4103,7 +4103,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: T
-    chrom: '10'
+    chrom: chr10
     end: 94942290
     name: CYP2C9_rs1799853
     ref: C
@@ -4112,7 +4112,7 @@
     strand: 1
     variant_genotype: C/C
   - alt: T
-    chrom: '10'
+    chrom: chr10
     end: 94981224
     name: CYP2C9_rs28371685
     ref: C
@@ -4121,7 +4121,7 @@
     strand: 1
     variant_genotype: C/T
   - alt: C/G
-    chrom: '10'
+    chrom: chr10
     end: 94981296
     name: CYP2C9_rs1057910
     ref: A
@@ -4130,7 +4130,7 @@
     strand: 1
     variant_genotype: A/C
   - alt: A/G
-    chrom: '10'
+    chrom: chr10
     end: 94981301
     name: CYP2C9_rs28371686
     ref: C
@@ -4147,7 +4147,7 @@
   phenotype_name: EXTENSIVE METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -4156,7 +4156,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -4165,7 +4165,7 @@
     strand: 1
     variant_genotype: A/A
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -4174,7 +4174,7 @@
     strand: 1
     variant_genotype: T/T
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41016810
     name: CYP2B6_rs3211371
     ref: C
@@ -4191,7 +4191,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -4200,7 +4200,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -4209,7 +4209,7 @@
     strand: 1
     variant_genotype: A/A
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -4218,7 +4218,7 @@
     strand: 1
     variant_genotype: C/C
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41016810
     name: CYP2B6_rs3211371
     ref: C
@@ -4235,7 +4235,7 @@
   phenotype_name: INTERMEDIATE METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -4244,7 +4244,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -4253,7 +4253,7 @@
     strand: 1
     variant_genotype: A/A
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -4262,7 +4262,7 @@
     strand: 1
     variant_genotype: T/C
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41016810
     name: CYP2B6_rs3211371
     ref: C
@@ -4279,7 +4279,7 @@
   phenotype_name: EXTENSIVE METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -4288,7 +4288,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -4297,7 +4297,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -4306,7 +4306,7 @@
     strand: 1
     variant_genotype: T/T
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41016810
     name: CYP2B6_rs3211371
     ref: C
@@ -4323,7 +4323,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -4332,7 +4332,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -4341,7 +4341,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -4350,7 +4350,7 @@
     strand: 1
     variant_genotype: C/C
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41016810
     name: CYP2B6_rs3211371
     ref: C
@@ -4367,7 +4367,7 @@
   phenotype_name: INTERMEDIATE METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -4376,7 +4376,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -4385,7 +4385,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -4394,7 +4394,7 @@
     strand: 1
     variant_genotype: T/C
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41016810
     name: CYP2B6_rs3211371
     ref: C
@@ -4411,7 +4411,7 @@
   phenotype_name: EXTENSIVE METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -4420,7 +4420,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -4429,7 +4429,7 @@
     strand: 1
     variant_genotype: A/G
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -4438,7 +4438,7 @@
     strand: 1
     variant_genotype: T/T
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41016810
     name: CYP2B6_rs3211371
     ref: C
@@ -4455,7 +4455,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -4464,7 +4464,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -4473,7 +4473,7 @@
     strand: 1
     variant_genotype: A/G
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -4482,7 +4482,7 @@
     strand: 1
     variant_genotype: C/C
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41016810
     name: CYP2B6_rs3211371
     ref: C
@@ -4499,7 +4499,7 @@
   phenotype_name: INTERMEDIATE METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -4508,7 +4508,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -4517,7 +4517,7 @@
     strand: 1
     variant_genotype: A/G
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -4526,7 +4526,7 @@
     strand: 1
     variant_genotype: T/C
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41016810
     name: CYP2B6_rs3211371
     ref: C
@@ -4543,7 +4543,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -4552,7 +4552,7 @@
     strand: 1
     variant_genotype: T/T
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -4561,7 +4561,7 @@
     strand: 1
     variant_genotype: A/A
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -4570,7 +4570,7 @@
     strand: 1
     variant_genotype: T/T
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41016810
     name: CYP2B6_rs3211371
     ref: C
@@ -4587,7 +4587,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -4596,7 +4596,7 @@
     strand: 1
     variant_genotype: T/T
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -4605,7 +4605,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -4614,7 +4614,7 @@
     strand: 1
     variant_genotype: T/T
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41016810
     name: CYP2B6_rs3211371
     ref: C
@@ -4631,7 +4631,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -4640,7 +4640,7 @@
     strand: 1
     variant_genotype: T/T
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -4649,7 +4649,7 @@
     strand: 1
     variant_genotype: A/G
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -4658,7 +4658,7 @@
     strand: 1
     variant_genotype: T/T
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41016810
     name: CYP2B6_rs3211371
     ref: C
@@ -4675,7 +4675,7 @@
   phenotype_name: INTERMEDIATE METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -4684,7 +4684,7 @@
     strand: 1
     variant_genotype: G/T
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -4693,7 +4693,7 @@
     strand: 1
     variant_genotype: A/A
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -4702,7 +4702,7 @@
     strand: 1
     variant_genotype: T/T
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41016810
     name: CYP2B6_rs3211371
     ref: C
@@ -4719,7 +4719,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -4728,7 +4728,7 @@
     strand: 1
     variant_genotype: G/T
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -4737,7 +4737,7 @@
     strand: 1
     variant_genotype: A/A
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -4746,7 +4746,7 @@
     strand: 1
     variant_genotype: T/C
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41016810
     name: CYP2B6_rs3211371
     ref: C
@@ -4763,7 +4763,7 @@
   phenotype_name: INTERMEDIATE METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -4772,7 +4772,7 @@
     strand: 1
     variant_genotype: G/T
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -4781,7 +4781,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -4790,7 +4790,7 @@
     strand: 1
     variant_genotype: T/T
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41016810
     name: CYP2B6_rs3211371
     ref: C
@@ -4807,7 +4807,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -4816,7 +4816,7 @@
     strand: 1
     variant_genotype: G/T
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -4825,7 +4825,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -4834,7 +4834,7 @@
     strand: 1
     variant_genotype: T/C
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41016810
     name: CYP2B6_rs3211371
     ref: C
@@ -4851,7 +4851,7 @@
   phenotype_name: INTERMEDIATE METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -4860,7 +4860,7 @@
     strand: 1
     variant_genotype: G/T
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -4869,7 +4869,7 @@
     strand: 1
     variant_genotype: A/G
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -4878,7 +4878,7 @@
     strand: 1
     variant_genotype: T/T
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41016810
     name: CYP2B6_rs3211371
     ref: C
@@ -4895,7 +4895,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -4904,7 +4904,7 @@
     strand: 1
     variant_genotype: G/T
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -4913,7 +4913,7 @@
     strand: 1
     variant_genotype: A/G
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -4922,7 +4922,7 @@
     strand: 1
     variant_genotype: T/C
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41016810
     name: CYP2B6_rs3211371
     ref: C
@@ -4939,7 +4939,7 @@
   phenotype_name: CYP2B6 *5/*5
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -4948,7 +4948,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -4957,7 +4957,7 @@
     strand: 1
     variant_genotype: A/A
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -4966,7 +4966,7 @@
     strand: 1
     variant_genotype: T/T
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41016810
     name: CYP2B6_rs3211371
     ref: C
@@ -4983,7 +4983,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -4992,7 +4992,7 @@
     strand: 1
     variant_genotype: T/T
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -5001,7 +5001,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -5010,7 +5010,7 @@
     strand: 1
     variant_genotype: T/T
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41016810
     name: CYP2B6_rs3211371
     ref: C
@@ -5027,7 +5027,7 @@
   phenotype_name: CYP2B6 *5/*6 OR *5/*18 OR *5/*7 OR *5/*9
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -5036,7 +5036,7 @@
     strand: 1
     variant_genotype: G/T
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -5045,7 +5045,7 @@
     strand: 1
     variant_genotype: A/G
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -5054,7 +5054,7 @@
     strand: 1
     variant_genotype: T/T
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41016810
     name: CYP2B6_rs3211371
     ref: C
@@ -5071,7 +5071,7 @@
   phenotype_name: CYP2B6 *1/*5 OR *4/*5
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -5080,7 +5080,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -5089,7 +5089,7 @@
     strand: 1
     variant_genotype: A/A
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -5098,7 +5098,7 @@
     strand: 1
     variant_genotype: T/T
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41016810
     name: CYP2B6_rs3211371
     ref: C
@@ -5115,7 +5115,7 @@
   phenotype_name: CYP2B6 *5/*6 OR *5/*18 OR *5/*7 OR *5/*9
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -5124,7 +5124,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -5133,7 +5133,7 @@
     strand: 1
     variant_genotype: A/A
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -5142,7 +5142,7 @@
     strand: 1
     variant_genotype: T/C
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41016810
     name: CYP2B6_rs3211371
     ref: C
@@ -5159,7 +5159,7 @@
   phenotype_name: CYP2B6 *1/*5 OR *4/*5
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -5168,7 +5168,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -5177,7 +5177,7 @@
     strand: 1
     variant_genotype: A/G
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -5186,7 +5186,7 @@
     strand: 1
     variant_genotype: T/T
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41016810
     name: CYP2B6_rs3211371
     ref: C
@@ -5203,7 +5203,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -5212,7 +5212,7 @@
     strand: 1
     variant_genotype: T/T
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -5221,7 +5221,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -5230,7 +5230,7 @@
     strand: 1
     variant_genotype: T/T
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41016810
     name: CYP2B6_rs3211371
     ref: C
@@ -5247,7 +5247,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -5256,7 +5256,7 @@
     strand: 1
     variant_genotype: T/T
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -5265,7 +5265,7 @@
     strand: 1
     variant_genotype: A/G
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -5274,7 +5274,7 @@
     strand: 1
     variant_genotype: T/T
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41016810
     name: CYP2B6_rs3211371
     ref: C
@@ -5291,7 +5291,7 @@
   phenotype_name: CYP2B6 *5/*6 OR *5/*18 OR *5/*7 OR *5/*9
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -5300,7 +5300,7 @@
     strand: 1
     variant_genotype: G/T
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -5309,7 +5309,7 @@
     strand: 1
     variant_genotype: A/A
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -5318,7 +5318,7 @@
     strand: 1
     variant_genotype: T/T
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41016810
     name: CYP2B6_rs3211371
     ref: C
@@ -5335,7 +5335,7 @@
   phenotype_name: INTERMEDIATE METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -5344,7 +5344,7 @@
     strand: 1
     variant_genotype: G/T
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -5353,7 +5353,7 @@
     strand: 1
     variant_genotype: G/G
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -5362,7 +5362,7 @@
     strand: 1
     variant_genotype: T/T
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41016810
     name: CYP2B6_rs3211371
     ref: C
@@ -5379,7 +5379,7 @@
   phenotype_name: INTERMEDIATE METABOLIZER
   snp:
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41006936
     name: CYP2B6_rs3745274
     ref: G
@@ -5388,7 +5388,7 @@
     strand: 1
     variant_genotype: G/T
   - alt: G
-    chrom: '19'
+    chrom: chr19
     end: 41009358
     name: CYP2B6_rs2279343
     ref: A
@@ -5397,7 +5397,7 @@
     strand: 1
     variant_genotype: A/G
   - alt: C
-    chrom: '19'
+    chrom: chr19
     end: 41012316
     name: CYP2B6_rs28399499
     ref: T
@@ -5406,7 +5406,7 @@
     strand: 1
     variant_genotype: T/T
   - alt: A/T
-    chrom: '19'
+    chrom: chr19
     end: 41016810
     name: CYP2B6_rs3211371
     ref: C
@@ -5423,7 +5423,7 @@
   phenotype_name: POOR METABOLIZER
   snp:
   - alt: T
-    chrom: '10'
+    chrom: chr10
     end: 94942290
     name: CYP2C9_rs1799853
     ref: C
@@ -5432,7 +5432,7 @@
     strand: 1
     variant_genotype: C/C
   - alt: T
-    chrom: '10'
+    chrom: chr10
     end: 94981224
     name: CYP2C9_rs28371685
     ref: C
@@ -5441,7 +5441,7 @@
     strand: 1
     variant_genotype: C/C
   - alt: C/G
-    chrom: '10'
+    chrom: chr10
     end: 94981296
     name: CYP2C9_rs1057910
     ref: A
@@ -5450,7 +5450,7 @@
     strand: 1
     variant_genotype: A/C
   - alt: A/G
-    chrom: '10'
+    chrom: chr10
     end: 94981301
     name: CYP2C9_rs28371686
     ref: C
