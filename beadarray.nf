@@ -12,7 +12,7 @@ include { GtcToVcf as PICARD_GtcToVcf } from './NextflowModules/Picard/2.26.4--h
     extended_chip_manifest_file: "${params.extended_chip_manifest_file}",
     genome: "${params.genome}",
     optional: ""
-    )
+)
 
 // Contamination modules
 include { VcfToAdpc as PICARD_VcfToAdpc } from './NextflowModules/Picard/2.26.4--hdfd78af_0/VcfToAdpc.nf' params(optional: "")
@@ -25,12 +25,12 @@ include { CollectArraysVariantCallingMetrics as PICARD_VariantCallingMetrics } f
     dbsnp: "$params.dbsnp", 
     call_rate_threshold: "$params.call_rate_threshold",
     output_prefix: "_VC_metrics"
-    )
+)
 include { CollectArraysVariantCallingMetrics as PICARD_VariantCallingMetrics_Intervals } from './NextflowModules/Picard/2.26.4--hdfd78af_0/CollectArraysVariantCallingMetrics.nf' params(
     dbsnp: "$params.dbsnp", 
     call_rate_threshold: "$params.call_rate_threshold",
     output_prefix: "_VC_metrics_subset"
-    )
+)
 
 // VCF manipulation modules
 include { VariantFiltration as GATK_VariantFiltration } from './NextflowModules/GATK/4.2.0.0/VariantFiltration.nf' params(
@@ -38,20 +38,20 @@ include { VariantFiltration as GATK_VariantFiltration } from './NextflowModules/
     compress: true,
     filter: "$params.gatk_filter",
     optional: ""
-    )
+)
 
 include { SelectVariants as GATK_SelectVariants } from './NextflowModules/GATK/4.2.0.0/SelectVariants.nf' params(
     genome:"$params.genome",
     compress: true,
     optional: "$params.gatk_select"
-    )
+)
 
 include { SelectVariants as GATK_SelectVariants_Intervals }from './NextflowModules/GATK/4.2.0.0/SelectVariants.nf' params(
     genome:"$params.genome", 
     compress: true,
     output_prefix: "_select_soi",
     optional: "--intervals $params.intervals_of_interest "
-    )
+)
 
 // Retrieve input data files
 def idat_files = extractIdatPairFromDir(params.idat_path) // [sample_id, array_id, grn_path, red_path]
