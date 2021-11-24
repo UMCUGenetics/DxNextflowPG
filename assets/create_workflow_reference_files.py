@@ -375,7 +375,8 @@ def main(prev_bed_file, prev_yaml_file, output_path, output_prefix, config):
 		lst_filter_rs_id=config.getjsonloads("lst_filter_rs_id", None)
 	)		
 	write_bedfile(df_data=df_ens_metadata, output_path=output_path, output_prefix=output_prefix)
-	compare_files(old=prev_bed_file, new=output_path + output_prefix + ".bed")
+	if prev_bed_file:
+		compare_files(old=prev_bed_file, new=output_path + output_prefix + ".bed")
 
 	# df_sv = df_translation[~df_translation['rs_id'].str.startswith('rs', na=False) & df_translation['genotype_id'].str.match("[0-9]")]
 
@@ -386,9 +387,10 @@ def main(prev_bed_file, prev_yaml_file, output_path, output_prefix, config):
     )
 	output_yaml = generate_yaml_dict(df_phenotypes=df_phenotypes, df_metadata_variant_gt=df_metadata_variant_gt)
 	write_yaml(yaml_dict=output_yaml, output_prefix=output_prefix, output_path=output_path)
-	with open(prev_yaml_file) as yaml_file:
-		prev_yaml = yaml.load(yaml_file, Loader=yaml.FullLoader)
-	compare_files(old=prev_yaml, new=output_yaml)
+	if prev_yaml_file:
+		with open(prev_yaml_file) as yaml_file:
+			prev_yaml = yaml.load(yaml_file, Loader=yaml.FullLoader)
+		compare_files(old=prev_yaml, new=output_yaml)
 	
 
 
