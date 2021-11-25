@@ -13,6 +13,7 @@ include { GtcToVcf as PICARD_GtcToVcf } from './NextflowModules/Picard/2.26.4--h
     genome: "${params.genome}",
     optional: ""
 )
+include { GtcToVcf as Illumina_GtcToVcf } from './tools/IlluminaGtcToVcf/1.2.1/GtcToVcf.nf'
 
 // Contamination modules
 include { VcfToAdpc as PICARD_VcfToAdpc } from './NextflowModules/Picard/2.26.4--hdfd78af_0/VcfToAdpc.nf' params(optional: "")
@@ -61,19 +62,20 @@ def analysis_id = params.outdir.split('/')[-1]
 workflow {
     // Raw idat to Genotypes (VCF format)
     GenCall(idat_files) 
-    PICARD_GtcToVcf(GenCall.out.map{sample_id, array_id, gtc_file -> [sample_id, gtc_file]})
+    Illumina_GtcToVcf(GenCall.out.map{sample_id, array_id, gtc_file -> [sample_id, gtc_file]})
+    // PICARD_GtcToVcf(GenCall.out.map{sample_id, array_id, gtc_file -> [sample_id, gtc_file]})
     
     // Contamination
-    BafRegress(PICARD_GtcToVcf.out)
-    PICARD_VcfToAdpc(PICARD_GtcToVcf.out)
+    BafRegress(Illumina_GtcToVcf.out)
+    PICARD_VcfToAdpc(Illumina_GtcToVcf.out)
     VerifyIDIntensity(PICARD_VcfToAdpc.out) 
     PICARD_VerifyIDToMetrics(VerifyIDIntensity.out)
     
     // VariantCallingMetrics
-    PICARD_VariantCallingMetrics(PICARD_GtcToVcf.out)
+    PICARD_VariantCallingMetrics(Illumina_GtcToVcf.out)
 
     // Filter and select loci
-    GATK_VariantFiltration(PICARD_GtcToVcf.out) 
+    GATK_VariantFiltration(Illumina_GtcToVcf.out) 
     GATK_SelectVariants(GATK_VariantFiltration.out) 
     GATK_SelectVariants_Intervals(GATK_SelectVariants.out) 
 
