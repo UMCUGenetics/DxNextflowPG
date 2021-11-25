@@ -50,18 +50,18 @@ def get_tmp_output_path(tmp_path_factory):
 class TestGtToPtInputs():
     def test_parser_required_args(self, setup_and_get_test_path):
         parser = gt_to_pt.parse_arguments_and_check(
-            args_in=[setup_and_get_test_path + "/vcf_files/sample.vcf.gz", "sample", "./references/sites_of_interest.yaml"])
+            args_in=[setup_and_get_test_path + "/vcf_files/sample.vcf.gz", "sample", "./references/sites_of_interest_GRCh38.yaml"])
         assert parser
 
     def test_parser_required_args_vcf(self, setup_and_get_test_path):
         parser = gt_to_pt.parse_arguments_and_check(
-            args_in=[setup_and_get_test_path + "/vcf_files/sample_copy.vcf", "sample", "./references/sites_of_interest.yaml"])
+            args_in=[setup_and_get_test_path + "/vcf_files/sample_copy.vcf", "sample", "./references/sites_of_interest_GRCh38.yaml"])
         assert parser
     
     def test_parser_non_existing_input(self, setup_and_get_test_path):
         with pytest.raises(FileNotFoundError):
             parser = gt_to_pt.parse_arguments_and_check(
-                args_in=[setup_and_get_test_path + "non_existing.vcf.gz", "sample", "./references/sites_of_interest.yaml"])
+                args_in=[setup_and_get_test_path + "non_existing.vcf.gz", "sample", "./references/sites_of_interest_GRCh38.yaml"])
 
     def test_parser_non_existing_yaml(self, setup_and_get_test_path):
         with pytest.raises(FileNotFoundError):
@@ -71,7 +71,7 @@ class TestGtToPtInputs():
     def test_parser_unsupported_table(self, setup_and_get_test_path):
         with pytest.raises(TypeError):
             parser = gt_to_pt.parse_arguments_and_check(
-                args_in=[setup_and_get_test_path + "/vcf_files/sample.vcf.gz", "sample", "./references/sites_of_interest.json"])
+                args_in=[setup_and_get_test_path + "/vcf_files/sample.vcf.gz", "sample", "./references/sites_of_interest_GRCh38.json"])
 
     def test_parser_empty_input(self, setup_and_get_test_path):
         with pytest.raises(ValueError) as no_records_error:
@@ -90,17 +90,17 @@ class TestGtToPtInputs():
 
     def test_parser_output_path(self, setup_and_get_test_path):
         parser = gt_to_pt.parse_arguments_and_check(
-            args_in=[setup_and_get_test_path + "/vcf_files/sample.vcf.gz", "sample", "./references/sites_of_interest.yaml", "--output_path", "./test_output/"])
+            args_in=[setup_and_get_test_path + "/vcf_files/sample.vcf.gz", "sample", "./references/sites_of_interest_GRCh38.yaml", "--output_path", "./test_output/"])
         assert parser
     
     def test_parser_non_existing_output_path(self, setup_and_get_test_path):
         with pytest.raises(FileNotFoundError):
             parser = gt_to_pt.parse_arguments_and_check(
-                args_in=[setup_and_get_test_path + "/vcf_files/sample.vcf.gz", "sample", "./references/sites_of_interest.yaml", "--output_path", "./fake_dir/"])
+                args_in=[setup_and_get_test_path + "/vcf_files/sample.vcf.gz", "sample", "./references/sites_of_interest_GRCh38.yaml", "--output_path", "./fake_dir/"])
 
     def test_parser_output_prefix(self, setup_and_get_test_path):
         parser = gt_to_pt.parse_arguments_and_check(
-            args_in=[setup_and_get_test_path + "/vcf_files/sample.vcf.gz", "sample", "./references/sites_of_interest.yaml", "--output_prefix", "test_prefix"])
+            args_in=[setup_and_get_test_path + "/vcf_files/sample.vcf.gz", "sample", "./references/sites_of_interest_GRCh38.yaml", "--output_prefix", "test_prefix"])
         assert parser    
 
     def test_check_reqs_keys(self):

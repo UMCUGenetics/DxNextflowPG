@@ -45,7 +45,7 @@ class TestCreateRefsParser():
     
     def test_parser_optional_bed(self):
         parser = create_ref.parse_arguments_and_check(
-            args_in=["--bed", "references/sites_of_interest.bed"]
+            args_in=["--bed", "references/sites_of_interest_GRCh38.bed"]
         )
         assert parser
 
@@ -63,7 +63,7 @@ class TestCreateRefsParser():
 
     def test_parser_optional_yaml(self):
         parser = create_ref.parse_arguments_and_check(
-            args_in=["--yaml", "references/sites_of_interest.yaml"]
+            args_in=["--yaml", "references/sites_of_interest_GRCh38.yaml"]
         )
         assert parser
 
