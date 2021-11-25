@@ -13,7 +13,7 @@ process GtcToVcf {
     
     script:
         """
-        ${params.gtctovcf_path}/GTCtoVCF \
+        ${params.gtctovcf_path}/gtc_to_vcf.py \
         --gtc-paths ${gtc_file} \
         --manifest-file ${params.bead_pool_manifest_file} \
         --genome-fasta-file ${params.genome} \
