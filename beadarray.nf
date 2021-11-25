@@ -5,7 +5,7 @@ nextflow.enable.dsl=2
 include { extractIdatPairFromDir } from './NextflowModules/Utils/idat.nf'
 
 // Genotyping modules
-include { GenCall } from './tools/ iaap_cli/1.1.0-sha.80d7e5b3d9c1fdfc2e99b472a90652fd3848bbc7/gencall.nf'
+include { GenCall } from './tools/iaap_cli/1.1.0-sha.80d7e5b3d9c1fdfc2e99b472a90652fd3848bbc7/gencall.nf'
 include { GtcToVcf as PICARD_GtcToVcf } from './NextflowModules/Picard/2.26.4--hdfd78af_0/GtcToVcf.nf' params(
     bead_pool_manifest_file: "${params.bead_pool_manifest_file}",
     cluster_file: "${params.cluster_file}", 
