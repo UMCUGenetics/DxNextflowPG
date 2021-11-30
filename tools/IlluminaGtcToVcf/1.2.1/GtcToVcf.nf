@@ -15,11 +15,10 @@ process GtcToVcf {
         """
         ${params.gtctovcf_path}/gtc_to_vcf.py \
         --gtc-paths ${gtc_file} \
-        --manifest-file ${params.bead_pool_manifest_file} \
+        --manifest-file ${params.bead_pool_manifest_file_csv} \
         --genome-fasta-file ${params.genome} \
         --output-vcf-path ${identifier}.vcf.gz \
-        --include-attributes GT GQ BAF FT IGC LRR NORMX NORMY R THETA X Y \
-        --log-file ${identifier}.log \
-         ${params.optional}
+        --include-attributes GT GQ BAF LRR \
+        --log-file ${identifier}.log
         """
 }
