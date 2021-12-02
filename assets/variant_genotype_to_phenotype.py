@@ -116,11 +116,12 @@ def retrieve_match_snp_genotype(vcf_reader, genotypes):
 
 def write_matched_phenotype(genotype_match_per_snp, translation_table, output_path, output_prefix, sample):
     with open("{path}/{prefix}.txt".format(path=output_path, prefix=output_prefix), 'w') as outfile:
-        print("sample\tgenotype_match\tphenotype_id\tphenotype_match", file=outfile)
+        print("sample\tgenotype_id\tgenotype_match\tphenotype_id\tphenotype_match", file=outfile)
         for genotype_id, genotype_match in genotype_match_per_snp.items():
             if all(genotype_match):
-                print("{sample}\t{gt}\t{pt_nr}\t{pt}".format(
+                print("{sample}\t{gt_id}\t{gt}\t{pt_nr}\t{pt}".format(
                     sample=sample,
+                    gt_id=genotype_id,
                     gt=translation_table[genotype_id].get("gene_genotype"),
                     pt_nr=translation_table[genotype_id].get("phenotype_id"),
                     pt=translation_table[genotype_id].get("phenotype_name"),

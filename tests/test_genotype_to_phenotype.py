@@ -272,7 +272,8 @@ class TestGtToPtWriteMatchedPhenotype():
         expected_columns = ["sample", "genotype_match", "phenotype_id", "phenotype_match"]
         assert len(set(expected_columns).intersection(data)) == len(expected_columns)
         assert len(data.index) == 1 # test single match aka single row.
-        assert data.loc[0,'genotype_match'] == "fakegene:wildtype/wildtype"
+        assert data.loc[0, 'genotype_id'] == 0
+        assert data.loc[0, 'genotype_match'] == "fakegene:wildtype/wildtype"
         assert data.loc[0, "phenotype_id"] == 0
         assert data.loc[0, "phenotype_match"] == "POOR METABOLIZER"
 
