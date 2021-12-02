@@ -117,6 +117,10 @@ def morph_translation_file(csv_file, dict_rename_cols=None):
 		.dropna(axis=0, subset=["gene", "phenotype_name"])
 		.set_index("genotype_id", drop=False)
 	)
+	removed_pt = set(df_translation.genotype_id.tolist()) - set(df_phenotypes.index.tolist())
+	if removed_pt:
+		print("Following genotype IDs (n={len}) are removed, missing phenotypes or genes. {ids}".format(
+			len=len(removed_pt), ids=removed_pt))
 	df_genotypes = df_translation.loc[
 		df_translation.genotype_id.isin(df_phenotypes.genotype_id.to_list()),
 		["genotype_id", "gene_and_rs_id", "gene", 'rs_id', 'variant_genotype']
