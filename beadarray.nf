@@ -127,9 +127,9 @@ process VariantGenotypeToPhenotype {
         """
         source ${baseDir}/assets/venv/bin/activate
         python ${baseDir}/assets/variant_genotype_to_phenotype.py \
-        --table ${params.translation_table} \
-        --input ${vcf_file} \
-        --sample ${identifier} \
+        ${vcf_file} \
+        ${identifier} \
+        ${params.translation_table} \
         --output_prefix ${identifier}_genotypes
         """
 }
