@@ -87,6 +87,11 @@ class TestCreateRefsParser():
 
 
 class TestCreateRefsConfig():
+    def test_config_file(self):
+        config_section = create_ref.read_config_section_and_check(
+            section="DEFAULT", config_file="./assets/create_workflow_reference_files.ini"
+        )
+    
     def test_config_file_not_exists(self):
         with pytest.raises(FileNotFoundError):
             config_section = create_ref.read_config_section_and_check(
