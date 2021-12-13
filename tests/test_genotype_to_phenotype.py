@@ -90,7 +90,7 @@ class TestGtToPtInputs():
 
     def test_parser_output_path(self, setup_and_get_test_path):
         parser = gt_to_pt.parse_arguments_and_check(
-            args_in=[setup_and_get_test_path + "/vcf_files/sample.vcf.gz", "sample", "./references/sites_of_interest_GRCh38.yaml", "--output_path", "./test_output/"])
+            args_in=[setup_and_get_test_path + "/vcf_files/sample.vcf.gz", "sample", "./references/sites_of_interest_GRCh38.yaml", "--output_path", setup_and_get_test_path])
         assert parser
     
     def test_parser_non_existing_output_path(self, setup_and_get_test_path):
