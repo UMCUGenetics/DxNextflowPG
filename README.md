@@ -38,7 +38,12 @@ Pytests are included for some of these custom python scripts.
 
 I choose to set-up the [tests-outside-the-application-code](https://docs.pytest.org/en/6.2.x/goodpractices.html#choosing-a-test-layout-import-rules).
 Therefore, I used the package set up.
-- Install package in repos directory: `pip install -e .`
+- Install package in repos directory: 
+    ```bash 
+    python3 -m venv venv
+    . venv/bin/activate
+    pip install -e .
+    ```
 
 To run pytest for all tests with verbosity and print statements shown in console, use:
 ```bash
@@ -52,6 +57,7 @@ The scope of tests you want to run, can be selected. [specifying-tests-or-select
 
 Some pytests require testdata and is included in this repository alongside the actual test code.
 
+To test the total pytest coverage, use [pytest-cov](https://pytest-cov.readthedocs.io/en/latest/readme.html)
 ## 1.6. Limitations
 Not supported yet:
 - Structural variants, such as CNV, INDELs (> 1 bp) 
@@ -67,22 +73,22 @@ TODO: retrieve MAF for GRCh38 or remove BAFREGRESS.
 - Login HPC
 - Go to repository ./assets/
 - Run:
-```bash
-python3 -m venv venv
-. venv/bin/activate
-pip install --upgrade pip
-python3 -m pip install -r requirements.txt
-```
+    ```bash
+    python3 -m venv venv
+    . venv/bin/activate
+    pip install --upgrade pip
+    python3 -m pip install -r requirements.txt
+    ```
 
 ## 2.2. IAAP
 - Retrieve tar.gz from https://emea.support.illumina.com/downloads/iaap-genotyping-cli.html
 - Move tar.gz to HPC /hpc/diaggen/software/tools/
 - Login HPC
 - Run:
-```bash
-cd /hpc/diaggen/software/tools/
-tar -xzvf iaap-cli-linux-x64-1.1.0-sha.80d7e5b3d9c1fdfc2e99b472a90652fd3848bbc7.tar.gz
-```
+    ```bash
+    cd /hpc/diaggen/software/tools/
+    tar -xzvf iaap-cli-linux-x64-1.1.0-sha.80d7e5b3d9c1fdfc2e99b472a90652fd3848bbc7.tar.gz
+    ```
 
 Docker image (using Docker Desktop locally). Replace <version> to match with Dockerfile argument.
 ```bash
@@ -109,10 +115,10 @@ docker push umcugenbioinf/illumina_gtctovcf:<version>
 ## Docker files
 Build docker image for software dependencies. 
 - [Install Docker Desktop](https://docs.docker.com/desktop/mac/apple-silicon/)
-```bash
-docker build -t <organization_or_username>/<toolname>:<version> -f <path_to_dockerfile>
-docker push <organization_or_username>/<toolname>:<version>
-```
+    ```bash
+    docker build -t <organization_or_username>/<toolname>:<version> -f <path_to_dockerfile>
+    docker push <organization_or_username>/<toolname>:<version>
+    ```
 ## 2.4. Nextflow Modules
 Get Nextflow Modules
 ```bash
