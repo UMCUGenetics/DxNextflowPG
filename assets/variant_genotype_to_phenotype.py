@@ -12,15 +12,23 @@ import pysam
 import vcf as pyvcf
 import yaml
 
+
 def parse_arguments_and_check(args_in):
-    parser = argparse.ArgumentParser(description="Translate variant genotype to a pharmacogentics phenotype.",
-                                     formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser = argparse.ArgumentParser(
+        description="Translate variant genotype to a pharmacogentics phenotype.",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
     parser.add_argument("input", type=str, help="File path and name of compressed VCF (.vcf.gz).")
     parser.add_argument("sample", type=str, help="Sample identifier.")
     parser.add_argument("table", type=str, help="File path and name of translation table (.yaml).")
-    parser.add_argument("-o", "--output_path", type=str, required=False, default=pathlib.Path.cwd(), help="File path to store output.")
-    parser.add_argument("-p", "--output_prefix", type=str, required=False,
-                        help="Output prefix to use as output filename. (default: the provided sample identifier)")
+    parser.add_argument(
+        "-o", "--output_path", type=str, required=False, default=pathlib.Path.cwd(),
+        help="File path to store output."
+    )
+    parser.add_argument(
+        "-p", "--output_prefix", type=str, required=False,
+        help="Output prefix to use as output filename. (default: the provided sample identifier)"
+    )
     args = parser.parse_args(args_in)
     if not args.output_prefix:
         args.output_prefix = args.sample
@@ -31,8 +39,8 @@ def parse_arguments_and_check(args_in):
         pysam.tabix_index(args.input + ".gz", preset="vcf")
         args.input = args.input + ".gz"
     for input_file_or_dir in [args.table, args.input, args.input+".tbi", args.output_path]:
-       	if not pathlib.Path(input_file_or_dir).is_file() and not pathlib.Path(input_file_or_dir).is_dir():
-	        raise FileNotFoundError(errno_ENOENT, os_strerror(errno_ENOENT), input_file_or_dir)
+        if not pathlib.Path(input_file_or_dir).is_file() and not pathlib.Path(input_file_or_dir).is_dir():
+            raise FileNotFoundError(errno_ENOENT, os_strerror(errno_ENOENT), input_file_or_dir)
 
     return(args)
 
@@ -53,7 +61,7 @@ def read_yaml(translation_file):
     if not translation_table:
         raise ValueError("File is empty.")
     return(translation_table)
-    
+
 
 def check_required_keys(snp):
     for key in ["chrom", "start", "end", "variant_genotype", "name"]:
@@ -69,7 +77,7 @@ def retrieve_match_all_records(vcf_reader, snp):
         warnings_warn("Remove genotype, fetch has no records for variant {}".format(snp.get("name")))
         return(None)
     for record in records:
-        if record.samples[0].gt_bases == snp.get("variant_genotype") :
+        if record.samples[0].gt_bases == snp.get("variant_genotype"):
             records_match.append(True)
         elif record.samples[0]['GT'] == '1/0':
             splitted_genotype = record.samples[0].gt_bases.split("/")[::-1]
