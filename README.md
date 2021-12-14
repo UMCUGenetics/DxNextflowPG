@@ -27,7 +27,7 @@ This workflow contains the following blocks:
 
 ## 1.3. Running PG workflow
 ```bash
-nextflow run beadarray.nf -c beadarray.config --idat_path <idat_dir_path> --outdir <output_dir_path> --email <email> [-profile slurm|mac]
+nextflow run beadarray.nf -c beadarray.config --idat_path idat_dir_path --outdir output_dir_path --email email [-profile slurm|mac]
 ```
 ## 1.4. Genome builds / versions.
 GRCh38 is used.
@@ -90,11 +90,11 @@ TODO: retrieve MAF for GRCh38 or remove BAFREGRESS.
     tar -xzvf iaap-cli-linux-x64-1.1.0-sha.80d7e5b3d9c1fdfc2e99b472a90652fd3848bbc7.tar.gz
     ```
 
-Docker image (using Docker Desktop locally). Replace <version> to match with Dockerfile argument.
+Docker image (using Docker Desktop locally). Replace `version` to match with Dockerfile argument.
 ```bash
-cd ./tools/IlluminaGtcToVcf/<version>/
-docker build -t umcugenbioinf/illumina_gtctovcf:<version> -f Dockerfile .
-docker push umcugenbioinf/illumina_gtctovcf:<version>
+cd ./CustomModules/IlluminaGtcToVcf/version/
+docker build -t umcugenbioinf/illumina_gtctovcf:version -f Dockerfile .
+docker push umcugenbioinf/illumina_gtctovcf:version
 ```
 ## 2.3. BafRegress
 HPC installation
@@ -106,18 +106,18 @@ cd bafregress_1_0_0
 git clone https://github.com/jpdna/VCFtoFinalReportForBafRegress.git
 ```
 
-Docker image (using Docker Desktop locally). Replace <version> to match with Dockerfile argument.
+Docker image (using Docker Desktop locally). Replace `version` to match with Dockerfile argument.
 ```bash
-cd ./tools/IlluminaGtcToVcf/<version>/
-docker build -t umcugenbioinf/illumina_gtctovcf:<version> -f Dockerfile .
-docker push umcugenbioinf/illumina_gtctovcf:<version>
+cd ./tools/IlluminaGtcToVcf/version/
+docker build -t umcugenbioinf/illumina_gtctovcf:version -f Dockerfile .
+docker push umcugenbioinf/illumina_gtctovcf:version
 ```
 ## Docker files
 Build docker image for software dependencies. 
 - [Install Docker Desktop](https://docs.docker.com/desktop/mac/apple-silicon/)
     ```bash
-    docker build -t <organization_or_username>/<toolname>:<version> -f <path_to_dockerfile>
-    docker push <organization_or_username>/<toolname>:<version>
+    docker build -t organization_or_username/toolname:version -f path_to_dockerfile
+    docker push organization_or_username/toolname:version
     ```
 ## 2.4. Nextflow Modules
 Get Nextflow Modules
@@ -144,7 +144,7 @@ Note: it is possible to use docker and/or Nextflow as well (except BedToInterval
 - NextflowModules/Picard/2.26.4--hdfd78af_0/CreateSequenceDictionary.nf
 - NextflowModules/Picard/2.26.4--hdfd78af_0/CreateExtendedIlluminaManifest.nf
 
-To generate the reference files, run following commands at HPC computenode. Replace all <> with strings. 
+To generate the reference files, run following commands at HPC computenode. Replace the parameters with actual strings. 
 
 ***Generate .dict file***
 
@@ -153,9 +153,9 @@ Make sure the --GENOME_ASSEMBLY matches with the reference fasta. for example: '
 ```bash
 java -jar -Xmx4G /hpc/local/CentOS7/cog_bioinf/picard-tools-2.5.0/picard.jar \
 CreateSequenceDictionary \
-REFERENCE=<path_to_ref_fasta> \
-OUTPUT=<path_and_filename_of_output_dict> \
-GENOME_ASSEMBLY=<genome_assembly>
+REFERENCE=path_to_ref_fasta \
+OUTPUT=path_and_filename_of_output_dict \
+GENOME_ASSEMBLY=genome_assembly
 ```
 
 ***Generate intervallist***
@@ -166,9 +166,9 @@ Make sure the sequence_dictionary matches with the one used in the workflow.
 
 java -jar -Xmx4G /hpc/local/CentOS7/cog_bioinf/picard-tools-2.5.0/picard.jar \
 BedToIntervalList \
-I=<path_to_generated_bed_file>  \
-O=<path_and_filename_of_output_intervallist> \
-SEQUENCE_DICTIONARY=<path_to_reference_genome_dict> \
+I=path_to_generated_bed_file  \
+O=path_and_filename_of_output_intervallist \
+SEQUENCE_DICTIONARY=path_to_reference_genome_dict \
 UNIQUE=true
 ```
 
@@ -180,10 +180,10 @@ set +u; env - PATH="$PATH" SINGULARITYENV_TMP="$TMP" SINGULARITYENV_TMPDIR="$TMP
 picard -Xmx4G \
 CreateExtendedIlluminaManifest \
 --TMP_DIR $TMPDIR \
---INPUT <path_and_filename_of_manifest_csv> \
---OUTPUT <path_and_filename_of_output_extended_manifest_csv> \
---REFERENCE_SEQUENCE <path_to_ref_fasta> \
---REPORT_FILE <path_and_filename_of_output_report> \
---CLUSTER_FILE <path_and_filename_of_clusterfile> \
+--INPUT path_and_filename_of_manifest_csv \
+--OUTPUT path_and_filename_of_output_extended_manifest_csv>\
+--REFERENCE_SEQUENCE path_to_ref_fasta \
+--REPORT_FILE path_and_filename_of_output_report \
+--CLUSTER_FILE path_and_filename_of_clusterfile \
 --MAX_RECORDS_IN_RAM 100000"
 ```
