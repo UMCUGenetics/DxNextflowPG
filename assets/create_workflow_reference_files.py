@@ -25,12 +25,16 @@ def parse_arguments_and_check(args_in):
         "and a yaml file with genotype - phenotype translation."
     )
     parser.add_argument(
-        "-s", "--config_section", type=str, default="DEFAULT",
-        help="The INI-config section used."
-    )
-    parser.add_argument(
         "-b", "--bed", type=str, required=False,
         help="Previous bed file. If provided, differences between previous and generated bed file are shown."
+    )
+    parser.add_argument(
+        "-c", "--config_file", type=str, default="./assets/create_workflow_reference_files.ini",
+        help="Filepath to INI-config file."
+    )
+    parser.add_argument(
+        "-s", "--config_section", type=str, default="DEFAULT",
+        help="The INI-config section used."
     )
     parser.add_argument(
         "-o", "--output_path", type=str, required=False, default=pathlib.Path().resolve(),
@@ -62,7 +66,7 @@ def check_file(file):
         raise OSError("File is empty.")
 
 
-def read_config_section_and_check(section, config_file="./assets/create_workflow_reference_files.ini"):
+def read_config_section_and_check(section, config_file):
     config_parser = ConfigParser(converters={"jsonloads": json.loads})
     check_file(file=config_file)
     config_parser.read(config_file)
@@ -431,9 +435,7 @@ def main(prev_bed_file, prev_yaml_file, output_path, output_prefix, config):
 
 if __name__ == '__main__':
     args = parse_arguments_and_check(args_in=sys.argv[1:])
-    config_section = read_config_section_and_check(
-        section=args.config_section, config_file="./assets/create_workflow_reference_files.ini"
-    )
+    config_section = read_config_section_and_check(section=args.config_section, config_file=args.config_file)
     main(
         prev_bed_file=args.bed,
         prev_yaml_file=args.yaml,
