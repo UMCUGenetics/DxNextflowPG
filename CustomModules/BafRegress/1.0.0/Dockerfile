@@ -1,5 +1,4 @@
 ################## BASE IMAGE ######################
-
 FROM --platform=linux/amd64 ubuntu:latest
 
 ################## METADATA ######################
@@ -12,7 +11,6 @@ LABEL about.documentation="https://genome.sph.umich.edu/wiki/BAFRegress"
 LABEL extra.binaries="bcftools"
 
 ################## INSTALLATIONS ######################
-
 ARG bcftools_version=1.11
 
 ENV DEBIAN_FRONTEND=noninteractive
