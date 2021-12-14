@@ -200,7 +200,7 @@ class TestCreateRefsTranslationFile():
 
     def test_tt_variant_gt_unexpected_sep(self, create_test_files):
         with pytest.raises(ValueError) as err_unexpected_sep:
-            tt_pheno, tt_geno = create_ref.morph_translation_file(
+            create_ref.morph_translation_file(
                 csv_file=create_test_files + "/translation_input_files_extern/tt_variant_genotype_unexpected_sep.csv"
             )
         assert "Expected single separator ':' or '/'" in str(err_unexpected_sep.value)
@@ -208,14 +208,14 @@ class TestCreateRefsTranslationFile():
 
     def test_tt_variant_gt_invalid_char(self, create_test_files):
         with pytest.raises(ValueError) as err_invalid_char:
-            tt_pheno, tt_geno = create_ref.morph_translation_file(
+            create_ref.morph_translation_file(
                 csv_file=create_test_files + "/translation_input_files_extern/tt_variant_genotype_invalid_char.csv"
             )
         assert "Invalid character in variant genotype. Supported:" in str(err_invalid_char.value)
 
     def test_tt_variant_id_unexpected_sep(self, create_test_files):
         with pytest.raises(ValueError) as err_unexpected_sep:
-            tt_pheno, tt_geno = create_ref.morph_translation_file(
+            create_ref.morph_translation_file(
                 csv_file=create_test_files + "/translation_input_files_extern/tt_variant_id_unexpected_sep.csv"
             )
         assert "Expected separator _" in str(err_unexpected_sep.value)
@@ -223,7 +223,7 @@ class TestCreateRefsTranslationFile():
 
     def test_tt_variant_id_multi_sep(self, create_test_files):
         with pytest.raises(ValueError) as err_unexpected_sep:
-            tt_pheno, tt_geno = create_ref.morph_translation_file(
+            create_ref.morph_translation_file(
                 csv_file=create_test_files + "/translation_input_files_extern/tt_variant_id_multi_sep.csv"
             )
         assert "Expected separator _" in str(err_unexpected_sep.value)
@@ -231,7 +231,7 @@ class TestCreateRefsTranslationFile():
 
     def test_tt_missing_columns(self, create_test_files):
         with pytest.raises(ValueError) as err_missing_cols:
-            tt_pheno, tt_geno = create_ref.morph_translation_file(
+            create_ref.morph_translation_file(
                 csv_file=create_test_files + "/translation_input_files_extern/tt_columns_incomplete.csv"
             )
         assert "Required columns are missing" in str(err_missing_cols.value)
