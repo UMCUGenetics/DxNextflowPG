@@ -1,8 +1,13 @@
 #!/usr/bin/env nextflow
 nextflow.enable.dsl=2
 
-// Retrieve input data files modules
+// Custom modules
+include { VariantGenotypeToPhenotype } from './CustomModules/VariantGenotypeToPhenotype/VariantGenotypeToPhenotype.nf'
+include { VersionLog } from './CustomModules/VersionLog/VersionLog.nf'
+
+// Utils modules
 include { extractIdatPairFromDir } from './NextflowModules/Utils/idat.nf'
+include { ExportParams as Workflow_ExportParams } from './NextflowModules/Utils/workflow.nf'
 
 // Genotyping modules
 include { GenCall } from './tools/iaap_cli/1.1.0-sha.80d7e5b3d9c1fdfc2e99b472a90652fd3848bbc7/gencall.nf'
@@ -87,6 +92,7 @@ workflow {
 
     // Repository versions
     VersionLog()
+    Workflow_ExportParams()
 }
 
 // Workflow completion notification
@@ -108,46 +114,4 @@ workflow.onComplete {
         def subject = "PG Workflow Failed: ${analysis_id}"
         sendMail(to: params.email.trim(), subject: subject, body: email_html)
     }
-}
-
-
-process VariantGenotypeToPhenotype {
-    // Custom process to translate (sets of) variant genotype to a phenotype.
-    tag {"VariantGenotypeToPhenotype ${identifier}"}
-    label 'VariantGenotypeToPhenotype'
-    shell = ['/bin/bash', '-eo', 'pipefail']
-
-    input:
-        tuple(val(identifier), path(vcf_file), path(vcf_idx_file)) // should be compressed VCF with tabix index.
-
-    output:
-        path("${identifier}_genotypes.txt")
-
-    script:
-        """
-        source ${baseDir}/assets/venv/bin/activate
-        python ${baseDir}/assets/variant_genotype_to_phenotype.py \
-        ${vcf_file} \
-        ${identifier} \
-        ${params.translation_table} \
-        --output_prefix ${identifier}_genotypes
-        """
-}
-
-
-process VersionLog {
-    // Custom process to log repository versions
-    tag {"VersionLog ${analysis_id}"}
-    label 'VersionLog'
-    shell = ['/bin/bash', '-eo', 'pipefail']
-    cache = false  //Disable cache to force a new version log when restarting the workflow.
-
-    output:
-        path('repository_version.log')
-
-    script:
-        """
-        echo 'DxNextflowPG' > repository_version.log
-        git --git-dir=${workflow.projectDir}/.git log --pretty=oneline --decorate -n 2 >> repository_version.log
-        """
 }
