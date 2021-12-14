@@ -25,7 +25,7 @@ include { GtcToVcf as PICARD_GtcToVcf } from './NextflowModules/Picard/2.26.4--h
     genome: "${params.genome}",
     optional: ""
 )
-include { GtcToVcf as Illumina_GtcToVcf } from './tools/IlluminaGtcToVcf/1.2.1/GtcToVcf.nf'
+include { GtcToVcf as Illumina_GtcToVcf } from './CustomModules/IlluminaGtcToVcf/1.2.1/GtcToVcf.nf'
 
 // Contamination modules
 include { VcfToAdpc as PICARD_VcfToAdpc } from './NextflowModules/Picard/2.26.4--hdfd78af_0/VcfToAdpc.nf' params(optional: "")
