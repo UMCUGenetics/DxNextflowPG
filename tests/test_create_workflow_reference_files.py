@@ -42,7 +42,7 @@ class TestCreateRefsParser():
             args_in=["--config_section", "fake"]
         )
         assert parser
-    
+
     def test_parser_optional_bed(self):
         parser = create_ref.parse_arguments_and_check(
             args_in=["--bed", "references/sites_of_interest_GRCh38.bed"]
@@ -69,19 +69,19 @@ class TestCreateRefsParser():
 
     def test_parser_optional_bed_not_exist(self):
         with pytest.raises(FileNotFoundError):
-            parser = create_ref.parse_arguments_and_check(
+            create_ref.parse_arguments_and_check(
                 args_in=["--bed", "non_existing_file.bed"]
             )
 
     def test_parser_optional_output_path_not_exist(self):
         with pytest.raises(FileNotFoundError):
-            parser = create_ref.parse_arguments_and_check(
+            create_ref.parse_arguments_and_check(
                 args_in=["--output_path", "non_existing_path/"]
             )
 
     def test_parser_optional_yaml_not_exist(self):
         with pytest.raises(FileNotFoundError):
-            parser = create_ref.parse_arguments_and_check(
+            create_ref.parse_arguments_and_check(
                 args_in=["--yaml", "non_existing_file.yaml"]
             )
 
@@ -91,64 +91,69 @@ class TestCreateRefsConfig():
         config_section = create_ref.read_config_section_and_check(
             section="DEFAULT", config_file="./assets/create_workflow_reference_files.ini"
         )
-    
+        assert config_section
+
     def test_config_file_not_exists(self):
         with pytest.raises(FileNotFoundError):
-            config_section = create_ref.read_config_section_and_check(
+            create_ref.read_config_section_and_check(
                 section="DEFAULT", config_file="non_existing_file.ini"
             )
 
     def test_config_section_not_exists(self, create_test_files):
         with pytest.raises(KeyError):
-            config_section = create_ref.read_config_section_and_check(
+            create_ref.read_config_section_and_check(
                 section="non_existing_section", config_file=create_test_files + "/ini_config/correct_config.ini"
             )
 
     def test_config_key_not_exists(self, create_test_files):
         with pytest.raises(KeyError):
-            config_section = create_ref.read_config_section_and_check(
+            create_ref.read_config_section_and_check(
                 section="DEFAULT", config_file=create_test_files + "/ini_config/missing_key.ini"
             )
 
     def test_config_file_empty(self, create_test_files):
         with pytest.raises(OSError) as empty_error:
-            config_section = create_ref.read_config_section_and_check(
+            create_ref.read_config_section_and_check(
                 section="DEFAULT", config_file=create_test_files + "/ini_config/empty.ini"
             )
         assert "empty" in str(empty_error.value)
-    
+
     def test_config_translation_empty(self, create_test_files):
         with pytest.raises(OSError) as empty_error:
-            config_section = create_ref.read_config_section_and_check(
+            create_ref.read_config_section_and_check(
                 section="DEFAULT", config_file=create_test_files + "/ini_config/empty_translation_file.ini"
             )
         assert "empty" in str(empty_error.value)
 
     def test_config_translation_not_exists(self, create_test_files):
         with pytest.raises(FileNotFoundError):
-            config_section = create_ref.read_config_section_and_check(
+            create_ref.read_config_section_and_check(
                 section="DEFAULT", config_file=create_test_files + "/ini_config/non_existing_translation_file.ini"
             )
 
 
 class TestCreateRefsTranslationFile():
     def test_tt_correct(self, create_test_files):
-        tt_pheno, tt_geno = create_ref.morph_translation_file(csv_file=create_test_files + "/translation_input_files_extern/tt_correct.csv")
+        tt_pheno, tt_geno = create_ref.morph_translation_file(
+            csv_file=create_test_files + "/translation_input_files_extern/tt_correct.csv"
+        )
         assert not tt_pheno.empty
         assert not tt_geno.empty
-    
+
     def test_tt_correct_with_sections(self, create_test_files):
         tt_pheno, tt_geno = create_ref.morph_translation_file(
-            csv_file=create_test_files + "/translation_input_files_extern/tt_correct_with_sections.csv")
+            csv_file=create_test_files + "/translation_input_files_extern/tt_correct_with_sections.csv"
+        )
         assert not tt_pheno.empty
         assert not tt_geno.empty
-    
+
     def test_tt_genotype_with_sv(self, create_test_files):
         tt_pheno, tt_geno = create_ref.morph_translation_file(
-            csv_file=create_test_files + "/translation_input_files_extern/tt_genotype_with_sv.csv")
+            csv_file=create_test_files + "/translation_input_files_extern/tt_genotype_with_sv.csv"
+        )
         assert not tt_pheno.empty
         assert not tt_geno.empty
-        
+
     def test_tt_rename_columns_not_exists(self, create_test_files):
         tt_pheno, tt_geno = create_ref.morph_translation_file(
             csv_file=create_test_files + "/translation_input_files_extern/tt_correct.csv",
@@ -156,7 +161,7 @@ class TestCreateRefsTranslationFile():
         )
         assert not tt_pheno.empty
         assert not tt_geno.empty
-    
+
     def test_tt_rename_columns(self, create_test_files):
         tt_pheno, tt_geno = create_ref.morph_translation_file(
             csv_file=create_test_files + "/translation_input_files_extern/tt_rename_columns.csv",
@@ -166,23 +171,30 @@ class TestCreateRefsTranslationFile():
         assert not tt_geno.empty
 
     def test_tt_missing_gt_id(self, create_test_files):
-        tt_pheno, tt_geno = create_ref.morph_translation_file(csv_file=create_test_files + "/translation_input_files_extern/tt_missing_genotype_id.csv")
+        tt_pheno, tt_geno = create_ref.morph_translation_file(
+            csv_file=create_test_files + "/translation_input_files_extern/tt_missing_genotype_id.csv"
+        )
         assert not tt_pheno.empty
         assert not tt_geno.empty
 
     def test_tt_missing_phenotypes(self, create_test_files):
-        tt_pheno, tt_geno = create_ref.morph_translation_file(csv_file=create_test_files + "/translation_input_files_extern/tt_missing_phenotypes.csv")
+        tt_pheno, tt_geno = create_ref.morph_translation_file(
+            csv_file=create_test_files + "/translation_input_files_extern/tt_missing_phenotypes.csv"
+        )
         assert not tt_pheno.empty
         assert not tt_geno.empty
 
     def test_tt_missing_variant_gts(self, create_test_files):
         with pytest.raises(ValueError) as err_missing_variant_gt:
             tt_pheno, tt_geno = create_ref.morph_translation_file(
-                csv_file=create_test_files + "/translation_input_files_extern/tt_missing_variant_genotypes.csv")
+                csv_file=create_test_files + "/translation_input_files_extern/tt_missing_variant_genotypes.csv"
+            )
         assert "Variant_genotype value is required" in str(err_missing_variant_gt.value)
 
     def test_tt_variant_gt_format(self, create_test_files):
-        tt_pheno, tt_geno = create_ref.morph_translation_file(csv_file=create_test_files + "/translation_input_files_extern/tt_variant_genotype_format.csv")
+        tt_pheno, tt_geno = create_ref.morph_translation_file(
+            csv_file=create_test_files + "/translation_input_files_extern/tt_variant_genotype_format.csv"
+        )
         assert not tt_pheno.empty
         assert not tt_geno.empty
 
@@ -193,7 +205,7 @@ class TestCreateRefsTranslationFile():
             )
         assert "Expected single separator ':' or '/'" in str(err_unexpected_sep.value)
         assert "variant_genotype" in str(err_unexpected_sep.value)
-    
+
     def test_tt_variant_gt_invalid_char(self, create_test_files):
         with pytest.raises(ValueError) as err_invalid_char:
             tt_pheno, tt_geno = create_ref.morph_translation_file(
@@ -212,15 +224,18 @@ class TestCreateRefsTranslationFile():
     def test_tt_variant_id_multi_sep(self, create_test_files):
         with pytest.raises(ValueError) as err_unexpected_sep:
             tt_pheno, tt_geno = create_ref.morph_translation_file(
-                csv_file=create_test_files + "/translation_input_files_extern/tt_variant_id_multi_sep.csv")
+                csv_file=create_test_files + "/translation_input_files_extern/tt_variant_id_multi_sep.csv"
+            )
         assert "Expected separator _" in str(err_unexpected_sep.value)
         assert "gene_and_rs_id" in str(err_unexpected_sep.value)
 
     def test_tt_missing_columns(self, create_test_files):
         with pytest.raises(ValueError) as err_missing_cols:
-            tt_pheno, tt_geno = create_ref.morph_translation_file(csv_file=create_test_files + "/translation_input_files_extern/tt_columns_incomplete.csv")
+            tt_pheno, tt_geno = create_ref.morph_translation_file(
+                csv_file=create_test_files + "/translation_input_files_extern/tt_columns_incomplete.csv"
+            )
         assert "Required columns are missing" in str(err_missing_cols.value)
-    
+
 
 class TestCreateRefsEnsembl():
     def test_ensembl(self):
@@ -228,19 +243,26 @@ class TestCreateRefsEnsembl():
             server="http://rest.ensembl.org", ext="/variation/homo_sapiens/", json={"ids": ["rs1799853"]}, method="post"
         )
         assert query_result
-    
+
     def test_ensembl_typo(self):
         with pytest.raises(requests.exceptions.ConnectionError):
-            query_result = create_ref.get_ensembl_request_response(
-                server="http://rest.ensembl_typo.org", ext="/variation/homo_sapiens/", json={"ids": ["rs1799853"]}, method="post"
+            create_ref.get_ensembl_request_response(
+                server="http://rest.ensembl_typo.org",
+                ext="/variation/homo_sapiens/",
+                json={"ids": ["rs1799853"]},
+                method="post"
             )
 
     def test_rs_id_not_linked_to_gene(self):
         with pytest.warns(UserWarning, match="Gene not found"):
-            create_ref.get_gene_metadata_ensembl(server="http://rest.ensembl.org",
-                                                 ens_rs_id="rs1633021", location="chr6:29746868-29746869", species="homo_sapiens")
+            create_ref.get_gene_metadata_ensembl(
+                server="http://rest.ensembl.org",
+                ens_rs_id="rs1633021",
+                location="chr6:29746868-29746869",
+                species="homo_sapiens"
+            )
 
-    def test_rs_id_not_linked_to_gene(self):
+    def test_rs_id_not_exists(self):
         with pytest.warns(UserWarning, match="Variation identifiers not found in Ensembl"):
             create_ref.get_variant_metadata_ensembl(
                 server="http://rest.ensembl.org", ids=["fakers"], species="homo_sapiens"
@@ -270,8 +292,8 @@ class TestCreateRefsInvalidGenes():
 # TODO: remove sites with multiple alternatives (based on Ensembl) aka not duploid
 class TestCreateRefsFilterGenotypes():
     def test_filter_genotypes_succes(self, create_test_files):
-        df_phenotypes, df_genotypes = create_ref.morph_translation_file(    
-        csv_file=create_test_files + "/translation_input_files_extern/tt_correct.csv"
+        df_phenotypes, df_genotypes = create_ref.morph_translation_file(
+            csv_file=create_test_files + "/translation_input_files_extern/tt_correct.csv"
         )
         df_filter_pt, df_filter_gt = create_ref.filter_genotypes(df_genotypes=df_genotypes, df_phenotypes=df_phenotypes)
         assert not df_filter_pt.empty
@@ -283,7 +305,9 @@ class TestCreateRefsFilterGenotypes():
             csv_file=create_test_files + "/translation_input_files_extern/tt_genotype_with_sv.csv"
         )
         with pytest.raises(Exception) as genotypes_removed:
-            df_filter_pt, df_filter_gt = create_ref.filter_genotypes(df_genotypes=df_genotypes, df_phenotypes=df_phenotypes)
+            df_filter_pt, df_filter_gt = create_ref.filter_genotypes(
+                df_genotypes=df_genotypes, df_phenotypes=df_phenotypes
+            )
         assert "All genotypes are removed." in str(genotypes_removed.value)
 
     def test_filter_genotypes_remove_gene(self, create_test_files):
@@ -312,17 +336,17 @@ class TestCreateRefsFilterGenotypes():
 class TestCreateRefsVariantGenotypeNotation():
     def test_forward_oriantation(self):
         dict_forward_reverse_genotypes = {
-            "A/A": "T/T", # hom ref
-            "A/T": "T/A", # ref alt
-            "T/A": "A/T", # alt ref
-            "C/G": "G/C", # remaining bases
-            "./A": "./T", # insertion
-            "A/.": "T/.", # deletion
+            "A/A": "T/T",  # hom ref
+            "A/T": "T/A",  # ref alt
+            "T/A": "A/T",  # alt ref
+            "C/G": "G/C",  # remaining bases
+            "./A": "./T",  # insertion
+            "A/.": "T/.",  # deletion
         }
         for gt_forward, gt_reverse in dict_forward_reverse_genotypes.items():
             retrieved_gt = create_ref.get_forward_orientation(variant_genotype=gt_reverse)
             assert retrieved_gt == gt_forward
-    
+
     def test_indel_notation_ins_ref(self):
         notation = create_ref.get_indel_notation_with_flanking_base(
             record_ref="A", record_alt="AA", variant_genotype="./."
@@ -340,7 +364,7 @@ class TestCreateRefsVariantGenotypeNotation():
             record_ref="A", record_alt="AA", variant_genotype="A/A"
         )
         assert notation == "AA/AA"
-    
+
     def test_indel_notation_del_ref(self):
         notation = create_ref.get_indel_notation_with_flanking_base(
             record_ref="AA", record_alt="A", variant_genotype="A/A"
@@ -361,7 +385,7 @@ class TestCreateRefsVariantGenotypeNotation():
 
     def test_indel_notation_wrong_genotype(self):
         with pytest.raises(KeyError) as wrong_notation:
-            notation = create_ref.get_indel_notation_with_flanking_base(
+            create_ref.get_indel_notation_with_flanking_base(
                 record_ref="AA", record_alt="A", variant_genotype="./A"
             )
         assert "Variant genotype type not expected." in str(wrong_notation.value)
@@ -379,10 +403,10 @@ class TestCreateRefsCompareFiles():
         create_ref.compare_files(old=get_test_yaml, new=get_test_yaml)
         captured = capsys.readouterr()
         assert captured.out == "Files are the same.\n"
-    
+
     def test_cf_yaml_removed_snp_site(self, create_test_files, get_test_yaml, capsys):
         with open(create_test_files + "/translation_yaml/removed_snp_site.yaml") as yaml_file:
-	        dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
+            dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
         create_ref.compare_files(old=get_test_yaml, new=dict_new)
         captured = capsys.readouterr()
         assert "Differences between dictionaries:" in captured.out
@@ -392,7 +416,7 @@ class TestCreateRefsCompareFiles():
 
     def test_cf_yaml_removed_snp_field_name(self, create_test_files, get_test_yaml, capsys):
         with open(create_test_files + "/translation_yaml/removed_snp_field_name.yaml") as yaml_file:
-	        dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
+            dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
         create_ref.compare_files(old=get_test_yaml, new=dict_new)
         captured = capsys.readouterr()
         assert "Differences between dictionaries:" in captured.out
@@ -402,7 +426,7 @@ class TestCreateRefsCompareFiles():
 
     def test_cf_yaml_removed_genotype(self, create_test_files, get_test_yaml, capsys):
         with open(create_test_files + "/translation_yaml/removed_genotype.yaml") as yaml_file:
-	        dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
+            dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
         create_ref.compare_files(old=get_test_yaml, new=dict_new)
         captured = capsys.readouterr()
         assert "Differences between dictionaries:" in captured.out
@@ -410,7 +434,7 @@ class TestCreateRefsCompareFiles():
 
     def test_cf_yaml_diff_phenotype_metadata(self, create_test_files, get_test_yaml, capsys):
         with open(create_test_files + "/translation_yaml/diff_phenotype_metadata.yaml") as yaml_file:
-	        dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
+            dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
         create_ref.compare_files(old=get_test_yaml, new=dict_new)
         captured = capsys.readouterr()
         assert "Differences between dictionaries:" in captured.out
@@ -418,21 +442,21 @@ class TestCreateRefsCompareFiles():
 
     def test_cf_yaml_diff_order_snp(self, create_test_files, get_test_yaml, capsys):
         with open(create_test_files + "/translation_yaml/diff_order_snp.yaml") as yaml_file:
-	        dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
+            dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
         create_ref.compare_files(old=get_test_yaml, new=dict_new)
         captured = capsys.readouterr()
         assert captured.out == "Files are the same.\n"
 
     def test_cf_yaml_diff_order_genotypes(self, create_test_files, get_test_yaml, capsys):
         with open(create_test_files + "/translation_yaml/diff_order_genotypes.yaml") as yaml_file:
-	        dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
+            dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
         create_ref.compare_files(old=get_test_yaml, new=dict_new)
         captured = capsys.readouterr()
         assert captured.out == "Files are the same.\n"
 
     def test_cf_yaml_diff_genotype_metadata(self, create_test_files, get_test_yaml, capsys):
         with open(create_test_files + "/translation_yaml/diff_genotype_metadata.yaml") as yaml_file:
-	        dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
+            dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
         create_ref.compare_files(old=get_test_yaml, new=dict_new)
         captured = capsys.readouterr()
         assert "Differences between dictionaries:" in captured.out
@@ -446,7 +470,7 @@ class TestCreateRefsCompareFiles():
 
     def test_cf_yaml_added_snp_site(self, create_test_files, get_test_yaml, capsys):
         with open(create_test_files + "/translation_yaml/added_snp_site.yaml") as yaml_file:
-	        dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
+            dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
         create_ref.compare_files(old=get_test_yaml, new=dict_new)
         captured = capsys.readouterr()
         assert "Differences between dictionaries:" in captured.out
@@ -455,7 +479,7 @@ class TestCreateRefsCompareFiles():
 
     def test_cf_yaml_added_genotype(self, create_test_files, get_test_yaml, capsys):
         with open(create_test_files + "/translation_yaml/added_genotype.yaml") as yaml_file:
-	        dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
+            dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
         create_ref.compare_files(old=get_test_yaml, new=dict_new)
         captured = capsys.readouterr()
         assert "Differences between dictionaries:" in captured.out
@@ -468,7 +492,7 @@ class TestCreateRefsCompareFiles():
         )
         captured = capsys.readouterr()
         assert captured.out == "Files are the same.\n"
-    
+
     def test_cf_bed_removed_site(self, create_test_files, capsys):
         create_ref.compare_files(
             old=create_test_files + "/bed_files/sites_of_interest.bed",
@@ -476,7 +500,7 @@ class TestCreateRefsCompareFiles():
         )
         captured = capsys.readouterr()
         assert "-chr6\t18130917\t18130918\tTPMT_rs1142345" in captured.out
-    
+
     def test_cf_bed_diff_pos(self, create_test_files, capsys):
         create_ref.compare_files(
             old=create_test_files + "/bed_files/sites_of_interest.bed",
@@ -485,7 +509,7 @@ class TestCreateRefsCompareFiles():
         captured = capsys.readouterr()
         assert "-chr6\t18139227\t18139228\tTPMT_rs1800460" in captured.out
         assert "+chr6\t18139200\t18139201\tTPMT_rs1800460" in captured.out
-    
+
     def test_cf_bed_diff_name(self, create_test_files, capsys):
         create_ref.compare_files(
             old=create_test_files + "/bed_files/sites_of_interest.bed",
@@ -494,7 +518,7 @@ class TestCreateRefsCompareFiles():
         captured = capsys.readouterr()
         assert "-chr6\t18139227\t18139228\tTPMT_rs1800460" in captured.out
         assert "+chr6\t18139227\t18139228\tTPMT_rs1800000" in captured.out
-    
+
     def test_cf_bed_added_site(self, create_test_files, capsys):
         create_ref.compare_files(
             old=create_test_files + "/bed_files/sites_of_interest.bed",
@@ -507,10 +531,12 @@ class TestCreateRefsCompareFiles():
 class TestCreateRefsYaml():
     def test_generate_yaml_rev_strand(self):
         df_data_rev = pd.DataFrame.from_dict(
-            {'row_1': ['1', "chr6", 1000, 1001, "fakeRS1", "name", "T/T", "A", "G", -1],
-             'row_2': ['1', "chr6", 1001, 1002, "fakeRS2", "name", "T/C", "A", "G", -1],
-             'row_3': ['1', "chr6", 1002, 1003, "fakeRS3", "name", "C/T", "A", "G", -1],
-             'row_4': ['1', "chr6", 1003, 1004, "fakeRS4", "name", "C/C", "A", "G", -1], },
+            {
+                'row_1': ['1', "chr6", 1000, 1001, "fakeRS1", "name", "T/T", "A", "G", -1],
+                'row_2': ['1', "chr6", 1001, 1002, "fakeRS2", "name", "T/C", "A", "G", -1],
+                'row_3': ['1', "chr6", 1002, 1003, "fakeRS3", "name", "C/T", "A", "G", -1],
+                'row_4': ['1', "chr6", 1003, 1004, "fakeRS4", "name", "C/C", "A", "G", -1],
+            },
             orient='index',
             columns=["genotype_id", "chrom", "start", "end", "rs_id", "name", "variant_genotype", "ref", "alt", "strand"]
         )
@@ -525,7 +551,7 @@ class TestCreateRefsYaml():
         assert yaml_dict['1']['snp'][1]['variant_genotype'] == 'A/G'
         assert yaml_dict['1']['snp'][2]['variant_genotype'] == 'G/A'
         assert yaml_dict['1']['snp'][3]['variant_genotype'] == 'G/G'
-    
+
     def test_generate_yaml_rev_strand_indel(self):
         df_data_rev = pd.DataFrame.from_dict(
             {
@@ -534,7 +560,7 @@ class TestCreateRefsYaml():
                 'row_3': ['1', "chr6", 1002, 1003, "fakeRS3", "name", "T/T", "A", "AA", -1],
                 'row_4': ['2', "chr6", 1000, 1001, "fakeRS1", "name", "./.", "AA", "A", -1],
                 'row_5': ['2', "chr6", 1002, 1003, "fakeRS3", "name", "T/.", "AA", "A", -1],
-                'row_6': ['2', "chr6", 1003, 1004, "fakeRS4", "name", "T/T", "AA", "A", -1], 
+                'row_6': ['2', "chr6", 1003, 1004, "fakeRS4", "name", "T/T", "AA", "A", -1],
             },
             orient='index',
             columns=["genotype_id", "chrom", "start", "end", "rs_id", "name", "variant_genotype", "ref", "alt", "strand"]
@@ -565,7 +591,7 @@ class TestCreateRefsWriteBed():
         )
         create_ref.write_bedfile(df_data=df_data, output_prefix="test", output_path=get_tmp_output_path)
         assert Path(get_tmp_output_path + "test.bed").is_file()
-    
+
     def test_write_bed_existing_file(self, get_tmp_output_path):
         df_data = pd.DataFrame.from_dict(
             {'row_1': ["chr1", 1000, 1001, "test"]},
@@ -580,8 +606,7 @@ class TestCreateRefsWriteYaml():
     def test_write_yaml(self, get_tmp_output_path):
         create_ref.write_yaml(yaml_dict={"key1": "value1"}, output_prefix="test", output_path=get_tmp_output_path)
         assert Path(get_tmp_output_path + "test.yaml").is_file()
-    
+
     def test_write_yaml_existing_file(self, get_tmp_output_path):
         create_ref.write_yaml(yaml_dict={"key1": "value1"}, output_prefix="existing_output", output_path=get_tmp_output_path)
         assert Path(get_tmp_output_path + "existing_output.yaml").is_file()
-

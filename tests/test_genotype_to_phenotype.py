@@ -12,6 +12,7 @@ import vcf as pyvcf
 # local libraries alphabetic order of main package.
 import assets.variant_genotype_to_phenotype as gt_to_pt
 
+
 @pytest.fixture(scope="module", autouse=True)
 def setup_and_get_test_path(tmp_path_factory):
     test_tmp_path = str(tmp_path_factory.mktemp("tests")) + "/"
@@ -45,33 +46,48 @@ def get_tmp_output_path(tmp_path_factory):
 
 
 # TODO: implement tests:
-## pos 1 del, pos 2 ins, only match on expected genotype measurement type. (fetch will pick up both.)
+# pos 1 del, pos 2 ins, only match on expected genotype measurement type. (fetch will pick up both.)
 
 class TestGtToPtInputs():
     def test_parser_required_args(self, setup_and_get_test_path):
         parser = gt_to_pt.parse_arguments_and_check(
-            args_in=[setup_and_get_test_path + "/vcf_files/sample.vcf.gz", "sample", "./references/sites_of_interest_GRCh38.yaml"])
+            args_in=[
+                setup_and_get_test_path + "/vcf_files/sample.vcf.gz", "sample", "./references/sites_of_interest_GRCh38.yaml"
+            ]
+        )
         assert parser
 
     def test_parser_required_args_vcf(self, setup_and_get_test_path):
         parser = gt_to_pt.parse_arguments_and_check(
-            args_in=[setup_and_get_test_path + "/vcf_files/sample_copy.vcf", "sample", "./references/sites_of_interest_GRCh38.yaml"])
+            args_in=[
+                setup_and_get_test_path + "/vcf_files/sample_copy.vcf", "sample", "./references/sites_of_interest_GRCh38.yaml"
+            ]
+        )
         assert parser
-    
+
     def test_parser_non_existing_input(self, setup_and_get_test_path):
         with pytest.raises(FileNotFoundError):
-            parser = gt_to_pt.parse_arguments_and_check(
-                args_in=[setup_and_get_test_path + "non_existing.vcf.gz", "sample", "./references/sites_of_interest_GRCh38.yaml"])
+            gt_to_pt.parse_arguments_and_check(
+                args_in=[
+                    setup_and_get_test_path + "non_existing.vcf.gz", "sample", "./references/sites_of_interest_GRCh38.yaml"
+                ]
+            )
 
     def test_parser_non_existing_yaml(self, setup_and_get_test_path):
         with pytest.raises(FileNotFoundError):
-            parser = gt_to_pt.parse_arguments_and_check(
-                args_in=[setup_and_get_test_path + "/vcf_files/sample.vcf.gz", "sample", "./references/non_existing.yaml"])
+            gt_to_pt.parse_arguments_and_check(
+                args_in=[setup_and_get_test_path + "/vcf_files/sample.vcf.gz", "sample", "./references/non_existing.yaml"]
+            )
 
     def test_parser_unsupported_table(self, setup_and_get_test_path):
         with pytest.raises(TypeError):
-            parser = gt_to_pt.parse_arguments_and_check(
-                args_in=[setup_and_get_test_path + "/vcf_files/sample.vcf.gz", "sample", "./references/sites_of_interest_GRCh38.json"])
+            gt_to_pt.parse_arguments_and_check(
+                args_in=[
+                    setup_and_get_test_path + "/vcf_files/sample.vcf.gz",
+                    "sample",
+                    "./references/sites_of_interest_GRCh38.json"
+                ]
+            )
 
     def test_parser_empty_input(self, setup_and_get_test_path):
         with pytest.raises(ValueError) as no_records_error:
@@ -90,18 +106,36 @@ class TestGtToPtInputs():
 
     def test_parser_output_path(self, setup_and_get_test_path):
         parser = gt_to_pt.parse_arguments_and_check(
-            args_in=[setup_and_get_test_path + "/vcf_files/sample.vcf.gz", "sample", "./references/sites_of_interest_GRCh38.yaml", "--output_path", setup_and_get_test_path])
+            args_in=[
+                setup_and_get_test_path + "/vcf_files/sample.vcf.gz",
+                "sample",
+                "./references/sites_of_interest_GRCh38.yaml",
+                "--output_path", setup_and_get_test_path
+            ]
+            )
         assert parser
-    
+
     def test_parser_non_existing_output_path(self, setup_and_get_test_path):
         with pytest.raises(FileNotFoundError):
-            parser = gt_to_pt.parse_arguments_and_check(
-                args_in=[setup_and_get_test_path + "/vcf_files/sample.vcf.gz", "sample", "./references/sites_of_interest_GRCh38.yaml", "--output_path", "./fake_dir/"])
+            gt_to_pt.parse_arguments_and_check(
+                args_in=[
+                    setup_and_get_test_path + "/vcf_files/sample.vcf.gz",
+                    "sample",
+                    "./references/sites_of_interest_GRCh38.yaml",
+                    "--output_path", "./fake_dir/"
+                ]
+            )
 
     def test_parser_output_prefix(self, setup_and_get_test_path):
         parser = gt_to_pt.parse_arguments_and_check(
-            args_in=[setup_and_get_test_path + "/vcf_files/sample.vcf.gz", "sample", "./references/sites_of_interest_GRCh38.yaml", "--output_prefix", "test_prefix"])
-        assert parser    
+            args_in=[
+                setup_and_get_test_path + "/vcf_files/sample.vcf.gz",
+                "sample",
+                "./references/sites_of_interest_GRCh38.yaml",
+                "--output_prefix", "test_prefix"
+            ]
+        )
+        assert parser
 
     def test_check_reqs_keys(self):
         gt_to_pt.check_required_keys(snp={"chrom": 0, "start": 0, "end": 1, "variant_genotype": "A/A", "name": "fake_id"})
@@ -109,11 +143,11 @@ class TestGtToPtInputs():
 
     def test_check_reqs_keys_missing_keys(self):
         dir_snp_list = [
-            {"start": 0, "end": 1, "variant_genotype": "A/A", "name": "fake_id"}, # missing chrom
-            {"chrom": 0, "end": 1, "variant_genotype": "A/A", "name": "fake_id"},  # missing start
-            {"chrom": 0, "start": 0, "variant_genotype": "A/A", "name": "fake_id"}, # missing end
-            {"chrom": 0, "start": 0, "end": 1, "name": "fake_id"}, # missing variant_genotype
-            {"chrom": 0, "start": 0, "end": 1, "variant_genotype": "A/A"}, # missing variant_genotype
+            {"start": 0, "end": 1, "variant_genotype": "A/A", "name": "fake_id"},  # missing chrom
+            {"chrom": 0, "end": 1, "variant_genotype": "A/A", "name": "fake_id"},   # missing start
+            {"chrom": 0, "start": 0, "variant_genotype": "A/A", "name": "fake_id"},  # missing end
+            {"chrom": 0, "start": 0, "end": 1, "name": "fake_id"},  # missing variant_genotype
+            {"chrom": 0, "start": 0, "end": 1, "variant_genotype": "A/A"},  # missing variant_genotype
         ]
         for snp_dir in dir_snp_list:
             with pytest.raises(ValueError) as missing_key_error:
@@ -144,9 +178,9 @@ class TestGtToPtSnpGenotypes():
         self.retrieve_match_and_assert(vcf_reader=get_vcf_reader, snp_dir=snp_dir, exp_length=1, exp_bool=True)
 
     def test_single_snp_mismatch(self, get_vcf_reader):
-        snp_list = [ 
-            {"chrom": "1", "start": 10000000, "end": 10000001, "variant_genotype": "T/T"}, 
-            {"chrom": "1", "start": 10000000, "end": 10000001, "variant_genotype": "C/T"} 
+        snp_list = [
+            {"chrom": "1", "start": 10000000, "end": 10000001, "variant_genotype": "T/T"},
+            {"chrom": "1", "start": 10000000, "end": 10000001, "variant_genotype": "C/T"}
         ]
         for snp_dir in snp_list:
             self.retrieve_match_and_assert(vcf_reader=get_vcf_reader, snp_dir=snp_dir, exp_length=1, exp_bool=False)
@@ -167,7 +201,7 @@ class TestGtToPtIndelGenotypes():
         with pytest.warns(UserWarning, match="fetch has no records"):
             matches = gt_to_pt.retrieve_match_all_records(vcf_reader=get_vcf_reader, snp=variant_dir)
         assert not matches
-    
+
     def test_single_del_ref_ref_match(self, get_vcf_reader):
         variant_dir = {"chrom": "2", "start": 20000000, "end": 20000001, "variant_genotype": "TA/TA"}
         self.retrieve_match_and_assert(vcf_reader=get_vcf_reader, snp_dir=variant_dir, exp_length=1, exp_bool=True)
@@ -261,17 +295,17 @@ class TestGtToPtWriteMatchedPhenotype():
             translation_file=setup_and_get_test_path + "/translation_yaml/gt_single_rs.yaml"
         )
         gt_to_pt.write_matched_phenotype(
-            genotype_match_per_snp=matched_gt, 
-            translation_table=translation, 
+            genotype_match_per_snp=matched_gt,
+            translation_table=translation,
             output_path=get_tmp_output_path,
-            output_prefix="test_output_sample", 
+            output_prefix="test_output_sample",
             sample="sample"
         )
         assert Path(get_tmp_output_path + "/test_output_sample.txt").is_file()
         data = pd.read_csv(get_tmp_output_path + "/test_output_sample.txt", sep="\t")
         expected_columns = ["sample", "genotype_match", "phenotype_id", "phenotype_match"]
         assert len(set(expected_columns).intersection(data)) == len(expected_columns)
-        assert len(data.index) == 1 # test single match aka single row.
+        assert len(data.index) == 1  # test single match aka single row.
         assert data.loc[0, 'genotype_id'] == 0
         assert data.loc[0, 'genotype_match'] == "fakegene:wildtype/wildtype"
         assert data.loc[0, "phenotype_id"] == 0
@@ -321,4 +355,3 @@ class TestGtToPtWriteMatchedPhenotype():
         )
         n_lines = self.count_lines(filename=get_tmp_output_path + "/test_output_sample.txt")
         assert n_lines == 3
-
