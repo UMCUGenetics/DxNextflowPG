@@ -46,7 +46,9 @@ def parse_arguments_and_check(args_in):
         help="Previous bed file. If provided, differences between previous and generated bed file are shown."
     )
     parser.add_argument(
-        "-c", "--config_file", type=non_empty_existing_file, default="./assets/create_workflow_reference_files.ini",
+        "-c", "--config_file", 
+        type=non_empty_existing_file, 
+        default=str(pathlib.Path(__file__).parent) + "/create_workflow_reference_files.ini",
         help="Filepath to INI-config file."
     )
     parser.add_argument(
