@@ -178,21 +178,21 @@ class TestCreateRefsParser():
 class TestCreateRefsConfig():
     def test_config_file(self):
         config_section = create_ref.read_config_section_and_check(
-            section="DEFAULT", config_file="./assets/create_workflow_reference_files.ini"
+            section="DEFAULT", config_file=open("./assets/create_workflow_reference_files.ini")
         )
         assert config_section
 
     def test_config_section_not_exists(self, create_test_files):
         with pytest.raises(KeyError) as keyerror:
             create_ref.read_config_section_and_check(
-                section="non_existing_section", config_file=create_test_files + "/ini_config/correct_config.ini"
+                section="non_existing_section", config_file=open(create_test_files + "/ini_config/correct_config.ini")
             )
         assert "non_existing_section" in str(keyerror.value)
 
     def test_config_key_not_exists(self, create_test_files):
         with pytest.raises(KeyError) as keyerror:
             create_ref.read_config_section_and_check(
-                section="DEFAULT", config_file=create_test_files + "/ini_config/missing_key.ini"
+                section="DEFAULT", config_file=open(create_test_files + "/ini_config/missing_key.ini")
             )
         print(str(keyerror.value))
         assert "Required key ensembl_url not in config file" in str(keyerror.value)

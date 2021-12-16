@@ -31,7 +31,7 @@ def non_empty_existing_file(file):
         raise OSError("File is empty.")
     elif path_file.is_dir() and not path_file.is_absolute():
         raise OSError("Filepath is expected to be absolute.")
-    if path_file.is_dir() or str(path_file.suffix).lower() == ".ini":
+    if path_file.is_dir():
         return file
     else:
         return open(file)
@@ -77,7 +77,7 @@ def parse_arguments_and_check(args_in):
 
 def read_config_section_and_check(section, config_file):
     config_parser = ConfigParser(converters={"jsonloads": json.loads})
-    config_parser.read(config_file)
+    config_parser.read_file(config_file)
     config_section = config_parser[section]
     required_keys = ["ensembl_url", "species"]
     for req_key in required_keys:
