@@ -1,5 +1,6 @@
 #! venv/bin/python
 # standard libraries alphabetic order of main package.
+import pathlib
 import pandas as pd
 from pathlib import Path
 import shutil
@@ -37,53 +38,141 @@ def get_tmp_output_path(tmp_path_factory):
 
 
 class TestCreateRefsParser():
-    def test_parser_optional_config_section(self):
+    def test_parser_translation_table(self, create_test_files):
         parser = create_ref.parse_arguments_and_check(
-            args_in=["--config_section", "fake"]
+            args_in=[create_test_files + "/translation_input_files_extern/tt_correct.csv"]
         )
-        assert parser
+        assert parser.translation_table
 
-    def test_parser_optional_bed(self):
-        parser = create_ref.parse_arguments_and_check(
-            args_in=["--bed", "references/sites_of_interest_GRCh38.bed"]
-        )
-        assert parser
-
-    def test_parser_optional_output_path(self):
-        parser = create_ref.parse_arguments_and_check(
-            args_in=["--output_path", "references/"]
-        )
-        assert parser
-
-    def test_parser_optional_output_prefix(self):
-        parser = create_ref.parse_arguments_and_check(
-            args_in=["--output_prefix", "fake_prefix"]
-        )
-        assert parser
-
-    def test_parser_optional_yaml(self):
-        parser = create_ref.parse_arguments_and_check(
-            args_in=["--yaml", "references/sites_of_interest_GRCh38.yaml"]
-        )
-        assert parser
-
-    def test_parser_optional_bed_not_exist(self):
-        with pytest.raises(FileNotFoundError):
+    def test_parser_translation_table_not_exist(self):
+        with pytest.raises(FileNotFoundError) as not_exist_error:
             create_ref.parse_arguments_and_check(
-                args_in=["--bed", "non_existing_file.bed"]
+                args_in=["non_existing_tt.csv"]
             )
+        assert "No such file or directory" in str(not_exist_error.value)
 
-    def test_parser_optional_output_path_not_exist(self):
-        with pytest.raises(FileNotFoundError):
+    def test_parser_translation_table_empty(self, create_test_files):
+        with pytest.raises(OSError) as empty_error:
             create_ref.parse_arguments_and_check(
-                args_in=["--output_path", "non_existing_path/"]
+                args_in=[create_test_files + "/translation_input_files_extern/tt_empty.csv"]
             )
+        assert "empty" in str(empty_error.value)
 
-    def test_parser_optional_yaml_not_exist(self):
-        with pytest.raises(FileNotFoundError):
+    def test_parser_optional_config_file(self, create_test_files):
+        parser = create_ref.parse_arguments_and_check(
+            args_in=[
+                "--config_file", "./assets/create_workflow_reference_files.ini",
+                create_test_files + "/translation_input_files_extern/tt_correct.csv"
+            ]
+        )
+        assert parser
+
+    def test_parser_optional_config_file_not_exists(self, create_test_files):
+        with pytest.raises(FileNotFoundError) as not_exist_error:
             create_ref.parse_arguments_and_check(
-                args_in=["--yaml", "non_existing_file.yaml"]
+                args_in=[
+                    "--config_file", "non_existing_file.ini",
+                    create_test_files + "/translation_input_files_extern/tt_correct.csv"
+                ]
             )
+        assert "No such file or directory" in str(not_exist_error.value)
+
+    def test_parser_optional_config_file_empty(self, create_test_files):
+        with pytest.raises(OSError) as empty_error:
+            create_ref.parse_arguments_and_check(
+                args_in=[
+                    "--config_file", create_test_files + "/ini_config/empty.ini",
+                    create_test_files + "/translation_input_files_extern/tt_correct.csv"
+                ]
+            )
+        assert "empty" in str(empty_error.value)
+
+    def test_parser_optional_config_section(self, create_test_files):
+        parser = create_ref.parse_arguments_and_check(
+            args_in=[
+                "--config_section", "fake",
+                create_test_files + "/translation_input_files_extern/tt_correct.csv"
+            ]
+        )
+        assert parser
+
+    def test_parser_optional_bed(self, create_test_files):
+        parser = create_ref.parse_arguments_and_check(
+            args_in=[
+                "--bed", "references/sites_of_interest_GRCh38.bed",
+                create_test_files + "/translation_input_files_extern/tt_correct.csv"
+            ]
+        )
+        assert parser
+
+    def test_parser_optional_output_path_absolute(self, create_test_files):
+        parser = create_ref.parse_arguments_and_check(
+            args_in=[
+                "--output_path", str(pathlib.Path.cwd()),
+                create_test_files + "/translation_input_files_extern/tt_correct.csv"
+            ]
+        )
+        assert parser.output_path
+
+    def test_parser_optional_output_path_relative(self, create_test_files):
+        with pytest.raises(OSError) as absolute_path_error:
+            create_ref.parse_arguments_and_check(
+                args_in=[
+                    "--output_path", "references/",
+                    create_test_files + "/translation_input_files_extern/tt_correct.csv"
+                ]
+            )
+        assert "absolute" in str(absolute_path_error.value)
+
+    def test_parser_optional_output_prefix(self, create_test_files):
+        parser = create_ref.parse_arguments_and_check(
+            args_in=[
+                "--output_prefix", "fake_prefix",
+                create_test_files + "/translation_input_files_extern/tt_correct.csv"
+            ]
+        )
+        assert parser
+
+    def test_parser_optional_yaml(self, create_test_files):
+        parser = create_ref.parse_arguments_and_check(
+            args_in=[
+                "--yaml", "references/sites_of_interest_GRCh38.yaml",
+                create_test_files + "/translation_input_files_extern/tt_correct.csv"
+            ]
+        )
+        assert parser
+
+    def test_parser_optional_bed_not_exist(self, create_test_files):
+        with pytest.raises(FileNotFoundError) as not_exist_error:
+            create_ref.parse_arguments_and_check(
+                args_in=[
+                    "--bed", "non_existing_file.bed",
+                    create_test_files + "/translation_input_files_extern/tt_correct.csv"
+                ]
+            )
+        assert "No such file or directory" in str(not_exist_error.value)
+
+    def test_parser_optional_output_path_not_exist(self, create_test_files):
+        with pytest.raises(OSError) as path_not_exist_error:
+            create_ref.parse_arguments_and_check(
+                args_in=[
+                    "--output_path", "non_existing_path/",
+                    create_test_files + "/translation_input_files_extern/tt_correct.csv"
+                ]
+            )
+        print(str(path_not_exist_error.value))
+        assert "No such file or directory" in str(path_not_exist_error.value)
+        assert "non_existing_path" in str(path_not_exist_error.value)
+
+    def test_parser_optional_yaml_not_exist(self, create_test_files):
+        with pytest.raises(FileNotFoundError) as not_exist_error:
+            create_ref.parse_arguments_and_check(
+                args_in=[
+                    "--yaml", "non_existing_file.yaml",
+                    create_test_files + "/translation_input_files_extern/tt_correct.csv"
+                ]
+            )
+        assert "No such file or directory" in str(not_exist_error.value)
 
 
 class TestCreateRefsConfig():
@@ -93,43 +182,20 @@ class TestCreateRefsConfig():
         )
         assert config_section
 
-    def test_config_file_not_exists(self):
-        with pytest.raises(FileNotFoundError):
-            create_ref.read_config_section_and_check(
-                section="DEFAULT", config_file="non_existing_file.ini"
-            )
-
     def test_config_section_not_exists(self, create_test_files):
-        with pytest.raises(KeyError):
+        with pytest.raises(KeyError) as keyerror:
             create_ref.read_config_section_and_check(
                 section="non_existing_section", config_file=create_test_files + "/ini_config/correct_config.ini"
             )
+        assert "non_existing_section" in str(keyerror.value)
 
     def test_config_key_not_exists(self, create_test_files):
-        with pytest.raises(KeyError):
+        with pytest.raises(KeyError) as keyerror:
             create_ref.read_config_section_and_check(
                 section="DEFAULT", config_file=create_test_files + "/ini_config/missing_key.ini"
             )
-
-    def test_config_file_empty(self, create_test_files):
-        with pytest.raises(OSError) as empty_error:
-            create_ref.read_config_section_and_check(
-                section="DEFAULT", config_file=create_test_files + "/ini_config/empty.ini"
-            )
-        assert "empty" in str(empty_error.value)
-
-    def test_config_translation_empty(self, create_test_files):
-        with pytest.raises(OSError) as empty_error:
-            create_ref.read_config_section_and_check(
-                section="DEFAULT", config_file=create_test_files + "/ini_config/empty_translation_file.ini"
-            )
-        assert "empty" in str(empty_error.value)
-
-    def test_config_translation_not_exists(self, create_test_files):
-        with pytest.raises(FileNotFoundError):
-            create_ref.read_config_section_and_check(
-                section="DEFAULT", config_file=create_test_files + "/ini_config/non_existing_translation_file.ini"
-            )
+        print(str(keyerror.value))
+        assert "Required key ensembl_url not in config file" in str(keyerror.value)
 
 
 class TestCreateRefsTranslationFile():
@@ -487,24 +553,24 @@ class TestCreateRefsCompareFiles():
 
     def test_cf_bed_same_file(self, create_test_files, capsys):
         create_ref.compare_files(
-            old=create_test_files + "/bed_files/sites_of_interest.bed",
-            new=create_test_files + "/bed_files/sites_of_interest.bed"
+            old=open(create_test_files + "/bed_files/sites_of_interest.bed"),
+            new=open(create_test_files + "/bed_files/sites_of_interest.bed")
         )
         captured = capsys.readouterr()
         assert captured.out == "Files are the same.\n"
 
     def test_cf_bed_removed_site(self, create_test_files, capsys):
         create_ref.compare_files(
-            old=create_test_files + "/bed_files/sites_of_interest.bed",
-            new=create_test_files + "/bed_files/removed_site.bed"
+            old=open(create_test_files + "/bed_files/sites_of_interest.bed"),
+            new=open(create_test_files + "/bed_files/removed_site.bed")
         )
         captured = capsys.readouterr()
         assert "-chr6\t18130917\t18130918\tTPMT_rs1142345" in captured.out
 
     def test_cf_bed_diff_pos(self, create_test_files, capsys):
         create_ref.compare_files(
-            old=create_test_files + "/bed_files/sites_of_interest.bed",
-            new=create_test_files + "/bed_files/diff_pos.bed"
+            old=open(create_test_files + "/bed_files/sites_of_interest.bed"),
+            new=open(create_test_files + "/bed_files/diff_pos.bed")
         )
         captured = capsys.readouterr()
         assert "-chr6\t18139227\t18139228\tTPMT_rs1800460" in captured.out
@@ -512,8 +578,8 @@ class TestCreateRefsCompareFiles():
 
     def test_cf_bed_diff_name(self, create_test_files, capsys):
         create_ref.compare_files(
-            old=create_test_files + "/bed_files/sites_of_interest.bed",
-            new=create_test_files + "/bed_files/diff_name.bed"
+            old=open(create_test_files + "/bed_files/sites_of_interest.bed"),
+            new=open(create_test_files + "/bed_files/diff_name.bed")
         )
         captured = capsys.readouterr()
         assert "-chr6\t18139227\t18139228\tTPMT_rs1800460" in captured.out
@@ -521,8 +587,8 @@ class TestCreateRefsCompareFiles():
 
     def test_cf_bed_added_site(self, create_test_files, capsys):
         create_ref.compare_files(
-            old=create_test_files + "/bed_files/sites_of_interest.bed",
-            new=create_test_files + "/bed_files/added_site.bed"
+            old=open(create_test_files + "/bed_files/sites_of_interest.bed"),
+            new=open(create_test_files + "/bed_files/added_site.bed")
         )
         captured = capsys.readouterr()
         assert "+chr6\t18143954\t18143955\tTPMT_rs1800462" in captured.out

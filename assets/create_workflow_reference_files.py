@@ -4,6 +4,7 @@ import argparse
 from configparser import ConfigParser
 from difflib import unified_diff
 from errno import ENOENT as errno_ENOENT
+from io import IOBase
 import json
 from os import strerror as os_strerror
 import pathlib
@@ -18,6 +19,22 @@ from numpy import argsort as np_argsort
 import pandas as pd
 import yaml
 
+def non_empty_existing_file(file):
+    path_file = pathlib.Path(file)
+    print(file)
+    print(path_file.stat().st_size)
+    print("ok")
+    print(path_file.stat())
+    if not path_file.is_file() and not path_file.is_dir():
+        raise FileNotFoundError(errno_ENOENT, os_strerror(errno_ENOENT), file)
+    elif not path_file.is_dir() and not path_file.stat().st_size:
+        raise OSError("File is empty.")
+    elif path_file.is_dir() and not path_file.is_absolute():
+        raise OSError("Filepath is expected to be absolute.")
+    if path_file.is_dir() or str(path_file.suffix).lower() == ".ini":
+        return file
+    else:
+        return open(file)
 
 def parse_arguments_and_check(args_in):
     parser = argparse.ArgumentParser(
@@ -25,11 +42,11 @@ def parse_arguments_and_check(args_in):
         "and a yaml file with genotype - phenotype translation."
     )
     parser.add_argument(
-        "-b", "--bed", type=str, required=False,
+        "-b", "--bed", type=non_empty_existing_file, required=False,
         help="Previous bed file. If provided, differences between previous and generated bed file are shown."
     )
     parser.add_argument(
-        "-c", "--config_file", type=str, default="./assets/create_workflow_reference_files.ini",
+        "-c", "--config_file", type=non_empty_existing_file, default="./assets/create_workflow_reference_files.ini",
         help="Filepath to INI-config file."
     )
     parser.add_argument(
@@ -37,7 +54,7 @@ def parse_arguments_and_check(args_in):
         help="The INI-config section used."
     )
     parser.add_argument(
-        "-o", "--output_path", type=str, required=False, default=pathlib.Path().resolve(),
+        "-o", "--output_path", type=non_empty_existing_file, required=False, default=pathlib.Path(__file__).cwd(),
         help="Filepath where output is placed. (default: %(default)s)"
     )
     parser.add_argument(
@@ -45,39 +62,25 @@ def parse_arguments_and_check(args_in):
         help="Output prefix to use as filename in output. Default is filename prefix of translation table."
     )
     parser.add_argument(
-        "-y", "--yaml", type=str, required=False,
+        "-y", "--yaml", type=non_empty_existing_file, required=False,
         help="Previous yaml file. If provided, differences between previous and generated yaml file are shown."
     )
+    parser.add_argument(
+        "translation_table", type=non_empty_existing_file,
+        help="Filepath to translaion table file."
+    )
     args = parser.parse_args(args_in)
-
-    if args.bed:
-        check_file(file=args.bed)
-    if args.yaml:
-        check_file(file=args.yaml)
-    if args.output_path:
-        check_file(file=args.output_path)
     return(args)
-
-
-def check_file(file):
-    if not pathlib.Path(file).is_file() and not pathlib.Path(file).is_dir():
-        raise FileNotFoundError(errno_ENOENT, os_strerror(errno_ENOENT), file)
-    elif not pathlib.Path(file).stat().st_size:
-        raise OSError("File is empty.")
 
 
 def read_config_section_and_check(section, config_file):
     config_parser = ConfigParser(converters={"jsonloads": json.loads})
-    check_file(file=config_file)
     config_parser.read(config_file)
     config_section = config_parser[section]
-    required_keys = ["ensembl_url", "species", "translation_table"]
+    required_keys = ["ensembl_url", "species"]
     for req_key in required_keys:
         if req_key not in config_section:
             raise KeyError("Required key {} not in config file.".format(req_key))
-    file_keys = ["translation_table"]
-    for file_key in file_keys:
-        check_file(config_section.get(file_key))
     return(config_section)
 
 
@@ -283,7 +286,7 @@ def write_bedfile(df_data, output_prefix, output_path):
         index_natsorted(zip(df_data.chrom, df_data.start))))
 
     df_data_sub.to_csv("{path}{output_prefix}{ext}".format(
-        path=output_path,
+        path=str(output_path) + "/",
         output_prefix=output_prefix,
         ext=".bed",
         ), sep="\t", index=False, header=False)
@@ -350,7 +353,7 @@ def generate_yaml_dict(df_phenotypes, df_metadata_variant_gt):
 
 
 def write_yaml(yaml_dict, output_prefix, output_path):
-    with open("{path}/{prefix}.yaml".format(path=output_path, prefix=output_prefix), "w") as file:
+    with open("{path}/{prefix}.yaml".format(path=str(output_path) + "/", prefix=output_prefix), "w") as file:
         yaml.dump(yaml_dict, file, default_flow_style=False)
 
 
@@ -361,13 +364,8 @@ def compare_files(old, new):
             print("Files are the same.")
         else:
             print("Differences between dictionaries:\n{}".format(deepdiff_out))
-    elif (
-        isinstance(old, str)
-        and pathlib.PurePath(old).suffix == ".bed"
-        and isinstance(new, str)
-        and pathlib.PurePath(new).suffix == ".bed"
-    ):
-        diff = unified_diff(open(old).readlines(), open(new).readlines(), n=0)
+    elif isinstance(old, IOBase) and isinstance(new, IOBase):
+        diff = unified_diff(old.readlines(), new.readlines(), n=0)
         delta = ''.join(x for x in diff)
         if not delta:
             print("Files are the same.")
@@ -377,12 +375,11 @@ def compare_files(old, new):
         warnings_warn("Comparison is not supported for this data type.")
 
 
-def main(prev_bed_file, prev_yaml_file, output_path, output_prefix, config):
-    check_file(file=config.get("translation_table"))
+def main(prev_bed_file, prev_yaml_file, output_path, output_prefix, config, translation_table):
     if not output_prefix:
-        output_prefix = pathlib.Path(config.get("translation_table")).stem.lower()
+        output_prefix = pathlib.Path(translation_table).stem.lower()
     df_phenotypes, df_genotypes = morph_translation_file(
-        csv_file=config.get("translation_table"),
+        csv_file=translation_table,
         dict_rename_cols=config.getjsonloads("dict_rename_tf_cols")
     )
     df_ens_metadata = get_data_ensembl(
@@ -403,9 +400,9 @@ def main(prev_bed_file, prev_yaml_file, output_path, output_prefix, config):
         lst_filter_gene_names=lst_filter_gene_names,
         lst_filter_rs_id=config.getjsonloads("lst_filter_rs_id", None)
     )
-    write_bedfile(df_data=df_ens_metadata, output_path=output_path, output_prefix=output_prefix)
+    write_bedfile(df_data=df_ens_metadata, output_path=str(output_path) + "/", output_prefix=output_prefix)
     if prev_bed_file:
-        compare_files(old=prev_bed_file, new=output_path + output_prefix + ".bed")
+        compare_files(old=prev_bed_file, new=open(output_path + output_prefix + ".bed"))
 
     # df_sv = (
     #     df_translation[
@@ -428,8 +425,7 @@ def main(prev_bed_file, prev_yaml_file, output_path, output_prefix, config):
     output_yaml = generate_yaml_dict(df_phenotypes=df_phenotypes, df_metadata_variant_gt=df_metadata_variant_gt)
     write_yaml(yaml_dict=output_yaml, output_prefix=output_prefix, output_path=output_path)
     if prev_yaml_file:
-        with open(prev_yaml_file) as yaml_file:
-            prev_yaml = yaml.load(yaml_file, Loader=yaml.FullLoader)
+        prev_yaml = yaml.load(prev_yaml_file, Loader=yaml.FullLoader)
         compare_files(old=prev_yaml, new=output_yaml)
 
 
@@ -442,4 +438,5 @@ if __name__ == '__main__':
         output_path=args.output_path,
         output_prefix=args.output_prefix,
         config=config_section,
+        translation_table=args.translation_table,
     )
