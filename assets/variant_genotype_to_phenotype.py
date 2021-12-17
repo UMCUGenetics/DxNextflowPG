@@ -87,7 +87,7 @@ def retrieve_match_all_records(vcf_reader, snp):
                 records_match.append(False)
         else:
             records_match.append(False)
-    if not records_match:
+    if not records_match:  # if list is empty.
         warnings_warn("Remove genotype, fetch has no records for variant {}".format(snp.get("name")))
         return(None)
     return(records_match)
@@ -109,15 +109,15 @@ def retrieve_match_snp_genotype(vcf_reader, genotypes):
         for snp in genotype.get("snp"):
             check_required_keys(snp=snp)
             records_match = retrieve_match_all_records(vcf_reader=vcf_reader, snp=snp)
-            if not records_match:
+            if not records_match:  # if 'None', remove and filter genotype
                 genotype_match_per_snp.pop(genotype.get("genotype_id"), None)
                 filter_genotype.append(genotype.get("genotype_id"))
                 break
-            elif any(records_match):
+            elif any(records_match):  # when single or all records match
                 genotype_match_per_snp.setdefault(genotype.get("genotype_id"), []).append(True)
-            elif records_match:
+            elif records_match:  # if none of the records match
                 genotype_match_per_snp.setdefault(genotype.get("genotype_id"), []).append(False)
-    if not genotype_match_per_snp:
+    if not genotype_match_per_snp:  # if all genotypes are removed
         warnings_warn("No genotype match found.")
     return(genotype_match_per_snp)
 
