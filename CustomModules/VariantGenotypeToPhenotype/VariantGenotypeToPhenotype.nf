@@ -14,9 +14,9 @@ process VariantGenotypeToPhenotype {
         """
         source ${baseDir}/assets/venv/bin/activate
         python ${baseDir}/assets/variant_genotype_to_phenotype.py \
-        ${vcf_file} \
-        ${identifier} \
-        ${params.translation_table} \
-        --output_prefix ${identifier}_genotypes
+            --output_prefix ${identifier}_genotypes \
+            ${vcf_file} \
+            ${identifier} \
+            ${params.translation_table}
         """
 }

@@ -21,12 +21,12 @@ process GenCall {
         cp ${red_idat} ${array_id}
 
         ${params.iaap_path} gencall \
-        --idat-folder ${array_id} \
-        --gender-estimate-call-rate-threshold ${gender_estimate_threshold} \
-        --output-gtc \
-        ${params.optional} \
-        ${params.bead_pool_manifest_file} \
-        ${cluster_file} \
-        .
+            --idat-folder ${array_id} \
+            --gender-estimate-call-rate-threshold ${gender_estimate_threshold} \
+            --output-gtc \
+            ${params.optional} \
+            ${params.bead_pool_manifest_file} \
+            ${cluster_file} \
+            .
         """
 }
