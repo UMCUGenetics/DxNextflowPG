@@ -162,7 +162,7 @@ def main(translation_file, vcf_file, output_path, output_prefix, sample):
             output_path=output_path,
             output_prefix=output_prefix,
             sample=sample,
-            )
+        )
 
 
 if __name__ == '__main__':
@@ -173,4 +173,4 @@ if __name__ == '__main__':
         output_path=args.output_path,
         output_prefix=args.output_prefix,
         sample=args.sample,
-        )
+    )
