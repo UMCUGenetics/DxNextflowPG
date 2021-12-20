@@ -1,3 +1,4 @@
+setuptools<58
 deepdiff==5.6.0
 flake8==3.7.3
 natsort==7.1.1
@@ -10,4 +11,3 @@ pytest>=6.2.5
 pyvcf==0.6.8
 pyyaml==5.4.1
 requests==2.26.0
-setuptools<58
