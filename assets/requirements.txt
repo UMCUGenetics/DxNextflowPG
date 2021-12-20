@@ -1,4 +1,3 @@
-setuptools<58
 deepdiff==5.6.0
 flake8==3.7.3
 natsort==7.1.1
