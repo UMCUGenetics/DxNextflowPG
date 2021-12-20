@@ -65,38 +65,45 @@ def parse_arguments_and_check(args_in):
 def read_config_section_and_check(section, config_file):
     config_parser = ConfigParser(converters={"jsonloads": json.loads})
     config_parser.read_file(config_file)
-    config_section = config_parser[section]
+    if not config_parser.has_section(section) and section != "DEFAULT":
+        raise KeyError(f"Provided config section {section} not in config file.")
     required_keys = ["ensembl_url", "species"]
     for req_key in required_keys:
-        if req_key not in config_section:
-            raise KeyError("Required key {} not in config file.".format(req_key))
-    return(config_section)
+        if not config_parser.has_option(section, req_key):
+            raise KeyError(f"Required key {req_key} not in config file.")
+    return(config_parser[section])
 
 
 def morph_translation_file(csv_file, dict_rename_cols=None):
     df_translation = pd.read_csv(csv_file)
+    # check if dictionary with used columnnames (key) and replacement (value) exists, if so: rename.
     if dict_rename_cols:
         df_translation = df_translation.rename(columns=dict_rename_cols)
+    # check if required columns are present in translation file, if not raise valueError.
     required_cols = {"genotype_id", "gene_and_rs_id", "variant_genotype", "phenotype_id", "phenotype_name"}
-    if required_cols - set(df_translation.columns):
+    if not required_cols.issubset(set(df_translation.columns)):
         raise ValueError("Required columns are missing in translation file: {}".format(
-                required_cols - set(df_translation.columns)
-            )
-        )
-    # remove sections
+            required_cols - set(df_translation.columns)
+        ))
+    # If sections are present (recognized by rows with genotype_id == '---'), remove sections
     if any(df_translation[df_translation['genotype_id'].astype(str).str.match('---')]):
         df_translation = df_translation[~df_translation['genotype_id'].astype(str).str.match('---')]
+    # if variant genotype is missing (NA), raise valueError and show offending rows
     if any(df_translation.variant_genotype.isna()):
         raise ValueError("Variant_genotype value is required in translation file. Offending rows:\n{}".format(
-                df_translation[df_translation.variant_genotype.isna()]
-            )
-        )
+            df_translation[df_translation.variant_genotype.isna()]
+        ))
+    # gene_and_rs_id column is assumed to have a genename and rsID, separated by a single '_'.
+    # If multiple separators ('_') are found, raise ValueError and show offending rows.
     if any(df_translation.gene_and_rs_id.str.count("_") != 1):
         raise ValueError("Expected separator _ in translation file, column 'gene_and_rs_id'. Offending rows:\n{}".format(
-                df_translation[df_translation.gene_and_rs_id.str.count("_") != 1]
-            )
-        )
+            df_translation[df_translation.gene_and_rs_id.str.count("_") != 1]
+        ))
     df_translation[['gene', 'rs_id']] = df_translation.gene_and_rs_id.str.split("_", expand=True,)
+    # check column 'variant_genotype' for invalid rows, such non bialilic sites (multiple separators)
+    # some rows are ignored:
+    # rows where variant genotype is absent, contains 'Missing'
+    # rows that do not have an rs identifier in rs_id, examples are SV sites.
     if any(
         (df_translation.variant_genotype.str.count(":|/") != 1)
         & (~df_translation.variant_genotype.str.match("Missing", na=False))
@@ -107,6 +114,10 @@ def morph_translation_file(csv_file, dict_rename_cols=None):
                 df_translation[df_translation.variant_genotype.str.count(":|/") != 1]
             )
         )
+    # check column 'variant_genotype' for invalid rows characters
+    # some rows are ignored:
+    # rows where variant genotype is absent, contains 'Missing'
+    # rows that do not have an rs identifier in rs_id, examples are SV sites.
     if any(
         (df_translation.variant_genotype.str.replace("A|T|C|G|:|-|\\.|\\/", "", regex=True).str.len() != 0)
         & (~df_translation.variant_genotype.str.match("Missing", na=False))
@@ -129,7 +140,8 @@ def morph_translation_file(csv_file, dict_rename_cols=None):
     removed_pt = set(df_translation.genotype_id.tolist()) - set(df_phenotypes.index.tolist())
     if removed_pt:
         print("Following genotype IDs (n={len}) are removed, missing phenotypes or genes. {ids}".format(
-            len=len(removed_pt), ids=removed_pt))
+            len=len(removed_pt), ids=removed_pt
+        ))
     df_genotypes = df_translation.loc[
         df_translation.genotype_id.isin(df_phenotypes.genotype_id.to_list()),
         ["genotype_id", "gene_and_rs_id", "gene", 'rs_id', 'variant_genotype']
@@ -152,25 +164,22 @@ def get_ensembl_request_response(server, ext, json=None, method="get"):
 def get_variant_metadata_ensembl(server, ids, species):
     ens_variants = get_ensembl_request_response(
         server=server,
-        ext="/variation/{species}".format(species=species),
+        ext=f"/variation/{species}",
         json={"ids": ids},
         method="post",
     )
     if not ens_variants:
-        warnings_warn("Variation identifiers not found in Ensembl:\n{}".format(ids))
+        warnings_warn(f"Variation identifiers not found in Ensembl:\n{ids}")
     return(ens_variants)
 
 
 def get_gene_metadata_ensembl(server, ens_rs_id, location, species):
     client_out = get_ensembl_request_response(
         server=server,
-        ext="/overlap/region/{species}/{loc}?feature=gene;logic_name=ensembl_havana_gene_homo_sapiens".format(
-            species=species,
-            loc=location
-        )
+        ext=f"/overlap/region/{species}/{location}?feature=gene;logic_name=ensembl_havana_gene_homo_sapiens"
     )
     if not client_out:
-        warnings_warn("Gene not found for rs ID {} in Ensembl".format(ens_rs_id))
+        warnings_warn(f"Gene not found for rs ID {ens_rs_id} in Ensembl")
         return(None, None, None)
 
     gene_id = client_out[0].get("gene_id", None)
@@ -184,9 +193,7 @@ def get_linked_gene_and_id(df_translation, ens_rs_id, retrieved_rs_synonyms):
         rs_id_intxn = list(set(df_translation.rs_id) & set(retrieved_rs_synonyms))
         linked_gene = ";".join(df_translation.loc[df_translation.rs_id.isin(rs_id_intxn)].gene.tolist())
         gene_and_rs_id = ";".join(df_translation.loc[df_translation.rs_id.isin(rs_id_intxn)].gene_and_rs_id.tolist())
-        warnings_warn(
-            "Synonym ID {syn} is used instead of the original rs ID {rs_id} ".format(syn=rs_id_intxn, rs_id=ens_rs_id)
-        )
+        warnings_warn(f"Synonym ID {rs_id_intxn} is used instead of the original rs ID {ens_rs_id}")
     else:
         linked_gene = df_translation.loc[df_translation.rs_id == ens_rs_id].gene.item()
         gene_and_rs_id = df_translation.loc[df_translation.rs_id == ens_rs_id].gene_and_rs_id.item()
@@ -209,7 +216,7 @@ def get_data_ensembl(df_translation, ensembl_url, species):
             df_translation=df_translation,
             ens_rs_id=ens_rs_id,
             retrieved_rs_synonyms=ens_variants[ens_rs_id]["synonyms"]
-            )
+        )
         df_ens_metadata = df_ens_metadata.append(
             {
                 'chrom': "chr" + map_info["seq_region_name"],
@@ -238,13 +245,12 @@ def get_invalid_genes_and_warn(df_ens_metadata, genes_regex=None):
     if any(df_grouped > 1):
         lst_filter_gene_names += df_grouped.where(df_grouped > 1).dropna().keys().tolist()
         warnings_warn("At least one gene is linked to variants from different chromosomes.\n{counts}".format(
-                counts=df_ens_metadata.groupby("gene", as_index=False)["chrom"].nunique()
-            )
-        )
+            counts=df_ens_metadata.groupby("gene", as_index=False)["chrom"].nunique()
+        ))
     df_genes_not_match = df_ens_metadata.query("gene != retrieved_gene")
     if df_genes_not_match.gene.tolist():
         lst_filter_gene_names += df_genes_not_match.gene.tolist()
-        warnings_warn("No match between gene name from input file and retrieved gene name.\n{}".format(df_genes_not_match))
+        warnings_warn(f"No match between gene name from input file and retrieved gene name.\n{df_genes_not_match}")
     return(lst_filter_gene_names)
 
 
@@ -261,7 +267,7 @@ def filter_genotypes(df_genotypes, df_phenotypes, lst_filter_gene_names=None, ls
         lst_filter_ids_gt += df_genotypes.loc[df_genotypes.rs_id.isin(lst_filter_rs_id)].genotype_id.unique().tolist()
     lst_filter_ids_pt = df_phenotypes.loc[df_phenotypes.phenotype_name.isna()].genotype_id.unique().tolist()
     lst_filter_ids = lst_filter_ids_gt + lst_filter_ids_pt
-    if len:
+    if len(lst_filter_ids):
         print("Following genotype IDs (n={len}) are removed. {ids}".format(len=len(lst_filter_ids), ids=lst_filter_ids))
     df_filter_phenotypes = df_phenotypes[~df_phenotypes.genotype_id.isin(lst_filter_ids)]
     df_filter_genotypes = df_genotypes[~df_genotypes.genotype_id.isin(lst_filter_ids)]
@@ -274,11 +280,13 @@ def write_bedfile(df_data, output_prefix, output_path):
     df_data_sub = df_data[["chrom", "start", "end", "name"]].sort_values(by="chrom", key=lambda x: np_argsort(
         index_natsorted(zip(df_data.chrom, df_data.start))))
 
-    df_data_sub.to_csv("{path}{output_prefix}{ext}".format(
-        path=str(output_path) + "/",
-        output_prefix=output_prefix,
-        ext=".bed",
-        ), sep="\t", index=False, header=False)
+    df_data_sub.to_csv(
+        "{path}{output_prefix}{ext}".format(
+            path=str(output_path) + "/",
+            output_prefix=output_prefix,
+            ext=".bed",
+        ), sep="\t", index=False, header=False
+    )
 
 
 def get_forward_orientation(variant_genotype):
@@ -346,22 +354,21 @@ def write_yaml(yaml_dict, output_prefix, output_path):
         yaml.dump(yaml_dict, file, default_flow_style=False)
 
 
-def compare_files(old, new):
-    if isinstance(old, dict) and isinstance(new, dict):
-        deepdiff_out = DeepDiff(old, new, ignore_order=True, verbose_level=2, report_repetition=True).pretty()
-        if not deepdiff_out:
-            print("Files are the same.")
-        else:
-            print("Differences between dictionaries:\n{}".format(deepdiff_out))
-    elif isinstance(old, IOBase) and isinstance(new, IOBase):
-        diff = unified_diff(old.readlines(), new.readlines(), n=0)
-        delta = ''.join(x for x in diff)
-        if not delta:
-            print("Files are the same.")
-        else:
-            print(delta)
+def compare_tab_files(old, new):
+    diff = unified_diff(old.readlines(), new.readlines(), n=0)
+    delta = ''.join(x for x in diff)
+    if not delta:
+        print("Files are the same.")
     else:
-        warnings_warn("Comparison is not supported for this data type.")
+        print(delta)
+
+
+def compare_dict(old, new):
+    deepdiff_out = DeepDiff(old, new, ignore_order=True, verbose_level=2, report_repetition=True).pretty()
+    if not deepdiff_out:
+        print("Files are the same.")
+    else:
+        print("Differences between dictionaries:\n{}".format(deepdiff_out))
 
 
 def main(prev_bed_file, prev_yaml_file, output_path, output_prefix, config, translation_table):
@@ -391,7 +398,7 @@ def main(prev_bed_file, prev_yaml_file, output_path, output_prefix, config, tran
     )
     write_bedfile(df_data=df_ens_metadata, output_path=str(output_path) + "/", output_prefix=output_prefix)
     if prev_bed_file:
-        compare_files(old=prev_bed_file, new=open(output_path + output_prefix + ".bed"))
+        compare_tab_files(old=prev_bed_file, new=open(output_path + output_prefix + ".bed"))
 
     # df_sv = (
     #     df_translation[
@@ -415,7 +422,7 @@ def main(prev_bed_file, prev_yaml_file, output_path, output_prefix, config, tran
     write_yaml(yaml_dict=output_yaml, output_prefix=output_prefix, output_path=output_path)
     if prev_yaml_file:
         prev_yaml = yaml.load(prev_yaml_file, Loader=yaml.FullLoader)
-        compare_files(old=prev_yaml, new=output_yaml)
+        compare_dict(old=prev_yaml, new=output_yaml)
 
 
 if __name__ == '__main__':

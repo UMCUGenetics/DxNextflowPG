@@ -458,22 +458,15 @@ class TestCreateRefsVariantGenotypeNotation():
 
 
 class TestCreateRefsCompareFiles():
-    def test_cf_not_supported_type(self, create_test_files):
-        with pytest.warns(UserWarning, match="Comparison is not supported for this data type."):
-            create_ref.compare_files(
-                old=create_test_files + "/ini_config/correct_config.ini",
-                new=create_test_files + "/ini_config/correct_config.ini"
-            )
-
     def test_cf_yaml_same_files(self, get_test_yaml, capsys):
-        create_ref.compare_files(old=get_test_yaml, new=get_test_yaml)
+        create_ref.compare_dict(old=get_test_yaml, new=get_test_yaml)
         captured = capsys.readouterr()
         assert captured.out == "Files are the same.\n"
 
     def test_cf_yaml_removed_snp_site(self, create_test_files, get_test_yaml, capsys):
         with open(create_test_files + "/translation_yaml/removed_snp_site.yaml") as yaml_file:
             dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
-        create_ref.compare_files(old=get_test_yaml, new=dict_new)
+        create_ref.compare_dict(old=get_test_yaml, new=dict_new)
         captured = capsys.readouterr()
         assert "Differences between dictionaries:" in captured.out
         assert "root['576']['snp'][1] removed" in captured.out
@@ -483,7 +476,7 @@ class TestCreateRefsCompareFiles():
     def test_cf_yaml_removed_snp_field_name(self, create_test_files, get_test_yaml, capsys):
         with open(create_test_files + "/translation_yaml/removed_snp_field_name.yaml") as yaml_file:
             dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
-        create_ref.compare_files(old=get_test_yaml, new=dict_new)
+        create_ref.compare_dict(old=get_test_yaml, new=dict_new)
         captured = capsys.readouterr()
         assert "Differences between dictionaries:" in captured.out
         for gt in ['576', '577', '578']:
@@ -493,7 +486,7 @@ class TestCreateRefsCompareFiles():
     def test_cf_yaml_removed_genotype(self, create_test_files, get_test_yaml, capsys):
         with open(create_test_files + "/translation_yaml/removed_genotype.yaml") as yaml_file:
             dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
-        create_ref.compare_files(old=get_test_yaml, new=dict_new)
+        create_ref.compare_dict(old=get_test_yaml, new=dict_new)
         captured = capsys.readouterr()
         assert "Differences between dictionaries:" in captured.out
         assert "root['576'] removed" in captured.out
@@ -501,7 +494,7 @@ class TestCreateRefsCompareFiles():
     def test_cf_yaml_diff_phenotype_metadata(self, create_test_files, get_test_yaml, capsys):
         with open(create_test_files + "/translation_yaml/diff_phenotype_metadata.yaml") as yaml_file:
             dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
-        create_ref.compare_files(old=get_test_yaml, new=dict_new)
+        create_ref.compare_dict(old=get_test_yaml, new=dict_new)
         captured = capsys.readouterr()
         assert "Differences between dictionaries:" in captured.out
         assert "Value of root['576']['phenotype_id'] changed from 534.0 to 1534.0" in captured.out
@@ -509,21 +502,21 @@ class TestCreateRefsCompareFiles():
     def test_cf_yaml_diff_order_snp(self, create_test_files, get_test_yaml, capsys):
         with open(create_test_files + "/translation_yaml/diff_order_snp.yaml") as yaml_file:
             dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
-        create_ref.compare_files(old=get_test_yaml, new=dict_new)
+        create_ref.compare_dict(old=get_test_yaml, new=dict_new)
         captured = capsys.readouterr()
         assert captured.out == "Files are the same.\n"
 
     def test_cf_yaml_diff_order_genotypes(self, create_test_files, get_test_yaml, capsys):
         with open(create_test_files + "/translation_yaml/diff_order_genotypes.yaml") as yaml_file:
             dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
-        create_ref.compare_files(old=get_test_yaml, new=dict_new)
+        create_ref.compare_dict(old=get_test_yaml, new=dict_new)
         captured = capsys.readouterr()
         assert captured.out == "Files are the same.\n"
 
     def test_cf_yaml_diff_genotype_metadata(self, create_test_files, get_test_yaml, capsys):
         with open(create_test_files + "/translation_yaml/diff_genotype_metadata.yaml") as yaml_file:
             dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
-        create_ref.compare_files(old=get_test_yaml, new=dict_new)
+        create_ref.compare_dict(old=get_test_yaml, new=dict_new)
         captured = capsys.readouterr()
         assert "Differences between dictionaries:" in captured.out
         for gt in ['576', '577', '578']:
@@ -537,7 +530,7 @@ class TestCreateRefsCompareFiles():
     def test_cf_yaml_added_snp_site(self, create_test_files, get_test_yaml, capsys):
         with open(create_test_files + "/translation_yaml/added_snp_site.yaml") as yaml_file:
             dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
-        create_ref.compare_files(old=get_test_yaml, new=dict_new)
+        create_ref.compare_dict(old=get_test_yaml, new=dict_new)
         captured = capsys.readouterr()
         assert "Differences between dictionaries:" in captured.out
         for gt in ['576', '577', '578']:
@@ -546,13 +539,13 @@ class TestCreateRefsCompareFiles():
     def test_cf_yaml_added_genotype(self, create_test_files, get_test_yaml, capsys):
         with open(create_test_files + "/translation_yaml/added_genotype.yaml") as yaml_file:
             dict_new = yaml.load(yaml_file, Loader=yaml.FullLoader)
-        create_ref.compare_files(old=get_test_yaml, new=dict_new)
+        create_ref.compare_dict(old=get_test_yaml, new=dict_new)
         captured = capsys.readouterr()
         assert "Differences between dictionaries:" in captured.out
         assert "root['579'] added" in captured.out
 
     def test_cf_bed_same_file(self, create_test_files, capsys):
-        create_ref.compare_files(
+        create_ref.compare_tab_files(
             old=open(create_test_files + "/bed_files/sites_of_interest.bed"),
             new=open(create_test_files + "/bed_files/sites_of_interest.bed")
         )
@@ -560,7 +553,7 @@ class TestCreateRefsCompareFiles():
         assert captured.out == "Files are the same.\n"
 
     def test_cf_bed_removed_site(self, create_test_files, capsys):
-        create_ref.compare_files(
+        create_ref.compare_tab_files(
             old=open(create_test_files + "/bed_files/sites_of_interest.bed"),
             new=open(create_test_files + "/bed_files/removed_site.bed")
         )
@@ -568,7 +561,7 @@ class TestCreateRefsCompareFiles():
         assert "-chr6\t18130917\t18130918\tTPMT_rs1142345" in captured.out
 
     def test_cf_bed_diff_pos(self, create_test_files, capsys):
-        create_ref.compare_files(
+        create_ref.compare_tab_files(
             old=open(create_test_files + "/bed_files/sites_of_interest.bed"),
             new=open(create_test_files + "/bed_files/diff_pos.bed")
         )
@@ -577,7 +570,7 @@ class TestCreateRefsCompareFiles():
         assert "+chr6\t18139200\t18139201\tTPMT_rs1800460" in captured.out
 
     def test_cf_bed_diff_name(self, create_test_files, capsys):
-        create_ref.compare_files(
+        create_ref.compare_tab_files(
             old=open(create_test_files + "/bed_files/sites_of_interest.bed"),
             new=open(create_test_files + "/bed_files/diff_name.bed")
         )
@@ -586,7 +579,7 @@ class TestCreateRefsCompareFiles():
         assert "+chr6\t18139227\t18139228\tTPMT_rs1800000" in captured.out
 
     def test_cf_bed_added_site(self, create_test_files, capsys):
-        create_ref.compare_files(
+        create_ref.compare_tab_files(
             old=open(create_test_files + "/bed_files/sites_of_interest.bed"),
             new=open(create_test_files + "/bed_files/added_site.bed")
         )

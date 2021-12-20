@@ -81,7 +81,7 @@ def read_yaml(translation_file):
 def check_required_keys(snp):
     for key in ["chrom", "start", "end", "variant_genotype", "name"]:
         if key not in snp:
-            raise ValueError("Missing required field {} for snp in translation table.".format(key))
+            raise ValueError(f"Missing required field {key} for snp in translation table.")
 
 
 def retrieve_match_all_records(vcf_reader, snp):
@@ -138,7 +138,7 @@ def retrieve_match_snp_genotype(vcf_reader, genotypes):
 
 
 def write_matched_phenotype(genotype_match_per_snp, translation_table, output_path, output_prefix, sample):
-    with open("{path}/{prefix}.txt".format(path=output_path, prefix=output_prefix), 'w') as outfile:
+    with open(f"{output_path}/{output_prefix}.txt", 'w') as outfile:
         print("sample\tgenotype_id\tgenotype_match\tphenotype_id\tphenotype_match", file=outfile)
         for genotype_id, genotype_match in genotype_match_per_snp.items():
             if all(genotype_match):
