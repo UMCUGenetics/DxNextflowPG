@@ -1,8 +1,6 @@
 #! venv/bin/python
 # standard libraries alphabetic order of main package.
 import argparse
-from errno import ENOENT as errno_ENOENT
-from os import strerror as os_strerror
 import pathlib
 import sys
 from warnings import warn as warnings_warn
@@ -22,18 +20,20 @@ def valid_compressed_input_vcf(file):
     if path_file.suffixes != ['.vcf', '.gz'] and path_file.suffix != ".vcf":
         raise OSError("Expected a VCF file (.vcf or .vcf.gz)")
     elif path_file.suffixes == ['.vcf', '.gz']:
-        vcf = non_empty_existing_file(file)
-        vcf_index = non_empty_existing_file(file + ".tbi")
+        non_empty_existing_file(file)
+        non_empty_existing_file(file + ".tbi")
     else:  # .vcf
         pysam.tabix_compress(file, file + ".gz")
         pysam.tabix_index(file + ".gz", preset="vcf")
         file = file + ".gz"
     return file
 
+
 def valid_translation_table(file):
     if pathlib.Path(file).suffix != ".yaml":
         raise argparse.ArgumentTypeError("Expected a translation table with .yaml extension.")
     return non_empty_existing_file(file)
+
 
 def parse_arguments_and_check(args_in):
     parser = argparse.ArgumentParser(
