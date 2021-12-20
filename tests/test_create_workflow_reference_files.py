@@ -400,7 +400,7 @@ class TestCreateRefsFilterGenotypes():
 
 
 class TestCreateRefsVariantGenotypeNotation():
-    def test_forward_oriantation(self):
+    def test_complementary_sequence(self):
         dict_forward_reverse_genotypes = {
             "A/A": "T/T",  # hom ref
             "A/T": "T/A",  # ref alt
@@ -410,7 +410,7 @@ class TestCreateRefsVariantGenotypeNotation():
             "A/.": "T/.",  # deletion
         }
         for gt_forward, gt_reverse in dict_forward_reverse_genotypes.items():
-            retrieved_gt = create_ref.get_forward_orientation(variant_genotype=gt_reverse)
+            retrieved_gt = create_ref.get_complementary_sequence(variant_genotype=gt_reverse)
             assert retrieved_gt == gt_forward
 
     def test_indel_notation_ins_ref(self):

@@ -286,12 +286,10 @@ def write_bedfile(df_data, output_prefix, output_path):
     )
 
 
-def get_forward_orientation(variant_genotype):
+def get_complementary_sequence(variant_genotype):
     dict_complementary = {'A': 'T', 'T': 'A', 'G': 'C', 'C': 'G', '-': '.'}
     genotype = ""
-    for base in variant_genotype:
-        complementary = base.replace(base, dict_complementary.get(base, base))
-        genotype = ''.join([genotype, complementary])
+    genotype = ''.join([dict_complementary.get(base, base) for base in variant_genotype])
     return(genotype)
 
 
@@ -330,7 +328,7 @@ def generate_translation_dict(df_phenotypes, df_metadata_variant_gt):
             yaml_dict[record.genotype_id]["snp"] = list()
         # If genotype is based on a gene on the reverse strand, genotype is translated to the forward strand.
         if int(record.strand) == -1:
-            record.variant_genotype = get_forward_orientation(variant_genotype=record.variant_genotype)
+            record.variant_genotype = get_complementary_sequence(variant_genotype=record.variant_genotype)
         if (
             (len(record.alt) > 1 and "/" not in record.alt)  # insertion
             or (len(record.ref) > 1 and "/" not in record.ref)  # deletion
