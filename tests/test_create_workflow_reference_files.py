@@ -604,7 +604,7 @@ class TestCreateRefsYaml():
             orient='index',
             columns=["genotype_id", "gene", "genotype_realname", "gene_genotype", "phenotype_id", "phenotype_name"]
         )
-        yaml_dict = create_ref.generate_yaml_dict(df_phenotypes=df_pheno, df_metadata_variant_gt=df_data_rev)
+        yaml_dict = create_ref.generate_translation_dict(df_phenotypes=df_pheno, df_metadata_variant_gt=df_data_rev)
         assert '1' in yaml_dict
         assert yaml_dict['1']['snp'][0]['variant_genotype'] == 'A/A'
         assert yaml_dict['1']['snp'][1]['variant_genotype'] == 'A/G'
@@ -630,7 +630,7 @@ class TestCreateRefsYaml():
             orient='index',
             columns=["genotype_id", "gene", "genotype_realname", "gene_genotype", "phenotype_id", "phenotype_name"]
         )
-        yaml_dict = create_ref.generate_yaml_dict(df_phenotypes=df_pheno, df_metadata_variant_gt=df_data_rev)
+        yaml_dict = create_ref.generate_translation_dict(df_phenotypes=df_pheno, df_metadata_variant_gt=df_data_rev)
         assert '1' in yaml_dict
         assert '2' in yaml_dict
         assert yaml_dict['1']['snp'][0]['variant_genotype'] == 'A/A'

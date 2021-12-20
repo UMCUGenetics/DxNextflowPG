@@ -323,7 +323,7 @@ def get_indel_notation_with_flanking_base(record_ref, record_alt, variant_genoty
     return(found_notation)
 
 
-def generate_yaml_dict(df_phenotypes, df_metadata_variant_gt):
+def generate_translation_dict(df_phenotypes, df_metadata_variant_gt):
     yaml_dict = df_phenotypes.to_dict('index')
     for i, record in df_metadata_variant_gt.iterrows():
         if "snp" not in yaml_dict[record.genotype_id].keys():
@@ -415,7 +415,7 @@ def main(prev_bed_file, prev_yaml_file, output_path, output_prefix, config, tran
         )
         .dropna(axis=0, subset=["genotype_id"])
     )
-    output_yaml = generate_yaml_dict(df_phenotypes=df_phenotypes, df_metadata_variant_gt=df_metadata_variant_gt)
+    output_yaml = generate_translation_dict(df_phenotypes=df_phenotypes, df_metadata_variant_gt=df_metadata_variant_gt)
     write_yaml(yaml_dict=output_yaml, output_prefix=output_prefix, output_path=output_path)
     if prev_yaml_file:
         prev_yaml = yaml.load(prev_yaml_file, Loader=yaml.FullLoader)
