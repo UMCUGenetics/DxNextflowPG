@@ -52,6 +52,8 @@ def read_vcf(vcf_file):
         raise ValueError("File is empty.")
     if not next(vcf_reader, None):
         raise ValueError("File has no records.")
+    elif len(next(vcf_reader).samples) != 1:
+        raise ValueError("VCF should have (only) one sample.")
     return(vcf_reader)
 
 

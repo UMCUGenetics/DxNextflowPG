@@ -104,6 +104,11 @@ class TestGtToPtInputs():
             gt_to_pt.read_vcf(setup_and_get_test_path + "/vcf_files/no_records.vcf.gz")
         assert "no records" in str(no_records_error.value)
 
+    def test_parser_multi_sample_input(self, setup_and_get_test_path):
+        with pytest.raises(ValueError) as multi_sample_error:
+            gt_to_pt.read_vcf(setup_and_get_test_path + "/vcf_files/multi_sample.vcf.gz")
+        assert "VCF should have (only) one sample" in str(multi_sample_error.value)
+
     def test_parser_output_path(self, setup_and_get_test_path):
         parser = gt_to_pt.parse_arguments_and_check(
             args_in=[
