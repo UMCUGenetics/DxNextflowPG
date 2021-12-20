@@ -59,11 +59,20 @@ include { SelectVariants as GATK_SelectVariants } from './NextflowModules/GATK/4
     optional: "$params.gatk_select"
 )
 
-include { SelectVariants as GATK_SelectVariants_Intervals }from './NextflowModules/GATK/4.2.0.0/SelectVariants.nf' params(
+include { SelectVariants as GATK_SelectVariants_Intervals } from './NextflowModules/GATK/4.2.0.0/SelectVariants.nf' params(
     genome:"$params.genome", 
     compress: true,
     output_prefix: "_select_soi",
     optional: "--intervals $params.intervals_of_interest "
+)
+
+include { SelectVariants as GATK_SelectVariants_Autosomes } from './NextflowModules/GATK/4.2.0.0/SelectVariants.nf' params(
+    genome:"$params.genome", 
+    compress: true,
+    output_prefix: "_autosomes",
+    optional: "--exclude-filtered \
+        --intervals chr1,chr2,chr3,chr4,chr5,chr6,chr7,chr8,chr9,chr10,chr11,chr12,chr13,chr14,chr15,chr16,chr17,chr18,chr19,chr20,chr21,chr22 \
+    "
 )
 
 // Retrieve input data files
@@ -78,7 +87,8 @@ workflow {
     // PICARD_GtcToVcf(GenCall.out.map{sample_id, array_id, gtc_file -> [sample_id, gtc_file]})
     
     // Contamination
-    BafRegress(Illumina_GtcToVcf.out)
+    GATK_SelectVariants_Autosomes(Illumina_GtcToVcf.out)
+    BafRegress(GATK_SelectVariants_Autosomes.out)
     PICARD_VcfToAdpc(Illumina_GtcToVcf.out)
     VerifyIDIntensity(PICARD_VcfToAdpc.out) 
     PICARD_VerifyIDToMetrics(VerifyIDIntensity.out)
