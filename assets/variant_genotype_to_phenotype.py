@@ -12,36 +12,49 @@ import pysam
 import vcf as pyvcf
 import yaml
 
+# custom libraries alphabetic order
+from assets.utils import non_empty_existing_file
+
+
+def valid_compressed_input_vcf(file):
+    non_empty_existing_file(file)
+    path_file = pathlib.Path(file)
+    if path_file.suffixes != ['.vcf', '.gz'] and path_file.suffix != ".vcf":
+        raise OSError("Expected a VCF file (.vcf or .vcf.gz)")
+    elif path_file.suffixes == ['.vcf', '.gz']:
+        vcf = non_empty_existing_file(file)
+        vcf_index = non_empty_existing_file(file + ".tbi")
+    else:  # .vcf
+        pysam.tabix_compress(file, file + ".gz")
+        pysam.tabix_index(file + ".gz", preset="vcf")
+        file = file + ".gz"
+    return file
+
+def valid_translation_table(file):
+    if pathlib.Path(file).suffix != ".yaml":
+        raise argparse.ArgumentTypeError("Expected a translation table with .yaml extension.")
+    return non_empty_existing_file(file)
 
 def parse_arguments_and_check(args_in):
     parser = argparse.ArgumentParser(
         description="Translate variant genotype to a pharmacogentics phenotype.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
     )
-    parser.add_argument("input", type=str, help="File path and name of compressed VCF (.vcf.gz).")
+    parser.add_argument("input", type=valid_compressed_input_vcf, help="File path and name of compressed VCF (.vcf.gz).")
     parser.add_argument("sample", type=str, help="Sample identifier.")
-    parser.add_argument("table", type=str, help="File path and name of translation table (.yaml).")
+    parser.add_argument("table", type=valid_translation_table, help="File path and name of translation table (.yaml).")
     parser.add_argument(
-        "-o", "--output_path", type=str, required=False, default=pathlib.Path.cwd(),
-        help="File path to store output."
+        "-o", "--output_path", type=non_empty_existing_file, required=False, default=pathlib.Path(__file__).cwd(),
+        help="Filepath to store output. (default: %(default)s)"
     )
     parser.add_argument(
         "-p", "--output_prefix", type=str, required=False,
         help="Output prefix to use as output filename. (default: the provided sample identifier)"
     )
     args = parser.parse_args(args_in)
+
     if not args.output_prefix:
         args.output_prefix = args.sample
-    if not args.table.endswith(".yaml"):
-        raise TypeError()
-    if not args.input.endswith(".vcf.gz"):
-        pysam.tabix_compress(args.input, args.input + ".gz")
-        pysam.tabix_index(args.input + ".gz", preset="vcf")
-        args.input = args.input + ".gz"
-    for input_file_or_dir in [args.table, args.input, args.input+".tbi", args.output_path]:
-        if not pathlib.Path(input_file_or_dir).is_file() and not pathlib.Path(input_file_or_dir).is_dir():
-            raise FileNotFoundError(errno_ENOENT, os_strerror(errno_ENOENT), input_file_or_dir)
-
     return(args)
 
 

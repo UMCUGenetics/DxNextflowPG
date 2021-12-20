@@ -19,22 +19,9 @@ from numpy import argsort as np_argsort
 import pandas as pd
 import yaml
 
-def non_empty_existing_file(file):
-    path_file = pathlib.Path(file)
-    print(file)
-    print(path_file.stat().st_size)
-    print("ok")
-    print(path_file.stat())
-    if not path_file.is_file() and not path_file.is_dir():
-        raise FileNotFoundError(errno_ENOENT, os_strerror(errno_ENOENT), file)
-    elif not path_file.is_dir() and not path_file.stat().st_size:
-        raise OSError("File is empty.")
-    elif path_file.is_dir() and not path_file.is_absolute():
-        raise OSError("Filepath is expected to be absolute.")
-    if path_file.is_dir():
-        return file
-    else:
-        return open(file)
+# custom libraries alphabetic order
+from assets.utils import non_empty_existing_file
+
 
 def parse_arguments_and_check(args_in):
     parser = argparse.ArgumentParser(

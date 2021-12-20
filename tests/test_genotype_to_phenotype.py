@@ -1,5 +1,6 @@
 #! venv/bin/python
 # standard libraries alphabetic order of main package.
+import argparse
 from pathlib import Path, PurePath
 import shutil
 
@@ -57,7 +58,7 @@ class TestGtToPtInputs():
         )
         assert parser
 
-    def test_parser_required_args_vcf(self, setup_and_get_test_path):
+    def test_parser_required_args_input_vcf(self, setup_and_get_test_path):
         parser = gt_to_pt.parse_arguments_and_check(
             args_in=[
                 setup_and_get_test_path + "/vcf_files/sample_copy.vcf", "sample", "./references/sites_of_interest_GRCh38.yaml"
@@ -65,7 +66,18 @@ class TestGtToPtInputs():
         )
         assert parser
 
-    def test_parser_non_existing_input(self, setup_and_get_test_path):
+    def test_parser_input_unsupported(self, setup_and_get_test_path):
+        with pytest.raises(OSError) as unsupported:
+            gt_to_pt.parse_arguments_and_check(
+                args_in=[
+                    setup_and_get_test_path + "/bed_files/sites_of_interest.bed",
+                    "sample",
+                    "./references/sites_of_interest_GRCh38.yaml"
+                ]
+            )
+        assert "Expected a VCF file (.vcf or .vcf.gz)" in str(unsupported.value)
+
+    def test_parser_non_existing_input_compressed_vcf(self, setup_and_get_test_path):
         with pytest.raises(FileNotFoundError):
             gt_to_pt.parse_arguments_and_check(
                 args_in=[
@@ -76,18 +88,20 @@ class TestGtToPtInputs():
     def test_parser_non_existing_yaml(self, setup_and_get_test_path):
         with pytest.raises(FileNotFoundError):
             gt_to_pt.parse_arguments_and_check(
-                args_in=[setup_and_get_test_path + "/vcf_files/sample.vcf.gz", "sample", "./references/non_existing.yaml"]
+                args_in=[setup_and_get_test_path + "/vcf_files/sample.vcf.gz", "sample", "non_existing.yaml"]
             )
 
     def test_parser_unsupported_table(self, setup_and_get_test_path):
-        with pytest.raises(TypeError):
+        with pytest.raises(SystemExit) as unsupported_error:
             gt_to_pt.parse_arguments_and_check(
                 args_in=[
                     setup_and_get_test_path + "/vcf_files/sample.vcf.gz",
                     "sample",
-                    "./references/sites_of_interest_GRCh38.json"
+                    setup_and_get_test_path + "empty.json"
                 ]
             )
+        assert isinstance(unsupported_error.value.__context__, argparse.ArgumentError)
+        assert 'Expected a translation tabl' in unsupported_error.value.__context__.message
 
     def test_parser_empty_input(self, setup_and_get_test_path):
         with pytest.raises(ValueError) as no_records_error:
@@ -117,7 +131,7 @@ class TestGtToPtInputs():
                 "./references/sites_of_interest_GRCh38.yaml",
                 "--output_path", setup_and_get_test_path
             ]
-            )
+        )
         assert parser
 
     def test_parser_non_existing_output_path(self, setup_and_get_test_path):
