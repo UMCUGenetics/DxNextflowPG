@@ -76,14 +76,33 @@ include { SelectVariants as GATK_SelectVariants_Autosomes } from './NextflowModu
 )
 
 // Retrieve input data files
-def idat_files = extractIdatPairFromDir(params.idat_path) // [sample_id, array_id, grn_path, red_path]
+// either iDAT or GTC files
+if ( params.idat_path != null ) {
+    def idat_files = extractIdatPairFromDir(params.idat_path) // [sample_id, array_id, grn_path, red_path]
+} else if ( params.gtc_path != null ) {
+    def gtc_files = (
+        Channel
+        .fromPath("${params.gtc_path}/**.gtc", type:'file')
+        .ifEmpty{ error "No .gtc files found in ${dir}." }
+        .map { gtc ->
+            def array_id = gtc.getSimpleName().split('_')[0]
+            def position = gtc.getSimpleName().split('_')[1]
+            def sample_id = "${array_id}_${position}"
+            [sample_id, array_id, gtc]
+        }
+    )
+}
 
 def analysis_id = params.outdir.split('/')[-1]
 
 workflow {
-    // Raw idat to Genotypes (VCF format)
-    GenCall(idat_files) 
-    Illumina_GtcToVcf(GenCall.out.map{sample_id, array_id, gtc_file -> [sample_id, gtc_file]})
+    
+    if ( params.idat_path != null ) { // Raw idat to Genotypes (VCF format)
+        GenCall(idat_files) 
+        Illumina_GtcToVcf(GenCall.out.map{sample_id, array_id, gtc_file -> [sample_id, gtc_file]})
+    } else { // Genotypes to VCF format
+         Illumina_GtcToVcf(gtc_files)
+    }
     // PICARD_GtcToVcf(GenCall.out.map{sample_id, array_id, gtc_file -> [sample_id, gtc_file]})
     
     // Contamination
