@@ -46,27 +46,27 @@ include { CollectArraysVariantCallingMetrics as PICARD_VariantCallingMetrics_Int
 )
 
 // VCF manipulation modules
-include { VariantFiltration as GATK_VariantFiltration } from './NextflowModules/GATK/4.2.0.0/VariantFiltration.nf' params(
+include { VariantFiltration as GATK_VariantFiltration } from './NextflowModules/GATK/4.2.1.0/VariantFiltration.nf' params(
     genome: "$params.genome", 
     compress: true,
     filter: "$params.gatk_filter",
     optional: ""
 )
 
-include { SelectVariants as GATK_SelectVariants } from './NextflowModules/GATK/4.2.0.0/SelectVariants.nf' params(
+include { SelectVariants as GATK_SelectVariants } from './NextflowModules/GATK/4.2.1.0/SelectVariants.nf' params(
     genome:"$params.genome",
     compress: true,
     optional: "$params.gatk_select"
 )
 
-include { SelectVariants as GATK_SelectVariants_Intervals } from './NextflowModules/GATK/4.2.0.0/SelectVariants.nf' params(
+include { SelectVariants as GATK_SelectVariants_Intervals } from './NextflowModules/GATK/4.2.1.0/SelectVariants.nf' params(
     genome:"$params.genome", 
     compress: true,
     output_prefix: "_select_soi",
     optional: "--intervals $params.intervals_of_interest "
 )
 
-include { SelectVariants as GATK_SelectVariants_Autosomes } from './NextflowModules/GATK/4.2.0.0/SelectVariants.nf' params(
+include { SelectVariants as GATK_SelectVariants_Autosomes } from './NextflowModules/GATK/4.2.1.0/SelectVariants.nf' params(
     genome:"$params.genome", 
     compress: true,
     output_prefix: "_autosomes",
