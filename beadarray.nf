@@ -15,7 +15,7 @@ include { GenCall } from './CustomModules/iaap_cli/1.1.0-sha.80d7e5b3d9c1fdfc2e9
     cluster_file: "${params.cluster_file}", 
     gender_estimate_file: "${params.gender_estimate_file}", 
     estimate_gender: false,
-    iaap_path: ${params.iaap_path}",
+    iaap_path: "${params.iaap_path}",
     optional: ""
 )
 include { GtcToVcf as PICARD_GtcToVcf } from './NextflowModules/Picard/2.26.4--hdfd78af_0/GtcToVcf.nf' params(
@@ -31,7 +31,7 @@ include { GtcToVcf as Illumina_GtcToVcf } from './CustomModules/IlluminaGtcToVcf
 include { VcfToAdpc as PICARD_VcfToAdpc } from './NextflowModules/Picard/2.26.4--hdfd78af_0/VcfToAdpc.nf' params(optional: "")
 include { VerifyIDIntensity } from './NextflowModules/VerifyIDIntensity/0.0.1--hc90279e_1/VerifyIDIntensity.nf'
 include { CreateVerifyIDIntensityContaminationMetricsFile as PICARD_VerifyIDToMetrics } from './NextflowModules/Picard/2.26.4--hdfd78af_0/CreateVerifyIDIntensityContaminationMetricsFile.nf'
-include { BafRegress } from './tools/BafRegress/1.0.0/BafRegress.nf' 
+include { BafRegress } from './CustomModules/BafRegress/0.9.3/BafRegress.nf' 
 
 // Quality metrics
 include { CollectArraysVariantCallingMetrics as PICARD_VariantCallingMetrics } from './NextflowModules/Picard/2.26.4--hdfd78af_0/CollectArraysVariantCallingMetrics.nf' params(
@@ -77,10 +77,11 @@ include { SelectVariants as GATK_SelectVariants_Autosomes } from './NextflowModu
 
 // Retrieve input data files
 // either iDAT or GTC files
-if ( params.idat_path != null ) {
-    def idat_files = extractIdatPairFromDir(params.idat_path) // [sample_id, array_id, grn_path, red_path]
-} else if ( params.gtc_path != null ) {
-    def gtc_files = (
+def input_files = null
+if ( params.idat_path) {
+    input_files = extractIdatPairFromDir(params.idat_path) // [sample_id, array_id, grn_path, red_path]
+} else if ( params.gtc_path ) {
+    input_files = (
         Channel
         .fromPath("${params.gtc_path}/**.gtc", type:'file')
         .ifEmpty{ error "No .gtc files found in ${dir}." }
@@ -96,13 +97,17 @@ if ( params.idat_path != null ) {
 def analysis_id = params.outdir.split('/')[-1]
 
 workflow {
-    
-    if ( params.idat_path != null ) { // Raw idat to Genotypes (VCF format)
-        GenCall(idat_files) 
-        Illumina_GtcToVcf(GenCall.out.map{sample_id, array_id, gtc_file -> [sample_id, gtc_file]})
-    } else { // Genotypes to VCF format
-         Illumina_GtcToVcf(gtc_files)
-    }
+    // optional 
+    if ( params.idat_path ) { // Raw idat to Genotypes (VCF format)
+        GenCall(input_files) 
+    } 
+    // Illumina_GtcToVcf with GenCall output incase idat files, or GTC files.
+    Illumina_GtcToVcf( 
+        params.idat_path ? 
+        GenCall.out.map{sample_id, array_id, gtc_file -> [sample_id, gtc_file]} 
+        : input_files.map{sample_id, array_id, gtc_file -> [sample_id, gtc_file]}
+    )
+
     // PICARD_GtcToVcf(GenCall.out.map{sample_id, array_id, gtc_file -> [sample_id, gtc_file]})
     
     // Contamination
@@ -142,10 +147,25 @@ workflow.onComplete {
     def engine = new groovy.text.GStringTemplateEngine()
     def email_html = engine.createTemplate(template).make(binding).toString()
 
-    // Send email
+    // Send email and complete
     if (workflow.success) {
         def subject = "PG Workflow Successful: ${analysis_id}"
         sendMail(to: params.email.trim(), subject: subject, body: email_html)
+
+        // // clean workdir.
+        // println "Nextflow done."
+        // println "Zip work directory"
+        // find work -type f | egrep "\.(command|exitcode)" | zip -@ -q work.zip
+
+        // println "Remove work directory"
+        // workflow.workDir.deleteDir()
+        // println "Creating md5sum"
+        // find -type f -not -iname "md5sum.txt" -exec md5sum {} \; > md5sum.txt
+        // println "PG workflow completed successfully."
+        // file("$workflow.launchDir/running").delete()
+
+        // rm workflow.running
+        // touch workflow.done
     } else {
         def subject = "PG Workflow Failed: ${analysis_id}"
         sendMail(to: params.email.trim(), subject: subject, body: email_html)
