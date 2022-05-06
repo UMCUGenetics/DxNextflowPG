@@ -4,6 +4,8 @@ process VariantGenotypeToPhenotype {
     label 'VariantGenotypeToPhenotype'
     shell = ['/bin/bash', '-eo', 'pipefail']
 
+    beforeScript "source ${baseDir}/assets/venv/bin/activate"
+
     input:
         tuple(val(identifier), path(vcf_file), path(vcf_idx_file)) // should be compressed VCF with tabix index.
 
@@ -12,7 +14,6 @@ process VariantGenotypeToPhenotype {
 
     script:
         """
-        source ${baseDir}/assets/venv/bin/activate
         python ${baseDir}/assets/variant_genotype_to_phenotype.py \
             --output_prefix ${identifier}_genotypes \
             ${vcf_file} \
