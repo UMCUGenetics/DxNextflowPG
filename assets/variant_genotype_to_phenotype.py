@@ -71,8 +71,8 @@ def read_vcf(vcf_file):
 
 
 def read_yaml(translation_file):
-    with open(translation_file) as translation_file:
-        translation_table = yaml.safe_load(translation_file)
+    with open(translation_file) as file:
+        translation_table = yaml.safe_load(file)
     if not translation_table:
         raise ValueError("File is empty.")
     return(translation_table)
