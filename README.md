@@ -181,7 +181,7 @@ picard -Xmx4G \
 CreateExtendedIlluminaManifest \
 --TMP_DIR $TMPDIR \
 --INPUT path_and_filename_of_manifest_csv \
---OUTPUT path_and_filename_of_output_extended_manifest_csv>\
+--OUTPUT path_and_filename_of_output_extended_manifest_csv \
 --REFERENCE_SEQUENCE path_to_ref_fasta \
 --REPORT_FILE path_and_filename_of_output_report \
 --CLUSTER_FILE path_and_filename_of_clusterfile \
