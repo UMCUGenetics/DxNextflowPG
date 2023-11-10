@@ -22,14 +22,14 @@ lint:
     - assets/email_template.html
     - assets/email_template.txt
     - assets/sendmail_template.txt
-    - assets/nf-core-WorkflowName_logo_light.png
-    - assets/nf-core-workflowname_logo_light.png
+    - assets/nf-core-DxNextflowPG_logo_light.png
+    - assets/nf-core-DxNextflowPG_logo_light.png
     - conf/igenomes.config
     - conf/modules.config
     - conf/test.config
     - conf/test_full.config
-    - docs/images/nf-core-WorkflowName_logo_light.png
-    - docs/images/nf-core-WorkflowName_logo_dark.png
+    - docs/images/nf-core-DxNextflowPG_logo_light.png
+    - docs/images/nf-core-DxNextflowPG_logo_dark.png
     - docs/output.md
     - docs/README.md
     - docs/README.md
@@ -38,7 +38,7 @@ lint:
     - lib/NfcoreTemplate.groovy
     - lib/Utils.groovy
     - lib/WorkflowMain.groovy
-    - lib/WorkflowWorkflowName.groovy
+    - lib/WorkflowDxNextflowPG.groovy
     - pyproject.toml
   files_unchanged:
     - .github/ISSUE_TEMPLATE/bug_report.yml
@@ -46,9 +46,9 @@ lint:
     - .gitignore
     - CODE_OF_CONDUCT.md
     - LICENSE
-    - assets/nf-core-workflowname_logo_light.png
-    - docs/images/nf-core-workflowname_logo_light.png
-    - docs/images/nf-core-workflowname_logo_dark.png
+    - assets/nf-core-DxNextflowPG_logo_light.png
+    - docs/images/nf-core-DxNextflowPG_logo_light.png
+    - docs/images/nf-core-DxNextflowPG_logo_dark.png
   multiqc_config:
     - report_comment
   nextflow_config:
