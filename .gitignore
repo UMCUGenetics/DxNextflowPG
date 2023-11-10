@@ -1,11 +1,10 @@
-## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
-# Visual Studio cache/options directory
-.vs/
-.vscode/
+# Nextflow
+.nextflow*
+work/
 
-# test output
-*.pdf
-*.RData
+# Python
+venv
 
-# Apple Macbook related
+# MacOS
 .DS_Store
+
