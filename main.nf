@@ -27,7 +27,9 @@ include { extractFastqPairFromDir } from './NextflowModules/Utils/fastq.nf'
 
 include { BWAMEM2_MEM } from './modules/nf-core/bwamem2/mem/main'
 include { FASTQC } from './modules/nf-core/fastqc/main'
+include { GATK4_HAPLOTYPECALLER } from './modules/nf-core/gatk4/haplotypecaller/main'
 include { SAMBAMBA_MARKDUP } from './modules/nf-core/sambamba/markdup/main'
+include { SAMTOOLS_INDEX } from './modules/nf-core/samtools/index/main'
 include { MULTIQC } from './modules/nf-core/multiqc/main'
 
 
@@ -47,9 +49,11 @@ workflow {
     // Mapping
     BWAMEM2_MEM(ch_fastq, ch_genome, true)
     SAMBAMBA_MARKDUP(BWAMEM2_MEM.out.bam.map{ meta, bam -> [ meta - meta.subMap('read_group'), bam ] }.groupTuple())
+    SAMTOOLS_INDEX(SAMBAMBA_MARKDUP.out.bam)
+    ch_bam_bai = SAMBAMBA_MARKDUP.out.bam.join(SAMTOOLS_INDEX.out.bai)
 
     // Variant calling
-    // GATK_HaplotypeCallerGVCF
+    // GATK4_HAPLOTYPECALLER(SAMBAMBA_MARKDUP.out.bam)
     // GATK_GenotypeGVCFs
 
     // GLIMS output
