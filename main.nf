@@ -31,7 +31,9 @@ include { GATK4_HAPLOTYPECALLER } from './modules/nf-core/gatk4/haplotypecaller/
 include { GATK4_GENOTYPEGVCFS } from './modules/nf-core/gatk4/genotypegvcfs/main'
 include { SAMBAMBA_MARKDUP } from './modules/nf-core/sambamba/markdup/main'
 include { SAMTOOLS_INDEX } from './modules/nf-core/samtools/index/main'
-include { MULTIQC } from './modules/nf-core/multiqc/main'
+include { VCF2GLIMS } from './modules/local/vcf2glims/main'
+
+// include { MULTIQC } from './modules/nf-core/multiqc/main'
 
 
 /*
@@ -51,10 +53,7 @@ workflow {
     ch_intervals = Channel.fromPath("${params.intervals}").collect()
 
     // Input channel
-    ch_fastq = extractFastqPairFromDir(params.input, params.output)
-
-    // Common variables
-    def analysis_id = params.outdir.split('/')[-1]
+    ch_fastq = extractFastqPairFromDir(params.input, params.outdir)
 
     // Mapping
     BWAMEM2_MEM(ch_fastq, ch_bwa_index, true)
