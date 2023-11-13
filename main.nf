@@ -41,7 +41,7 @@ include { MULTIQC } from './modules/nf-core/multiqc/main'
 
 workflow {
     // Reference file channels
-    ch_genome = Channel.fromPath("${params.genome}*").map {genome -> [genome.getSimpleName(), genome] }.collect()
+    ch_genome = Channel.fromPath("${params.genome}*").map {genome -> [genome.getSimpleName(), [genome]] }.collect()
     ch_genome.view()
     // Input channel
     // ch_fastq = extractFastqPairFromDir(params.input)
