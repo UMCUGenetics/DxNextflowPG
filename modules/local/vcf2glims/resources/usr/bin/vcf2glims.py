@@ -6,7 +6,7 @@ import vcfpy
 
 
 def vcf2csv(args):
-    reader = vcfpy.Reader.from_stream(args.vcf_file)
+    reader = vcfpy.Reader.from_path(args.vcf_file)
 
     # print header
     print('sample', 'sequencing_run', 'chrom', 'pos', 'id', 'genotype', sep=',')
@@ -44,7 +44,7 @@ if __name__ == "__main__":
     parser.set_defaults(func=vcf2csv)
     # Required arguments
     parser.add_argument("sequencing_run", help="")
-    parser.add_argument("vcf_file", type=argparse.FileType('r', encoding='latin-1'), help="")
+    parser.add_argument("vcf_file", type=str, help="")
     # Optional arguments
     parser.add_argument("--min_dp", type=int, help="Minimum DP")
     parser.add_argument("--min_gq", type=int, help="Minimum GQ")
