@@ -45,6 +45,6 @@ def extractFastqPairFromDir(dir) {
         def (flowcell, lane) = flowcellLaneFromFastq(r1_path)
         def rg_id = "${sample_id}_${flowcell}_${lane}"
 
-        [['id': sample_id, 'read_group': rg_id], fastq_files]
+        [['id': sample_id, 'rg_id': rg_id, 'flowcell': flowcell], fastq_files]
     }
 }

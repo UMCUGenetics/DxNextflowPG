@@ -48,7 +48,7 @@ workflow {
 
     // Mapping
     BWAMEM2_MEM(ch_fastq, ch_genome, true)
-    SAMBAMBA_MARKDUP(BWAMEM2_MEM.out.bam.map{ meta, bam -> [ meta - meta.subMap('read_group'), bam ] }.groupTuple())
+    SAMBAMBA_MARKDUP(BWAMEM2_MEM.out.bam.map{ meta, bam -> [ meta - meta.subMap('rg_id', 'flowcell'), bam ] }.groupTuple())
     SAMTOOLS_INDEX(SAMBAMBA_MARKDUP.out.bam)
     ch_bam_bai = SAMBAMBA_MARKDUP.out.bam.join(SAMTOOLS_INDEX.out.bai)
 
