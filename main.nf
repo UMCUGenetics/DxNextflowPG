@@ -23,7 +23,7 @@ validateParameters()
     Import modules/subworkflows
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
-include { extractFastqPairFromDir } from './NextflowModules/Utils/fastq.nf'
+include { extractFastqPairFromDir } from './modules/local/utils/fastq.nf'
 
 include { BWAMEM2_MEM } from './modules/nf-core/bwamem2/mem/main'
 include { FASTQC } from './modules/nf-core/fastqc/main'
