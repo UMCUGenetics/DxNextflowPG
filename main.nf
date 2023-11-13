@@ -29,12 +29,12 @@ include { BWAMEM2_MEM } from './modules/nf-core/bwamem2/mem/main'
 include { FASTQC } from './modules/nf-core/fastqc/main'
 include { GATK4_HAPLOTYPECALLER } from './modules/nf-core/gatk4/haplotypecaller/main'
 include { GATK4_GENOTYPEGVCFS } from './modules/nf-core/gatk4/genotypegvcfs/main'
+include { MOSDEPTH } from './modules/nf-core/mosdepth/main'
+include { MULTIQC } from './modules/nf-core/multiqc/main'
 include { SAMBAMBA_MARKDUP } from './modules/nf-core/sambamba/markdup/main'
 include { SAMTOOLS_INDEX } from './modules/nf-core/samtools/index/main'
 include { VCF2GLIMS } from './modules/local/vcf2glims/main'
-
-// include { MULTIQC } from './modules/nf-core/multiqc/main'
-
+include { VERIFYBAMID_VERIFYBAMID2 } from './modules/nf-core/verifybamid/verifybamid2/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -51,6 +51,8 @@ workflow {
     ch_dbsnp = Channel.fromPath("${params.dbsnp}").collect()
     ch_dbsnp_index = Channel.fromPath("${params.dbsnp}.idx").collect()
     ch_intervals = Channel.fromPath("${params.intervals}").collect()
+
+    ch_svd = Channel.fromPath(["${params.svd_ud}", "${params.svd_mu}", "${params.svd_bed}"]).collect()
 
     // Input channel
     ch_fastq = extractFastqPairFromDir(params.input, params.outdir)
@@ -77,21 +79,25 @@ workflow {
     // GLIMS output
     VCF2GLIMS(GATK4_GENOTYPEGVCFS.out.vcf)
 
-
     // QC
-    // FASTQC(ch_fastq)
-    // // Mosdepth
-    // // VerifyBamID2
+    FASTQC(ch_fastq)
+    MOSDEPTH(
+        ch_bam_bai.map{ meta, bam, bai -> [meta, bam, bai, [] ] },
+        ch_genome_fasta.map{ fasta -> [ [ id:'fasta' ], fasta ] }
+    )
+    VERIFYBAMID_VERIFYBAMID2(ch_bam_bai, ch_svd, Channel.empty().toList(), ch_genome_fasta)
 
-    // // MultiQC
-    // ch_multiqc_files = Channel.empty()
-    // ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.collect{it[1]}.ifEmpty([]))
-    // ch_multiqc_config = Channel.fromPath("$projectDir/assets/multiqc_config.yml", checkIfExists: true)
-    // MULTIQC(
-    //     ch_multiqc_files.collect(),
-    //     ch_multiqc_config.toList(),
-    //     Channel.empty().toList(),
-    //     Channel.empty().toList()
-    // )
-
+    // MultiQC
+    ch_multiqc_files = Channel.empty()
+    ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.collect{it[1]})
+    ch_multiqc_files = ch_multiqc_files.mix(MOSDEPTH.out.global_txt.collect{it[1]})
+    ch_multiqc_files = ch_multiqc_files.mix(MOSDEPTH.out.summary_txt.collect{it[1]})
+    ch_multiqc_files = ch_multiqc_files.mix(VERIFYBAMID_VERIFYBAMID2.out.self_sm.collect{it[1]})
+    ch_multiqc_config = Channel.fromPath("$projectDir/assets/multiqc_config.yml", checkIfExists: true)
+    MULTIQC(
+        ch_multiqc_files.collect(),
+        ch_multiqc_config.toList(),
+        Channel.empty().toList(),
+        Channel.empty().toList()
+    )
 }
