@@ -44,14 +44,14 @@ workflow {
     ch_genome = Channel.fromPath("${params.genome}*").map {genome -> [genome.getSimpleName(), genome] }.collect()
     ch_genome.view()
     // Input channel
-    ch_fastq = extractFastqPairFromDir(params.input)
+    // ch_fastq = extractFastqPairFromDir(params.input)
 
-    // Mapping
-    BWAMEM2_MEM(ch_fastq, ch_genome, true)
-    SAMBAMBA_MARKDUP(BWAMEM2_MEM.out.bam.map{ meta, bam -> [ meta - meta.subMap('rg_id', 'flowcell'), bam ] }.groupTuple())
-    SAMTOOLS_INDEX(SAMBAMBA_MARKDUP.out.bam)
-    ch_bam_bai = SAMBAMBA_MARKDUP.out.bam.join(SAMTOOLS_INDEX.out.bai)
-    ch_bam_bai.view()
+    // // Mapping
+    // BWAMEM2_MEM(ch_fastq, ch_genome, true)
+    // SAMBAMBA_MARKDUP(BWAMEM2_MEM.out.bam.map{ meta, bam -> [ meta - meta.subMap('rg_id', 'flowcell'), bam ] }.groupTuple())
+    // SAMTOOLS_INDEX(SAMBAMBA_MARKDUP.out.bam)
+    // ch_bam_bai = SAMBAMBA_MARKDUP.out.bam.join(SAMTOOLS_INDEX.out.bai)
+    // ch_bam_bai.view()
     // Variant calling
     // GATK4_HAPLOTYPECALLER(SAMBAMBA_MARKDUP.out.bam)
     // GATK_GenotypeGVCFs
@@ -61,19 +61,19 @@ workflow {
 
 
     // QC
-    FASTQC(ch_fastq)
-    // Mosdepth
-    // VerifyBamID2
+    // FASTQC(ch_fastq)
+    // // Mosdepth
+    // // VerifyBamID2
 
-    // MultiQC
-    ch_multiqc_files = Channel.empty()
-    ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.collect{it[1]}.ifEmpty([]))
-    ch_multiqc_config = Channel.fromPath("$projectDir/assets/multiqc_config.yml", checkIfExists: true)
-    MULTIQC(
-        ch_multiqc_files.collect(),
-        ch_multiqc_config.toList(),
-        Channel.empty().toList(),
-        Channel.empty().toList()
-    )
+    // // MultiQC
+    // ch_multiqc_files = Channel.empty()
+    // ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.collect{it[1]}.ifEmpty([]))
+    // ch_multiqc_config = Channel.fromPath("$projectDir/assets/multiqc_config.yml", checkIfExists: true)
+    // MULTIQC(
+    //     ch_multiqc_files.collect(),
+    //     ch_multiqc_config.toList(),
+    //     Channel.empty().toList(),
+    //     Channel.empty().toList()
+    // )
 
 }
