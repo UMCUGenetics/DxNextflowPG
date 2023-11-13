@@ -68,7 +68,7 @@ workflow {
     )
     GATK4_HAPLOTYPECALLER.out.vcf.view()
     GATK4_GENOTYPEGVCFS(
-        GATK4_HAPLOTYPECALLER.out.vcf.join(GATK4_HAPLOTYPECALLER.out.index).combine(ch_intervals).map{
+        GATK4_HAPLOTYPECALLER.out.vcf.join(GATK4_HAPLOTYPECALLER.out.tbi).combine(ch_intervals).map{
             meta, vcf, tbi , intervals -> [meta, vcf, tbi, intervals, [] ]
         },
         ch_genome_fasta, ch_genome_fasta_index, ch_genome_dict, ch_dbsnp, ch_dbsnp_index
