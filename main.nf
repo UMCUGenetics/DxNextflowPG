@@ -41,19 +41,31 @@ include { MULTIQC } from './modules/nf-core/multiqc/main'
 
 workflow {
     // Reference file channels
-    ch_genome = Channel.fromPath("${params.genome}*").map {genome -> [genome.getSimpleName(), genome] }.collect()
-    ch_genome.view()
+    ch_bwa_index = Channel.fromPath("${params.genome}*").map {genome -> [genome.getSimpleName(), genome] }.groupTuple().collect()
+    ch_genome_fasta = Channel.fromPath("${params.genome}").collect()
+    ch_genome_fasta_index = Channel.fromPath("${params.genome}.fai").collect()
+    ch_genome_dict = Channel.fromPath("${params.genome_dict}").collect()
+    ch_dbsnp = Channel.fromPath("${params.dbsnp}").collect()
+    ch_dbsnp_index = Channel.fromPath("${params.dbsnp}.idx").collect()
+
+    ch_intervals = Channel.fromPath("${params.intervals}").collect()
+
     // Input channel
-    // ch_fastq = extractFastqPairFromDir(params.input)
+    ch_fastq = extractFastqPairFromDir(params.input)
 
     // // Mapping
-    // BWAMEM2_MEM(ch_fastq, ch_genome, true)
-    // SAMBAMBA_MARKDUP(BWAMEM2_MEM.out.bam.map{ meta, bam -> [ meta - meta.subMap('rg_id', 'flowcell'), bam ] }.groupTuple())
-    // SAMTOOLS_INDEX(SAMBAMBA_MARKDUP.out.bam)
-    // ch_bam_bai = SAMBAMBA_MARKDUP.out.bam.join(SAMTOOLS_INDEX.out.bai)
-    // ch_bam_bai.view()
+    BWAMEM2_MEM(ch_fastq, ch_bwa_index, true)
+    SAMBAMBA_MARKDUP(BWAMEM2_MEM.out.bam.map{ meta, bam -> [ meta - meta.subMap('rg_id', 'flowcell'), bam ] }.groupTuple())
+    SAMTOOLS_INDEX(SAMBAMBA_MARKDUP.out.bam)
+
+    ch_bam_bai = SAMBAMBA_MARKDUP.out.bam.join(SAMTOOLS_INDEX.out.bai)
+
     // Variant calling
-    // GATK4_HAPLOTYPECALLER(SAMBAMBA_MARKDUP.out.bam)
+    GATK4_HAPLOTYPECALLER(
+        ch_bam_bai.combine(ch_intervals).map{ meta, bam, bai, intervals -> [meta, bam, bai, intervals, [] ] },
+        ch_genome_fasta, ch_genome_fasta_index, ch_genome_dict, ch_dbsnp, ch_dbsnp_index
+    )
+    GATK4_HAPLOTYPECALLER.out.vcf.view()
     // GATK_GenotypeGVCFs
 
     // GLIMS output
