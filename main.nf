@@ -41,13 +41,13 @@ include { MULTIQC } from './modules/nf-core/multiqc/main'
 
 workflow {
     // Reference file channels
-    ch_genome = Channel.fromPath(params.genome).map {genome -> [genome.getSimpleName(), genome] }
+    ch_genome = Channel.fromPath(params.genome).map {genome -> [genome.getSimpleName(), genome] }.collect()
 
     // Input channel
     ch_fastq = extractFastqPairFromDir(params.input)
 
     // Mapping
-    BWAMEM2_MEM(ch_fastq, ch_genome, true)
+    BWAMEM2_MEM(ch_fastq, ch_genome.first(), true)
     SAMBAMBA_MARKDUP(BWAMEM2_MEM.out.bam.map{ meta, bam -> [ meta - meta.subMap('rg_id', 'flowcell'), bam ] }.groupTuple())
     SAMTOOLS_INDEX(SAMBAMBA_MARKDUP.out.bam)
     ch_bam_bai = SAMBAMBA_MARKDUP.out.bam.join(SAMTOOLS_INDEX.out.bai)
