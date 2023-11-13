@@ -28,6 +28,7 @@ include { extractFastqPairFromDir } from './modules/local/utils/fastq.nf'
 include { BWAMEM2_MEM } from './modules/nf-core/bwamem2/mem/main'
 include { FASTQC } from './modules/nf-core/fastqc/main'
 include { GATK4_HAPLOTYPECALLER } from './modules/nf-core/gatk4/haplotypecaller/main'
+include { GATK4_GENOTYPEGVCFS } from './modules/nf-core/gatk4/genotypegvcfs/main'
 include { SAMBAMBA_MARKDUP } from './modules/nf-core/sambamba/markdup/main'
 include { SAMTOOLS_INDEX } from './modules/nf-core/samtools/index/main'
 include { MULTIQC } from './modules/nf-core/multiqc/main'
@@ -66,7 +67,12 @@ workflow {
         ch_genome_fasta, ch_genome_fasta_index, ch_genome_dict, ch_dbsnp, ch_dbsnp_index
     )
     GATK4_HAPLOTYPECALLER.out.vcf.view()
-    // GATK_GenotypeGVCFs
+    GATK4_GENOTYPEGVCFS(
+        GATK4_HAPLOTYPECALLER.out.vcf.join(GATK4_HAPLOTYPECALLER.out.index).combine(ch_intervals).map{
+            meta, vcf, tbi , intervals -> [meta, vcf, tbi, intervals, [] ]
+        },
+        ch_genome_fasta, ch_genome_fasta_index, ch_genome_dict, ch_dbsnp, ch_dbsnp_index
+    )
 
     // GLIMS output
     // VCF2GLIMS
