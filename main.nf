@@ -48,13 +48,15 @@ workflow {
     ch_genome_dict = Channel.fromPath("${params.genome_dict}").collect()
     ch_dbsnp = Channel.fromPath("${params.dbsnp}").collect()
     ch_dbsnp_index = Channel.fromPath("${params.dbsnp}.idx").collect()
-
     ch_intervals = Channel.fromPath("${params.intervals}").collect()
 
     // Input channel
-    ch_fastq = extractFastqPairFromDir(params.input)
+    ch_fastq = extractFastqPairFromDir(params.input, params.output)
 
-    // // Mapping
+    // Common variables
+    def analysis_id = params.outdir.split('/')[-1]
+
+    // Mapping
     BWAMEM2_MEM(ch_fastq, ch_bwa_index, true)
     SAMBAMBA_MARKDUP(BWAMEM2_MEM.out.bam.map{ meta, bam -> [ meta - meta.subMap('rg_id', 'flowcell'), bam ] }.groupTuple())
     SAMTOOLS_INDEX(SAMBAMBA_MARKDUP.out.bam)
@@ -75,7 +77,7 @@ workflow {
     )
 
     // GLIMS output
-    // VCF2GLIMS
+    VCF2GLIMS(GATK4_GENOTYPEGVCFS.out.vcf)
 
 
     // QC

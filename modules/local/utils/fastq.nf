@@ -26,12 +26,13 @@ def flowcellLaneFromFastq(path) {
     [fcid, lane, machine, run_nr]
 }
 
-def extractFastqPairFromDir(dir) {
+def extractFastqPairFromDir(input, output) {
     // Original code from: https://github.com/SciLifeLab/Sarek - MIT License - Copyright (c) 2016 SciLifeLab
-    dir = dir.tokenize().collect{"$it/**_R1_*.fastq.gz"}
+    input = input.tokenize().collect{"$it/**_R1_*.fastq.gz"}
+    analysis_id = output.split('/')[-1]
     Channel
-    .fromPath(dir, type:'file')
-    .ifEmpty { error "No R1 fastq.gz files found in ${dir}." }
+    .fromPath(input, type:'file')
+    .ifEmpty { error "No R1 fastq.gz files found in ${input}." }
     .filter { !(it =~ /.*Undetermined.*/) }
     .map { r1_path ->
         def fastq_files = [r1_path]
@@ -45,6 +46,6 @@ def extractFastqPairFromDir(dir) {
         def (flowcell, lane) = flowcellLaneFromFastq(r1_path)
         def rg_id = "${sample_id}_${flowcell}_${lane}"
 
-        [['id': sample_id, 'rg_id': rg_id, 'flowcell': flowcell], fastq_files]
+        [['id': sample_id, 'rg_id': rg_id, 'flowcell': flowcell, 'analysis_id': analysis_id], fastq_files]
     }
 }
