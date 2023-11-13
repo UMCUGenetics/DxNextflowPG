@@ -15,6 +15,11 @@
             "git_sha": "8fc1d24c710ebe1d5de0f2447ec9439fd3d9d66a",
             "installed_by": ["modules"]
           },
+          "gatk4/genotypegvcfs": {
+            "branch": "master",
+            "git_sha": "8fc1d24c710ebe1d5de0f2447ec9439fd3d9d66a",
+            "installed_by": ["modules"]
+          },
           "gatk4/haplotypecaller": {
             "branch": "master",
             "git_sha": "8fc1d24c710ebe1d5de0f2447ec9439fd3d9d66a",
