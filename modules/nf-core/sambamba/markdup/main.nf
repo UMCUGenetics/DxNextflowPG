@@ -12,6 +12,7 @@ process SAMBAMBA_MARKDUP {
 
     output:
     tuple val(meta), path("*.bam"), emit: bam
+    tuple val(meta), path("*.txt"), emit: txt
     path "versions.yml"           , emit: versions
 
     when:
@@ -27,7 +28,8 @@ process SAMBAMBA_MARKDUP {
         $args \\
         -t $task.cpus \\
         $bam \\
-        ${prefix}.bam
+        ${prefix}.bam \\
+        2> ${prefix}.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

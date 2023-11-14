@@ -1,8 +1,70 @@
+log_filesize_limit: 1000000000
 export_plots: true
+extra_fn_clean_exts:
+  - type: regex
+    pattern: '_\w*_S\d+_L\d{3}_R\d_\d{3}'
+
 top_modules:
+  - "sambamba"
+  - "verifybamid"
+  - "mosdepth"
   - "fastqc"
 report_section_order:
   software_versions:
     order: -1000
   UMCUGenetics-DxNextflowPG-summary:
     order: -1001
+
+mosdepth_config:
+  general_stats_coverage:
+    - 5
+    - 10
+    - 15
+    - 20
+    - 25
+    - 30
+    - 40
+    - 50
+  exclude_contigs:
+    - "*_alt"
+    - "*_decoy"
+    - "*_random"
+    - "chrUn*"
+    - "chrM"
+    - "chrEBV"
+
+table_columns_visible:
+  FastQC:
+    percent_duplicates: False
+    percent_gc: False
+    avg_sequence_length: False
+    percent_fails: False
+    total_sequences: False
+  mosdepth:
+    5_x_pc: True
+    10_x_pc: True
+    15_x_pc: False
+    20_x_pc: True
+    25_x_pc: False
+    30_x_pc: True
+    40_x_pc: True
+    50_x_pc: False
+    mean_coverage: True
+    median_coverage: False
+  Sambamba:
+    duplicate_rate: True
+  VerifyBAMID:
+    FREEMIX: True
+
+table_columns_placement:
+  Sambamba:
+    duplicate_rate: 910
+  mosdepth:
+    mean_coverage: 920
+    5_x_pc: 921
+    10_x_pc: 922
+    20_x_pc: 923
+    30_x_pc: 924
+    40_x_pc: 925
+  VerifyBAMID:
+    FREEMIX: 930
