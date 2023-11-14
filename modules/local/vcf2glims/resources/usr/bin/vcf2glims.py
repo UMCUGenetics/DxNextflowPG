@@ -23,11 +23,11 @@ def vcf2csv(args):
         sample_gt = gt_sep.join(sample_call.gt_bases)
 
         if args.min_dp and sample_call.data['DP'] < args.min_dp:
-            sample_gt = 'qc_fail'
+            sample_gt = 'qc_fail_dp'
         elif args.min_gq and sample_call.is_variant and sample_call.data['GQ'] < args.min_gq:
-            sample_gt = 'qc_fail'
+            sample_gt = 'qc_fail_gq'
         elif args.min_rgq and not sample_call.is_variant and sample_call.data['RGQ'] < args.min_rgq:
-            sample_gt = 'qc_fail'
+            sample_gt = 'qc_fail_rgq'
 
         print(
             sample_call.sample,
