@@ -7,47 +7,47 @@
         "nf-core": {
           "bwamem2/mem": {
             "branch": "master",
-            "git_sha": "1e729660254e84bf0b6451a94b3ca511b6a3d1e4",
+            "git_sha": "3f5420aa22e00bd030a2556dfdffc9e164ec0ec5",
             "installed_by": ["modules"]
           },
           "fastqc": {
             "branch": "master",
-            "git_sha": "8fc1d24c710ebe1d5de0f2447ec9439fd3d9d66a",
+            "git_sha": "3f5420aa22e00bd030a2556dfdffc9e164ec0ec5",
             "installed_by": ["modules"]
           },
           "gatk4/genotypegvcfs": {
             "branch": "master",
-            "git_sha": "8fc1d24c710ebe1d5de0f2447ec9439fd3d9d66a",
+            "git_sha": "3f5420aa22e00bd030a2556dfdffc9e164ec0ec5",
             "installed_by": ["modules"]
           },
           "gatk4/haplotypecaller": {
             "branch": "master",
-            "git_sha": "8fc1d24c710ebe1d5de0f2447ec9439fd3d9d66a",
+            "git_sha": "3f5420aa22e00bd030a2556dfdffc9e164ec0ec5",
             "installed_by": ["modules"]
           },
           "mosdepth": {
             "branch": "master",
-            "git_sha": "1e729660254e84bf0b6451a94b3ca511b6a3d1e4",
+            "git_sha": "3f5420aa22e00bd030a2556dfdffc9e164ec0ec5",
             "installed_by": ["modules"]
           },
           "multiqc": {
             "branch": "master",
-            "git_sha": "8fc1d24c710ebe1d5de0f2447ec9439fd3d9d66a",
+            "git_sha": "3f5420aa22e00bd030a2556dfdffc9e164ec0ec5",
             "installed_by": ["modules"]
           },
           "sambamba/markdup": {
             "branch": "master",
-            "git_sha": "8fc1d24c710ebe1d5de0f2447ec9439fd3d9d66a",
+            "git_sha": "3f5420aa22e00bd030a2556dfdffc9e164ec0ec5",
             "installed_by": ["modules"]
           },
           "samtools/index": {
             "branch": "master",
-            "git_sha": "8fc1d24c710ebe1d5de0f2447ec9439fd3d9d66a",
+            "git_sha": "3f5420aa22e00bd030a2556dfdffc9e164ec0ec5",
             "installed_by": ["modules"]
           },
           "verifybamid/verifybamid2": {
             "branch": "master",
-            "git_sha": "8fc1d24c710ebe1d5de0f2447ec9439fd3d9d66a",
+            "git_sha": "3f5420aa22e00bd030a2556dfdffc9e164ec0ec5",
             "installed_by": ["modules"]
           }
         }
