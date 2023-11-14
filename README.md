@@ -4,11 +4,20 @@
 [![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A523.04.0-23aa62.svg)](https://www.nextflow.io/)
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
 
-# nf-core_template
+# DxNextflowPG
 
-Minimal nf-core compatible workflow template.
+Nextflow workflow to analyse pharmacogenetics NGS data.
 
-## Install nf-core and Nextflow
+## UMCU HPC
+
+```
+export NXF_JAVA_HOME='/hpc/diaggen/software/tools/jdk-18.0.2.1/'
+tools/nextflow run DxNextflowPG --input <input_path> --outdir <output_path> -resume
+```
+
+## Development
+
+### Install nf-core and Nextflow
 
 ```
 python3 -m venv venv
@@ -19,11 +28,3 @@ pip install nf-core
 curl -s https://get.nextflow.io | bash
 mv nextflow venv/bin/
 ```
-
-## Using this template
-
-- Replace `DxNextflowPG` with actual workflow name in all files.
-
-## ToDo
-
-- Add minimal workflow test CI and test configs.
