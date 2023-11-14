@@ -1,5 +1,5 @@
 process VERIFYBAMID_VERIFYBAMID2 {
-    tag '${meta.id}'
+    tag "$meta.id"
     label 'process_low'
 
     conda "${moduleDir}/environment.yml"
@@ -36,7 +36,7 @@ process VERIFYBAMID_VERIFYBAMID2 {
         "--SVDPrefix ${svd_ud.baseName}" : "--UDPath ${svd_ud} --MeanPath ${svd_mu} --BedPath ${svd_bed}"
     def refvcf_args = "${refvcf}".endsWith(".vcf") ? "--RefVCF ${refvcf}" : ""
 
-    def reference_args = ("$references".endsWith('.fasta')) ?
+    def reference_args = ("$references".endsWith('.fna')) ?
         "--Reference ${references}" : ''
 
     """
