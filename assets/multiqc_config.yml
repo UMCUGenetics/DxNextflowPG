@@ -58,13 +58,27 @@ table_columns_visible:
 
 table_columns_placement:
   Sambamba:
-    duplicate_rate: 910
+    duplicate_rate: 920
   mosdepth:
-    mean_coverage: 920
+    mean_coverage: 900
     5_x_pc: 921
     10_x_pc: 922
     20_x_pc: 923
     30_x_pc: 924
     40_x_pc: 925
   VerifyBAMID:
-    FREEMIX: 930
+    FREEMIX: 910
+
+table_cond_formatting_rules:
+    mqc-generalstats-mosdepth-mean_coverage:
+        pass:
+            - gt: 20
+            - eq: 20
+        fail:
+            - lt: 20
+    mqc-generalstats-verifybamid-FREEMIX:
+        pass:
+            - lt: 4
+            - eq: 4
+        fail:
+            - gt: 4
