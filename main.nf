@@ -26,6 +26,7 @@ validateParameters()
 include { extractFastqPairFromDir } from './modules/local/utils/fastq.nf'
 
 include { BWAMEM2_MEM } from './modules/nf-core/bwamem2/mem/main'
+include { CUSTOM_DUMPSOFTWAREVERSIONS } from './modules/nf-core/custom/dumpsoftwareversions/main'
 include { FASTQC } from './modules/nf-core/fastqc/main'
 include { GATK4_HAPLOTYPECALLER } from './modules/nf-core/gatk4/haplotypecaller/main'
 include { GATK4_GENOTYPEGVCFS } from './modules/nf-core/gatk4/genotypegvcfs/main'
@@ -51,7 +52,6 @@ workflow {
     ch_dbsnp = Channel.fromPath("${params.dbsnp}").collect()
     ch_dbsnp_index = Channel.fromPath("${params.dbsnp}.idx").collect()
     ch_intervals = Channel.fromPath("${params.intervals}").collect()
-
     ch_svd = Channel.fromPath(["${params.svd_ud}", "${params.svd_mu}", "${params.svd_bed}"]).collect()
 
     // Input channel
@@ -87,12 +87,25 @@ workflow {
     )
     VERIFYBAMID_VERIFYBAMID2(ch_bam_bai, ch_svd, Channel.empty().toList(), ch_genome_fasta)
 
+    // Softare versions
+    ch_versions = channel.empty()
+    ch_versions = ch_versions.mix(BWAMEM2_MEM.out.versions)
+    ch_versions = ch_versions.mix(SAMBAMBA_MARKDUP.out.versions)
+    ch_versions = ch_versions.mix(SAMTOOLS_INDEX.out.versions)
+    ch_versions = ch_versions.mix(GATK4_HAPLOTYPECALLER.out.versions)
+    ch_versions = ch_versions.mix(GATK4_GENOTYPEGVCFS.out.versions)
+    ch_versions = ch_versions.mix(FASTQC.out.versions)
+    ch_versions = ch_versions.mix(MOSDEPTH.out.versions)
+    ch_versions = ch_versions.mix(VERIFYBAMID_VERIFYBAMID2.out.versions)
+    CUSTOM_DUMPSOFTWAREVERSIONS(ch_versions.unique().collectFile(name: 'collated_versions.yml'))
+
     // MultiQC
     ch_multiqc_files = Channel.empty()
     ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.collect{it[1]})
     ch_multiqc_files = ch_multiqc_files.mix(MOSDEPTH.out.global_txt.collect{it[1]})
     ch_multiqc_files = ch_multiqc_files.mix(MOSDEPTH.out.summary_txt.collect{it[1]})
     ch_multiqc_files = ch_multiqc_files.mix(VERIFYBAMID_VERIFYBAMID2.out.self_sm.collect{it[1]})
+    ch_multiqc_files = ch_multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml.collect())
     ch_multiqc_config = Channel.fromPath("$projectDir/assets/multiqc_config.yml", checkIfExists: true)
     MULTIQC(
         ch_multiqc_files.collect(),
