@@ -45,6 +45,53 @@
           "description": "Path of genome reference.",
           "fa_icon": "fas fa-book",
           "help_text": ""
+        },
+        "genome_dict": {
+          "type": "string",
+          "description": "Path of genome reference dict."
+        }
+      }
+    },
+    "variant_calling": {
+      "title": "Variant Calling",
+      "type": "object",
+      "description": "Configure variant calling tools",
+      "default": "",
+      "fa_icon": "fas fa-toolbox",
+      "properties": {
+        "intervals": {
+          "type": "string",
+          "fa_icon": "fas fa-file",
+          "description": "Path to variant calling target file."
+        },
+        "dbsnp": {
+          "type": "string",
+          "fa_icon": "fas fa-file",
+          "description": "Path to dbsnp file."
+        }
+      }
+    },
+    "qc": {
+      "title": "Quality Control",
+      "type": "object",
+      "description": "Configure quality control tools",
+      "default": "",
+      "fa_icon": "fas fa-toolbox",
+      "properties": {
+        "svd_ud": {
+          "type": "string",
+          "fa_icon": "fas fa-file",
+          "description": "Path to verifybamid2 UD file."
+        },
+        "svd_mu": {
+          "type": "string",
+          "fa_icon": "fas fa-file",
+          "description": "Path to verifybamid2 MU file."
+        },
+        "svd_bed": {
+          "type": "string",
+          "fa_icon": "fas fa-file",
+          "description": "Path to verifybamid2 BED file."
         }
       }
     },
@@ -84,6 +131,12 @@
     },
     {
       "$ref": "#/definitions/reference_genome_options"
+    },
+    {
+      "$ref": "#/definitions/variant_calling"
+    },
+    {
+      "$ref": "#/definitions/qc"
     },
     {
       "$ref": "#/definitions/generic_options"
