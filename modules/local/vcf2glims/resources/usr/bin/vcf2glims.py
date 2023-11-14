@@ -13,19 +13,21 @@ def vcf2csv(args):
 
     for record in reader:
         sample_call = record.calls[0]  # Assume single sample vcf
-        if args.min_dp and sample_call.data['DP'] < args.min_dp:
-            continue
-
-        if args.min_gq and sample_call.is_variant and sample_call.data['GQ'] < args.min_gq:
-            continue
-
-        if args.min_rgq and not sample_call.is_variant and sample_call.data['RGQ'] < args.min_rgq:
-            continue
 
         # Set genotype separator
         gt_sep = '/'
         if sample_call.is_phased:
             gt_sep = '|'
+
+        # create genotype using genotype separator
+        sample_gt = gt_sep.join(sample_call.gt_bases)
+
+        if args.min_dp and sample_call.data['DP'] < args.min_dp:
+            sample_gt = 'qc_fail'
+        elif args.min_gq and sample_call.is_variant and sample_call.data['GQ'] < args.min_gq:
+            sample_gt = 'qc_fail'
+        elif args.min_rgq and not sample_call.is_variant and sample_call.data['RGQ'] < args.min_rgq:
+            sample_gt = 'qc_fail'
 
         print(
             sample_call.sample,
@@ -33,7 +35,7 @@ def vcf2csv(args):
             record.CHROM,
             record.POS,
             record.ID[0] if record.ID else '',  # print record.ID unless empty
-            gt_sep.join(sample_call.gt_bases),  # create genotype using genotype separator
+            sample_gt,
             sep=','
         )
 
