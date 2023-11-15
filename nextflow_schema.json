@@ -40,15 +40,20 @@
       "fa_icon": "fas fa-dna",
       "description": "Reference genome related files and options required for the workflow.",
       "properties": {
-        "genome": {
+        "genome_fasta": {
           "type": "string",
           "description": "Path of genome reference.",
-          "fa_icon": "fas fa-book",
-          "help_text": ""
+          "fa_icon": "fas fa-book"
         },
         "genome_dict": {
           "type": "string",
-          "description": "Path of genome reference dict."
+          "description": "Path of genome reference dict.",
+          "fa_icon": "fas fa-book"
+        },
+        "bwa_index": {
+          "type": "string",
+          "description": "Path of BWA MEM2 genome  reference index.",
+          "fa_icon": "fas fa-book"
         }
       }
     },

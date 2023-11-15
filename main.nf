@@ -46,10 +46,10 @@ include { VERIFYBAMID_VERIFYBAMID2 } from './modules/nf-core/verifybamid/verifyb
 
 workflow {
     // Reference file channels
-    ch_bwa_index = Channel.fromPath("${params.genome}*").map {genome -> [genome.getSimpleName(), genome] }.groupTuple().collect()
-    ch_genome_fasta = Channel.fromPath("${params.genome}").collect()
-    ch_genome_fasta_index = Channel.fromPath("${params.genome}.fai").collect()
+    ch_genome_fasta = Channel.fromPath("${params.genome_fasta}").collect()
+    ch_genome_fasta_index = Channel.fromPath("${params.genome_fasta}.fai").collect()
     ch_genome_dict = Channel.fromPath("${params.genome_dict}").collect()
+    ch_bwa_index = Channel.fromPath("${params.bwa_index}*").map {genome -> [genome.getSimpleName(), genome] }.groupTuple().collect()
     ch_dbsnp = Channel.fromPath("${params.dbsnp}").collect()
     ch_dbsnp_index = Channel.fromPath("${params.dbsnp}.idx").collect()
     ch_intervals = Channel.fromPath("${params.intervals}").collect()
