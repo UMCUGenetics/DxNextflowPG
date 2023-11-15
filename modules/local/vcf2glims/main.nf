@@ -20,6 +20,7 @@ process VCF2GLIMS {
 
     """
     vcf2glims.py \\
+        $args \\
         $meta.analysis_id \\
         $vcf \\
         > ${prefix}.csv
