@@ -51,7 +51,7 @@ workflow {
     ch_genome_dict = Channel.fromPath("${params.genome_dict}").collect()
     ch_bwa_index = Channel.fromPath("${params.bwa_index}*").map {genome -> [genome.getSimpleName(), genome] }.groupTuple().collect()
     ch_dbsnp = Channel.fromPath("${params.dbsnp}").collect()
-    ch_dbsnp_index = Channel.fromPath("${params.dbsnp}.idx").collect()
+    ch_dbsnp_index = Channel.fromPath("${params.dbsnp}.tbi").collect()
     ch_intervals = Channel.fromPath("${params.intervals}").collect()
     ch_svd = Channel.fromPath(["${params.svd_ud}", "${params.svd_mu}", "${params.svd_bed}"]).collect()
 
