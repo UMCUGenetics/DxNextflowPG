@@ -40,15 +40,31 @@ ${optional_params[@]:-""}
 if [ \$? -eq 0 ]; then
     echo "Nextflow done."
 
+    echo "Zip work directory"
+    find work -type f | egrep "\.(command|exitcode)" | zip -@ -q work.zip
+
+    echo "Remove work directory"
+    rm -r work
+
+    echo "Creating md5sum"
+    find -type f -not -iname 'md5sum.txt' -exec md5sum {} \; > md5sum.txt
+
     echo "PG workflow completed successfully."
     rm workflow.running
     touch workflow.done
+
+    echo "Change permissions"
+    chmod 770 -R $output
 
     exit 0
 else
     echo "Nextflow failed"
     rm workflow.running
     touch workflow.failed
+
+    echo "Change permissions"
+    chmod 775 -R $output
+
     exit 1
 fi
 EOT
