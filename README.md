@@ -12,7 +12,7 @@ Nextflow workflow to analyse pharmacogenetics NGS data.
 
 ```
 export NXF_JAVA_HOME='/hpc/diaggen/software/tools/jdk-18.0.2.1/'
-tools/nextflow run DxNextflowPG --input <input_path> --outdir <output_path> -resume
+tools/nextflow run DxNextflowPG --input <input_path> --outdir <output_path> --email <email> -resume
 ```
 
 ## Development
