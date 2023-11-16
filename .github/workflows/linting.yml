@@ -35,7 +35,7 @@ jobs:
       - name: Install Prettier
         run: npm install -g prettier
 
-      - name: Run Prettier --check
+      - name: Run Prettier --print-width 127 --check
         run: prettier --check ${GITHUB_WORKSPACE}
 
   PythonBlack:
