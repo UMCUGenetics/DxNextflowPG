@@ -20,9 +20,9 @@ sbatch <<EOT
 #SBATCH --nodes=1
 #SBATCH --mem 5G
 #SBATCH --gres=tmpspace:10G
-#SBATCH --job-name Nextflow_WGS
-#SBATCH -o log/slurm_nextflow_pg.%j.out
-#SBATCH -e log/slurm_nextflow_pg.%j.err
+#SBATCH --job-name DxNextflowPG
+#SBATCH -o log/slurm_DxNextflowPG.%j.out
+#SBATCH -e log/slurm_DxNextflowPG.%j.err
 #SBATCH --mail-user $email
 #SBATCH --mail-type FAIL
 #SBATCH --export=NONE
