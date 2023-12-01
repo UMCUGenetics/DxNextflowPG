@@ -30,7 +30,7 @@ sbatch <<EOT
 
 export NXF_JAVA_HOME='/hpc/diaggen/software/tools/jdk-18.0.2.1/'
 
-/hpc/diaggen/projects/PG_WGS/tools/nextflow run $workflow_path \
+/hpc/diaggen/software/production/DxNextflowPG/tools/nextflow run $workflow_path \
 --input $input \
 --outdir $output \
 --email $email \
