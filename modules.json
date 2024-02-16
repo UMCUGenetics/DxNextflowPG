@@ -7,17 +7,17 @@
         "nf-core": {
           "bwamem2/mem": {
             "branch": "master",
-            "git_sha": "3f5420aa22e00bd030a2556dfdffc9e164ec0ec5",
+            "git_sha": "1e2b7fb7106852388610c0360d234b0829eb980e",
             "installed_by": ["modules"]
           },
           "custom/dumpsoftwareversions": {
             "branch": "master",
-            "git_sha": "bba7e362e4afead70653f84d8700588ea28d0f9e",
+            "git_sha": "de45447d060b8c8b98575bc637a4a575fd0638e1",
             "installed_by": ["modules"]
           },
           "fastqc": {
             "branch": "master",
-            "git_sha": "3f5420aa22e00bd030a2556dfdffc9e164ec0ec5",
+            "git_sha": "f4ae1d942bd50c5c0b9bd2de1393ce38315ba57c",
             "installed_by": ["modules"]
           },
           "gatk4/genotypegvcfs": {
@@ -27,17 +27,17 @@
           },
           "gatk4/haplotypecaller": {
             "branch": "master",
-            "git_sha": "3f5420aa22e00bd030a2556dfdffc9e164ec0ec5",
+            "git_sha": "eab2bd29e589bd05da2b47c9bf95ef10b9508699",
             "installed_by": ["modules"]
           },
           "mosdepth": {
             "branch": "master",
-            "git_sha": "3f5420aa22e00bd030a2556dfdffc9e164ec0ec5",
+            "git_sha": "69e3eb17fb31b772b18f134d6e8f8b93ee980e65",
             "installed_by": ["modules"]
           },
           "multiqc": {
             "branch": "master",
-            "git_sha": "214d575774c172062924ad3564b4f66655600730",
+            "git_sha": "ccacf6f5de6df3bc6d73b665c1fd2933d8bbc290",
             "installed_by": ["modules"]
           },
           "sambamba/markdup": {
@@ -48,7 +48,12 @@
           },
           "samtools/index": {
             "branch": "master",
-            "git_sha": "5394565c5fe4c760e5b35977ec7607c62e81d1f8",
+            "git_sha": "f4596fe0bdc096cf53ec4497e83defdb3a94ff62",
+            "installed_by": ["modules"]
+          },
+          "seqkit/split2": {
+            "branch": "master",
+            "git_sha": "3f5420aa22e00bd030a2556dfdffc9e164ec0ec5",
             "installed_by": ["modules"]
           },
           "verifybamid/verifybamid2": {
