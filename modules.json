@@ -7,7 +7,7 @@
         "nf-core": {
           "bwamem2/mem": {
             "branch": "master",
-            "git_sha": "1e2b7fb7106852388610c0360d234b0829eb980e",
+            "git_sha": "74363e1acc38eaedeede8d429477397c1a6f9e18",
             "installed_by": ["modules"]
           },
           "custom/dumpsoftwareversions": {
@@ -27,7 +27,7 @@
           },
           "gatk4/haplotypecaller": {
             "branch": "master",
-            "git_sha": "eab2bd29e589bd05da2b47c9bf95ef10b9508699",
+            "git_sha": "9171c29c3941e05e9cc776aa49045bdb03219bdc",
             "installed_by": ["modules"]
           },
           "mosdepth": {
