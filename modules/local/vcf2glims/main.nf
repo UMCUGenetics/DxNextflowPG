@@ -8,7 +8,6 @@ process VCF2GLIMS {
 
     output:
     tuple val(meta), path("*.csv"), emit: csv
-    // TODO nf-core: List additional required output channels/values here
     //path "versions.yml"           , emit: versions
 
     when:
