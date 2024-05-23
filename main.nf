@@ -35,6 +35,7 @@ include { MOSDEPTH } from './modules/nf-core/mosdepth/main'
 include { MULTIQC } from './modules/nf-core/multiqc/main'
 include { SAMBAMBA_MARKDUP } from './modules/nf-core/sambamba/markdup/main'
 include { SAMTOOLS_INDEX } from './modules/nf-core/samtools/index/main'
+include { SEQKIT_SPLIT2 } from './modules/nf-core/seqkit/split2/main'
 include { VCF2GLIMS } from './modules/local/vcf2glims/main'
 include { VERIFYBAMID_VERIFYBAMID2 } from './modules/nf-core/verifybamid/verifybamid2/main'
 
@@ -45,36 +46,51 @@ include { VERIFYBAMID_VERIFYBAMID2 } from './modules/nf-core/verifybamid/verifyb
 */
 
 workflow {
-    // Reference file channels
-    ch_genome_fasta = Channel.fromPath("${params.genome_fasta}").collect()
-    ch_genome_fasta_index = Channel.fromPath("${params.genome_fasta}.fai").collect()
-    ch_genome_dict = Channel.fromPath("${params.genome_dict}").collect()
-    ch_bwa_index = Channel.fromPath("${params.bwa_index}*").map {genome -> [genome.getSimpleName(), genome] }.groupTuple().collect()
-    ch_dbsnp = Channel.fromPath("${params.dbsnp}").collect()
-    ch_dbsnp_index = Channel.fromPath("${params.dbsnp}.tbi").collect()
+    // Create reference file channels, add meta values
+    ch_genome_fasta = Channel.fromPath("${params.genome_fasta}").map{ file -> [file.getSimpleName(), file] }.collect()
+    ch_genome_fasta_index = Channel.fromPath("${params.genome_fasta}.fai").map{ file -> [file.getSimpleName(), file] }.collect()
+    ch_genome_dict = Channel.fromPath("${params.genome_dict}").map{ file -> [file.getSimpleName(), file] }.collect()
+    ch_bwa_index = Channel.fromPath("${params.bwa_index}*").map{ file -> [file.getSimpleName(), file] }.groupTuple().collect()
+    ch_dbsnp = Channel.fromPath("${params.dbsnp}").map{ file -> [file.getSimpleName(), file] }.collect()
+    ch_dbsnp_index = Channel.fromPath("${params.dbsnp}.tbi").map{ file -> [file.getSimpleName(), file] }.collect()
     ch_intervals = Channel.fromPath("${params.intervals}").collect()
     ch_svd = Channel.fromPath(["${params.svd_ud}", "${params.svd_mu}", "${params.svd_bed}"]).collect()
 
     // Input channel
     ch_fastq = extractFastqPairFromDir(params.input, params.outdir)
 
+    // Split fastq, transform SEQKIT_SPLIT2 output to input per sample fastq part
+    SEQKIT_SPLIT2(ch_fastq)
+    ch_split_fastq = SEQKIT_SPLIT2.out.reads.map{ meta, reads ->
+        read_files = reads.sort(false){ a,b -> a.getName().tokenize('.')[1] <=> b.getName().tokenize('.')[1] }.collate(2)
+        [meta, read_files]
+    }.transpose().map{ meta, read_files ->
+        [meta + [split_fastq_part:read_files[0].getName().tokenize('.')[1]], read_files]
+    }
+
     // Mapping
-    BWAMEM2_MEM(ch_fastq, ch_bwa_index, true)
-    SAMBAMBA_MARKDUP(BWAMEM2_MEM.out.bam.map{ meta, bam -> [ meta - meta.subMap('rg_id', 'flowcell'), bam ] }.groupTuple())
+    BWAMEM2_MEM(ch_split_fastq, ch_bwa_index, true)
+    SAMBAMBA_MARKDUP(BWAMEM2_MEM.out.bam.map{ meta, bam ->
+        [meta - meta.subMap('rg_id', 'flowcell', 'split_fastq_part'), bam]
+    }.groupTuple())
     SAMTOOLS_INDEX(SAMBAMBA_MARKDUP.out.bam)
 
     ch_bam_bai = SAMBAMBA_MARKDUP.out.bam.join(SAMTOOLS_INDEX.out.bai)
 
     // Variant calling
     GATK4_HAPLOTYPECALLER(
-        ch_bam_bai.combine(ch_intervals).map{ meta, bam, bai, intervals -> [meta, bam, bai, intervals, [] ] },
+        ch_bam_bai.combine(ch_intervals).map{ meta, bam, bai, intervals -> [meta, bam, bai, intervals, []] },
         ch_genome_fasta, ch_genome_fasta_index, ch_genome_dict, ch_dbsnp, ch_dbsnp_index
     )
     GATK4_GENOTYPEGVCFS(
         GATK4_HAPLOTYPECALLER.out.vcf.join(GATK4_HAPLOTYPECALLER.out.tbi).combine(ch_intervals).map{
-            meta, vcf, tbi , intervals -> [meta, vcf, tbi, intervals, [] ]
+            meta, vcf, tbi , intervals -> [meta, vcf, tbi, intervals, []]
         },
-        ch_genome_fasta, ch_genome_fasta_index, ch_genome_dict, ch_dbsnp, ch_dbsnp_index
+        ch_genome_fasta.map{ meta, file -> [file] },
+        ch_genome_fasta_index.map{ meta, file -> [file] },
+        ch_genome_dict.map{ meta, file -> [file] },
+        ch_dbsnp.map{ meta, file -> [file] },
+        ch_dbsnp_index.map{ meta, file -> [file] }
     )
 
     // GLIMS output
@@ -83,20 +99,21 @@ workflow {
     // QC
     FASTQC(ch_fastq)
     MOSDEPTH(
-        ch_bam_bai.map{ meta, bam, bai -> [meta, bam, bai, [] ] },
-        ch_genome_fasta.map{ fasta -> [ [ id:'fasta' ], fasta ] }
+        ch_bam_bai.map{ meta, bam, bai -> [meta, bam, bai, []] },
+        ch_genome_fasta
     )
-    VERIFYBAMID_VERIFYBAMID2(ch_bam_bai, ch_svd, Channel.empty().toList(), ch_genome_fasta)
+    VERIFYBAMID_VERIFYBAMID2(ch_bam_bai, ch_svd, Channel.empty().toList(), ch_genome_fasta.map{ meta, file -> [file] })
 
     // Softare versions
     ch_versions = channel.empty()
     ch_versions = ch_versions.mix(BWAMEM2_MEM.out.versions)
-    ch_versions = ch_versions.mix(SAMBAMBA_MARKDUP.out.versions)
-    ch_versions = ch_versions.mix(SAMTOOLS_INDEX.out.versions)
+    ch_versions = ch_versions.mix(FASTQC.out.versions)
     ch_versions = ch_versions.mix(GATK4_HAPLOTYPECALLER.out.versions)
     ch_versions = ch_versions.mix(GATK4_GENOTYPEGVCFS.out.versions)
-    ch_versions = ch_versions.mix(FASTQC.out.versions)
     ch_versions = ch_versions.mix(MOSDEPTH.out.versions)
+    ch_versions = ch_versions.mix(SAMBAMBA_MARKDUP.out.versions)
+    ch_versions = ch_versions.mix(SAMTOOLS_INDEX.out.versions)
+    ch_versions = ch_versions.mix(SEQKIT_SPLIT2.out.versions)
     ch_versions = ch_versions.mix(VERIFYBAMID_VERIFYBAMID2.out.versions)
     CUSTOM_DUMPSOFTWAREVERSIONS(ch_versions.unique().collectFile(name: 'collated_versions.yml'))
 
