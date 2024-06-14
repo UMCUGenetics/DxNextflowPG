@@ -54,6 +54,12 @@
           "type": "string",
           "description": "Path of BWA MEM2 genome  reference index.",
           "fa_icon": "fas fa-book"
+        },
+        "genome_chrfiles": {
+          "type": "directory-path",
+          "exists": true,
+          "description": "Path to the directory containing fasta files of individual chromosomes in the genome",
+          "fa_icon": "fas fa-folder-open"
         }
       }
     },

@@ -10,6 +10,11 @@
             "git_sha": "74363e1acc38eaedeede8d429477397c1a6f9e18",
             "installed_by": ["modules"]
           },
+          "controlfreec/freec": {
+            "branch": "master",
+            "git_sha": "7b5827ac89358ad6dd3e8f328f6d1427d7f14a68",
+            "installed_by": ["modules"]
+          },
           "custom/dumpsoftwareversions": {
             "branch": "master",
             "git_sha": "de45447d060b8c8b98575bc637a4a575fd0638e1",
