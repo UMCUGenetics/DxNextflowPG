@@ -56,7 +56,8 @@
           "fa_icon": "fas fa-book"
         },
         "genome_chrfiles": {
-          "type": "directory-path",
+          "type": "string",
+          "format": "directory-path",
           "exists": true,
           "description": "Path to the directory containing fasta files of individual chromosomes in the genome",
           "fa_icon": "fas fa-folder-open"
@@ -82,6 +83,26 @@
         }
       }
     },
+    "FreeC": {
+      "title": "FreeC Options",
+      "type": "object",
+      "description": "Parameters for running FreeC",
+      "default": "",
+      "fa_icon": "fas fa-toolbox",
+      "properties": {
+        "freec_breakpointthreshold" :{
+          "type": "string"
+        },
+        "freec_windowsize" :{
+          "type": "string"
+        },
+        "freec_readcountthreshold" :{
+          "type": "string"
+        }
+      }
+    },
+
+
     "qc": {
       "title": "Quality Control",
       "type": "object",
