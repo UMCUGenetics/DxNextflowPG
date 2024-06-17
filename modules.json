@@ -20,6 +20,11 @@
             "git_sha": "de45447d060b8c8b98575bc637a4a575fd0638e1",
             "installed_by": ["modules"]
           },
+          "delly/call": {
+            "branch": "master",
+            "git_sha": "92bf2a8afa318a64f9d333cf87b510c662fd4274",
+            "installed_by": ["modules"]
+          },
           "fastqc": {
             "branch": "master",
             "git_sha": "f4ae1d942bd50c5c0b9bd2de1393ce38315ba57c",
@@ -33,6 +38,11 @@
           "gatk4/haplotypecaller": {
             "branch": "master",
             "git_sha": "9171c29c3941e05e9cc776aa49045bdb03219bdc",
+            "installed_by": ["modules"]
+          },
+          "manta/germline": {
+            "branch": "master",
+            "git_sha": "ebc1733b77c702f19fe42076a5edfcbaa0d84f66",
             "installed_by": ["modules"]
           },
           "mosdepth": {

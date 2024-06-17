@@ -39,7 +39,11 @@ include { SEQKIT_SPLIT2 } from './modules/nf-core/seqkit/split2/main'
 include { VCF2GLIMS } from './modules/local/vcf2glims/main'
 include { VERIFYBAMID_VERIFYBAMID2 } from './modules/nf-core/verifybamid/verifybamid2/main'
 
-include {CONTROLFREEC_FREEC} from './modules/nf-core/controlfreec/freec/main'
+include { CONTROLFREEC_FREEC } from './modules/nf-core/controlfreec/freec/main'
+include { MANTA_GERMLINE } from './modules/nf-core/manta/germline/main'
+include { DELLY_CALL } from './modules/nf-core/delly/call/main'
+include { SV2 } from './modules/local/SV2/main'
+
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -49,28 +53,76 @@ include {CONTROLFREEC_FREEC} from './modules/nf-core/controlfreec/freec/main'
 
 workflow {
     // Create reference file channels, add meta values
-    ch_genome_fasta = Channel.fromPath("${params.genome_fasta}").map{ file -> [file.getSimpleName(), file] }.collect()
-    ch_genome_fasta_index = Channel.fromPath("${params.genome_fasta}.fai").map{ file -> [file.getSimpleName(), file] }.collect()
-    ch_genome_dict = Channel.fromPath("${params.genome_dict}").map{ file -> [file.getSimpleName(), file] }.collect()
+    ch_genome_fasta = Channel.fromPath("${params.genome_fasta}")
+        .map{ file -> [file.getSimpleName(), file] }
+        .collect()
 
+    ch_genome_fasta_index = Channel.fromPath("${params.genome_fasta}.fai")
+        .map{ file -> [file.getSimpleName(), file] }
+        .collect()
+
+    ch_genome_dict = Channel.fromPath("${params.genome_dict}")
+        .map{ file -> [file.getSimpleName(), file] }
+        .collect()
 
     ch_bams = Channel.fromPath("${params.bam_path}/*.bam")
-    ch_bams_meta = ch_bams.map{ data -> [id: data.getBaseName()] }
 
-    ch_bams.view()
+    ch_genome_fasta
+        .map{name, path -> [id: name]}
+        .set{ch_genome_meta}
 
-
-
-
-    //ch_bams.view()
+    ch_bams_meta = ch_bams.map{ data -> [[id: data.getBaseName()], data] }
 
 
-    CONTROLFREEC_FREEC(
-        ch_bams_meta.combine(ch_bams),
-        params.genome_fasta,
-        "${params.genome_fasta}.fai",
-        params.genome_chrfiles
+    // CONTROLFREEC_FREEC(
+    //     ch_bams_meta,
+    //     params.genome_fasta,
+    //     "${params.genome_fasta}.fai",
+    //     params.genome_chrfiles
+    // )
+
+
+
+
+    /*
+     Manta
+    */
+    ch_bams_idx = Channel.fromPath("${params.bam_path}/*.bai")
+    ch_manta_target = Channel.fromPath("$projectDir/assets/manta_target.bed.gz")
+    ch_manta_target_index = Channel.fromPath("$projectDir/assets/manta_target.bed.gz.tbi")
+
+    manta_input = ch_bams_meta
+        .merge(ch_bams_idx)
+        .combine(ch_manta_target)
+        .combine(ch_manta_target_index)
+        .combine(Channel.fromPath(params.manta_config))
+
+    MANTA_GERMLINE(
+        manta_input,
+        ch_genome_fasta,
+        ch_genome_fasta_index
     )
+
+    delly_exclude = Channel.fromPath("$projectDir/assets/human.hg19.excl.tsv")
+
+    delly_input = ch_bams_meta
+        .merge(ch_bams_idx)
+        .combine(delly_exclude)
+
+    DELLY_CALL(
+        delly_input,
+        ch_genome_fasta,
+        ch_genome_fasta_index
+    )
+
+
+    DELLY_CALL.out.bcf.combine(MANTA_GERMLINE.out.candidate_sv_vcf, by:0).view()
+    SV2 (
+        ch_bams_meta,
+        ch_genome_fasta,
+        DELLY_CALL.out.bcf.combine(MANTA_GERMLINE.out.candidate_sv_vcf, by:0)
+    )
+
 
     // Variant calling
     // GATK4_HAPLOTYPECALLER(
