@@ -55,7 +55,10 @@ process CLEAN_VCF {
 process FREEC2VCF {
     tag "$meta.id"
 
-    container "biocontainers/bcftools:1.20--h8b25389_0"
+
+    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+        'https://depot.galaxyproject.org/singularity/gatk4:4.4.0.0--py36hdfd78af_0':
+        'biocontainers/gatk4:4.4.0.0--py36hdfd78af_0' }"
 
     input:
     tuple val(meta), path(freec_CNV)
