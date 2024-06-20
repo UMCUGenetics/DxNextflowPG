@@ -43,7 +43,7 @@ include { CONTROLFREEC_FREEC } from './modules/nf-core/controlfreec/freec/main'
 include { MANTA_GERMLINE } from './modules/nf-core/manta/germline/main'
 include { DELLY_CALL } from './modules/nf-core/delly/call/main'
 include { SV2 } from './modules/local/SV2/main'
-
+include { BCF2VCF; CLEAN_VCF; FREEC2VCF } from './modules/local/utils/bcf_vcf.nf'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -65,80 +65,88 @@ workflow {
         .map{ file -> [file.getSimpleName(), file] }
         .collect()
 
-    ch_bams = Channel.fromPath("${params.bam_path}/*.bam")
+    ch_bams_meta = Channel.fromPath("${params.bam_path}/*.bam")
+        .map{ data -> [[id: data.getBaseName()], data] }
 
-    ch_genome_fasta
-        .map{name, path -> [id: name]}
-        .set{ch_genome_meta}
+    ch_idx_meta = Channel.fromPath("${params.bam_path}/*.bai")
+        .map{ bai -> [[id: bai.getSimpleName()], bai] }
 
-    ch_bams_meta = ch_bams.map{ data -> [[id: data.getBaseName()], data] }
-
-
-    // CONTROLFREEC_FREEC(
-    //     ch_bams_meta,
-    //     params.genome_fasta,
-    //     "${params.genome_fasta}.fai",
-    //     params.genome_chrfiles
-    // )
+    ch_bam_idx_meta = ch_bams_meta
+        .join(ch_idx_meta)
 
 
-
+    CONTROLFREEC_FREEC(
+        ch_bams_meta,
+        params.genome_fasta,
+        "${params.genome_fasta}.fai",
+        params.genome_chrfiles
+    )
 
     /*
      Manta
     */
-    ch_bams_idx = Channel.fromPath("${params.bam_path}/*.bai")
-    ch_manta_target = Channel.fromPath("$projectDir/assets/manta_target.bed.gz")
-    ch_manta_target_index = Channel.fromPath("$projectDir/assets/manta_target.bed.gz.tbi")
-
-    manta_input = ch_bams_meta
-        .merge(ch_bams_idx)
-        .combine(ch_manta_target)
-        .combine(ch_manta_target_index)
-        .combine(Channel.fromPath(params.manta_config))
 
     MANTA_GERMLINE(
-        manta_input,
+        ch_bam_idx_meta
+            .combine(Channel.fromPath(params.ch_manta_target))
+            .combine(Channel.fromPath(params.ch_manta_target_index))
+            .combine(Channel.fromPath(params.manta_config)),
         ch_genome_fasta,
         ch_genome_fasta_index
     )
-
-    delly_exclude = Channel.fromPath("$projectDir/assets/human.hg19.excl.tsv")
-
-    delly_input = ch_bams_meta
-        .merge(ch_bams_idx)
-        .combine(delly_exclude)
 
     DELLY_CALL(
-        delly_input,
+        ch_bam_idx_meta
+            .combine(Channel.fromPath(params.delly_exclude)),
         ch_genome_fasta,
         ch_genome_fasta_index
     )
 
 
-    DELLY_CALL.out.bcf.combine(MANTA_GERMLINE.out.candidate_sv_vcf, by:0).view()
-    SV2 (
-        ch_bams_meta,
+    ch_dbsnp = Channel.fromPath(params.dbsnp)
+            .map{ data -> [[id: data.getSimpleName()], data] }
+    ch_dbsnp_idx = Channel.fromPath(params.dbsnp_index)
+            .map{ data -> [[id: data.getSimpleName()], data] }
+
+    GATK4_HAPLOTYPECALLER(
+        ch_bam_idx_meta
+            .combine(Channel.fromPath(params.ch_intervals))
+            .map{ meta, bam, bai, intervals -> [meta, bam, bai, intervals, []] },
         ch_genome_fasta,
-        DELLY_CALL.out.bcf.combine(MANTA_GERMLINE.out.candidate_sv_vcf, by:0)
+        ch_genome_fasta_index,
+        ch_genome_dict,
+        ch_dbsnp,
+        ch_dbsnp_idx
     )
 
+    GATK4_GENOTYPEGVCFS(
+        GATK4_HAPLOTYPECALLER.out.vcf
+            .join(GATK4_HAPLOTYPECALLER.out.tbi)
+            .combine(Channel.fromPath(params.ch_intervals))
+            .map{ meta, vcf, tbi , intervals -> [meta, vcf, tbi, intervals, []] },
+        ch_genome_fasta.map{ meta, file -> [file] },
+        ch_genome_fasta_index.map{ meta, file -> [file] },
+        ch_genome_dict.map{ meta, file -> [file] },
+        ch_dbsnp.map{ meta, file -> [file] },
+        ch_dbsnp_idx.map{ meta, file -> [file] }
+    )
 
-    // Variant calling
-    // GATK4_HAPLOTYPECALLER(
-    //     ch_bam_bai.combine(ch_intervals).map{ meta, bam, bai, intervals -> [meta, bam, bai, intervals, []] },
-    //     ch_genome_fasta, ch_genome_fasta_index, ch_genome_dict, ch_dbsnp, ch_dbsnp_index
-    // )
-    // GATK4_GENOTYPEGVCFS(
-    //     GATK4_HAPLOTYPECALLER.out.vcf.join(GATK4_HAPLOTYPECALLER.out.tbi).combine(ch_intervals).map{
-    //         meta, vcf, tbi , intervals -> [meta, vcf, tbi, intervals, []]
-    //     },
-    //     ch_genome_fasta.map{ meta, file -> [file] },
-    //     ch_genome_fasta_index.map{ meta, file -> [file] },
-    //     ch_genome_dict.map{ meta, file -> [file] },
-    //     ch_dbsnp.map{ meta, file -> [file] },
-    //     ch_dbsnp_index.map{ meta, file -> [file] }
-    // )
+    (vcf_delly, vcf_delly_tbi) = BCF2VCF(DELLY_CALL.out.bcf, "DELLY")
+    (vcf_manta, vcf_manta_tbi) = CLEAN_VCF(MANTA_GERMLINE.out.candidate_sv_vcf, "MANTA")
+    (vcf_freec, vcf_freec_tbi) = FREEC2VCF(CONTROLFREEC_FREEC.out.CNV)
+
+
+    SV2 (
+        ch_bam_idx_meta
+            .join(vcf_delly)
+            .join(vcf_delly_tbi)
+            .join(vcf_manta)
+            .join(vcf_manta_tbi)
+            .join(vcf_freec)
+            .join(vcf_freec_tbi)
+            .join(GATK4_GENOTYPEGVCFS.out.vcf)
+            .join(GATK4_GENOTYPEGVCFS.out.tbi)
+    )
 
     // GLIMS output
     // VCF2GLIMS(GATK4_GENOTYPEGVCFS.out.vcf)

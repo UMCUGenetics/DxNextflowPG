@@ -8,3 +8,4 @@ testing*
 *.pyc
 venv
 *.fasta
+common_all*.vcf.gz*
