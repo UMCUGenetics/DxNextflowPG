@@ -69,7 +69,7 @@ workflow {
         .map{ data -> [[id: data.getBaseName()], data] }
 
     ch_idx_meta = Channel.fromPath("${params.bam_path}/*.bai")
-        .map{ bai -> [[id: bai.getBaseName().getBasename()], bai] }
+        .map{ bai -> [[id: bai.getBaseName().replaceAll(/.bam/,"")], bai] }
 
     ch_bam_idx_meta = ch_bams_meta
         .join(ch_idx_meta)
