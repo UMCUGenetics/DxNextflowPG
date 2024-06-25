@@ -75,6 +75,8 @@ workflow {
         .join(ch_idx_meta)
 
 
+    ch_bams_meta.view()
+
     CONTROLFREEC_FREEC(
         ch_bams_meta,
         params.genome_fasta,
@@ -86,6 +88,13 @@ workflow {
      Manta
     */
 
+    ch_bam_idx_meta
+        .combine(Channel.fromPath(params.ch_manta_target))
+        .combine(Channel.fromPath(params.ch_manta_target_index))
+        .combine(Channel.fromPath(params.manta_config))
+        .view()
+
+
     MANTA_GERMLINE(
         ch_bam_idx_meta
             .combine(Channel.fromPath(params.ch_manta_target))
@@ -94,6 +103,11 @@ workflow {
         ch_genome_fasta,
         ch_genome_fasta_index
     )
+
+
+    ch_bam_idx_meta
+        .combine(Channel.fromPath(params.delly_exclude))
+        .view()
 
     DELLY_CALL(
         ch_bam_idx_meta
