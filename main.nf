@@ -95,14 +95,14 @@ workflow {
         .view()
 
 
-    MANTA_GERMLINE(
-        ch_bam_idx_meta
-            .combine(Channel.fromPath(params.ch_manta_target))
-            .combine(Channel.fromPath(params.ch_manta_target_index))
-            .combine(Channel.fromPath(params.manta_config)),
-        ch_genome_fasta,
-        ch_genome_fasta_index
-    )
+    // MANTA_GERMLINE(
+    //     ch_bam_idx_meta
+    //         .combine(Channel.fromPath(params.ch_manta_target))
+    //         .combine(Channel.fromPath(params.ch_manta_target_index))
+    //         .combine(Channel.fromPath(params.manta_config)),
+    //     ch_genome_fasta,
+    //     ch_genome_fasta_index
+    // )
 
 
     // ch_bam_idx_meta
