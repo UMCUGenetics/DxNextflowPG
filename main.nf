@@ -105,62 +105,62 @@ workflow {
     )
 
 
-    ch_bam_idx_meta
-        .combine(Channel.fromPath(params.delly_exclude))
-        .view()
+    // ch_bam_idx_meta
+    //     .combine(Channel.fromPath(params.delly_exclude))
+    //     .view()
 
-    DELLY_CALL(
-        ch_bam_idx_meta
-            .combine(Channel.fromPath(params.delly_exclude)),
-        ch_genome_fasta,
-        ch_genome_fasta_index
-    )
-
-
-    ch_dbsnp = Channel.fromPath(params.dbsnp)
-            .map{ data -> [[id: data.getSimpleName()], data] }
-    ch_dbsnp_idx = Channel.fromPath(params.dbsnp_index)
-            .map{ data -> [[id: data.getSimpleName()], data] }
-
-    GATK4_HAPLOTYPECALLER(
-        ch_bam_idx_meta
-            .combine(Channel.fromPath(params.ch_intervals))
-            .map{ meta, bam, bai, intervals -> [meta, bam, bai, intervals, []] },
-        ch_genome_fasta,
-        ch_genome_fasta_index,
-        ch_genome_dict,
-        ch_dbsnp,
-        ch_dbsnp_idx
-    )
-
-    GATK4_GENOTYPEGVCFS(
-        GATK4_HAPLOTYPECALLER.out.vcf
-            .join(GATK4_HAPLOTYPECALLER.out.tbi)
-            .combine(Channel.fromPath(params.ch_intervals))
-            .map{ meta, vcf, tbi , intervals -> [meta, vcf, tbi, intervals, []] },
-        ch_genome_fasta.map{ meta, file -> [file] },
-        ch_genome_fasta_index.map{ meta, file -> [file] },
-        ch_genome_dict.map{ meta, file -> [file] },
-        ch_dbsnp.map{ meta, file -> [file] },
-        ch_dbsnp_idx.map{ meta, file -> [file] }
-    )
-
-    (vcf_delly, vcf_delly_tbi) = BCF2VCF(DELLY_CALL.out.bcf, "DELLY")
-    (vcf_manta, vcf_manta_tbi) = CLEAN_VCF(MANTA_GERMLINE.out.candidate_sv_vcf, "MANTA")
-    (vcf_freec, vcf_freec_tbi) = FREEC2VCF(CONTROLFREEC_FREEC.out.CNV)
+    // DELLY_CALL(
+    //     ch_bam_idx_meta
+    //         .combine(Channel.fromPath(params.delly_exclude)),
+    //     ch_genome_fasta,
+    //     ch_genome_fasta_index
+    // )
 
 
-    SV2 (
-        ch_bam_idx_meta
-            .join(vcf_delly)
-            .join(vcf_delly_tbi)
-            .join(vcf_manta)
-            .join(vcf_manta_tbi)
-            .join(vcf_freec)
-            .join(vcf_freec_tbi)
-            .join(GATK4_GENOTYPEGVCFS.out.vcf)
-            .join(GATK4_GENOTYPEGVCFS.out.tbi)
-    )
+    // ch_dbsnp = Channel.fromPath(params.dbsnp)
+    //         .map{ data -> [[id: data.getSimpleName()], data] }
+    // ch_dbsnp_idx = Channel.fromPath(params.dbsnp_index)
+    //         .map{ data -> [[id: data.getSimpleName()], data] }
+
+    // GATK4_HAPLOTYPECALLER(
+    //     ch_bam_idx_meta
+    //         .combine(Channel.fromPath(params.ch_intervals))
+    //         .map{ meta, bam, bai, intervals -> [meta, bam, bai, intervals, []] },
+    //     ch_genome_fasta,
+    //     ch_genome_fasta_index,
+    //     ch_genome_dict,
+    //     ch_dbsnp,
+    //     ch_dbsnp_idx
+    // )
+
+    // GATK4_GENOTYPEGVCFS(
+    //     GATK4_HAPLOTYPECALLER.out.vcf
+    //         .join(GATK4_HAPLOTYPECALLER.out.tbi)
+    //         .combine(Channel.fromPath(params.ch_intervals))
+    //         .map{ meta, vcf, tbi , intervals -> [meta, vcf, tbi, intervals, []] },
+    //     ch_genome_fasta.map{ meta, file -> [file] },
+    //     ch_genome_fasta_index.map{ meta, file -> [file] },
+    //     ch_genome_dict.map{ meta, file -> [file] },
+    //     ch_dbsnp.map{ meta, file -> [file] },
+    //     ch_dbsnp_idx.map{ meta, file -> [file] }
+    // )
+
+    // (vcf_delly, vcf_delly_tbi) = BCF2VCF(DELLY_CALL.out.bcf, "DELLY")
+    // (vcf_manta, vcf_manta_tbi) = CLEAN_VCF(MANTA_GERMLINE.out.candidate_sv_vcf, "MANTA")
+    // (vcf_freec, vcf_freec_tbi) = FREEC2VCF(CONTROLFREEC_FREEC.out.CNV)
+
+
+    // SV2 (
+    //     ch_bam_idx_meta
+    //         .join(vcf_delly)
+    //         .join(vcf_delly_tbi)
+    //         .join(vcf_manta)
+    //         .join(vcf_manta_tbi)
+    //         .join(vcf_freec)
+    //         .join(vcf_freec_tbi)
+    //         .join(GATK4_GENOTYPEGVCFS.out.vcf)
+    //         .join(GATK4_GENOTYPEGVCFS.out.tbi)
+    // )
 
     // GLIMS output
     // VCF2GLIMS(GATK4_GENOTYPEGVCFS.out.vcf)
