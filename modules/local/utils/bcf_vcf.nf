@@ -56,7 +56,7 @@ process FREEC2VCF {
     tag "$meta.id"
 
 
-    container "docker://broadinstitute-gatk-4.5.0.0"
+    container "docker://broadinstitute/gatk:4.5.0.0"
 
     input:
     tuple val(meta), path(freec_CNV)
