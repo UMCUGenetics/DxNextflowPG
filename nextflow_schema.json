@@ -83,21 +83,18 @@
         }
       }
     },
-    "FreeC": {
-      "title": "FreeC Options",
+    "Pypgx": {
+      "title": "Pypgx Options",
       "type": "object",
-      "description": "Parameters for running FreeC",
+      "description": "Parameters for running pypgx",
       "default": "",
       "fa_icon": "fas fa-toolbox",
       "properties": {
-        "freec_breakpointthreshold" :{
-          "type": "string"
-        },
-        "freec_windowsize" :{
-          "type": "string"
-        },
-        "freec_readcountthreshold" :{
-          "type": "string"
+        "pypgx_resource_bundle" :{
+          "type": "string",
+          "format": "directory-path",
+          "exists": true,
+          "description": "Path to the pypgx resource bundle"
         }
       }
     },
