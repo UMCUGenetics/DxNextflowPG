@@ -95,9 +95,9 @@ process create_pypgx_output_table {
     from pypgx.sdk import utils as sdk
     import pandas as pd
 
-    pd.concat(
-        [sdk.Archive.from_file(pypgx_output+'/results.zip').data
+    pypgx_archives = [sdk.Archive.from_file(pypgx_output+'/results.zip').data
             for pypgx_output in '${output_dirs}'.split()]
-    ).to_csv(open('${pgx_gene}.csv', 'w'), sep='\t')
+
+    pd.concat(pypgx_archives).to_csv(open('${pgx_gene}.csv', 'w'), sep='\t')
     """
 }
