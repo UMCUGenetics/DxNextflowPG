@@ -68,7 +68,7 @@ workflow {
         .join(ch_idx_meta)
 
     // pypgx
-    ch_PGx_genes = Channel.fromList(params.pgx_genes) // Possibly move to config
+    ch_PGx_genes = Channel.fromList(params.pgx_genes)
 
     pypgx_prepare(
         ch_bam_idx_meta,
