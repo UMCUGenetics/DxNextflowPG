@@ -29,8 +29,6 @@ include { extractFastqPairFromDir } from './modules/local/utils/fastq.nf'
 include { BWAMEM2_MEM } from './modules/nf-core/bwamem2/mem/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from './modules/nf-core/custom/dumpsoftwareversions/main'
 include { FASTQC } from './modules/nf-core/fastqc/main'
-include { GATK4_HAPLOTYPECALLER } from './modules/nf-core/gatk4/haplotypecaller/main'
-include { GATK4_GENOTYPEGVCFS } from './modules/nf-core/gatk4/genotypegvcfs/main'
 include { MOSDEPTH } from './modules/nf-core/mosdepth/main'
 include { MULTIQC } from './modules/nf-core/multiqc/main'
 include { SAMBAMBA_MARKDUP } from './modules/nf-core/sambamba/markdup/main'
@@ -38,10 +36,8 @@ include { SAMTOOLS_INDEX } from './modules/nf-core/samtools/index/main'
 include { SEQKIT_SPLIT2 } from './modules/nf-core/seqkit/split2/main'
 include { VCF2GLIMS } from './modules/local/vcf2glims/main'
 include { VERIFYBAMID_VERIFYBAMID2 } from './modules/nf-core/verifybamid/verifybamid2/main'
-
-
-
 include { pypgx_prepare; pypgx_run_ngs; create_pypgx_output_table } from './modules/local/pypgx/main'
+
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Main workflow
@@ -72,13 +68,12 @@ workflow {
         .join(ch_idx_meta)
 
     // pypgx
-    ch_PGx_genes = Channel.fromList(["CYP2D6","UGT1A1"]) // Possibly move to config
-    control_gene = "VDR" // Possibly move to config
+    ch_PGx_genes = Channel.fromList(params.pgx_genes) // Possibly move to config
 
     pypgx_prepare(
         ch_bam_idx_meta,
         ch_genome_fasta,
-        control_gene
+        params.pypgx_control_gene
     )
 
     pypgx_run_ngs(
@@ -89,9 +84,6 @@ workflow {
         params.pypgx_resource_bundle
     )
 
-
-
-
     create_pypgx_output_table(
         pypgx_run_ngs.out.outdir.groupTuple()
     )
@@ -99,14 +91,15 @@ workflow {
     // Softare versions
     ch_versions = channel.empty()
     // ch_versions = ch_versions.mix(BWAMEM2_MEM.out.versions)
-    ch_versions = ch_versions.mix(pypgx_prepare.out.versions)
-    ch_versions = ch_versions.mix(pypgx_run_ngs.out.versions)
+
 //     ch_versions = ch_versions.mix(FASTQC.out.versions)
 //     ch_versions = ch_versions.mix(MOSDEPTH.out.versions)
 //     ch_versions = ch_versions.mix(SAMBAMBA_MARKDUP.out.versions)
 //     ch_versions = ch_versions.mix(SAMTOOLS_INDEX.out.versions)
 //     ch_versions = ch_versions.mix(SEQKIT_SPLIT2.out.versions)
 //     ch_versions = ch_versions.mix(VERIFYBAMID_VERIFYBAMID2.out.versions)
+    ch_versions = ch_versions.mix(pypgx_prepare.out.versions)
+    ch_versions = ch_versions.mix(pypgx_run_ngs.out.versions)
     CUSTOM_DUMPSOFTWAREVERSIONS(ch_versions.unique().collectFile(name: 'collated_versions.yml'))
 
     // MultiQC
@@ -116,6 +109,7 @@ workflow {
 //     ch_multiqc_files = ch_multiqc_files.mix(MOSDEPTH.out.summary_txt.collect{it[1]})
 //     ch_multiqc_files = ch_multiqc_files.mix(SAMBAMBA_MARKDUP.out.txt.collect{it[1]})
 //     ch_multiqc_files = ch_multiqc_files.mix(VERIFYBAMID_VERIFYBAMID2.out.self_sm.collect{it[1]})
+    ch_multiqc_files = ch_multiqc_files.mix(create_pypgx_output_table.out.csv.collect())
     ch_multiqc_files = ch_multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml.collect())
     ch_multiqc_config = Channel.fromPath("$projectDir/assets/multiqc_config.yml", checkIfExists: true)
 
