@@ -86,7 +86,9 @@ process pypgx_run_ngs {
 
 process create_pypgx_output_table {
 
-    container "biocontainers/pypgx:0.25.0--pyh7e72e81_0"
+    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+        'https://depot.galaxyproject.org/singularity/pypgx:0.25.0--pyh7e72e81_0':
+        'biocontainers/pypgx:0.25.0--pyh7e72e81_0' }"
 
     input:
     tuple val(pgx_gene), path(output_dirs)
