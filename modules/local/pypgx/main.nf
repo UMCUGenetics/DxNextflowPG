@@ -4,7 +4,7 @@ process pypgx_prepare {
     container ""
 
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://quay.io/biocontainers/pypgx:0.25.0--pyh7e72e81_0' :
+        'https://depot.galaxyproject.org/singularity/pypgx:0.25.0--pyh7e72e81_0':
         'biocontainers/pypgx:0.25.0--pyh7e72e81_0' }"
 
     input:
@@ -49,7 +49,9 @@ process pypgx_prepare {
 process pypgx_run_ngs {
     tag "$meta.id"
 
-    container "biocontainers/pypgx:0.25.0--pyh7e72e81_0"
+    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+        'https://depot.galaxyproject.org/singularity/pypgx:0.25.0--pyh7e72e81_0':
+        'biocontainers/pypgx:0.25.0--pyh7e72e81_0' }"
 
     input:
     tuple val(meta), path(vcf), path(vcf_tbi), path(coverage), path(control_stats), val(pgx_gene)
