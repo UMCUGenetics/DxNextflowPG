@@ -36,7 +36,7 @@ include { SAMTOOLS_INDEX } from './modules/nf-core/samtools/index/main'
 include { SEQKIT_SPLIT2 } from './modules/nf-core/seqkit/split2/main'
 include { VCF2GLIMS } from './modules/local/vcf2glims/main'
 include { VERIFYBAMID_VERIFYBAMID2 } from './modules/nf-core/verifybamid/verifybamid2/main'
-include { pypgx_prepare; pypgx_run_ngs; create_pypgx_output_table } from './modules/local/pypgx/main'
+include { pypgx_prepare; pypgx_run_ngs; combine_results } from './modules/local/pypgx/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -84,7 +84,7 @@ workflow {
         params.pypgx_resource_bundle
     )
 
-    create_pypgx_output_table(
+    combine_results(
         pypgx_run_ngs.out.outdir.groupTuple()
     )
 
@@ -109,7 +109,7 @@ workflow {
 //     ch_multiqc_files = ch_multiqc_files.mix(MOSDEPTH.out.summary_txt.collect{it[1]})
 //     ch_multiqc_files = ch_multiqc_files.mix(SAMBAMBA_MARKDUP.out.txt.collect{it[1]})
 //     ch_multiqc_files = ch_multiqc_files.mix(VERIFYBAMID_VERIFYBAMID2.out.self_sm.collect{it[1]})
-    ch_multiqc_files = ch_multiqc_files.mix(create_pypgx_output_table.out.csv.collect())
+    // ch_multiqc_files = ch_multiqc_files.mix(create_pypgx_output_table.out.csv.collect())
     ch_multiqc_files = ch_multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml.collect())
     ch_multiqc_config = Channel.fromPath("$projectDir/assets/multiqc_config.yml", checkIfExists: true)
 

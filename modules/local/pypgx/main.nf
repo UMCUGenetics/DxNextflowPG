@@ -84,7 +84,7 @@ process pypgx_run_ngs {
     """
 }
 
-process create_pypgx_output_table {
+process combine_results {
 
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
         'https://depot.galaxyproject.org/singularity/pypgx:0.25.0--pyh7e72e81_0':
@@ -95,6 +95,7 @@ process create_pypgx_output_table {
 
     output:
     path("*.csv"), emit: csv
+    path("*.zip"), emit: zip
 
     script:
     """
@@ -105,7 +106,16 @@ process create_pypgx_output_table {
 
     pypgx_archives = [sdk.Archive.from_file(pypgx_output+'/results.zip').data
             for pypgx_output in '${output_dirs}'.split()]
+    combined_sample_data = pd.concat(pypgx_archives)
 
-    pd.concat(pypgx_archives).to_csv(open('${pgx_gene}.csv', 'w'), sep='\t')
+    # Meta data is the same for all samples across the same pgx_gene
+    metadata = sdk.Archive.from_file('${output_dirs}'.split()[0]+'/results.zip').metadata
+
+    merged_output = sdk.Archive(metadata, combined_sample_data)
+
+    merged_output.to_file("${pgx_gene}_results.zip")
+
+    # For human readable output
+    merged_output.data.to_csv(open('${pgx_gene}.csv', 'w'), sep='\t')
     """
 }
