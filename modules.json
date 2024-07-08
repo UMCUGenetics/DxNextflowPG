@@ -5,23 +5,9 @@
         "https://github.com/nf-core/modules.git": {
             "modules": {
                 "nf-core": {
-                    "bwamem2/mem": {
-                        "branch": "master",
-                        "git_sha": "74363e1acc38eaedeede8d429477397c1a6f9e18",
-                        "installed_by": [
-                            "modules"
-                        ]
-                    },
                     "custom/dumpsoftwareversions": {
                         "branch": "master",
                         "git_sha": "de45447d060b8c8b98575bc637a4a575fd0638e1",
-                        "installed_by": [
-                            "modules"
-                        ]
-                    },
-                    "fastqc": {
-                        "branch": "master",
-                        "git_sha": "f4ae1d942bd50c5c0b9bd2de1393ce38315ba57c",
                         "installed_by": [
                             "modules"
                         ]
@@ -40,24 +26,9 @@
                             "modules"
                         ]
                     },
-                    "sambamba/markdup": {
-                        "branch": "master",
-                        "git_sha": "3f5420aa22e00bd030a2556dfdffc9e164ec0ec5",
-                        "installed_by": [
-                            "modules"
-                        ],
-                        "patch": "modules/nf-core/sambamba/markdup/sambamba-markdup.diff"
-                    },
                     "samtools/index": {
                         "branch": "master",
                         "git_sha": "f4596fe0bdc096cf53ec4497e83defdb3a94ff62",
-                        "installed_by": [
-                            "modules"
-                        ]
-                    },
-                    "seqkit/split2": {
-                        "branch": "master",
-                        "git_sha": "3f5420aa22e00bd030a2556dfdffc9e164ec0ec5",
                         "installed_by": [
                             "modules"
                         ]
