@@ -10,8 +10,8 @@ process pypgx_prepare {
     input:
     tuple val(meta), path(bam_file), path(bam_bai)
     tuple val(meta2), path(genome_fasta)
-
     val(control_gene)
+    val(assembly)
 
 
     output:
@@ -23,18 +23,22 @@ process pypgx_prepare {
 
     script:
     def control = control_gene ?: "VDR"
+    def assembly_version = assembly ?: "GRCh38"
     def prefix = "${meta.id}"
     """
     pypgx create-input-vcf \\
+        --assembly ${assembly_version} \\
         ${prefix}_variants.vcf.gz \\
         ${genome_fasta} \\
         $bam_file
 
     pypgx prepare-depth-of-coverage \\
+        --assembly ${assembly_version} \\
         ${prefix}_coverage.zip \\
         $bam_file
 
     pypgx compute-control-statistics \\
+        --assembly ${assembly_version} \\
         ${control} \\
         ${prefix}_control_statistics_${control}.zip \\
         $bam_file
@@ -56,6 +60,7 @@ process pypgx_run_ngs {
     input:
     tuple val(meta), path(vcf), path(vcf_tbi), path(coverage), path(control_stats), val(pgx_gene)
     path(resource_bundle)
+    val(assembly)
 
 
     output:
@@ -65,12 +70,14 @@ process pypgx_run_ngs {
 
     script:
     def prefix = "${meta.id}_${pgx_gene}"
+    def assembly_version = assembly ?: "GRCh38"
     """
 
     export MPLCONFIGDIR="/tmp/"
     export PYPGX_BUNDLE=${resource_bundle}/
 
     pypgx run-ngs-pipeline \\
+        --assembly ${assembly_version} \\
         ${pgx_gene} \\
         ${prefix}_pypgx_output/ \\
         --variants ${vcf} \\
