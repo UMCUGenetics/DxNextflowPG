@@ -1,10 +1,10 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://raw.githubusercontent.com/UMCUGenetics/DxNextflowPG/master/nextflow_schema.json",
   "title": "UMCUGenetics/DxNextflowPG pipeline parameters",
   "description": "UMCU Genetics RNA Workflow",
   "type": "object",
-  "definitions": {
+  "defs": {
     "input_output_options": {
       "title": "Input/output options",
       "type": "object",
@@ -19,6 +19,12 @@
           "mimetype": "text/plain",
           "description": "Path to input data.",
           "fa_icon": "fas fa-folder-open"
+        },
+        "bam_path": {
+          "type": "string",
+          "format": "directory-path",
+          "exists": true,
+          "description": "Path to dir containing bam files"
         },
         "outdir": {
           "type": "string",
@@ -90,11 +96,25 @@
       "default": "",
       "fa_icon": "fas fa-toolbox",
       "properties": {
-        "pypgx_resource_bundle" :{
+        "pypgx_resource_bundle": {
           "type": "string",
           "format": "directory-path",
           "exists": true,
           "description": "Path to the pypgx resource bundle"
+        },
+        "assembly_version": {
+          "type": "string",
+          "description": "Hg genome assembly version (GRCh38 or GRCh37)",
+          "pattern": "^GRCh(?:37|38)$"
+        },
+        "pgx_genes": {
+          "type": "array",
+          "description": "PGx genes to include in the analysis"
+        },
+        "pypgx_control_gene": {
+          "type": "string",
+          "description": "Control gene",
+          "pattern": "^(?:VDR|EGFR|RYR1)$"
         }
       }
     },
@@ -149,19 +169,22 @@
   },
   "allOf": [
     {
-      "$ref": "#/definitions/input_output_options"
+      "$ref": "#/defs/input_output_options"
     },
     {
-      "$ref": "#/definitions/reference_genome_options"
+      "$ref": "#/defs/reference_genome_options"
     },
     {
-      "$ref": "#/definitions/variant_calling"
+      "$ref": "#/defs/Pypgx"
     },
     {
-      "$ref": "#/definitions/qc"
+      "$ref": "#/defs/variant_calling"
     },
     {
-      "$ref": "#/definitions/generic_options"
+      "$ref": "#/defs/qc"
+    },
+    {
+      "$ref": "#/defs/generic_options"
     }
   ]
 }

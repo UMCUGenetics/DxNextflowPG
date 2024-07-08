@@ -15,7 +15,7 @@ nextflow.enable.dsl = 2
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { validateParameters; paramsSummaryLog } from 'plugin/nf-validation'
+include { validateParameters; paramsSummaryLog } from 'plugin/nf-schema'
 log.info paramsSummaryLog(workflow)
 validateParameters()
 
