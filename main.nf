@@ -73,7 +73,8 @@ workflow {
     pypgx_prepare(
         ch_bam_idx_meta,
         ch_genome_fasta,
-        params.pypgx_control_gene
+        params.pypgx_control_gene,
+        params.assembly_version
     )
 
     pypgx_run_ngs(
@@ -81,7 +82,8 @@ workflow {
             .join(pypgx_prepare.out.coverage)
             .join(pypgx_prepare.out.control_stats)
             .combine(ch_PGx_genes),
-        params.pypgx_resource_bundle
+        params.pypgx_resource_bundle,
+        params.assembly_version
     )
 
     combine_results(
