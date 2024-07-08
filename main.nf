@@ -24,16 +24,10 @@ validateParameters()
     Import modules/subworkflows
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
-include { extractFastqPairFromDir } from './modules/local/utils/fastq.nf'
 
-include { BWAMEM2_MEM } from './modules/nf-core/bwamem2/mem/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from './modules/nf-core/custom/dumpsoftwareversions/main'
-include { FASTQC } from './modules/nf-core/fastqc/main'
 include { MOSDEPTH } from './modules/nf-core/mosdepth/main'
 include { MULTIQC } from './modules/nf-core/multiqc/main'
-include { SAMBAMBA_MARKDUP } from './modules/nf-core/sambamba/markdup/main'
-include { SAMTOOLS_INDEX } from './modules/nf-core/samtools/index/main'
-include { SEQKIT_SPLIT2 } from './modules/nf-core/seqkit/split2/main'
 include { VCF2GLIMS } from './modules/local/vcf2glims/main'
 include { VERIFYBAMID_VERIFYBAMID2 } from './modules/nf-core/verifybamid/verifybamid2/main'
 include { pypgx_prepare; pypgx_run_ngs; combine_results } from './modules/local/pypgx/main'
@@ -90,12 +84,15 @@ workflow {
         pypgx_run_ngs.out.outdir.groupTuple()
     )
 
+
+    MOSDEPTH(
+        ch_bam_idx_meta.map{ meta, bam, bai -> [meta, bam, bai, []] },
+        ch_genome_fasta
+    )
+
     // Softare versions
     ch_versions = channel.empty()
-    // ch_versions = ch_versions.mix(BWAMEM2_MEM.out.versions)
-
-//     ch_versions = ch_versions.mix(FASTQC.out.versions)
-//     ch_versions = ch_versions.mix(MOSDEPTH.out.versions)
+    ch_versions = ch_versions.mix(MOSDEPTH.out.versions)
 //     ch_versions = ch_versions.mix(SAMBAMBA_MARKDUP.out.versions)
 //     ch_versions = ch_versions.mix(SAMTOOLS_INDEX.out.versions)
 //     ch_versions = ch_versions.mix(SEQKIT_SPLIT2.out.versions)
@@ -106,10 +103,9 @@ workflow {
 
     // MultiQC
     ch_multiqc_files = Channel.empty()
-//     ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.collect{it[1]})
-//     ch_multiqc_files = ch_multiqc_files.mix(MOSDEPTH.out.global_txt.collect{it[1]})
-//     ch_multiqc_files = ch_multiqc_files.mix(MOSDEPTH.out.summary_txt.collect{it[1]})
-//     ch_multiqc_files = ch_multiqc_files.mix(SAMBAMBA_MARKDUP.out.txt.collect{it[1]})
+
+    ch_multiqc_files = ch_multiqc_files.mix(MOSDEPTH.out.global_txt.collect{it[1]})
+    ch_multiqc_files = ch_multiqc_files.mix(MOSDEPTH.out.summary_txt.collect{it[1]})
 //     ch_multiqc_files = ch_multiqc_files.mix(VERIFYBAMID_VERIFYBAMID2.out.self_sm.collect{it[1]})
     // ch_multiqc_files = ch_multiqc_files.mix(create_pypgx_output_table.out.csv.collect())
     ch_multiqc_files = ch_multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml.collect())
