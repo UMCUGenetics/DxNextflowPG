@@ -82,10 +82,3 @@ table_cond_formatting_rules:
       - eq: 4
     fail:
       - gt: 4
-
-custom_content:
-    name: Custom table
-    description: test table for testing
-    data:
-        - name: Example CSV
-          file: UGT1A1.csv
