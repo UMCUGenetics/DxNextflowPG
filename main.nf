@@ -44,28 +44,23 @@ workflow {
         .map{ file -> [file.getSimpleName(), file] }
         .collect()
 
-    ch_genome_fasta_index = Channel.fromPath("${params.genome_fasta}.fai")
-        .map{ file -> [file.getSimpleName(), file] }
-        .collect()
+    // ch_genome_fasta_index = Channel.fromPath("${params.genome_fasta}.fai")
+    //     .map{ file -> [file.getSimpleName(), file] }
+    //     .collect()
 
-    ch_genome_dict = Channel.fromPath("${params.genome_dict}")
-        .map{ file -> [file.getSimpleName(), file] }
-        .collect()
+    // ch_genome_dict = Channel.fromPath("${params.genome_dict}")
+    //     .map{ file -> [file.getSimpleName(), file] }
+    //     .collect()
 
-    ch_bams_meta = Channel.fromPath("${params.bam_path}/*.bam")
-        .map{ data -> [[id: data.getBaseName()], data] }
+    ch_bams_meta = Channel.fromFilePairs("${params.bam_path}/*.{bam,bai}", checkIfExists: true) { file -> file.name.replaceAll(/.bam|.bai$/,'') }
+        .map{ meta, bam_index -> [['id': meta], bam_index[0], bam_index[1]] }
 
-    ch_idx_meta = Channel.fromPath("${params.bam_path}/*.bai")
-        .map{ bai -> [[id: bai.getBaseName().replaceAll(/.bam/,"")], bai] }
-
-    ch_bam_idx_meta = ch_bams_meta
-        .join(ch_idx_meta)
 
     // pypgx
     ch_PGx_genes = Channel.fromList(params.pgx_genes)
 
     pypgx_prepare(
-        ch_bam_idx_meta,
+        ch_bams_meta,
         ch_genome_fasta,
         params.pypgx_control_gene,
         params.assembly_version
