@@ -81,7 +81,7 @@ workflow {
 
 
     MOSDEPTH(
-        ch_bam_idx_meta.map{ meta, bam, bai -> [meta, bam, bai, []] },
+        ch_bams_meta.map{ meta, bam, bai -> [meta, bam, bai, []] },
         ch_genome_fasta
     )
 
