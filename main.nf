@@ -63,6 +63,7 @@ workflow {
         ch_bams_meta,
         ch_genome_fasta,
         params.pypgx_control_gene,
+        ch_PGx_genes.collect(),
         params.assembly_version
     )
 

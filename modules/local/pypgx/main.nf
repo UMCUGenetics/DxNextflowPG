@@ -11,6 +11,7 @@ process pypgx_prepare {
     tuple val(meta), path(bam_file), path(bam_bai)
     tuple val(meta2), path(genome_fasta)
     val(control_gene)
+    val(pypgx_gene_list)
     val(assembly_version)
 
 
@@ -24,15 +25,18 @@ process pypgx_prepare {
     script:
     def control = control_gene ?: "VDR"
     def assembly = assembly_version ?: "GRCh38"
+    def pypgx_genes = pypgx_gene_list.join(' ')
     def prefix = "${meta.id}"
     """
     pypgx create-input-vcf \\
+        --genes ${pypgx_genes} \\
         --assembly ${assembly} \\
         ${prefix}_variants.vcf.gz \\
         ${genome_fasta} \\
         $bam_file
 
     pypgx prepare-depth-of-coverage \\
+        --genes ${pypgx_genes} \\
         --assembly ${assembly} \\
         ${prefix}_coverage.zip \\
         $bam_file
