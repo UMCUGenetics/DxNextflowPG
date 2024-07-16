@@ -11,7 +11,6 @@ process PYPGX_CREATEINPUTVCF {
     tuple val(meta), path(bam), path(bai)
     tuple val(meta2), path(fasta)
     val(pypgx_gene_list)
-    val(assembly_version)
 
 
     output:
@@ -22,16 +21,32 @@ process PYPGX_CREATEINPUTVCF {
     task.ext.when == null || task.ext.when
 
     script:
-    def assembly = assembly_version ?: "GRCh38"
-    def prefix = "${meta.id}"
+    def args = task.ext.args ?: ''
+    def assembly = task.ext.assembly_version ?: "GRCh38"
+    def prefix = task.ext.prefix ?: "${meta.id}"
+    def pgx_genes = "--genes ${task.ext.pgx_genes.join(' ')}" ?: ''
     def pypgx_genes = pypgx_gene_list.join(' ')
+
     """
     pypgx create-input-vcf \\
-        --genes ${pypgx_genes} \\
+        ${args} \\
+        ${pgx_genes} \\
         --assembly ${assembly} \\
         ${prefix}_variants.vcf.gz \\
         ${fasta} \\
         $bam
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        pypgx: \$(echo \$(pypgx -v 2>&1) | sed 's/.* //')
+    END_VERSIONS
+    """
+
+    stub:
+    def args = task.ext.args ?: ''
+
+    """
+    touch ${prefix}_variants.vcf.gz
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
