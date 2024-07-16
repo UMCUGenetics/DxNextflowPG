@@ -27,7 +27,7 @@ process PYPGX_CREATEINPUTVCF {
     def pypgx_genes = pypgx_gene_list.join(' ')
     """
     pypgx create-input-vcf \\
-        --genes ${pypgx_genes}
+        --genes ${pypgx_genes} \\
         --assembly ${assembly} \\
         ${prefix}_variants.vcf.gz \\
         ${fasta} \\
