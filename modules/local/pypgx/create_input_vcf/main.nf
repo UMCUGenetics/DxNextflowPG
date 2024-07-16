@@ -10,7 +10,6 @@ process PYPGX_CREATEINPUTVCF {
     input:
     tuple val(meta), path(bam), path(bai)
     tuple val(meta2), path(fasta)
-    val(pypgx_gene_list)
 
 
     output:
@@ -25,7 +24,6 @@ process PYPGX_CREATEINPUTVCF {
     def assembly = task.ext.assembly_version ?: "GRCh38"
     def prefix = task.ext.prefix ?: "${meta.id}"
     def pgx_genes = "--genes ${task.ext.pgx_genes.join(' ')}" ?: ''
-    def pypgx_genes = pypgx_gene_list.join(' ')
 
     """
     pypgx create-input-vcf \\

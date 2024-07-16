@@ -67,10 +67,7 @@ workflow {
 
     PYPGX_CREATEINPUTVCF(
         ch_bams_meta,
-        ch_genome_fasta,
-        ch_PGx_genes.collect(),
-        params.assembly_version
-
+        ch_genome_fasta
     )
 
     PYPGX_PREPAREDEPTHOFCOVERAGE(
