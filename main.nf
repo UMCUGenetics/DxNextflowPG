@@ -30,8 +30,12 @@ include { MOSDEPTH } from './modules/nf-core/mosdepth/main'
 include { MULTIQC } from './modules/nf-core/multiqc/main'
 include { VCF2GLIMS } from './modules/local/vcf2glims/main'
 include { VERIFYBAMID_VERIFYBAMID2 } from './modules/nf-core/verifybamid/verifybamid2/main'
-include { pypgx_prepare; pypgx_run_ngs; combine_results } from './modules/local/pypgx/main'
+// include { pypgx_prepare; pypgx_run_ngs; combine_results } from './modules/local/pypgx/main'
 
+include { PYPGX_CREATEINPUTVCF } from './modules/local/pypgx/create_input_vcf/main'
+include { PYPGX_PREPAREDEPTHOFCOVERAGE } from './modules/local/pypgx/prepare_depth_of_coverage/main'
+include { PYPGX_COMPUTECONTROLSTATISTICS } from './modules/local/pypgx/compute_control_statistics/main'
+include { PYPGX_RUNNGSPIPELINE } from './modules/local/pypgx/run_ngs_pipeline/main'
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Main workflow
@@ -59,26 +63,41 @@ workflow {
     // pypgx
     ch_PGx_genes = Channel.fromList(params.pgx_genes)
 
-    pypgx_prepare(
+    PYPGX_CREATEINPUTVCF(
         ch_bams_meta,
         ch_genome_fasta,
-        params.pypgx_control_gene,
-        ch_PGx_genes.collect(),
+        ch_PGx_genes,
+        params.assembly_version
+
+    )
+
+    PYPGX_PREPAREDEPTHOFCOVERAGE(
+        ch_bams_meta,
+        ch_PGx_genes,
         params.assembly_version
     )
 
-    pypgx_run_ngs(
-        pypgx_prepare.out.vcf
-            .join(pypgx_prepare.out.coverage)
-            .join(pypgx_prepare.out.control_stats)
+
+    PYPGX_COMPUTECONTROLSTATISTICS(
+        ch_bams_meta,
+        ch_genome_fasta,
+        params.pypgx_control_gene,
+        params.assembly_version
+    )
+
+    PYPGX_RUNNGSPIPELINE(
+        PYPGX_CREATEINPUTVCF.out.vcf
+            .join(PYPGX_PREPAREDEPTHOFCOVERAGE.out.coverage)
+            .join(PYPGX_COMPUTECONTROLSTATISTICS.out.control_stats)
             .combine(ch_PGx_genes),
         params.pypgx_resource_bundle,
         params.assembly_version
     )
 
-    combine_results(
-        pypgx_run_ngs.out.outdir.groupTuple()
-    )
+
+    // combine_results(
+    //     pypgx_run_ngs.out.outdir.groupTuple()
+    // )
 
 
     MOSDEPTH(
@@ -93,8 +112,8 @@ workflow {
 //     ch_versions = ch_versions.mix(SAMTOOLS_INDEX.out.versions)
 //     ch_versions = ch_versions.mix(SEQKIT_SPLIT2.out.versions)
 //     ch_versions = ch_versions.mix(VERIFYBAMID_VERIFYBAMID2.out.versions)
-    ch_versions = ch_versions.mix(pypgx_prepare.out.versions)
-    ch_versions = ch_versions.mix(pypgx_run_ngs.out.versions)
+    // ch_versions = ch_versions.mix(pypgx_prepare.out.versions)
+    // ch_versions = ch_versions.mix(pypgx_run_ngs.out.versions)
     CUSTOM_DUMPSOFTWAREVERSIONS(ch_versions.unique().collectFile(name: 'collated_versions.yml'))
 
     // MultiQC
