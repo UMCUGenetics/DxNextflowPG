@@ -63,36 +63,38 @@ workflow {
     // pypgx
     ch_PGx_genes = Channel.fromList(params.pgx_genes)
 
+    ch_PGx_genes.view()
+
     PYPGX_CREATEINPUTVCF(
         ch_bams_meta,
         ch_genome_fasta,
-        ch_PGx_genes,
+        ch_PGx_genes.collect(),
         params.assembly_version
 
     )
 
-    PYPGX_PREPAREDEPTHOFCOVERAGE(
-        ch_bams_meta,
-        ch_PGx_genes,
-        params.assembly_version
-    )
+    // PYPGX_PREPAREDEPTHOFCOVERAGE(
+    //     ch_bams_meta,
+    //     ch_PGx_genes,
+    //     params.assembly_version
+    // )
 
 
-    PYPGX_COMPUTECONTROLSTATISTICS(
-        ch_bams_meta,
-        ch_genome_fasta,
-        params.pypgx_control_gene,
-        params.assembly_version
-    )
+    // PYPGX_COMPUTECONTROLSTATISTICS(
+    //     ch_bams_meta,
+    //     ch_genome_fasta,
+    //     params.pypgx_control_gene,
+    //     params.assembly_version
+    // )
 
-    PYPGX_RUNNGSPIPELINE(
-        PYPGX_CREATEINPUTVCF.out.vcf
-            .join(PYPGX_PREPAREDEPTHOFCOVERAGE.out.coverage)
-            .join(PYPGX_COMPUTECONTROLSTATISTICS.out.control_stats)
-            .combine(ch_PGx_genes),
-        params.pypgx_resource_bundle,
-        params.assembly_version
-    )
+    // PYPGX_RUNNGSPIPELINE(
+    //     PYPGX_CREATEINPUTVCF.out.vcf
+    //         .join(PYPGX_PREPAREDEPTHOFCOVERAGE.out.coverage)
+    //         .join(PYPGX_COMPUTECONTROLSTATISTICS.out.control_stats)
+    //         .combine(ch_PGx_genes),
+    //     params.pypgx_resource_bundle,
+    //     params.assembly_version
+    // )
 
 
     // combine_results(
