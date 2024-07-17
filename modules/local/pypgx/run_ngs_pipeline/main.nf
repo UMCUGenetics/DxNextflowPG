@@ -8,19 +8,21 @@ process PYPGX_RUNNGSPIPELINE {
         'biocontainers/pypgx:0.25.0--pyh7e72e81_0' }"
 
     input:
-    tuple val(meta), path(vcf), path(vcf_tbi), path(coverage), path(control_stats), val(pgx_gene)
+    tuple val(meta), path(vcf), path(tbi), path(coverage), path(control_stats), val(pgx_gene)
     path(resource_bundle)
-    val(assembly_version)
 
 
     output:
     tuple val(pgx_gene), path("*pypgx_output"), emit: outdir
     path("versions.yml"), emit: versions
 
+    when:
+    task.ext.when == null || task.ext.when
 
     script:
-    def prefix = "${meta.id}_${pgx_gene}"
-    def assembly = assembly_version ?: "GRCh38"
+    def prefix = task.ext.prefix ?: "${meta.id}_${pgx_gene}"
+    def assembly = task.ext.assembly_version ?: "GRCh38"
+
     """
     export MPLCONFIGDIR="/tmp/"
     export PYPGX_BUNDLE=${resource_bundle}/
@@ -38,4 +40,17 @@ process PYPGX_RUNNGSPIPELINE {
         pypgx: \$(echo \$(pypgx -v 2>&1) | sed 's/.* //')
     END_VERSIONS
     """
+
+    stub:
+    def args = task.ext.args ?: ''
+    def prefix = task.ext.prefix ?: "${meta.id}_${pgx_gene}"
+
+    """
+    mkdir ${prefix}_pypgx_output
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        pypgx: \$(echo \$(pypgx -v 2>&1) | sed 's/.* //')
+    END_VERSIONS
+    """    
 }

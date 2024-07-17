@@ -9,9 +9,6 @@ process PYPGX_PREPAREDEPTHOFCOVERAGE {
 
     input:
     tuple val(meta), path(bam), path(bai)
-    val(pypgx_gene_list)
-    val(assembly_version)
-
 
     output:
     tuple val(meta), path('*coverage.zip'), emit: coverage
@@ -21,13 +18,16 @@ process PYPGX_PREPAREDEPTHOFCOVERAGE {
     task.ext.when == null || task.ext.when
 
     script:
-    def assembly = assembly_version ?: "GRCh38"
-    def prefix = "${meta.id}"
-    def pypgx_genes = pypgx_gene_list.join(' ')
+    def args = task.ext.args ?: ''
+    def assembly = task.ext.assembly_version ?: "GRCh38"
+    def prefix = task.ext.prefix ?: "${meta.id}"
+    def pgx_genes = "--genes ${task.ext.pgx_genes.join(' ')}" ?: ''
+
 
     """
     pypgx prepare-depth-of-coverage \\
-        --genes ${pypgx_genes} \\
+        ${args} \\
+        ${pgx_genes} \\
         --assembly ${assembly} \\
         ${prefix}_coverage.zip \\
         $bam
@@ -35,5 +35,18 @@ process PYPGX_PREPAREDEPTHOFCOVERAGE {
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         pypgx: \$(echo \$(pypgx -v 2>&1) | sed 's/.* //')
-    END_VERSIONS"""
+    END_VERSIONS
+    """
+
+    stub:
+    def args = task.ext.args ?: ''
+    def prefix = task.ext.prefix ?: "${meta.id}"
+    """
+    touch ${prefix}_coverage.zip
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        pypgx: \$(echo \$(pypgx -v 2>&1) | sed 's/.* //')
+    END_VERSIONS
+    """
 }

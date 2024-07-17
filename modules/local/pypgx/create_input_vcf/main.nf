@@ -13,7 +13,8 @@ process PYPGX_CREATEINPUTVCF {
 
 
     output:
-    tuple val(meta), path("*.vcf.gz"), path("*.vcf.gz.tbi"), emit: vcf
+    tuple val(meta), path("*.vcf.gz"), emit: vcf
+    tuple val(meta), path("*.vcf.gz.tbi"), emit: tbi
     path("versions.yml"), emit: versions
 
     when:
@@ -42,7 +43,7 @@ process PYPGX_CREATEINPUTVCF {
 
     stub:
     def args = task.ext.args ?: ''
-
+    def prefix = task.ext.prefix ?: "${meta.id}"
     """
     touch ${prefix}_variants.vcf.gz
 

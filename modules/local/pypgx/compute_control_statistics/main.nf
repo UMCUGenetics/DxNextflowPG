@@ -9,9 +9,6 @@ process PYPGX_COMPUTECONTROLSTATISTICS {
 
     input:
     tuple val(meta), path(bam), path(bai)
-    tuple val(meta2), path(fasta)
-    val(control_gene)
-    val(assembly_version)
 
     output:
     tuple val(meta), path('*control_statistics*.zip'), emit: control_stats
@@ -21,12 +18,14 @@ process PYPGX_COMPUTECONTROLSTATISTICS {
     task.ext.when == null || task.ext.when
 
     script:
-    def control = control_gene ?: "VDR"
-    def assembly = assembly_version ?: "GRCh38"
-    def prefix = "${meta.id}"
+    def args = task.ext.args ?: ''
+    def control = task.ext.control_gene  ?: "VDR"
+    def assembly = task.ext.assembly_version ?: "GRCh38"
+    def prefix = task.ext.prefix ?: "${meta.id}"
 
     """
     pypgx compute-control-statistics \\
+        ${args} \\
         --assembly ${assembly} \\
         ${control} \\
         ${prefix}_control_statistics_${control}.zip \\
@@ -38,4 +37,16 @@ process PYPGX_COMPUTECONTROLSTATISTICS {
     END_VERSIONS
     """
 
+    stub:
+    def args = task.ext.args ?: ''
+    def prefix = task.ext.prefix ?: ''
+    def control = task.ext.control_gene  ?: "VDR"
+    """
+    touch ${prefix}_control_statistics_${control}.zip
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        pypgx: \$(echo \$(pypgx -v 2>&1) | sed 's/.* //')
+    END_VERSIONS
+    """
 }
