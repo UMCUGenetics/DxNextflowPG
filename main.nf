@@ -60,6 +60,7 @@ workflow {
         .map{ meta, bam_index -> [['id': meta], bam_index[0], bam_index[1]] }
 
 
+    ch_bams_meta.view()
     // pypgx
     ch_PGx_genes = Channel.fromList(params.pgx_genes)
 
