@@ -88,13 +88,13 @@ def genotype(pgx_gene, data_subset, rs_gt):
     genotypes = [genotype
                  for genotype in pgx_genotypes if has_genotype(genotype, data_subset, rs_gt)]
 
-
-    if len(genotypes) == 1:
+    l_genotypes = len(genotypes)
+    if l_genotypes == 1:
         return genotypes[0]
-    elif len(genotypes) > 1:
+    elif l_genotypes > 1:
         return get_predominant_genotype(genotypes)
-
-
+    elif l_genotypes == 0:
+        return "Undetermined"
 
 
 
