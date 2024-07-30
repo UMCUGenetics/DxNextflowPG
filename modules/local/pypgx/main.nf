@@ -102,7 +102,7 @@ process combine_results {
         'biocontainers/pypgx:0.25.0--pyh7e72e81_0' }"
 
     input:
-    tuple val(pgx_gene), path(output_dirs)
+    tuple val(pgx_gene), path(pypgx_dirs), path(excel_caller_csvs)
 
     output:
     path("*.csv"), emit: csv
@@ -116,18 +116,27 @@ process combine_results {
     import pandas as pd
 
     pypgx_archives = [sdk.Archive.from_file(pypgx_output+'/results.zip').data
-            for pypgx_output in '${output_dirs}'.split()]
+            for pypgx_output in '${pypgx_dirs}'.split()]
     combined_sample_data = pd.concat(pypgx_archives)
 
+    # Pypygx specific outputting
+
     # Meta data is the same for all samples across the same pgx_gene
-    metadata = sdk.Archive.from_file('${output_dirs}'.split()[0]+'/results.zip').metadata
-
+    metadata = sdk.Archive.from_file('${pypgx_dirs}'.split()[0]+'/results.zip').metadata
     merged_output = sdk.Archive(metadata, combined_sample_data)
-
     merged_output.to_file("${pgx_gene}_results.zip")
 
-    # For human readable output
-    merged_output.data.to_csv(open('${pgx_gene}.csv', 'w'), sep='\t')
-    """
-}
 
+    excel_alleles = pd.concat(
+    [pd.read_csv(excel_output, sep='\t', index_col=0)
+        for excel_output in '${excel_caller_csvs}'.split()])
+
+
+    
+    merged = combined_sample_data.join(excel_alleles)
+
+    # For human readable output
+    merged.to_csv(open('${pgx_gene}.csv', 'w'), sep='\t')
+    """
+
+}

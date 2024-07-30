@@ -1,26 +1,5 @@
 import pandas as pd
 
-class Genotype:
-    def __init__(self, gene, star_allele):
-        self.gene = gene
-        self.star_allele = star_allele
-        self.variants = []
-
-    def add_variants(self, variants):
-        for pair in variants:
-            self.variants.append(Excel_variant(pair[0], pair[1]))
-
-class Excel_variant:
-
-    def __init__(self, rsID, diplotype):
-        self.rsID = rsID
-        self.diplotype = diplotype
-
-    def __repr__(self):
-        return f"{self.rsID};{self.diplotype}"
-
-    def __str__(self):
-        return self.__repr__()
 
 
 def import_clean_excel(file_path: str) -> pd.DataFrame:
@@ -68,6 +47,7 @@ def import_dbsnp(file_path: str) -> dict:
             if identifier in rs_db:
                 rs_db[identifier].append(line[2])
             else:
+                print("ELSE OCCURED")
                 rs_db[identifier] = [line[2]]
             #
     return rs_db

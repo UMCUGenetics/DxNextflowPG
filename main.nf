@@ -7,7 +7,7 @@
 ----------------------------------------------------------------------------------------
 */
 
-nextflow.enable.dsl = 2
+//nextflow.enable.dsl = 2
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -26,16 +26,23 @@ validateParameters()
 */
 
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from './modules/nf-core/custom/dumpsoftwareversions/main'
-include { MOSDEPTH } from './modules/nf-core/mosdepth/main'
+// include { MOSDEPTH } from './modules/nf-core/mosdepth/main'
 include { MULTIQC } from './modules/nf-core/multiqc/main'
 include { VCF2GLIMS } from './modules/local/vcf2glims/main'
 include { VERIFYBAMID_VERIFYBAMID2 } from './modules/nf-core/verifybamid/verifybamid2/main'
-// include { pypgx_prepare; pypgx_run_ngs; combine_results } from './modules/local/pypgx/main'
 
+include { CALL_STARALLELES } from './modules/local/star_alleles/main'
+
+include { combine_results } from './modules/local/pypgx/main'
+include { PYPGX_CREATEREGIONS } from './modules/local/pypgx/create_regions/main'
 include { PYPGX_CREATEINPUTVCF } from './modules/local/pypgx/create_input_vcf/main'
 include { PYPGX_PREPAREDEPTHOFCOVERAGE } from './modules/local/pypgx/prepare_depth_of_coverage/main'
 include { PYPGX_COMPUTECONTROLSTATISTICS } from './modules/local/pypgx/compute_control_statistics/main'
 include { PYPGX_RUNNGSPIPELINE } from './modules/local/pypgx/run_ngs_pipeline/main'
+
+
+include { GATK4_HAPLOTYPECALLER } from './modules/nf-core/gatk4/haplotypecaller/main'
+include { GATK4_GENOTYPEGVCFS } from './modules/nf-core/gatk4/genotypegvcfs/main'
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Main workflow
@@ -48,91 +55,127 @@ workflow {
         .map{ file -> [file.getSimpleName(), file] }
         .collect()
 
-    // ch_genome_fasta_index = Channel.fromPath("${params.genome_fasta}.fai")
-    //     .map{ file -> [file.getSimpleName(), file] }
-    //     .collect()
+    ch_genome_fasta_index = Channel.fromPath("${params.genome_fasta}.fai")
+        .map{ file -> [file.getSimpleName(), file] }
+        .collect()
 
-    // ch_genome_dict = Channel.fromPath("${params.genome_dict}")
-    //     .map{ file -> [file.getSimpleName(), file] }
-    //     .collect()
+    ch_genome_dict = Channel.fromPath("${params.genome_dict}")
+        .map{ file -> [file.getSimpleName(), file] }
+        .collect()
 
-    ch_bams_meta = Channel.fromFilePairs("${params.bam_path}/*.{bam,bai}", checkIfExists: true) { file -> file.name.replaceAll(/.bam|.bai$/,'') }
+    ch_bams_meta = Channel.fromFilePairs(
+        "${params.bam_path}/*.{bam,bai}",
+        checkIfExists: true) {
+            file -> file.name.replaceAll(/.bam|.bai$/,'') }
         .map{ meta, bam_index -> [['id': meta], bam_index[0], bam_index[1]] }
 
+    ch_dbsnp = Channel.fromPath("${params.dbsnp}")
+        .map{ file -> [file.getSimpleName(), file] }.collect()
 
-    ch_bams_meta.view()
-    // pypgx
+    ch_dbsnp_index = Channel.fromPath("${params.dbsnp}.tbi")
+        .map{ file -> [file.getSimpleName(), file] }.collect()
+
     ch_PGx_genes = Channel.fromList(params.pgx_genes)
 
-    ch_PGx_genes.view()
 
-    PYPGX_CREATEINPUTVCF(
-        ch_bams_meta,
-        ch_genome_fasta
+    PYPGX_CREATEREGIONS()
+
+    GATK4_HAPLOTYPECALLER (
+        ch_bams_meta
+            .combine(PYPGX_CREATEREGIONS.out.bed)
+            .map{ meta, bam, bai, intervals ->  [meta,bam,bai,intervals, []]},
+        ch_genome_fasta,
+        ch_genome_fasta_index,
+        ch_genome_dict,
+        ch_dbsnp,
+        ch_dbsnp_index
     )
 
     PYPGX_PREPAREDEPTHOFCOVERAGE(
-        ch_bams_meta,
-        ch_PGx_genes.collect(),
-        params.assembly_version
+        ch_bams_meta
     )
 
 
     PYPGX_COMPUTECONTROLSTATISTICS(
-        ch_bams_meta,
-        ch_genome_fasta,
-        params.pypgx_control_gene,
-        params.assembly_version
+        ch_bams_meta
     )
 
+
     PYPGX_RUNNGSPIPELINE(
-        PYPGX_CREATEINPUTVCF.out.vcf
+        GATK4_HAPLOTYPECALLER.out.vcf
+            .join(GATK4_HAPLOTYPECALLER.out.tbi)
             .join(PYPGX_PREPAREDEPTHOFCOVERAGE.out.coverage)
             .join(PYPGX_COMPUTECONTROLSTATISTICS.out.control_stats)
             .combine(ch_PGx_genes),
-        params.pypgx_resource_bundle,
-        params.assembly_version
+        params.pypgx_resource_bundle
+    )
+
+    ch_excelsheet = Channel.fromPath(params.phenotypes_excel)
+    ch_dbsnp_subset = Channel.fromPath(params.dbSNP_subset)
+
+
+
+    GATK4_HAPLOTYPECALLER.out.vcf
+            .join(GATK4_HAPLOTYPECALLER.out.tbi)
+            .combine(ch_PGx_genes)
+            .view()
+
+
+    //dbSNP subset moet ook at runtime worden gemaakt door de subsetten op PYPGX_CREATEREGIONS.out.bed
+    CALL_STARALLELES(
+        GATK4_HAPLOTYPECALLER.out.vcf
+            .join(GATK4_HAPLOTYPECALLER.out.tbi)
+            .combine(ch_PGx_genes),
+        ch_excelsheet,
+        ch_dbsnp_subset
+    )
+
+    CALL_STARALLELES.out.csv
+        .collect()
+        .view()
+    
+
+    
+    combine_results(
+        PYPGX_RUNNGSPIPELINE.out.outdir.groupTuple()
+            .join(CALL_STARALLELES.out.csv
+                  .groupTuple())
     )
 
 
-    // combine_results(
-    //     pypgx_run_ngs.out.outdir.groupTuple()
+    // Mosdepth(
+    //     ch_bams_meta.map{ meta, bam, bai -> [meta, bam, bai, []] },
+    //     ch_genome_fasta
     // )
 
-
-    MOSDEPTH(
-        ch_bams_meta.map{ meta, bam, bai -> [meta, bam, bai, []] },
-        ch_genome_fasta
-    )
-
     // Softare versions
-    ch_versions = channel.empty()
-    ch_versions = ch_versions.mix(MOSDEPTH.out.versions)
+    // ch_versions = channel.empty()
+    // ch_versions = ch_versions.mix(MOSDEPTH.out.versions)
 //     ch_versions = ch_versions.mix(SAMBAMBA_MARKDUP.out.versions)
 //     ch_versions = ch_versions.mix(SAMTOOLS_INDEX.out.versions)
 //     ch_versions = ch_versions.mix(SEQKIT_SPLIT2.out.versions)
 //     ch_versions = ch_versions.mix(VERIFYBAMID_VERIFYBAMID2.out.versions)
     // ch_versions = ch_versions.mix(pypgx_prepare.out.versions)
     // ch_versions = ch_versions.mix(pypgx_run_ngs.out.versions)
-    CUSTOM_DUMPSOFTWAREVERSIONS(ch_versions.unique().collectFile(name: 'collated_versions.yml'))
+    // CUSTOM_DUMPSOFTWAREVERSIONS(ch_versions.unique().collectFile(name: 'collated_versions.yml'))
 
     // MultiQC
-    ch_multiqc_files = Channel.empty()
+    // ch_multiqc_files = Channel.empty()
 
-    ch_multiqc_files = ch_multiqc_files.mix(MOSDEPTH.out.global_txt.collect{it[1]})
-    ch_multiqc_files = ch_multiqc_files.mix(MOSDEPTH.out.summary_txt.collect{it[1]})
+    // ch_multiqc_files = ch_multiqc_files.mix(MOSDEPTH.out.global_txt.collect{it[1]})
+    // ch_multiqc_files = ch_multiqc_files.mix(MOSDEPTH.out.summary_txt.collect{it[1]})
 //     ch_multiqc_files = ch_multiqc_files.mix(VERIFYBAMID_VERIFYBAMID2.out.self_sm.collect{it[1]})
     // ch_multiqc_files = ch_multiqc_files.mix(create_pypgx_output_table.out.csv.collect())
-    ch_multiqc_files = ch_multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml.collect())
-    ch_multiqc_config = Channel.fromPath("$projectDir/assets/multiqc_config.yml", checkIfExists: true)
+    // ch_multiqc_files = ch_multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml.collect())
+    // ch_multiqc_config = Channel.fromPath("$projectDir/assets/multiqc_config.yml", checkIfExists: true)
 
 
-    MULTIQC(
-        ch_multiqc_files.collect(),
-        ch_multiqc_config.toList(),
-        Channel.empty().toList(),
-        Channel.empty().toList()
-    )
+    // MULTIQC(
+    //     ch_multiqc_files.collect(),
+    //     ch_multiqc_config.toList(),
+    //     Channel.empty().toList(),
+    //     Channel.empty().toList()
+    // )
  }
 
 /*
@@ -141,23 +184,23 @@ workflow {
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-workflow.onComplete {
-    def analysis_id = params.outdir.split('/')[-1]
-    // HTML Template
-    def template = new File("$baseDir/assets/workflow_complete.html")
-    def binding = [
-        runName: analysis_id,
-        workflow: workflow
-    ]
-    def engine = new groovy.text.GStringTemplateEngine()
-    def email_html = engine.createTemplate(template).make(binding).toString()
+// workflow.onComplete {
+//     def analysis_id = params.outdir.split('/')[-1]
+//     // HTML Template
+//     def template = new File("$baseDir/assets/workflow_complete.html")
+//     def binding = [
+//         runName: analysis_id,
+//         workflow: workflow
+//     ]
+//     def engine = new groovy.text.GStringTemplateEngine()
+//     def email_html = engine.createTemplate(template).make(binding).toString()
 
-    // Send email
-    if (workflow.success) {
-        def subject = "PG Workflow Successful: ${analysis_id}"
-        sendMail(to: params.email.trim(), subject: subject, body: email_html, attach: "${params.outdir}/QC/multiqc_report.html")
-    } else {
-        def subject = "PG Workflow Failed: ${analysis_id}"
-        sendMail(to: params.email.trim(), subject: subject, body: email_html)
-    }
-}
+//     // Send email
+//     if (workflow.success) {
+//         def subject = "PG Workflow Successful: ${analysis_id}"
+//         sendMail(to: params.email.trim(), subject: subject, body: email_html, attach: "${params.outdir}/QC/multiqc_report.html")
+//     } else {
+//         def subject = "PG Workflow Failed: ${analysis_id}"
+//         sendMail(to: params.email.trim(), subject: subject, body: email_html)
+//     }
+// }
