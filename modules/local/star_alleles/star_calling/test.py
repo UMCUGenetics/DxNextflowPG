@@ -77,6 +77,11 @@ class TestStarCalling(unittest.TestCase):
         self.vcf_1_1_18_18 = self.vcf_1_1 + self.vcf_18_18
 
 
+        self.vcf_incomplete = [
+            ["19", "41009358", ".", "A", "T", "30", "PASS", "GT:AD:DP", "0/0:30;30"],
+            ["19", "41012316", ".", "A", "T", "30", "PASS", "GT:AD:DP", "1/1:30;30"]
+        ]
+
         self.rs_IDs1_1 = [sample.Sample.import_rsIDs(line, self.CYP2B6rs_db)
                             for line in self.vcf_1_1]
         self.rs_IDs1_1_and_other = [sample.Sample.import_rsIDs(line, self.merged_rs_db)
@@ -88,6 +93,9 @@ class TestStarCalling(unittest.TestCase):
                                             for line in self.vcf_18_18_and_non_rsID]
         self.rs_IDs1_1_18_18 = [sample.Sample.import_rsIDs(line, self.merged_rs_db)
                                             for line in self.vcf_1_1_18_18]
+
+        self.rs_IDs_incomplete = [sample.Sample.import_rsIDs(line, self.CYP2B6rs_db)
+                                    for line in self.vcf_incomplete]
 
     def test_rs_DB_lookup(self):
         """ Double check that a locus returns the expected rs ID
@@ -138,15 +146,12 @@ class TestStarCalling(unittest.TestCase):
             "*18/*18"
         )
 
+        # Incomplete, so no genotype call
+        self.assertEqual(
+            call_star_alleles_excel.genotype(pgx_gene, data_subset, self.rs_IDs_incomplete),
+            "Undetermined"
+        )
+
 if __name__ == "__main__":
     unittest.main()
 
-
-def test_even(number):
-    if number % 2 == 0:
-        return True
-
-
-numbers = [1,2,3,4]
-
-print([test_even(num) for num in numbers])
