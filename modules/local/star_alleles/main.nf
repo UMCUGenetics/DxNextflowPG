@@ -9,8 +9,8 @@ process CALL_STARALLELES {
     
     input:
     tuple val(meta), path(vcf), path(tbi), val(pgx_gene)
-    path(excel)
-    path(dbSNP)
+    tuple val(meta2), path(excel)
+    tuple val(meta3), path(dbSNP)
 
     output:
     tuple val(pgx_gene), path("*.csv"), emit: csv

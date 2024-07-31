@@ -80,6 +80,8 @@ workflow {
 
     PYPGX_CREATEREGIONS()
 
+
+
     GATK4_HAPLOTYPECALLER (
         ch_bams_meta
             .combine(PYPGX_CREATEREGIONS.out.bed)
@@ -111,14 +113,14 @@ workflow {
     )
 
     ch_excelsheet = Channel.fromPath(params.phenotypes_excel)
+        .map{ file -> [[file.getSimpleName()], file] }
+        .collect()
     ch_dbsnp_subset = Channel.fromPath(params.dbSNP_subset)
+        .map{ file -> [[file.getSimpleName()], file] }
+        .collect()
 
-
-
-    GATK4_HAPLOTYPECALLER.out.vcf
-            .join(GATK4_HAPLOTYPECALLER.out.tbi)
-            .combine(ch_PGx_genes)
-            .view()
+    // ch_dbsnp_subset.view()
+    // ch_dbsnp_subset.collect().view()
 
 
     //dbSNP subset moet ook at runtime worden gemaakt door de subsetten op PYPGX_CREATEREGIONS.out.bed
@@ -130,17 +132,14 @@ workflow {
         ch_dbsnp_subset
     )
 
-    CALL_STARALLELES.out.csv
-        .collect()
-        .view()
-    
 
-    
-    combine_results(
-        PYPGX_RUNNGSPIPELINE.out.outdir.groupTuple()
-            .join(CALL_STARALLELES.out.csv
-                  .groupTuple())
-    )
+
+
+    // combine_results(
+    //     PYPGX_RUNNGSPIPELINE.out.outdir.groupTuple()
+    //         .join(CALL_STARALLELES.out.csv
+    //               .groupTuple())
+    // )
 
 
     // Mosdepth(
