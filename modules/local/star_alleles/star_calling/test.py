@@ -42,11 +42,11 @@ class TestStarCalling(unittest.TestCase):
             ["10","CYP2B6", "wildtype/wildtype", "CYP2B6:wildtype/wildtype", "rs3745274", "G:G",
              "1342","EXTENSIVE/NORMAL METABOLIZER","*1/*1"],
 
-            ["10","CYP2B6", "wildtype/wildtype", "CYP2B6:*18/*18", "rs2279343", "A:A", "1342",
+            ["10","CYP2B6", "*18/*18", "CYP2B6:*18/*18", "rs2279343", "A:A", "1342",
              "POOR METABOLIZER","*18/*18"],
-            ["10","CYP2B6", "wildtype/wildtype", "CYP2B6:*18/*18", "rs28399499", "C:C", "1342",
+            ["10","CYP2B6", "*18/*18", "CYP2B6:*18/*18", "rs28399499", "C:C", "1342",
              "POOR METABOLIZER","*18/*18"],
-            ["10","CYP2B6", "wildtype/wildtype", "CYP2B6:*18/*18", "rs3745274", "G:G", "1342",
+            ["10","CYP2B6", "*18/*18", "CYP2B6:*18/*18", "rs3745274", "G:G", "1342",
              "POOR METABOLIZER", "*18/*18"]
         ]
 
@@ -84,6 +84,12 @@ class TestStarCalling(unittest.TestCase):
             ["19", "41012316", ".", "A", "T", "30", "PASS", "GT:AD:DP", "1/1:30;30"]
         ]
 
+        self.vcf_incomplete_call = [
+            ["19", "41009358", ".", "A", "T", "30", "PASS", "GT:AD:DP", "0/0:30;30"],
+            ["19", "41012316", ".", "A", "T", "30", "PASS", "GT:AD:DP", "1/1:30;30"],
+            ["19", "41006936", ".", "G", "T", "30", "PASS", "GT:AD:DP", "./0:30;30"]
+        ]
+
         self.rs_IDs1_1 = [sample.Sample.import_rsIDs(line, self.CYP2B6rs_db)
                             for line in self.vcf_1_1]
         self.rs_IDs1_1_and_other = [sample.Sample.import_rsIDs(line, self.merged_rs_db)
@@ -98,6 +104,12 @@ class TestStarCalling(unittest.TestCase):
 
         self.rs_IDs_incomplete = [sample.Sample.import_rsIDs(line, self.CYP2B6rs_db)
                                     for line in self.vcf_incomplete]
+
+        self.rs_IDs_incomplete_call = [sample.Sample.import_rsIDs(line, self.CYP2B6rs_db)
+                                       for line in self.vcf_incomplete_call]
+
+        self.pgx_gene = "CYP2B6"
+        self.data_subset_CYP2B6 = pd.DataFrame(self.CYP2B6_GTs, columns=self.GT_columns)
 
     def test_rs_DB_lookup(self):
         """ Double check that a locus returns the expected rs ID
@@ -119,40 +131,51 @@ class TestStarCalling(unittest.TestCase):
                               [["rs2279343;A:A"], ["rs28399499;C:C"], ["rs3745274;G:G"], []])
 
 
-    def test_genotyping_CYP2B6(self):
-        pgx_gene = "CYP2B6"
-        data_subset = pd.DataFrame(self.CYP2B6_GTs, columns=self.GT_columns)
 
+    def test_hom_wildtype_CYP2B6(self):
         # Contains *1/*1 variants
         self.assertEqual(
-            call_star_alleles_excel.genotype(pgx_gene, data_subset, self.rs_IDs1_1),
-            "*1/*1"
+            call_star_alleles_excel.genotype("CYP2B6", self.data_subset_CYP2B6, self.rs_IDs1_1),
+            "CYP2B6:wildtype/wildtype"
         )
+    def test_hom_18_18_CYP2B6(self):
         # Contains *18/*18 variants
         self.assertEqual(
-            call_star_alleles_excel.genotype(pgx_gene, data_subset, self.rs_IDs18_18),
-            "*18/*18"
+            call_star_alleles_excel.genotype("CYP2B6", self.data_subset_CYP2B6, self.rs_IDs18_18),
+            "CYP2B6:*18/*18"
         )
+    def test_hom_wildtype_noise_CYP2B6(self):
         # Contains *1/*1 variants and one other unrelated variant with rs ID
         self.assertEqual(
-            call_star_alleles_excel.genotype(pgx_gene, data_subset, self.rs_IDs1_1_and_other),
-            "*1/*1"
-        )
-        # Contains *18/*18 variants and one without an rs ID
-        self.assertEqual(
-            call_star_alleles_excel.genotype(pgx_gene, data_subset, self.rs_IDs18_18_and_non_rsID),
-            "*18/*18"
-        )
-        # Contains both the *1/*1 and *18/*18 variants
-        self.assertEqual(
-            call_star_alleles_excel.genotype(pgx_gene, data_subset, self.rs_IDs1_1_18_18),
-            "*18/*18"
+            call_star_alleles_excel.genotype("CYP2B6", self.data_subset_CYP2B6, self.rs_IDs1_1_and_other),
+            "CYP2B6:wildtype/wildtype"
         )
 
+    def test_hom_18_18_nonRS_CYP2B6(self):
+        # Contains *18/*18 variants and one without an rs ID
+        self.assertEqual(
+            call_star_alleles_excel.genotype("CYP2B6", self.data_subset_CYP2B6, self.rs_IDs18_18_and_non_rsID),
+            "CYP2B6:*18/*18"
+        )
+
+    def test_two_phenotypes_CYP2B6(self):
+        # Contains both the *1/*1 and *18/*18 variants
+        self.assertEqual(
+            call_star_alleles_excel.genotype("CYP2B6", self.data_subset_CYP2B6, self.rs_IDs1_1_18_18),
+            "CYP2B6:*18/*18"
+        )
+    def test_incomplete_genotype_set_CYP2B6(self):
         # Incomplete, so no genotype call
         self.assertEqual(
-            call_star_alleles_excel.genotype(pgx_gene, data_subset, self.rs_IDs_incomplete),
-            "Undetermined"
+            call_star_alleles_excel.genotype("CYP2B6", self.data_subset_CYP2B6, self.rs_IDs_incomplete),
+            "Inconclusive"
+        )
+
+    def test_incomplete_genotyping_call_CYP2B6(self):
+        # Incomplete genotyping call (i.e. 0/1)
+        self.assertEqual(
+            call_star_alleles_excel.genotype("CYP2B6", self.data_subset_CYP2B6, self.rs_IDs_incomplete_call),
+            "Inconclusive"
         )
 
 if __name__ == "__main__":
