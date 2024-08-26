@@ -1,6 +1,5 @@
 process CALL_STARALLELES {
-    debug true
-    errorStrategy 'terminate'
+
     tag "$meta.id"
     label "process_single"
 
@@ -14,6 +13,7 @@ process CALL_STARALLELES {
 
     output:
     tuple val(pgx_gene), path("*.csv"), emit: csv
+    path "versions.yml", emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -22,20 +22,16 @@ process CALL_STARALLELES {
     def outfile = "${meta.id}_${pgx_gene}_alleles.csv"
 
     """
-
-    echo ${meta}
-    echo ${vcf}
-    echo ${tbi}
-    echo ${pgx_gene}
-
-    echo ${excel}
-    echo ${dbSNP}
-
     ${projectDir}/modules/local/star_alleles/star_calling/call_star_alleles_excel.py \\
         --vcf ${vcf} \\
         --dbSNP ${dbSNP} \\
         --translation_table ${excel} \\
         --pgx_gene ${pgx_gene} \\
         -o ${outfile}
+
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        CALL_STAR_ALLELES: \$(${projectDir}/modules/local/star_alleles/star_calling/call_star_alleles_excel.py -v)
+    END_VERSIONS
     """
 }

@@ -26,7 +26,7 @@ validateParameters()
 */
 
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from './modules/nf-core/custom/dumpsoftwareversions/main'
-// include { MOSDEPTH } from './modules/nf-core/mosdepth/main'
+include { MOSDEPTH } from './modules/nf-core/mosdepth/main'
 include { MULTIQC } from './modules/nf-core/multiqc/main'
 include { VCF2GLIMS } from './modules/local/vcf2glims/main'
 include { VERIFYBAMID_VERIFYBAMID2 } from './modules/nf-core/verifybamid/verifybamid2/main'
@@ -93,6 +93,24 @@ workflow {
         ch_dbsnp_index
     )
 
+
+    GATK4_GENOTYPEGVCFS(
+        GATK4_HAPLOTYPECALLER.out.vcf
+            .join(GATK4_HAPLOTYPECALLER.out.tbi)
+            .combine(PYPGX_CREATEREGIONS.out.bed)
+            .map{ meta, vcf, tbi, intervals -> [meta, vcf, tbi, intervals, []] },
+        ch_genome_fasta.map{ meta, file -> [file] },
+        ch_genome_fasta_index.map{ meta, file -> [file] },
+        ch_genome_dict.map{ meta, file -> [file] },
+        ch_dbsnp.map{ meta, file -> [file] },
+        ch_dbsnp_index.map{ meta, file -> [file] }
+    )
+
+    PYPGX_CREATEINPUTVCF(
+        ch_bams_meta,
+        ch_genome_fasta
+    )
+
     PYPGX_PREPAREDEPTHOFCOVERAGE(
         ch_bams_meta
     )
@@ -104,8 +122,8 @@ workflow {
 
 
     PYPGX_RUNNGSPIPELINE(
-        GATK4_HAPLOTYPECALLER.out.vcf
-            .join(GATK4_HAPLOTYPECALLER.out.tbi)
+        PYPGX_CREATEINPUTVCF.out.vcf
+            .join(PYPGX_CREATEINPUTVCF.out.tbi)
             .join(PYPGX_PREPAREDEPTHOFCOVERAGE.out.coverage)
             .join(PYPGX_COMPUTECONTROLSTATISTICS.out.control_stats)
             .combine(ch_PGx_genes),
@@ -119,62 +137,55 @@ workflow {
         .map{ file -> [[file.getSimpleName()], file] }
         .collect()
 
-    // ch_dbsnp_subset.view()
-    // ch_dbsnp_subset.collect().view()
-
 
     //dbSNP subset moet ook at runtime worden gemaakt door de subsetten op PYPGX_CREATEREGIONS.out.bed
     CALL_STARALLELES(
-        GATK4_HAPLOTYPECALLER.out.vcf
-            .join(GATK4_HAPLOTYPECALLER.out.tbi)
+        GATK4_GENOTYPEGVCFS.out.vcf
+            .join(GATK4_GENOTYPEGVCFS.out.tbi)
             .combine(ch_PGx_genes),
         ch_excelsheet,
         ch_dbsnp_subset
     )
 
+    combine_results(
+        PYPGX_RUNNGSPIPELINE.out.outdir.groupTuple()
+            .join(CALL_STARALLELES.out.csv
+                  .groupTuple())
+    )
 
+    Mosdepth(
+        ch_bams_meta.map{ meta, bam, bai -> [meta, bam, bai, []] },
+        ch_genome_fasta
+    )
 
-
-    // combine_results(
-    //     PYPGX_RUNNGSPIPELINE.out.outdir.groupTuple()
-    //         .join(CALL_STARALLELES.out.csv
-    //               .groupTuple())
-    // )
-
-
-    // Mosdepth(
-    //     ch_bams_meta.map{ meta, bam, bai -> [meta, bam, bai, []] },
-    //     ch_genome_fasta
-    // )
 
     // Softare versions
-    // ch_versions = channel.empty()
-    // ch_versions = ch_versions.mix(MOSDEPTH.out.versions)
-//     ch_versions = ch_versions.mix(SAMBAMBA_MARKDUP.out.versions)
-//     ch_versions = ch_versions.mix(SAMTOOLS_INDEX.out.versions)
-//     ch_versions = ch_versions.mix(SEQKIT_SPLIT2.out.versions)
-//     ch_versions = ch_versions.mix(VERIFYBAMID_VERIFYBAMID2.out.versions)
-    // ch_versions = ch_versions.mix(pypgx_prepare.out.versions)
-    // ch_versions = ch_versions.mix(pypgx_run_ngs.out.versions)
-    // CUSTOM_DUMPSOFTWAREVERSIONS(ch_versions.unique().collectFile(name: 'collated_versions.yml'))
+    ch_versions = channel.empty()
+    ch_versions = ch_versions.mix(MOSDEPTH.out.versions)
+    ch_versions = ch_versions.mix(GATK4_HAPLOTYPECALLER.out.versions)
+    ch_versions = ch_versions.mix(GATK4_GENOTYPEGVCF.out.versions)
+    ch_versions = ch_versions.mix(PYPGX_CREATEINPUTVCF.out.versions)
+    ch_versions = ch_versions.mix(PYPGX_PREPAREDEPTHOFCOVERAGE.out.versions)
+    ch_versions = ch_versions.mix(PYPGX_COMPUTECONTROLSTATISTICS.out.versions)
+    ch_versions = ch_versions.mix(PYPGX_RUNNGSPIPELINE.out.versions)
+    ch_versions = ch_versions.mix(CALL_STARALLELES.out.versions)
+    CUSTOM_DUMPSOFTWAREVERSIONS(ch_versions.unique().collectFile(name: 'collated_versions.yml'))
 
     // MultiQC
-    // ch_multiqc_files = Channel.empty()
+    ch_multiqc_files = Channel.empty()
 
-    // ch_multiqc_files = ch_multiqc_files.mix(MOSDEPTH.out.global_txt.collect{it[1]})
-    // ch_multiqc_files = ch_multiqc_files.mix(MOSDEPTH.out.summary_txt.collect{it[1]})
-//     ch_multiqc_files = ch_multiqc_files.mix(VERIFYBAMID_VERIFYBAMID2.out.self_sm.collect{it[1]})
-    // ch_multiqc_files = ch_multiqc_files.mix(create_pypgx_output_table.out.csv.collect())
-    // ch_multiqc_files = ch_multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml.collect())
-    // ch_multiqc_config = Channel.fromPath("$projectDir/assets/multiqc_config.yml", checkIfExists: true)
+    ch_multiqc_files = ch_multiqc_files.mix(MOSDEPTH.out.global_txt.collect{it[1]})
+    ch_multiqc_files = ch_multiqc_files.mix(MOSDEPTH.out.summary_txt.collect{it[1]})
+    ch_multiqc_files = ch_multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml.collect())
+    ch_multiqc_config = Channel.fromPath("$projectDir/assets/multiqc_config.yml", checkIfExists: true)
 
 
-    // MULTIQC(
-    //     ch_multiqc_files.collect(),
-    //     ch_multiqc_config.toList(),
-    //     Channel.empty().toList(),
-    //     Channel.empty().toList()
-    // )
+    MULTIQC(
+        ch_multiqc_files.collect(),
+        ch_multiqc_config.toList(),
+        Channel.empty().toList(),
+        Channel.empty().toList()
+    )
  }
 
 /*

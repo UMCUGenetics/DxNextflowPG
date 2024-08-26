@@ -1,4 +1,5 @@
 process GATK4_GENOTYPEGVCFS {
+    errorStrategy 'terminate'
     tag "$meta.id"
     label 'process_high'
 

@@ -19,24 +19,31 @@ class Sample:
         self.name = self.basename
 
         for data_line in self._parse_vcf():
+            # print(data_line)
             rs_ID_genotypes = self.import_rsIDs(data_line, rs_db)
-            self.rs_gt += rs_ID_genotypes
+            if len(rs_ID_genotypes) >= 1:
+                # print(rs_ID_genotypes)
+                self.rs_gt += rs_ID_genotypes
 
-        self.rs_gt = set(self.rs_gt)
+        print(self.rs_gt)
+        # self.rs_gt = set(self.rs_gt)
 
     def _parse_vcf(self):
         with gzip.open(self.vcf) as vcf_file:
             for line in vcf_file:
+                # print(line)
                 line = line.decode()
+                # print(line)
                 if line.startswith("#"):
                     continue
                 else:
+                    # print(line.strip().split())
                     yield line.strip().split()
 
     @staticmethod
     def import_rsIDs(data_line, rs_db):
         identifier = get_vcf_identifier(data_line)
-
+        # print(identifier)
         try:
             rs_ids = rs_db[identifier]
         except KeyError:
