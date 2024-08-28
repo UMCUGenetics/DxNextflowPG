@@ -40,6 +40,7 @@ include { PYPGX_PREPAREDEPTHOFCOVERAGE } from './modules/local/pypgx/prepare_dep
 include { PYPGX_COMPUTECONTROLSTATISTICS } from './modules/local/pypgx/compute_control_statistics/main'
 include { PYPGX_RUNNGSPIPELINE } from './modules/local/pypgx/run_ngs_pipeline/main'
 
+include { BCFTOOLS_VIEW } from './modules/nf-core/bcftools/view/main'
 
 include { GATK4_HAPLOTYPECALLER } from './modules/nf-core/gatk4/haplotypecaller/main'
 include { GATK4_GENOTYPEGVCFS } from './modules/nf-core/gatk4/genotypegvcfs/main'
@@ -75,11 +76,21 @@ workflow {
     ch_dbsnp_index = Channel.fromPath("${params.dbsnp}.tbi")
         .map{ file -> [file.getSimpleName(), file] }.collect()
 
+
     ch_PGx_genes = Channel.fromList(params.pgx_genes)
 
 
     PYPGX_CREATEREGIONS()
 
+    
+    BCFTOOLS_VIEW(
+        ch_dbsnp
+            .join(ch_dbsnp_index)
+        .map{ meta, vcf, tbi -> [[id: meta], vcf,tbi] },
+        PYPGX_CREATEREGIONS.out.bed,
+        [],
+        []
+    )
 
 
     GATK4_HAPLOTYPECALLER (
@@ -133,18 +144,22 @@ workflow {
     ch_excelsheet = Channel.fromPath(params.phenotypes_excel)
         .map{ file -> [[file.getSimpleName()], file] }
         .collect()
-    ch_dbsnp_subset = Channel.fromPath(params.dbSNP_subset)
-        .map{ file -> [[file.getSimpleName()], file] }
-        .collect()
+
+    // ch_dbsnp_subset = Channel.fromPath(params.dbSNP_subset)
+    //     .map{ file -> [[file.getSimpleName()], file] }
+    //     .collect()
 
 
-    //dbSNP subset moet ook at runtime worden gemaakt door de subsetten op PYPGX_CREATEREGIONS.out.bed
     CALL_STARALLELES(
         GATK4_GENOTYPEGVCFS.out.vcf
             .join(GATK4_GENOTYPEGVCFS.out.tbi)
             .combine(ch_PGx_genes),
         ch_excelsheet,
-        ch_dbsnp_subset
+        BCFTOOLS_VIEW.out.vcf
+            .map{ meta, vcf -> vcf }
+            .collect()
+        // ch_dbsnp_subset
+        
     )
 
     combine_results(
@@ -153,7 +168,7 @@ workflow {
                   .groupTuple())
     )
 
-    Mosdepth(
+    MOSDEPTH(
         ch_bams_meta.map{ meta, bam, bai -> [meta, bam, bai, []] },
         ch_genome_fasta
     )
@@ -163,7 +178,7 @@ workflow {
     ch_versions = channel.empty()
     ch_versions = ch_versions.mix(MOSDEPTH.out.versions)
     ch_versions = ch_versions.mix(GATK4_HAPLOTYPECALLER.out.versions)
-    ch_versions = ch_versions.mix(GATK4_GENOTYPEGVCF.out.versions)
+    ch_versions = ch_versions.mix(GATK4_GENOTYPEGVCFS.out.versions)
     ch_versions = ch_versions.mix(PYPGX_CREATEINPUTVCF.out.versions)
     ch_versions = ch_versions.mix(PYPGX_PREPAREDEPTHOFCOVERAGE.out.versions)
     ch_versions = ch_versions.mix(PYPGX_COMPUTECONTROLSTATISTICS.out.versions)
