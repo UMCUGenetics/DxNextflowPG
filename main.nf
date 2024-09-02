@@ -126,11 +126,9 @@ workflow {
         ch_bams_meta
     )
 
-
     PYPGX_COMPUTECONTROLSTATISTICS(
         ch_bams_meta
     )
-
 
     PYPGX_RUNNGSPIPELINE(
         PYPGX_CREATEINPUTVCF.out.vcf
@@ -145,11 +143,6 @@ workflow {
         .map{ file -> [[file.getSimpleName()], file] }
         .collect()
 
-    // ch_dbsnp_subset = Channel.fromPath(params.dbSNP_subset)
-    //     .map{ file -> [[file.getSimpleName()], file] }
-    //     .collect()
-
-
     CALL_STARALLELES(
         GATK4_GENOTYPEGVCFS.out.vcf
             .join(GATK4_GENOTYPEGVCFS.out.tbi)
@@ -159,7 +152,6 @@ workflow {
             .map{ meta, vcf -> vcf }
             .collect()
         // ch_dbsnp_subset
-        
     )
 
     combine_results(
