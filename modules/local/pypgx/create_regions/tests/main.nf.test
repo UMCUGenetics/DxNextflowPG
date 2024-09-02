@@ -1,0 +1,29 @@
+nextflow_process {
+    name "Test Procss PYPGX_CREATEREGIONS"
+    script "../main.nf"
+    process "PYPGX_CREATEREGIONS"
+
+    tag "modules"
+    tag "modules_nfcore"
+    tag "pypgx"
+    tag "pypgx/create_regions"
+
+    test ("create regions GRCh37") {
+        when {
+            process {
+            """
+            """
+            }
+        }
+        then {
+            assertAll(
+                {assert process.success}
+                {assert snapshot(
+                    file(process.out.bed).name,
+                    process.out.versions
+                ).match()
+                }
+            )
+        }
+    }
+}
