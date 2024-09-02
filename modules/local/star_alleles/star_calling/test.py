@@ -143,21 +143,21 @@ class TestStarCalling(unittest.TestCase):
         rs_IDs = list(chain(*self.rs_IDs1_1))
         self.assertEqual(
             call_star_alleles_excel.genotype("CYP2B6", self.data_subset_CYP2B6, rs_IDs),
-            "CYP2B6:wildtype/wildtype"
+            ["CYP2B6:wildtype/wildtype"]
         )
     def test_hom_18_18_CYP2B6(self):
         # Contains *18/*18 variants
         rs_IDs = list(chain(*self.rs_IDs18_18))
         self.assertEqual(
             call_star_alleles_excel.genotype("CYP2B6", self.data_subset_CYP2B6, rs_IDs),
-            "CYP2B6:*18/*18"
+            ["CYP2B6:*18/*18"]
         )
     def test_hom_wildtype_noise_CYP2B6(self):
         # Contains *1/*1 variants and one other unrelated variant with rs ID
         rs_IDs = list(chain(*self.rs_IDs1_1_and_other))
         self.assertEqual(
             call_star_alleles_excel.genotype("CYP2B6", self.data_subset_CYP2B6, rs_IDs),
-            "CYP2B6:wildtype/wildtype"
+            ["CYP2B6:wildtype/wildtype"]
         )
 
     def test_hom_wildtype_ref_callsCYP2B6(self):
@@ -165,15 +165,15 @@ class TestStarCalling(unittest.TestCase):
         rs_IDs = list(chain(*self.rs_IDs1_1_ref_only))
         self.assertEqual(
             call_star_alleles_excel.genotype("CYP2B6", self.data_subset_CYP2B6, rs_IDs),
-            "CYP2B6:wildtype/wildtype"
+            ["CYP2B6:wildtype/wildtype"]
         )
 
     def test_hom_18_18_nonRS_CYP2B6(self):
-        # Contains *18/*18 variants and one without an rs ID
+        # Contains *18/*18 variants and one variant without an rs ID
         rs_IDs = list(chain(*self.rs_IDs18_18_and_non_rsID))
         self.assertEqual(
             call_star_alleles_excel.genotype("CYP2B6", self.data_subset_CYP2B6, rs_IDs),
-            "CYP2B6:*18/*18"
+            ["CYP2B6:*18/*18"]
         )
 
     def test_two_phenotypes_CYP2B6(self):
@@ -181,14 +181,16 @@ class TestStarCalling(unittest.TestCase):
         rs_IDs = list(chain(*self.rs_IDs1_1_18_18))
         self.assertEqual(
             call_star_alleles_excel.genotype("CYP2B6", self.data_subset_CYP2B6, rs_IDs),
-            "CYP2B6:*18/*18"
+             # order is important, currently implemented so that the wildtype is never first
+             # `call_star_alleles_excel.get_predominant_genotype()`
+            ["CYP2B6:*18/*18", "CYP2B6:wildtype/wildtype"]
         )
     def test_incomplete_genotype_set_CYP2B6(self):
         # Incomplete, so no genotype call
         rs_IDs = list(chain(*self.rs_IDs_incomplete))
         self.assertEqual(
             call_star_alleles_excel.genotype("CYP2B6", self.data_subset_CYP2B6, rs_IDs),
-            "Inconclusive"
+            ["Inconclusive"]
         )
 
     def test_incomplete_genotyping_call_CYP2B6(self):
@@ -196,7 +198,7 @@ class TestStarCalling(unittest.TestCase):
         rs_IDs = list(chain(*self.rs_IDs_incomplete_call))
         self.assertEqual(
             call_star_alleles_excel.genotype("CYP2B6", self.data_subset_CYP2B6, rs_IDs),
-            "Inconclusive"
+            ["Inconclusive"]
         )
 
 
@@ -205,6 +207,7 @@ class TestStarCalling(unittest.TestCase):
             call_star_alleles_excel.get_phenotype(genotype="CYP2B6:wildtype/wildtype",
                                                   data=self.data_subset_CYP2B6),
             "EXTENSIVE/NORMAL METABOLIZER")
+
 if __name__ == "__main__":
     unittest.main()
 

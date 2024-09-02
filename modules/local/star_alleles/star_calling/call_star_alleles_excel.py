@@ -101,13 +101,16 @@ def genotype(pgx_gene, data_subset, rs_gt):
     l_genotypes = len(genotypes)
 
     if l_genotypes == 1:
-        return genotypes[0]
+        return [genotypes[0]]
     elif l_genotypes > 1:
-        return get_predominant_genotype(genotypes)
+        predominant_genotype = get_predominant_genotype(genotypes)
+        genotypes.remove(predominant_genotype)
+        genotypes.insert(0, predominant_genotype)
+        return genotypes
     elif l_genotypes == 0:
-        return "Inconclusive"
+        return ["Inconclusive"]
     elif genotypes == 0:
-        return "Inconclusive"
+        return ["Inconclusive"]
 
 
 def get_phenotype(genotype, data):
@@ -134,7 +137,7 @@ def main():
 
     with open(args.outfile, 'w') as output_file:
 
-        header = ["Sample", "Gene", "Excel_Genotype", "Excel_Phenotype"]
+        header = ["Sample", "Gene", "Excel_Genotype", "Excel_Phenotype", "Missed Excel genotypes"]
         output_file.write("\t".join(header) + '\n')
 
 
@@ -142,14 +145,18 @@ def main():
         data_subset = excel_conversions[excel_conversions['gene'] == pgx_gene]
 
 
-        excel_genotype = genotype(pgx_gene, data_subset, sample.rs_gt)
-        if excel_genotype == "Inconclusive":
+        excel_genotypes = genotype(pgx_gene, data_subset, sample.rs_gt)
+        if excel_genotypes[0] == "Inconclusive":
             phenotype = "Inconclusive"
         else:
-            phenotype = get_phenotype(excel_genotype, data_subset)
+            phenotype = get_phenotype(excel_genotypes[0], data_subset)
 
-
-        outline = [sample.name, pgx_gene, excel_genotype, phenotype]
+        try:
+            missed_genotypes =  ';'.join(excel_genotypes[1:])
+        except IndexError:
+            missed_genotypes = "NA"
+            
+        outline = [sample.name, pgx_gene, excel_genotypes[0], phenotype, missed_genotypes]
 
         output_file.write("\t".join(outline)+ '\n')
         
