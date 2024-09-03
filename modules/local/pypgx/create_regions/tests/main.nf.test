@@ -2,6 +2,7 @@ nextflow_process {
     name "Test Procss PYPGX_CREATEREGIONS"
     script "../main.nf"
     process "PYPGX_CREATEREGIONS"
+    config "./GRCh37.config"
 
     tag "modules"
     tag "modules_nfcore"
