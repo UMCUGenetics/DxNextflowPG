@@ -9,7 +9,7 @@ Calc_frequencies <- function(gene) {
     group_by_at(gene) |>
     summarise(Count = n()) |>
     mutate(Freq = Count/n()) |>
-    write.csv(paste0("~/tools/DxNextflowPG/assets/PGx_SV_frequencies/",gene,"_freqs.csv"))
+    write.csv2(paste0("~/tools/DxNextflowPG/assets/PGx_SV_frequencies/",gene,"_freqs.csv"), row.names = F, quote = F)
 
 }
 
