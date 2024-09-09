@@ -20,7 +20,6 @@ process PYPGX_CREATEREGIONS {
     def genes = "--genes ${task.ext.pgx_genes.join(' ')}" ?: ''
     """
     pypgx create-regions-bed \\
-        ${args} \\
         ${genes} \\
         --assembly ${assembly} \\
         ${args} \\
