@@ -78,7 +78,6 @@ workflow {
 
     PYPGX_CREATEREGIONS()
 
-    
     BCFTOOLS_VIEW(
         ch_dbsnp
             .join(ch_dbsnp_index)
@@ -87,7 +86,6 @@ workflow {
         [],
         []
     )
-
 
     GATK4_HAPLOTYPECALLER (
         ch_bams_meta
@@ -99,7 +97,6 @@ workflow {
         ch_dbsnp,
         ch_dbsnp_index
     )
-
 
     GATK4_GENOTYPEGVCFS(
         GATK4_HAPLOTYPECALLER.out.vcf
@@ -147,7 +144,6 @@ workflow {
         BCFTOOLS_VIEW.out.vcf
             .map{ meta, vcf -> vcf }
             .collect()
-        // ch_dbsnp_subset
     )
 
     COMBINERESULTS(
