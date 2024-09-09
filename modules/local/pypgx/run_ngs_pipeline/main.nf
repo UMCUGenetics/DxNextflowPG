@@ -20,6 +20,7 @@ process PYPGX_RUNNGSPIPELINE {
     task.ext.when == null || task.ext.when
 
     script:
+    def args = task.ext.args ?: ""
     def prefix = task.ext.prefix ?: "${meta.id}_${pgx_gene}"
     def assembly = task.ext.assembly_version ?: "GRCh38"
 
@@ -28,6 +29,7 @@ process PYPGX_RUNNGSPIPELINE {
     export PYPGX_BUNDLE=${resource_bundle}/
 
     pypgx run-ngs-pipeline \\
+        ${args} \\
         --assembly ${assembly} \\
         ${pgx_gene} \\
         ${prefix}_pypgx_output/ \\

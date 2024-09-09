@@ -10,16 +10,8 @@
       "type": "object",
       "fa_icon": "fas fa-terminal",
       "description": "Define where the pipeline should find input data and save output data.",
-      "required": ["input", "outdir"],
+      "required": ["outdir"],
       "properties": {
-        "input": {
-          "type": "string",
-          "format": "directory-path",
-          "exists": true,
-          "mimetype": "text/plain",
-          "description": "Path to input data.",
-          "fa_icon": "fas fa-folder-open"
-        },
         "bam_path": {
           "type": "string",
           "format": "directory-path",
@@ -56,18 +48,6 @@
           "description": "Path of genome reference dict.",
           "fa_icon": "fas fa-book"
         },
-        "bwa_index": {
-          "type": "string",
-          "description": "Path of BWA MEM2 genome  reference index.",
-          "fa_icon": "fas fa-book"
-        },
-        "genome_chrfiles": {
-          "type": "string",
-          "format": "directory-path",
-          "exists": true,
-          "description": "Path to the directory containing fasta files of individual chromosomes in the genome",
-          "fa_icon": "fas fa-folder-open"
-        }
       }
     },
     "variant_calling": {
@@ -77,11 +57,6 @@
       "default": "",
       "fa_icon": "fas fa-toolbox",
       "properties": {
-        "intervals": {
-          "type": "string",
-          "fa_icon": "fas fa-file",
-          "description": "Path to variant calling target file."
-        },
         "dbsnp": {
           "type": "string",
           "fa_icon": "fas fa-file",
@@ -119,31 +94,22 @@
       }
     },
 
-
-    "qc": {
-      "title": "Quality Control",
+    "Star_allele_calling": {
+      "title": "Star allele calling",
       "type": "object",
-      "description": "Configure quality control tools",
+      "description": "Parameters for the traditional star allele calling",
       "default": "",
       "fa_icon": "fas fa-toolbox",
       "properties": {
-        "svd_ud": {
+        "phenotypes_excel": {
           "type": "string",
-          "fa_icon": "fas fa-file",
-          "description": "Path to verifybamid2 UD file."
+          "format": "file-path",
+          "exists": true,
+          "descrinption": "Path to the phenotype conversion table"
         },
-        "svd_mu": {
-          "type": "string",
-          "fa_icon": "fas fa-file",
-          "description": "Path to verifybamid2 MU file."
-        },
-        "svd_bed": {
-          "type": "string",
-          "fa_icon": "fas fa-file",
-          "description": "Path to verifybamid2 BED file."
-        }
       }
     },
+
     "generic_options": {
       "title": "Generic options",
       "type": "object",
@@ -175,13 +141,13 @@
       "$ref": "#/defs/reference_genome_options"
     },
     {
-      "$ref": "#/defs/Pypgx"
-    },
-    {
       "$ref": "#/defs/variant_calling"
     },
     {
-      "$ref": "#/defs/qc"
+      "$ref": "#/defs/Pypgx"
+    },
+    {
+      "$ref": "#/defs/Star_allele_calling"
     },
     {
       "$ref": "#/defs/generic_options"

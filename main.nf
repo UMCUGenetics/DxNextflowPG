@@ -32,8 +32,9 @@ include { VCF2GLIMS } from './modules/local/vcf2glims/main'
 include { VERIFYBAMID_VERIFYBAMID2 } from './modules/nf-core/verifybamid/verifybamid2/main'
 
 include { CALL_STARALLELES } from './modules/local/star_alleles/main'
+include { SV_QA } from './modules/local/SV_QA/main'
 
-include { combine_results } from './modules/local/pypgx/main'
+include { COMBINERESULTS } from './modules/local/combine_outputs/main'
 include { PYPGX_CREATEREGIONS } from './modules/local/pypgx/create_regions/main'
 include { PYPGX_CREATEINPUTVCF } from './modules/local/pypgx/create_input_vcf/main'
 include { PYPGX_PREPAREDEPTHOFCOVERAGE } from './modules/local/pypgx/prepare_depth_of_coverage/main'
@@ -76,9 +77,7 @@ workflow {
     ch_dbsnp_index = Channel.fromPath("${params.dbsnp}.tbi")
         .map{ file -> [file.getSimpleName(), file] }.collect()
 
-
     ch_PGx_genes = Channel.fromList(params.pgx_genes)
-
 
     PYPGX_CREATEREGIONS()
 
@@ -154,17 +153,18 @@ workflow {
         // ch_dbsnp_subset
     )
 
-    combine_results(
+    COMBINERESULTS(
         PYPGX_RUNNGSPIPELINE.out.outdir.groupTuple()
             .join(CALL_STARALLELES.out.csv
                   .groupTuple())
     )
 
+    SV_QA(COMBINERESULTS.out.csv)
+
     MOSDEPTH(
         ch_bams_meta.map{ meta, bam, bai -> [meta, bam, bai, []] },
         ch_genome_fasta
     )
-
 
     // Softare versions
     ch_versions = channel.empty()

@@ -11,7 +11,6 @@ process PYPGX_CREATEREGIONS {
     path("pypgx_regions.bed"), emit: bed
     path("versions.yml"), emit: versions
 
-
     when:
     task.ext.when == null || task.ext.when
 
@@ -21,6 +20,7 @@ process PYPGX_CREATEREGIONS {
     def genes = "--genes ${task.ext.pgx_genes.join(' ')}" ?: ''
     """
     pypgx create-regions-bed \\
+        ${args} \\
         ${genes} \\
         --assembly ${assembly} \\
         ${args} \\

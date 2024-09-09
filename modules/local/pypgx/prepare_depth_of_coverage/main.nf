@@ -23,7 +23,6 @@ process PYPGX_PREPAREDEPTHOFCOVERAGE {
     def prefix = task.ext.prefix ?: "${meta.id}"
     def pgx_genes = "--genes ${task.ext.pgx_genes.join(' ')}" ?: ''
 
-
     """
     pypgx prepare-depth-of-coverage \\
         ${args} \\
