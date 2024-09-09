@@ -25,26 +25,23 @@ validateParameters()
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
+include { BCFTOOLS_VIEW } from './modules/nf-core/bcftools/view/main'
+include { CALL_STARALLELES } from './modules/local/star_alleles/main'
+include { COMBINERESULTS } from './modules/local/combine_outputs/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from './modules/nf-core/custom/dumpsoftwareversions/main'
+include { GATK4_HAPLOTYPECALLER } from './modules/nf-core/gatk4/haplotypecaller/main'
+include { GATK4_GENOTYPEGVCFS } from './modules/nf-core/gatk4/genotypegvcfs/main'
 include { MOSDEPTH } from './modules/nf-core/mosdepth/main'
 include { MULTIQC } from './modules/nf-core/multiqc/main'
-include { VCF2GLIMS } from './modules/local/vcf2glims/main'
-include { VERIFYBAMID_VERIFYBAMID2 } from './modules/nf-core/verifybamid/verifybamid2/main'
-
-include { CALL_STARALLELES } from './modules/local/star_alleles/main'
-include { SV_QA } from './modules/local/SV_QA/main'
-
-include { COMBINERESULTS } from './modules/local/combine_outputs/main'
 include { PYPGX_CREATEREGIONS } from './modules/local/pypgx/create_regions/main'
 include { PYPGX_CREATEINPUTVCF } from './modules/local/pypgx/create_input_vcf/main'
 include { PYPGX_PREPAREDEPTHOFCOVERAGE } from './modules/local/pypgx/prepare_depth_of_coverage/main'
 include { PYPGX_COMPUTECONTROLSTATISTICS } from './modules/local/pypgx/compute_control_statistics/main'
 include { PYPGX_RUNNGSPIPELINE } from './modules/local/pypgx/run_ngs_pipeline/main'
+include { SV_QA } from './modules/local/SV_QA/main'
+include { VCF2GLIMS } from './modules/local/vcf2glims/main'
+include { VERIFYBAMID_VERIFYBAMID2 } from './modules/nf-core/verifybamid/verifybamid2/main'
 
-include { BCFTOOLS_VIEW } from './modules/nf-core/bcftools/view/main'
-
-include { GATK4_HAPLOTYPECALLER } from './modules/nf-core/gatk4/haplotypecaller/main'
-include { GATK4_GENOTYPEGVCFS } from './modules/nf-core/gatk4/genotypegvcfs/main'
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Main workflow
