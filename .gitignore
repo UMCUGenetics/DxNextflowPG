@@ -11,3 +11,4 @@ testing*
 venv
 *.fasta
 common_all*.vcf.gz*
+\#*\#
