@@ -1,0 +1,7 @@
+name: pypgx_create_input_vcf
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - bioconda::pypgx=0.25.0
