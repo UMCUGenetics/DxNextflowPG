@@ -49,5 +49,5 @@ if __name__ == "__main__":
         # When the frequency table is not available for the PGx gene
         pass
 
-    # if the frequency table was unavailble the original df is outputted
+    # When the frequency table is unavailable the original df is outputted
     genotypes_df.to_csv(argv[3], sep='\t')

@@ -10,13 +10,13 @@ class GenotypeIncompleteError(Exception):
 
 class Sample:
 
-    def __init__(self, vcf, rs_db):
+    def __init__(self, vcf, rs_db, sample_name):
         self.vcf = vcf
         self.rs_gt = []
         self.pypgx_star_alleles = None
         self.directory = os.path.dirname(vcf)
         self.basename = os.path.basename(vcf).replace(".vcf.gz", "")
-        self.name = self.basename
+        self.name = sample_name
 
         for data_line in self._parse_vcf():
             # print(data_line)

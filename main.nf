@@ -25,20 +25,24 @@ validateParameters()
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
+include { BCFTOOLS_FILTER as FILTER_PYPGX_VCF } from './modules/nf-core/bcftools/filter/main'
+include { BCFTOOLS_FILTER as FILTER_GATK_VCF } from './modules/nf-core/bcftools/filter/main'
 include { BCFTOOLS_VIEW } from './modules/nf-core/bcftools/view/main'
 include { CALL_STARALLELES } from './modules/local/star_alleles/main'
 include { COMBINERESULTS } from './modules/local/combine_outputs/main'
+include { COV_QA } from './modules/local/QA/COV_QA'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from './modules/nf-core/custom/dumpsoftwareversions/main'
 include { GATK4_HAPLOTYPECALLER } from './modules/nf-core/gatk4/haplotypecaller/main'
 include { GATK4_GENOTYPEGVCFS } from './modules/nf-core/gatk4/genotypegvcfs/main'
 include { MOSDEPTH } from './modules/nf-core/mosdepth/main'
 include { MULTIQC } from './modules/nf-core/multiqc/main'
+include { PARSE_MOSDEPTH } from './modules/local/utils/parse_mosdepth'
 include { PYPGX_CREATEREGIONS } from './modules/local/pypgx/create_regions/main'
 include { PYPGX_CREATEINPUTVCF } from './modules/local/pypgx/create_input_vcf/main'
 include { PYPGX_PREPAREDEPTHOFCOVERAGE } from './modules/local/pypgx/prepare_depth_of_coverage/main'
 include { PYPGX_COMPUTECONTROLSTATISTICS } from './modules/local/pypgx/compute_control_statistics/main'
 include { PYPGX_RUNNGSPIPELINE } from './modules/local/pypgx/run_ngs_pipeline/main'
-include { SV_QA } from './modules/local/SV_QA/main'
+include { SV_QA } from './modules/local/QA/SV_QA'
 include { VCF2GLIMS } from './modules/local/vcf2glims/main'
 include { VERIFYBAMID_VERIFYBAMID2 } from './modules/nf-core/verifybamid/verifybamid2/main'
 
@@ -115,6 +119,38 @@ workflow {
         ch_genome_fasta
     )
 
+    /*
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Variant QC
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    */
+
+    // Run mosdepth on PGx gene regions to calculate average coverage
+    MOSDEPTH(
+        ch_bams_meta
+            .combine(PYPGX_CREATEREGIONS.out.bed),
+        ch_genome_fasta
+    )
+
+    //todo terminate workflow when sample coverage is too low
+
+    PARSE_MOSDEPTH(
+        MOSDEPTH.out.summary_txt
+    )
+
+    FILTER_PYPGX_VCF(
+        PYPGX_CREATEINPUTVCF.out.vcf
+    )
+
+    FILTER_GATK_VCF(
+        GATK4_GENOTYPEGVCFS.out.vcf
+    )
+
+    /*
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    PyPGx pipeline
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    */
     PYPGX_PREPAREDEPTHOFCOVERAGE(
         ch_bams_meta
     )
@@ -124,28 +160,38 @@ workflow {
     )
 
     PYPGX_RUNNGSPIPELINE(
-        PYPGX_CREATEINPUTVCF.out.vcf
-            .join(PYPGX_CREATEINPUTVCF.out.tbi)
+        FILTER_PYPGX_VCF.out.vcf
+            .join(FILTER_PYPGX_VCF.out.tbi)
             .join(PYPGX_PREPAREDEPTHOFCOVERAGE.out.coverage)
             .join(PYPGX_COMPUTECONTROLSTATISTICS.out.control_stats)
             .combine(ch_PGx_genes),
         params.pypgx_resource_bundle
     )
 
+    /*
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Star allele calling translation table
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    */
     ch_excelsheet = Channel.fromPath(params.phenotypes_excel)
         .map{ file -> [[file.getSimpleName()], file] }
         .collect()
 
     CALL_STARALLELES(
-        GATK4_GENOTYPEGVCFS.out.vcf
-            .join(GATK4_GENOTYPEGVCFS.out.tbi)
+        FILTER_GATK_VCF.out.vcf
+            .join(FILTER_GATK_VCF.out.tbi)
             .combine(ch_PGx_genes),
         ch_excelsheet,
-        BCFTOOLS_VIEW.out.vcf
+        BCFTOOLS_VIEW.out.vcf //dbSNP subset
             .map{ meta, vcf -> vcf }
             .collect()
     )
 
+    /*
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Finalize / QA
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    */
     COMBINERESULTS(
         PYPGX_RUNNGSPIPELINE.out.outdir.groupTuple()
             .join(CALL_STARALLELES.out.csv
@@ -154,10 +200,15 @@ workflow {
 
     SV_QA(COMBINERESULTS.out.csv)
 
-    MOSDEPTH(
-        ch_bams_meta.map{ meta, bam, bai -> [meta, bam, bai, []] },
-        ch_genome_fasta
+
+
+    COV_QA(
+        COMBINERESULTS.out.csv,
+        PARSE_MOSDEPTH.out.average_pg_coverage
+            .map {meta, val -> val}
+            .collect()
     )
+
 
     // Softare versions
     ch_versions = channel.empty()
@@ -169,6 +220,9 @@ workflow {
     ch_versions = ch_versions.mix(PYPGX_COMPUTECONTROLSTATISTICS.out.versions)
     ch_versions = ch_versions.mix(PYPGX_RUNNGSPIPELINE.out.versions)
     ch_versions = ch_versions.mix(CALL_STARALLELES.out.versions)
+    ch_versions = ch_versions.mix(BCFTOOLS_VIEW.out.versions)
+    ch_versions = ch_versions.mix(FILTER_PYPGX_VCF.out.versions)
+    ch_versions = ch_versions.mix(FILTER_GATK_VCF.out.versions)
     CUSTOM_DUMPSOFTWAREVERSIONS(ch_versions.unique().collectFile(name: 'collated_versions.yml'))
 
     // MultiQC

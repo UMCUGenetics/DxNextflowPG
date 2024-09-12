@@ -22,11 +22,12 @@ process CALL_STARALLELES {
     def outfile = "${meta.id}_${pgx_gene}_alleles.csv"
 
     """
-    ${projectDir}/modules/local/star_alleles/star_calling/call_star_alleles_excel.py \\
+    ${moduleDir}/star_calling/call_star_alleles_excel.py \\
         --vcf ${vcf} \\
         --dbSNP ${dbSNP} \\
         --translation_table ${excel} \\
         --pgx_gene ${pgx_gene} \\
+        --sample ${meta.id} \\
         -o ${outfile}
 
     cat <<-END_VERSIONS > versions.yml

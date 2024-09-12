@@ -1,4 +1,5 @@
-process SV_QA {
+process COV_QA {
+    debug true
     tag "SV_QA"
     label "process_single"
 
@@ -8,14 +9,14 @@ process SV_QA {
 
     input:
     path(csv)
+    path(coverages)
 
     output:
-    path("*_SV_QA.csv"), emit: csv
+    path("*_COV_QA.csv"), emit: csv
 
     script:
     """
-    frequency_dir="${projectDir}/assets/PGx_SV_frequencies"
     bn=\$(basename ${csv} .csv)
-    python "${moduleDir}/main.py" \$frequency_dir "${csv}" "\$bn"_SV_QA.csv
+    python ${moduleDir}/cov_qa.py ${csv} "\$bn"_COV_QA.csv ${coverages}
     """
 }

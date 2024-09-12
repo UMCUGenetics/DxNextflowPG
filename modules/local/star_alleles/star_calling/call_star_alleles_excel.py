@@ -44,6 +44,12 @@ def get_args():
         type=str,
         help="PGx gene to genotype"
     )
+    parser.add_argument(
+        "--sample",
+        dest="sample_name",
+        type=str,
+        help="Sample name"
+    )
 
     parser.add_argument(
         "-o",
@@ -132,7 +138,7 @@ def main():
     # Dict to map genomic positions to dbSNP rs ids
     rs_db = databases.import_dbsnp(args.db_snp)
 
-    sample = Sample(args.vcf_path, rs_db)
+    sample = Sample(args.vcf_path, rs_db, args.sample_name)
 
 
     with open(args.outfile, 'w') as output_file:
