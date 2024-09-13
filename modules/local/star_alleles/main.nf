@@ -5,7 +5,7 @@ process CALL_STARALLELES {
 
 
     container "docker://ghcr.io/umcugenetics/star_caller:v1.0.1"
-    
+
     input:
     tuple val(meta), val(pgx_gene), path(vcf), path(tbi), path(pypgx_outdir)
     tuple val(meta2), path(excel)

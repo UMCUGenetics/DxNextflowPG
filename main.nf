@@ -188,7 +188,6 @@ workflow {
         ch_excelsheet,
         BCFTOOLS_VIEW.out.vcf //dbSNP subset
             .collect(),
-
     )
 
     /*

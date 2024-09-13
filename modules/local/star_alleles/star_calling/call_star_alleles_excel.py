@@ -141,11 +141,11 @@ def main():
     excel_conversions = databases.import_clean_excel(args.excel_path)
 
     # pre-implementatie voor het meenemen van CNV calls
-    if databases.has_cnv_calls(args.pypgx_dir):
-        cnv_calls = databases.import_cnv_calls(args.pypgx_dir)
-    else:
-        cnv_calls = "NA"
-    
+    # if databases.has_cnv_calls(args.pypgx_dir):
+    #     cnv_calls = databases.import_cnv_calls(args.pypgx_dir)
+    # else:
+    #     cnv_calls = "NA"
+
     # Dict to map genomic positions to dbSNP rs ids
     rs_db = databases.import_dbsnp(args.db_snp)
 

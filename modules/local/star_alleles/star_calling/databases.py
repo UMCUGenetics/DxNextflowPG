@@ -1,5 +1,5 @@
 import pandas as pd
-from pypgx.sdk import utils as sdk
+# from pypgx.sdk import utils as sdk
 from os import path
 
 
@@ -53,10 +53,10 @@ def import_dbsnp(file_path: str) -> dict:
 
     return rs_db
 
-def has_cnv_calls(pypgx_directory):
-    return path.exists(f"{pypgx_directory}/cnv-calls.zip") # File name is always the same
+# def has_cnv_calls(pypgx_directory):
+#     return path.exists(f"{pypgx_directory}/cnv-calls.zip") # File name is always the same
 
-def import_cnv_calls(pypgx_directory):
-    cnv_calls_df = sdk.Archive.from_file(f"{pypgx_directory}/cnv-calls.zip").data
-    cnv_call = cnv_calls_df["CNV"].iloc[0]
-    return cnv_call
+# def import_cnv_calls(pypgx_directory):
+#     cnv_calls_df = sdk.Archive.from_file(f"{pypgx_directory}/cnv-calls.zip").data
+#     cnv_call = cnv_calls_df["CNV"].iloc[0]
+#     return cnv_call
