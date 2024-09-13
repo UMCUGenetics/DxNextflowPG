@@ -7,9 +7,9 @@ process CALL_STARALLELES {
     container "docker://ghcr.io/umcugenetics/star_caller:v1.0.1"
     
     input:
-    tuple val(meta), path(vcf), path(tbi), val(pgx_gene)
+    tuple val(meta), val(pgx_gene), path(vcf), path(tbi), path(pypgx_outdir)
     tuple val(meta2), path(excel)
-    path(dbSNP)
+    tuple val(meta3), path(dbSNP)
 
     output:
     tuple val(pgx_gene), path("*.csv"), emit: csv
@@ -28,6 +28,7 @@ process CALL_STARALLELES {
         --translation_table ${excel} \\
         --pgx_gene ${pgx_gene} \\
         --sample ${meta.id} \\
+        --pypgx_dir ${pypgx_outdir} \\
         -o ${outfile}
 
     cat <<-END_VERSIONS > versions.yml

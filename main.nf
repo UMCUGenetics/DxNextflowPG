@@ -168,6 +168,8 @@ workflow {
         params.pypgx_resource_bundle
     )
 
+
+
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Star allele calling translation table
@@ -176,15 +178,17 @@ workflow {
     ch_excelsheet = Channel.fromPath(params.phenotypes_excel)
         .map{ file -> [[file.getSimpleName()], file] }
         .collect()
-
+    
     CALL_STARALLELES(
         FILTER_GATK_VCF.out.vcf
             .join(FILTER_GATK_VCF.out.tbi)
-            .combine(ch_PGx_genes),
+            .combine(ch_PGx_genes)
+            .map{meta, vcf, tbi, gene -> [meta, gene, vcf,tbi]}
+            .join(PYPGX_RUNNGSPIPELINE.out.outdir, by: [0,1]),
         ch_excelsheet,
         BCFTOOLS_VIEW.out.vcf //dbSNP subset
-            .map{ meta, vcf -> vcf }
-            .collect()
+            .collect(),
+
     )
 
     /*
@@ -193,14 +197,14 @@ workflow {
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
     COMBINERESULTS(
-        PYPGX_RUNNGSPIPELINE.out.outdir.groupTuple()
+        PYPGX_RUNNGSPIPELINE.out.outdir
+            .map { meta, gene, dir -> [gene, dir]}
+            .groupTuple()
             .join(CALL_STARALLELES.out.csv
                   .groupTuple())
     )
 
     SV_QA(COMBINERESULTS.out.csv)
-
-
 
     COV_QA(
         COMBINERESULTS.out.csv,
@@ -208,7 +212,6 @@ workflow {
             .map {meta, val -> val}
             .collect()
     )
-
 
     // Softare versions
     ch_versions = channel.empty()
@@ -232,7 +235,6 @@ workflow {
     ch_multiqc_files = ch_multiqc_files.mix(MOSDEPTH.out.summary_txt.collect{it[1]})
     ch_multiqc_files = ch_multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml.collect())
     ch_multiqc_config = Channel.fromPath("$projectDir/assets/multiqc_config.yml", checkIfExists: true)
-
 
     MULTIQC(
         ch_multiqc_files.collect(),

@@ -13,7 +13,7 @@ process PYPGX_RUNNGSPIPELINE {
 
 
     output:
-    tuple val(pgx_gene), path("*pypgx_output"), emit: outdir
+    tuple val(meta), val(pgx_gene), path("*pypgx_output"), emit: outdir
     path("versions.yml"), emit: versions
 
     when:
