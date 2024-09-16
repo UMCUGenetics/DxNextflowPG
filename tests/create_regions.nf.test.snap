@@ -1,0 +1,29 @@
+{
+    "versions": {
+        "content": [
+            [
+                "versions.yml:md5,5de98877960be54a2837c55c430cd55f"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "24.04.3"
+        },
+        "timestamp": "2024-09-16T10:05:32.50972"
+    },
+    "Should output a bed file with PGx regions": {
+        "content": [
+            [
+                "pypgx_regions.bed:md5,6fac925713e63f76d6ca323ed54a69ec"
+            ],
+            [
+                "versions.yml:md5,5de98877960be54a2837c55c430cd55f"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "24.04.3"
+        },
+        "timestamp": "2024-09-16T10:06:42.782625"
+    }
+}

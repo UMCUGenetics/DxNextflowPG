@@ -15,7 +15,7 @@ process COMBINERESULTS {
 
     script:
     """
-    python ${moduleDir}/combine_outputs.py \\
+    ${moduleDir}/combine_outputs.py \\
         --pypgx_dirs ${pypgx_dirs} \\
         --gene ${pgx_gene} \\
         --excel_csvs ${excel_caller_csvs}

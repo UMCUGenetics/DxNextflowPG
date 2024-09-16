@@ -4,7 +4,9 @@ process CALL_STARALLELES {
     label "process_single"
 
 
-    container "docker://ghcr.io/umcugenetics/star_caller:v1.0.1"
+    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
+        'docker://ghcr.io/umcugenetics/star_caller:v1.0.1':
+        'ghcr.io/umcugenetics/star_caller:v1.0.1'}"
 
     input:
     tuple val(meta), val(pgx_gene), path(vcf), path(tbi), path(pypgx_outdir)
