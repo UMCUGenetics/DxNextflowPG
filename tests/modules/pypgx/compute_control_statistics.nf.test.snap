@@ -1,0 +1,15 @@
+{
+    "Make a VCF for pypgx": {
+        "content": [
+            null,
+            [
+                "versions.yml:md5,5e02770f9a0c92d5ea726fe7668e33e1"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.0",
+            "nextflow": "24.04.4"
+        },
+        "timestamp": "2024-09-17T14:18:33.732168986"
+    }
+}

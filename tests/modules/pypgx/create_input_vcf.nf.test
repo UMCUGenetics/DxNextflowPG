@@ -1,0 +1,31 @@
+nextflow_process {
+    name "Test create regions"
+    tag "pypgx"
+    script "modules/local/pypgx/create_input_vcf/main.nf"
+    process "PYPGX_CREATEINPUTVCF"
+
+    test("Make a VCF for pypgx") {
+        when {
+            process {
+                """
+                input[0] = Channel.fromList([
+                tuple([id: 'HG00436_subset'],
+                    file(params.test_data + "/HG00436_subset.bam", checkIfExists: true),
+                    file(params.test_data + "/HG00436_subset.bam.bai",checkIfExists: true) )
+                ])
+
+                input[1] = Channel.fromList([
+                tuple([id: "genome"],
+                    file(params.test_data + "/genome.fa") )
+                ])
+                """
+            }
+        }
+        then {
+            assert process.success
+            assert snapshot(process.out.bed, process.out.versions).match()
+
+        }
+
+    }
+}

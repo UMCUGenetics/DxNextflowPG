@@ -6,12 +6,10 @@ nextflow_pipeline {
 
     test("Run pipeline test") {
         when {
-
         }
         then{
             assert workflow.success
         }
-
-
     }
 }
+

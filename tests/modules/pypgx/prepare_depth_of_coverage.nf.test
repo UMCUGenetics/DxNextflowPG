@@ -1,0 +1,26 @@
+nextflow_process {
+    name "Test create regions"
+    tag "pypgx"
+    script "modules/local/pypgx/prepare_depth_of_coverage/main.nf"
+    process "PYPGX_PREPAREDEPTHOFCOVERAGE"
+
+    test("Depth of coverage") {
+        when {
+            process {
+                """
+                input[0] = Channel.fromList([
+                tuple([id: 'HG00436_subset'],
+                    file(params.test_data + "/HG00436_subset.bam", checkIfExists: true),
+                    file(params.test_data + "/HG00436_subset.bam.bai",checkIfExists: true) )
+                ])
+                """
+            }
+        }
+        then {
+            assert process.success
+            assert snapshot(process.out.bed, process.out.versions).match()
+
+        }
+
+    }
+}
