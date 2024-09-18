@@ -1,0 +1,46 @@
+nextflow_process {
+    name "Test excel star calling"
+    tag "star calling"
+    tag "excel"
+    config 'tests/nextflow.config'
+    script "modules/local/star_alleles/main.nf"
+    process "CALL_STARALLELES"
+
+    test("Test excel star allele calling") {
+        when {
+            process {
+                """
+
+                input[0] = Channel.fromList([
+                    tuple(
+                        [id: "HG00436_subset"],
+                        "CYP2D6",
+                        file(params.test_data + "/HG00436_subset.vcf.gz", checkIfExists: true),
+                        file(params.test_data + "/HG00436_subset.vcf.gz.tbi", checkIfExists: true),
+                        file(params.test_data + "phenotype_results/HG00436_subset_CYP2D6_pypgx_output")
+                    )
+                ])
+
+                input[1] = Channel.fromList([
+                    tuple(
+                        [id: 'translation_table'],
+                        file(params.test_data + "/translation_table.xlsx", checkIfExists: true)
+                    )
+                ])
+
+                input[2] = Channel.fromList([
+                    tuple(
+                        [id: 'dbsnp'],
+                        file(params.test_data + "/dbsnp_138.vcf", checkIfExists: true)
+                    )
+                ])
+                """
+            }
+        }
+        then {
+            assert process.success
+            assert snapshot(process.out.csv).match()
+        }
+
+    }
+}

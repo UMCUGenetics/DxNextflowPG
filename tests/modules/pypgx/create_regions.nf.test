@@ -1,5 +1,6 @@
 nextflow_process {
     name "Test create regions"
+    config '../../nextflow.config'
     script "modules/local/pypgx/create_regions/main.nf"
     tag "pypgx"
     process "PYPGX_CREATEREGIONS"

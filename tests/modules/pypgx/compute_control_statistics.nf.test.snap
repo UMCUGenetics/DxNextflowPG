@@ -1,4 +1,17 @@
 {
+    "Control statistics": {
+        "content": [
+            null,
+            [
+                "versions.yml:md5,5e02770f9a0c92d5ea726fe7668e33e1"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "24.04.3"
+        },
+        "timestamp": "2024-09-18T09:05:12.359484"
+    },
     "Make a VCF for pypgx": {
         "content": [
             null,

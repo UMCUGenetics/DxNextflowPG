@@ -1,0 +1,15 @@
+{
+    "Depth of coverage": {
+        "content": [
+            null,
+            [
+                "versions.yml:md5,245a2588c91875e1fe561955c4a0ad27"
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "24.04.3"
+        },
+        "timestamp": "2024-09-18T09:05:27.457941"
+    }
+}

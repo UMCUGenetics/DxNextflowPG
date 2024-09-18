@@ -1,6 +1,7 @@
 nextflow_process {
-    name "Test create regions"
+    name "Test pypgx vcf"
     tag "pypgx"
+    config '../../nextflow.config'
     script "modules/local/pypgx/create_input_vcf/main.nf"
     process "PYPGX_CREATEINPUTVCF"
 

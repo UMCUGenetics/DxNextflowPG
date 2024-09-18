@@ -1,6 +1,7 @@
 nextflow_process {
-    name "Test create regions"
+    name "Test Depth of coverage"
     tag "pypgx"
+    config '../../nextflow.config'
     script "modules/local/pypgx/prepare_depth_of_coverage/main.nf"
     process "PYPGX_PREPAREDEPTHOFCOVERAGE"
 
@@ -18,7 +19,7 @@ nextflow_process {
         }
         then {
             assert process.success
-            assert snapshot(process.out.bed, process.out.versions).match()
+            assert snapshot(process.out.coverage).match()
 
         }
 

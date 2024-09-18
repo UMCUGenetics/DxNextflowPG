@@ -1,6 +1,7 @@
 nextflow_process {
     name "PyPGx NGS pipeline test"
     tag "pypgx"
+    config '../../nextflow.config'
     script "modules/local/pypgx/run_ngs_pipeline/main.nf"
     process "PYPGX_RUNNGSPIPELINE"
 
