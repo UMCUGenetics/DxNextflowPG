@@ -1,7 +1,14 @@
 {
     "Control statistics": {
         "content": [
-            null,
+            [
+                [
+                    {
+                        "id": "HG00436_subset"
+                    },
+                    "HG00436_subset_control_statistics_VDR.zip:md5,131f961fdc98a0bbbec018fc6f55dc60"
+                ]
+            ],
             [
                 "versions.yml:md5,5e02770f9a0c92d5ea726fe7668e33e1"
             ]
@@ -10,19 +17,6 @@
             "nf-test": "0.8.4",
             "nextflow": "24.04.3"
         },
-        "timestamp": "2024-09-18T09:05:12.359484"
-    },
-    "Make a VCF for pypgx": {
-        "content": [
-            null,
-            [
-                "versions.yml:md5,5e02770f9a0c92d5ea726fe7668e33e1"
-            ]
-        ],
-        "meta": {
-            "nf-test": "0.9.0",
-            "nextflow": "24.04.4"
-        },
-        "timestamp": "2024-09-17T14:18:33.732168986"
+        "timestamp": "2024-09-26T12:05:34.974713"
     }
 }

@@ -1,15 +1,19 @@
 {
     "Depth of coverage": {
         "content": [
-            null,
             [
-                "versions.yml:md5,245a2588c91875e1fe561955c4a0ad27"
+                [
+                    {
+                        "id": "HG00436_subset"
+                    },
+                    "HG00436_subset_coverage.zip:md5,ef1531cc492433b30550f5f3b08c8f1b"
+                ]
             ]
         ],
         "meta": {
             "nf-test": "0.8.4",
             "nextflow": "24.04.3"
         },
-        "timestamp": "2024-09-18T09:05:27.457941"
+        "timestamp": "2024-09-26T11:43:52.341783"
     }
 }

@@ -19,7 +19,8 @@ nextflow_process {
         }
         then {
             assert process.success
-            assert snapshot(process.out.coverage).match()
+            // Matching the snapshot does not make sense for this function, as pypgx creates a zip file with a random directory in it.
+            // The md5sum will therefore be different each time.
 
         }
 
