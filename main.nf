@@ -38,7 +38,7 @@ include { MOSDEPTH } from './modules/nf-core/mosdepth/main'
 include { MULTIQC } from './modules/nf-core/multiqc/main'
 include { PARSE_MOSDEPTH } from './modules/local/utils/parse_mosdepth'
 include { PYPGX_CREATEREGIONS } from './modules/local/pypgx/create_regions/main'
-include { PYPGX_CREATEINPUTVCF } from './modules/local/pypgx/create_input_vcf/main'
+include { PYPGX_CREATEINPUTVCF } from './modules/nf-core/pypgx/createinputvcf/main'
 include { PYPGX_PREPAREDEPTHOFCOVERAGE } from './modules/local/pypgx/prepare_depth_of_coverage/main'
 include { PYPGX_COMPUTECONTROLSTATISTICS } from './modules/local/pypgx/compute_control_statistics/main'
 include { PYPGX_RUNNGSPIPELINE } from './modules/local/pypgx/run_ngs_pipeline/main'
@@ -79,8 +79,16 @@ workflow {
         .map{ file -> [file.getSimpleName(), file] }.collect()
 
     ch_PGx_genes = Channel.fromList(params.pgx_genes)
+    ch_assembly_version = Channel.of(params.assembly_version)
+    ch_assembly_version.view()
 
     PYPGX_CREATEREGIONS()
+
+    /*
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     SNV Calling
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    */
 
     BCFTOOLS_VIEW(
         ch_dbsnp
@@ -116,7 +124,9 @@ workflow {
 
     PYPGX_CREATEINPUTVCF(
         ch_bams_meta,
-        ch_genome_fasta
+        ch_genome_fasta,
+        ch_PGx_genes.collect(),
+        ch_assembly_version
     )
 
     /*
