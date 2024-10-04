@@ -1,22 +1,13 @@
 {
     "Control statistics": {
         "content": [
-            [
-                [
-                    {
-                        "id": "HG00436_subset"
-                    },
-                    "HG00436_subset_control_statistics_VDR.zip:md5,131f961fdc98a0bbbec018fc6f55dc60"
-                ]
-            ],
-            [
-                "versions.yml:md5,5e02770f9a0c92d5ea726fe7668e33e1"
-            ]
+            "Control=VDR\nAssembly=GRCh37\nSemanticType=SampleTable[Statistics]\nPlatform=WGS\n",
+            "\tcount\tmean\tstd\tmin\t25%\t50%\t75%\tmax\nHG00436_subset\t69496.0\t39.40162023713595\t6.946397689445708\t9.0\t35.0\t39.0\t44.0\t66.0\n"
         ],
         "meta": {
             "nf-test": "0.8.4",
             "nextflow": "24.04.3"
         },
-        "timestamp": "2024-09-26T12:05:34.974713"
+        "timestamp": "2024-10-03T09:38:57.023494"
     }
 }

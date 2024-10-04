@@ -18,10 +18,25 @@ nextflow_process {
             }
         }
         then {
-            assert process.success
-            // Matching the snapshot does not make sense for this function, as pypgx creates a zip file with a random directory in it.
-            // The md5sum will therefore be different each time.
+            def zipFile = path(process.out.control_stats[0][1]).zip
+            def paths = zipFile.extractAll()
+            def metaFile = paths[0]
+            def dataFile = paths[1]
 
+            assert process.success
+            assert zipFile.isValid()
+            
+
+
+            assert snapshot(
+                metaFile.text,
+                dataFile.text).match()
+
+
+
+
+            // assert path(filename).zip.getNumberOfFiles() == 2
+            // assert snapshot(path(filename).zip.extract("*/metadata.txt")).match()
         }
 
     }
