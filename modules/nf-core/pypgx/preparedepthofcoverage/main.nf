@@ -9,9 +9,11 @@ process PYPGX_PREPAREDEPTHOFCOVERAGE {
 
     input:
     tuple val(meta), path(bam), path(bai)
+    val(pgx_genes)
+    val(assembly_version)
 
     output:
-    tuple val(meta), path('*coverage.zip'), emit: coverage
+    tuple val(meta), path('*.zip'), emit: coverage
     path("versions.yml"), emit: versions
 
     when:
@@ -19,16 +21,16 @@ process PYPGX_PREPAREDEPTHOFCOVERAGE {
 
     script:
     def args = task.ext.args ?: ''
-    def assembly = task.ext.assembly_version ?: "GRCh38"
     def prefix = task.ext.prefix ?: "${meta.id}"
-    def pgx_genes = "--genes ${task.ext.pgx_genes.join(' ')}" ?: ''
+    def genes = "--genes ${pgx_genes.join(' ')}" ?: ''
+    def assembly = assembly_version ?: "GRCh38"
 
     """
     pypgx prepare-depth-of-coverage \\
         ${args} \\
-        ${pgx_genes} \\
+        ${genes} \\
         --assembly ${assembly} \\
-        ${prefix}_coverage.zip \\
+        ${prefix}.zip \\
         $bam
 
     cat <<-END_VERSIONS > versions.yml
@@ -41,7 +43,7 @@ process PYPGX_PREPAREDEPTHOFCOVERAGE {
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-    touch ${prefix}_coverage.zip
+    python -c 'import zipfile; zipfile.ZipFile("${prefix}.zip", "w").close()'
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

@@ -9,9 +9,11 @@ process PYPGX_COMPUTECONTROLSTATISTICS {
 
     input:
     tuple val(meta), path(bam), path(bai)
+    val(control_gene)
+    val(assembly_version)
 
     output:
-    tuple val(meta), path('*control_statistics*.zip'), emit: control_stats
+    tuple val(meta), path('*.zip'), emit: control_stats
     path("versions.yml"), emit: versions
 
     when:
@@ -19,16 +21,16 @@ process PYPGX_COMPUTECONTROLSTATISTICS {
 
     script:
     def args = task.ext.args ?: ''
-    def control = task.ext.control_gene  ?: "VDR"
-    def assembly = task.ext.assembly_version ?: "GRCh38"
     def prefix = task.ext.prefix ?: "${meta.id}"
+    def control = "${control_gene}"  ?: "VDR"
+    def assembly = "${assembly_version}" ?: "GRCh38"
 
     """
     pypgx compute-control-statistics \\
         ${args} \\
         --assembly ${assembly} \\
         ${control} \\
-        ${prefix}_control_statistics_${control}.zip \\
+        ${prefix}_${control}.zip \\
         $bam
 
     cat <<-END_VERSIONS > versions.yml
@@ -39,11 +41,11 @@ process PYPGX_COMPUTECONTROLSTATISTICS {
 
     stub:
     def args = task.ext.args ?: ''
-    def prefix = task.ext.prefix ?: ''
-    def control = task.ext.control_gene  ?: "VDR"
+    def prefix = task.ext.prefix ?: "${meta.id}"
+    def control = "${control_gene}"  ?: "VDR"
     """
-    touch ${prefix}_control_statistics_${control}.zip
-
+    # zip program unavailable in container
+    python -c 'import zipfile; zipfile.ZipFile("${prefix}_${control}.zip", "w").close()'
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         pypgx: \$(echo \$(pypgx -v 2>&1) | sed 's/.* //')

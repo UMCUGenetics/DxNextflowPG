@@ -40,9 +40,19 @@
             "git_sha": "ccacf6f5de6df3bc6d73b665c1fd2933d8bbc290",
             "installed_by": ["modules"]
           },
+          "pypgx/computecontrolstatistics": {
+            "branch": "master",
+            "git_sha": "04fe0472ff86b3bb065be3be0db0ff4a07d73a4a",
+            "installed_by": ["modules"]
+          },
           "pypgx/createinputvcf": {
             "branch": "master",
             "git_sha": "5212d5eff3e0e216f66c6de13e1c7fbca02cb307",
+            "installed_by": ["modules"]
+          },
+          "pypgx/preparedepthofcoverage": {
+            "branch": "master",
+            "git_sha": "6d5d163242f4bad63b81c41aeaf0d7bbeb8e2431",
             "installed_by": ["modules"]
           },
           "samtools/index": {
