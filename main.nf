@@ -80,7 +80,6 @@ workflow {
 
     ch_PGx_genes = Channel.fromList(params.pgx_genes)
     ch_assembly_version = Channel.of(params.assembly_version)
-    ch_assembly_version.view()
 
     PYPGX_CREATEREGIONS()
 
