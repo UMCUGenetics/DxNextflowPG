@@ -39,7 +39,7 @@ include { MULTIQC } from './modules/nf-core/multiqc/main'
 include { PARSE_MOSDEPTH } from './modules/local/utils/parse_mosdepth'
 include { PYPGX_CREATEREGIONS } from './modules/local/pypgx/create_regions/main'
 include { PYPGX_CREATEINPUTVCF } from './modules/nf-core/pypgx/createinputvcf/main'
-include { PYPGX_PREPAREDEPTHOFCOVERAGE } from './modules/nf-core/pypgx/prepare_depth_of_coverage/main'
+include { PYPGX_PREPAREDEPTHOFCOVERAGE } from './modules/nf-core/pypgx/preparedepthofcoverage/main'
 include { PYPGX_COMPUTECONTROLSTATISTICS } from './modules/nf-core/pypgx/computecontrolstatistics/main'
 include { PYPGX_RUNNGSPIPELINE } from './modules/local/pypgx/run_ngs_pipeline/main'
 include { SV_QA } from './modules/local/QA/SV_QA'
@@ -51,7 +51,6 @@ include { VERIFYBAMID_VERIFYBAMID2 } from './modules/nf-core/verifybamid/verifyb
     Main workflow
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
-
 workflow {
     // Create reference file channels, add meta values
     ch_genome_fasta = Channel.fromPath("${params.genome_fasta}")
@@ -79,7 +78,7 @@ workflow {
         .map{ file -> [file.getSimpleName(), file] }.collect()
 
     ch_PGx_genes = Channel.fromList(params.pgx_genes)
-    ch_assembly_version = Channel.of(params.assembly_version)
+    ch_assembly_version = params.assembly_version
 
     PYPGX_CREATEREGIONS()
 
@@ -88,6 +87,8 @@ workflow {
      SNV Calling
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
+
+    // ch_bams_meta.view()
 
     BCFTOOLS_VIEW(
         ch_dbsnp
@@ -100,7 +101,7 @@ workflow {
 
     GATK4_HAPLOTYPECALLER (
         ch_bams_meta
-            .combine(PYPGX_CREATEREGIONS.out.bed)
+            .combine(PYPGX_CREATEREGIONS.out.bed) //intevals
             .map{ meta, bam, bai, intervals ->  [meta,bam,bai,intervals, []]},
         ch_genome_fasta,
         ch_genome_fasta_index,
@@ -121,13 +122,15 @@ workflow {
         ch_dbsnp_index.map{ meta, file -> [file] }
     )
 
+
     PYPGX_CREATEINPUTVCF(
         ch_bams_meta,
         ch_genome_fasta,
-        ch_PGx_genes.collect(),
+        ["CYP2D6", "CYP2B6"],
         ch_assembly_version
     )
 
+    // PYPGX_CREATEINPUTVCF.out.vcf.view()
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Variant QC
@@ -161,11 +164,15 @@ workflow {
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
     PYPGX_PREPAREDEPTHOFCOVERAGE(
-        ch_bams_meta
+        ch_bams_meta,
+        ch_PGx_genes.collect(),
+        ch_assembly_version
     )
 
     PYPGX_COMPUTECONTROLSTATISTICS(
-        ch_bams_meta
+        ch_bams_meta,
+        "VDR",
+        ch_assembly_version
     )
 
     PYPGX_RUNNGSPIPELINE(
@@ -187,7 +194,7 @@ workflow {
     ch_excelsheet = Channel.fromPath(params.phenotypes_excel)
         .map{ file -> [[file.getSimpleName()], file] }
         .collect()
-    
+
     CALL_STARALLELES(
         FILTER_GATK_VCF.out.vcf
             .join(FILTER_GATK_VCF.out.tbi)
