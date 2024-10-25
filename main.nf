@@ -27,6 +27,7 @@ validateParameters()
 
 include { BCFTOOLS_FILTER as FILTER_PYPGX_VCF } from './modules/nf-core/bcftools/filter/main'
 include { BCFTOOLS_FILTER as FILTER_GATK_VCF } from './modules/nf-core/bcftools/filter/main'
+include { BCFTOOLS_FILTER as STORE_PRUNED_GATK_VCF } from './modules/nf-core/bcftools/filter/main'
 include { BCFTOOLS_VIEW } from './modules/nf-core/bcftools/view/main'
 include { CALL_STARALLELES } from './modules/local/star_alleles/main'
 include { COMBINERESULTS } from './modules/local/combine_outputs/main'
@@ -78,7 +79,7 @@ workflow {
         .map{ file -> [file.getSimpleName(), file] }.collect()
 
     ch_PGx_genes = Channel.fromList(params.pgx_genes)
-    ch_assembly_version = params.assembly_version
+    ch_assembly_version = Channel.value(params.assembly_version)
 
     PYPGX_CREATEREGIONS()
 
@@ -126,7 +127,7 @@ workflow {
     PYPGX_CREATEINPUTVCF(
         ch_bams_meta,
         ch_genome_fasta,
-        ["CYP2D6", "CYP2B6"],
+        ch_PGx_genes.collect(),
         ch_assembly_version
     )
 
@@ -155,6 +156,10 @@ workflow {
     )
 
     FILTER_GATK_VCF(
+        GATK4_GENOTYPEGVCFS.out.vcf
+    )
+
+    STORE_PRUNED_GATK_VCF(
         GATK4_GENOTYPEGVCFS.out.vcf
     )
 
