@@ -26,16 +26,9 @@ validateParameters()
 */
 
 include { BCFTOOLS_FILTER as FILTER_PYPGX_VCF } from './modules/nf-core/bcftools/filter/main'
-include { BCFTOOLS_FILTER as FILTER_GATK_VCF } from './modules/nf-core/bcftools/filter/main'
-include { BCFTOOLS_FILTER as STORE_PRUNED_GATK_VCF } from './modules/nf-core/bcftools/filter/main'
-include { BCFTOOLS_VIEW } from './modules/nf-core/bcftools/view/main'
-include { BCFTOOLS_ISEC } from './modules/nf-core/bcftools/isec/main'
-include { CALL_STARALLELES } from './modules/local/star_alleles/main'
 include { COMBINERESULTS } from './modules/local/combine_outputs/main'
 include { COV_QA } from './modules/local/QA/COV_QA'
 include { CUSTOM_DUMPSOFTWAREVERSIONS } from './modules/nf-core/custom/dumpsoftwareversions/main'
-include { GATK4_HAPLOTYPECALLER } from './modules/nf-core/gatk4/haplotypecaller/main'
-include { GATK4_GENOTYPEGVCFS } from './modules/nf-core/gatk4/genotypegvcfs/main'
 include { MOSDEPTH } from './modules/nf-core/mosdepth/main'
 include { MULTIQC } from './modules/nf-core/multiqc/main'
 include { PARSE_MOSDEPTH } from './modules/local/utils/parse_mosdepth'
@@ -45,7 +38,6 @@ include { PYPGX_PREPAREDEPTHOFCOVERAGE } from './modules/nf-core/pypgx/preparede
 include { PYPGX_COMPUTECONTROLSTATISTICS } from './modules/nf-core/pypgx/computecontrolstatistics/main'
 include { PYPGX_RUNNGSPIPELINE } from './modules/local/pypgx/run_ngs_pipeline/main'
 include { SV_QA } from './modules/local/QA/SV_QA'
-include { VCF2GLIMS } from './modules/local/vcf2glims/main'
 include { VERIFYBAMID_VERIFYBAMID2 } from './modules/nf-core/verifybamid/verifybamid2/main'
 
 /*
@@ -63,9 +55,7 @@ workflow {
         .map{ file -> [file.getSimpleName(), file] }
         .collect()
 
-    ch_genome_dict = Channel.fromPath("${params.genome_dict}")
-        .map{ file -> [file.getSimpleName(), file] }
-        .collect()
+
 
     ch_bams_meta = Channel.fromFilePairs(
         "${params.bam_path}/*.{bam,bai}",
@@ -73,11 +63,7 @@ workflow {
             file -> file.name.replaceAll(/.bam|.bai$/,'') }
         .map{ meta, bam_index -> [['id': meta], bam_index[0], bam_index[1]] }
 
-    ch_dbsnp = Channel.fromPath("${params.dbsnp}")
-        .map{ file -> [file.getSimpleName(), file] }.collect()
 
-    ch_dbsnp_index = Channel.fromPath("${params.dbsnp}.tbi")
-        .map{ file -> [file.getSimpleName(), file] }.collect()
 
     ch_PGx_genes = Channel.fromList(params.pgx_genes)
     ch_assembly_version = Channel.value(params.assembly_version)
@@ -90,41 +76,6 @@ workflow {
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
 
-    // ch_bams_meta.view()
-
-    // BCFTOOLS_VIEW(
-    //     ch_dbsnp
-    //         .join(ch_dbsnp_index)
-    //     .map{ meta, vcf, tbi -> [[id: meta], vcf,tbi] },
-    //     PYPGX_CREATEREGIONS.out.bed,
-    //     [],
-    //     []
-    // )
-
-    // GATK4_HAPLOTYPECALLER (
-    //     ch_bams_meta
-    //         .combine(PYPGX_CREATEREGIONS.out.bed) //intevals
-    //         .map{ meta, bam, bai, intervals ->  [meta,bam,bai,intervals, []]},
-    //     ch_genome_fasta,
-    //     ch_genome_fasta_index,
-    //     ch_genome_dict,
-    //     ch_dbsnp,
-    //     ch_dbsnp_index
-    // )
-
-    // GATK4_GENOTYPEGVCFS(
-        // GATK4_HAPLOTYPECALLER.out.vcf
-            // .join(GATK4_HAPLOTYPECALLER.out.tbi)
-            // .combine(PYPGX_CREATEREGIONS.out.bed)
-            // .map{ meta, vcf, tbi, intervals -> [meta, vcf, tbi, intervals, []] },
-        // ch_genome_fasta.map{ meta, file -> [file] },
-        // ch_genome_fasta_index.map{ meta, file -> [file] },
-        // ch_genome_dict.map{ meta, file -> [file] },
-        // [],
-        // []
-        // ch_dbsnp.map{ meta, file -> [file] },
-        // ch_dbsnp_index.map{ meta, file -> [file] }
-    // )
 
 
     PYPGX_CREATEINPUTVCF(
@@ -155,13 +106,6 @@ workflow {
         PYPGX_CREATEINPUTVCF.out.vcf
     )
 
-    // FILTER_GATK_VCF(
-    //     GATK4_HAPLOTYPECALLER.out.vcf
-    // )
-
-    // STORE_PRUNED_GATK_VCF(
-    //     GATK4_HAPLOTYPECALLER.out.vcf
-    // )
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -190,29 +134,6 @@ workflow {
     )
 
 
-
-    /*
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Star allele calling translation table
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    */
-    // ch_excelsheet = Channel.fromPath(params.phenotypes_excel)
-    //     .map{ file -> [[file.getSimpleName()], file] }
-    //     .collect()
-
-
-    // dbsnp = BCFTOOLS_VIEW.out.vcf.join(BCFTOOLS_VIEW.out.tbi).map{ meta, vcf, tbi -> [vcf, tbi] }
-
-    // CALL_STARALLELES(
-    //     FILTER_GATK_VCF.out.vcf
-    //         .join(FILTER_GATK_VCF.out.tbi)
-    //         .combine(ch_PGx_genes)
-    //         .map{meta, vcf, tbi, gene -> [meta, gene, vcf,tbi]}
-    //         .join(PYPGX_RUNNGSPIPELINE.out.outdir, by: [0,1]),
-    //     ch_excelsheet,
-    //     BCFTOOLS_VIEW.out.vcf //dbSNP subset
-    //         .collect(),
-    // )
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -15,10 +15,13 @@ process COMBINERESULTS {
 
     script:
     """
-    ${moduleDir}/combine_outputs.py \\
+    python ${moduleDir}/combine_outputs.py \\
         --pypgx_dirs ${pypgx_dirs} \\
         --gene ${pgx_gene} \\
         --excel_csvs ${excel_caller_csvs}
+
+    mv ${pgx_gene}.csv ${pgx_gene}_mqc.csv
+
     """
 
     stub:
