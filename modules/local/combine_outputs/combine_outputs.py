@@ -14,9 +14,6 @@ def get_opts():
                    nargs="+")
     p.add_argument("--gene",
                    dest='pgx_gene')
-    p.add_argument("--excel_csvs",
-                   dest="excel_csvs",
-                   nargs="+")
 
     return p.parse_args()
 
@@ -28,25 +25,9 @@ if __name__ == "__main__":
     pypgx_archives = [sdk.Archive.from_file(pypgx_output+"/results.zip").data
                   for pypgx_output in args.pypgx_dirs]
     combined_sample_data = pd.concat(pypgx_archives)
+    combined_sample_data.to_csv(open(f"{args.pgx_gene}.csv", "w"), sep="\t")
 
     # Meta data is the same for all samples with the same pgx_gene
     metadata = sdk.Archive.from_file(args.pypgx_dirs[0]+"/results.zip").metadata
     merged_output = sdk.Archive(metadata, combined_sample_data)
     merged_output.to_file(f"{args.pgx_gene}_results.zip")
-
-
-
-    # Concatenate individual star calling (excel) runs with the same PGx gene
-    excel_alleles = pd.concat(
-        [pd.read_csv(excel_output, sep="\t", index_col=0)
-         for excel_output in args.excel_csvs])
-
-    # pypgx uses the sample name from the bam file, while the script uses the meta.id from
-    # nextflow. These are not always identical, depending on the name of the bame file.
-    excel_alleles.index = [findall(r"[\w']+", row_id)[0] for row_id in excel_alleles.index]
-
-
-    # Concatenate pypgx calls with star calling(excel) calls
-    merged = combined_sample_data.join(excel_alleles)
-
-    merged.to_csv(open(f"{args.pgx_gene}.csv", "w"), sep="\t")

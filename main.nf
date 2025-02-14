@@ -26,19 +26,18 @@ validateParameters()
 */
 
 include { BCFTOOLS_FILTER as FILTER_PYPGX_VCF } from './modules/nf-core/bcftools/filter/main'
-include { COMBINERESULTS } from './modules/local/combine_outputs/main'
-include { COV_QA } from './modules/local/QA/COV_QA'
-include { CUSTOM_DUMPSOFTWAREVERSIONS } from './modules/nf-core/custom/dumpsoftwareversions/main'
-include { MOSDEPTH } from './modules/nf-core/mosdepth/main'
-include { MULTIQC } from './modules/nf-core/multiqc/main'
-include { PARSE_MOSDEPTH } from './modules/local/utils/parse_mosdepth'
-include { PYPGX_CREATEREGIONS } from './modules/local/pypgx/create_regions/main'
-include { PYPGX_CREATEINPUTVCF } from './modules/nf-core/pypgx/createinputvcf/main'
-include { PYPGX_PREPAREDEPTHOFCOVERAGE } from './modules/nf-core/pypgx/preparedepthofcoverage/main'
-include { PYPGX_COMPUTECONTROLSTATISTICS } from './modules/nf-core/pypgx/computecontrolstatistics/main'
-include { PYPGX_RUNNGSPIPELINE } from './modules/local/pypgx/run_ngs_pipeline/main'
-include { SV_QA } from './modules/local/QA/SV_QA'
-include { VERIFYBAMID_VERIFYBAMID2 } from './modules/nf-core/verifybamid/verifybamid2/main'
+include { COMBINERESULTS                      } from './modules/local/combine_outputs/main'
+include { CUSTOM_DUMPSOFTWAREVERSIONS         } from './modules/nf-core/custom/dumpsoftwareversions/main'
+include { MOSDEPTH                            } from './modules/nf-core/mosdepth/main'
+include { MULTIQC                             } from './modules/nf-core/multiqc/main'
+include { PYPGX_CREATEREGIONS                 } from './modules/local/pypgx/create_regions/main'
+include { PYPGX_CREATEINPUTVCF                } from './modules/nf-core/pypgx/createinputvcf/main'
+include { PYPGX_PREPAREDEPTHOFCOVERAGE        } from './modules/nf-core/pypgx/preparedepthofcoverage/main'
+include { PYPGX_COMPUTECONTROLSTATISTICS      } from './modules/nf-core/pypgx/computecontrolstatistics/main'
+include { PYPGX_RUNNGSPIPELINE                } from './modules/nf-core/pypgx/runngspipeline/main'
+include { SAMTOOLS_INDEX                      } from './modules/nf-core/samtools/index/main'
+include { SV_QA                               } from './modules/local/QA/SV_QA'
+include { VERIFYBAMID_VERIFYBAMID2            } from './modules/nf-core/verifybamid/verifybamid2/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -55,8 +54,6 @@ workflow {
         .map{ file -> [file.getSimpleName(), file] }
         .collect()
 
-
-
     ch_bams_meta = Channel.fromFilePairs(
         "${params.bam_path}/*.{bam,bai}",
         checkIfExists: true) {
@@ -64,18 +61,16 @@ workflow {
         .map{ meta, bam_index -> [['id': meta], bam_index[0], bam_index[1]] }
 
 
+    ch_PGx_resource_bundle = Channel.fromPath(params.pypgx_resource_bundle)
+        .map{ file -> [[id: file.getSimpleName()], file] }
+        .collect()
 
     ch_PGx_genes = Channel.fromList(params.pgx_genes)
     ch_assembly_version = Channel.value(params.assembly_version)
 
+
+    // Produce a bed file containing loci relevant for pharmacogenes
     PYPGX_CREATEREGIONS()
-
-    /*
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     SNV Calling
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    */
-
 
 
     PYPGX_CREATEINPUTVCF(
@@ -98,9 +93,6 @@ workflow {
         ch_genome_fasta
     )
 
-    PARSE_MOSDEPTH(
-        MOSDEPTH.out.summary_txt
-    )
 
     FILTER_PYPGX_VCF(
         PYPGX_CREATEINPUTVCF.out.vcf
@@ -130,7 +122,8 @@ workflow {
             .join(PYPGX_PREPAREDEPTHOFCOVERAGE.out.coverage)
             .join(PYPGX_COMPUTECONTROLSTATISTICS.out.control_stats)
             .combine(ch_PGx_genes),
-        params.pypgx_resource_bundle
+        ch_PGx_resource_bundle,
+        ch_assembly_version
     )
 
 
@@ -140,43 +133,31 @@ workflow {
     Finalize / QA
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
-    // COMBINERESULTS(
-    //     PYPGX_RUNNGSPIPELINE.out.outdir
-    //         .map { meta, gene, dir -> [gene, dir]}
-    //         .groupTuple()
-    //         .join(CALL_STARALLELES.out.csv
-    //               .groupTuple())
-    // )
+    COMBINERESULTS(
+        PYPGX_RUNNGSPIPELINE.out.outdir
+            .map { meta, gene, dir -> [gene, dir]}
+            .groupTuple()
+    )
 
     // SV_QA(COMBINERESULTS.out.csv)
 
-    // COV_QA(
-    //     COMBINERESULTS.out.csv,
-    //     PARSE_MOSDEPTH.out.average_pg_coverage
-    //         .map {meta, val -> val}
-    //         .collect()
-    // )
+
 
     // Softare versions
     ch_versions = channel.empty()
     ch_versions = ch_versions.mix(MOSDEPTH.out.versions)
-    // ch_versions = ch_versions.mix(GATK4_HAPLOTYPECALLER.out.versions)
-    // ch_versions = ch_versions.mix(GATK4_GENOTYPEGVCFS.out.versions)
     ch_versions = ch_versions.mix(PYPGX_CREATEINPUTVCF.out.versions)
     ch_versions = ch_versions.mix(PYPGX_PREPAREDEPTHOFCOVERAGE.out.versions)
     ch_versions = ch_versions.mix(PYPGX_COMPUTECONTROLSTATISTICS.out.versions)
     ch_versions = ch_versions.mix(PYPGX_RUNNGSPIPELINE.out.versions)
-    // ch_versions = ch_versions.mix(CALL_STARALLELES.out.versions)
-    // ch_versions = ch_versions.mix(BCFTOOLS_VIEW.out.versions)
     ch_versions = ch_versions.mix(FILTER_PYPGX_VCF.out.versions)
-    // ch_versions = ch_versions.mix(FILTER_GATK_VCF.out.versions)
     CUSTOM_DUMPSOFTWAREVERSIONS(ch_versions.unique().collectFile(name: 'collated_versions.yml'))
 
     // MultiQC
     ch_multiqc_files = Channel.empty()
     ch_multiqc_files = ch_multiqc_files.mix(MOSDEPTH.out.global_txt.collect{it[1]})
     ch_multiqc_files = ch_multiqc_files.mix(MOSDEPTH.out.summary_txt.collect{it[1]})
-    // ch_multiqc_files = ch_multiqc_files.mix(COMBINERESULTS.out.csv.collect())
+    ch_multiqc_files = ch_multiqc_files.mix(COMBINERESULTS.out.csv.collect())
     ch_multiqc_files = ch_multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml.collect())
 
     ch_multiqc_config = Channel.fromPath("$projectDir/assets/multiqc_config.yml", checkIfExists: true)
@@ -195,23 +176,13 @@ workflow {
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-// workflow.onComplete {
-//     def analysis_id = params.outdir.split('/')[-1]
-//     // HTML Template
-//     def template = new File("$baseDir/assets/workflow_complete.html")
-//     def binding = [
-//         runName: analysis_id,
-//         workflow: workflow
-//     ]
-//     def engine = new groovy.text.GStringTemplateEngine()
-//     def email_html = engine.createTemplate(template).make(binding).toString()
-
-//     // Send email
-//     if (workflow.success) {
-//         def subject = "PG Workflow Successful: ${analysis_id}"
-//         sendMail(to: params.email.trim(), subject: subject, body: email_html, attach: "${params.outdir}/QC/multiqc_report.html")
-//     } else {
-//         def subject = "PG Workflow Failed: ${analysis_id}"
-//         sendMail(to: params.email.trim(), subject: subject, body: email_html)
-//     }
-// }
+workflow.onComplete {
+    def analysis_id = params.outdir.split('/')[-1]
+    // HTML Template
+    def template = new File("$baseDir/assets/workflow_complete.html")
+    def binding = [
+        runName: analysis_id,
+        workflow: workflow
+    ]
+    def engine = new groovy.text.GStringTemplateEngine()
+}

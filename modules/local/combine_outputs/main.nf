@@ -4,7 +4,7 @@ process COMBINERESULTS {
         'biocontainers/pypgx:0.25.0--pyh7e72e81_0' }"
 
     input:
-    tuple val(pgx_gene), path(pypgx_dirs), path(excel_caller_csvs)
+    tuple val(pgx_gene), path(pypgx_dirs)
 
     output:
     path("*.csv"), emit: csv
@@ -17,8 +17,7 @@ process COMBINERESULTS {
     """
     python ${moduleDir}/combine_outputs.py \\
         --pypgx_dirs ${pypgx_dirs} \\
-        --gene ${pgx_gene} \\
-        --excel_csvs ${excel_caller_csvs}
+        --gene ${pgx_gene}
 
     mv ${pgx_gene}.csv ${pgx_gene}_mqc.csv
 

@@ -10,29 +10,9 @@
             "git_sha": "06c8865e36741e05ad32ef70ab3fac127486af48",
             "installed_by": ["modules"]
           },
-          "bcftools/isec": {
-            "branch": "master",
-            "git_sha": "666652151335353eef2fcd58880bcef5bc2928e1",
-            "installed_by": ["modules"]
-          },
-          "bcftools/view": {
-            "branch": "master",
-            "git_sha": "34ac993e081b32d2170ab790d0386b74122f9d36",
-            "installed_by": ["modules"]
-          },
           "custom/dumpsoftwareversions": {
             "branch": "master",
             "git_sha": "de45447d060b8c8b98575bc637a4a575fd0638e1",
-            "installed_by": ["modules"]
-          },
-          "gatk4/genotypegvcfs": {
-            "branch": "master",
-            "git_sha": "d742e3143f2ccb8853c29b35cfcf50b5e5026980",
-            "installed_by": ["modules"]
-          },
-          "gatk4/haplotypecaller": {
-            "branch": "master",
-            "git_sha": "d742e3143f2ccb8853c29b35cfcf50b5e5026980",
             "installed_by": ["modules"]
           },
           "mosdepth": {
@@ -58,6 +38,11 @@
           "pypgx/preparedepthofcoverage": {
             "branch": "master",
             "git_sha": "6d5d163242f4bad63b81c41aeaf0d7bbeb8e2431",
+            "installed_by": ["modules"]
+          },
+          "pypgx/runngspipeline": {
+            "branch": "master",
+            "git_sha": "e06e3b1cf7603c4dc6ac92243f706cf996c51f1e",
             "installed_by": ["modules"]
           },
           "samtools/index": {
