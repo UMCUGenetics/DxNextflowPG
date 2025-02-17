@@ -74,13 +74,13 @@
         },
         "pypgx_allele_table": {
           "type": "string",
-          "format": "directory-path",
+          "format": "file-path",
           "exists": true,
           "description": "Pharmacogenomics Star-allele definitions (vertaaltabel). See https://github.com/UMCUGenetics/PGx_tables."
         },
         "pypgx_variant_table": {
           "type": "string",
-          "format": "directory-path",
+          "format": "file-path",
           "exists": true,
           "description": "Translation table for rsIDs and genomic positions. See https://github.com/UMCUGenetics/PGx_tables."
         }
@@ -122,7 +122,12 @@
           "fa_icon": "fas fa-copy",
           "enum": ["symlink", "rellink", "link", "copy", "copyNoFollow", "move"],
           "hidden": true
-        }
+        },
+        "job_array_size": {
+          "type": "number",
+          "default": 30,
+          "description": "Array size for slurm job arrays."
+        },
       }
     }
   },

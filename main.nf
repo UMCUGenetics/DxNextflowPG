@@ -28,7 +28,6 @@ validateParameters()
 include { BCFTOOLS_FILTER as FILTER_PYPGX_VCF } from './modules/nf-core/bcftools/filter/main'
 include { COMBINERESULTS                      } from './modules/local/combine_outputs/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS         } from './modules/nf-core/custom/dumpsoftwareversions/main'
-include { MOSDEPTH                            } from './modules/nf-core/mosdepth/main'
 include { MULTIQC                             } from './modules/nf-core/multiqc/main'
 include { PYPGX_CREATEREGIONS                 } from './modules/local/pypgx/create_regions/main'
 include { PYPGX_CREATEINPUTVCF                } from './modules/nf-core/pypgx/createinputvcf/main'
@@ -130,7 +129,6 @@ workflow {
     ch_versions = ch_versions.mix(PYPGX_PREPAREDEPTHOFCOVERAGE.out.versions)
     ch_versions = ch_versions.mix(PYPGX_COMPUTECONTROLSTATISTICS.out.versions)
     ch_versions = ch_versions.mix(PYPGX_RUNNGSPIPELINE.out.versions)
-    ch_versions = ch_versions.mix(FILTER_PYPGX_VCF.out.versions)
     CUSTOM_DUMPSOFTWAREVERSIONS(ch_versions.unique().collectFile(name: 'collated_versions.yml'))
 
     // MultiQC
