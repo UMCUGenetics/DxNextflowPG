@@ -1,0 +1,25 @@
+nextflow_process {
+    name "Test create regions"
+    config '../../nextflow.config'
+    script "modules/local/pypgx/create_regions/main.nf"
+    tag "pypgx"
+    process "PYPGX_CREATEREGIONS"
+
+    test("Should output a bed file with PGx regions") {
+        when {
+
+            process {
+                """
+
+                """
+            }
+        }
+
+        then {
+            assert process.success
+            assert snapshot(process.out.bed, process.out.versions).match()
+
+        }
+
+    }
+}
