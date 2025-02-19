@@ -112,7 +112,7 @@ workflow {
 
     PYPGX_COMPUTECONTROLSTATISTICS(
         ch_bams_meta,
-        "VDR",
+        params.pgx_control_gene,
         ch_assembly_version
     )
 
