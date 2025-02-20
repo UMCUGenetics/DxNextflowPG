@@ -7,7 +7,7 @@ import pandas as pd
 
 if __name__ == "__main__":
 
-    #pypgx_dirs and gene are substituted by nextflow when running the script as template
+    #output_dirs and gene are substituted by nextflow when running the script as template
     output_dirs = "$pypgx_dirs".split()
     gene = "$pgx_gene"
 
