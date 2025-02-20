@@ -14,14 +14,8 @@ process COMBINERESULTS {
     task.ext.when == null || task.ext.when
 
     script:
-    """
-    python ${moduleDir}/combine_outputs.py \\
-        --pypgx_dirs ${pypgx_dirs} \\
-        --gene ${pgx_gene}
+    template 'combine_outputs.py'
 
-    mv ${pgx_gene}.csv ${pgx_gene}_mqc.csv
-
-    """
 
     stub:
     """
