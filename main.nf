@@ -46,10 +46,6 @@ workflow {
         .map{ file -> [file.getSimpleName(), file] }
         .collect()
 
-    ch_genome_fasta_index = Channel.fromPath("${params.genome_fasta}.fai")
-        .map{ file -> [file.getSimpleName(), file] }
-        .collect()
-
     ch_bams_meta = Channel.fromFilePairs(
         "${params.bam_path}/*.{bam,bai}",
         checkIfExists: true) {
