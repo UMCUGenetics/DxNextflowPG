@@ -61,11 +61,6 @@ workflow {
     ch_assembly_version = Channel.value(params.assembly_version)
 
 
-    // Produce a bed file containing loci relevant for pharmacogenes
-    PYPGX_CREATEREGIONS()
-
-
-
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     PyPGx pipeline
