@@ -1,0 +1,12 @@
+nextflow_process {
+
+    name "Test SV QA"
+    script "../SV_QA.nf"
+    process "SV_QA"
+
+    tag "modules"
+    tag "local"
+    tag "QA"
+    tag "SV_QA"
+
+}
