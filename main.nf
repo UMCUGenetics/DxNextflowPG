@@ -17,6 +17,8 @@ include { validateParameters; paramsSummaryLog } from 'plugin/nf-schema'
 log.info paramsSummaryLog(workflow)
 validateParameters()
 
+nextflow.enable.moduleBinaries = true
+
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Import modules/subworkflows
@@ -27,7 +29,6 @@ include { BCFTOOLS_FILTER as FILTER_PYPGX_VCF } from './modules/nf-core/bcftools
 include { COMBINERESULTS                      } from './modules/local/combine_outputs/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS         } from './modules/nf-core/custom/dumpsoftwareversions/main'
 include { MULTIQC                             } from './modules/nf-core/multiqc/main'
-include { PYPGX_CREATEREGIONS                 } from './modules/local/pypgx/create_regions/main'
 include { PYPGX_CREATEINPUTVCF                } from './modules/nf-core/pypgx/createinputvcf/main'
 include { PYPGX_PREPAREDEPTHOFCOVERAGE        } from './modules/nf-core/pypgx/preparedepthofcoverage/main'
 include { PYPGX_COMPUTECONTROLSTATISTICS      } from './modules/nf-core/pypgx/computecontrolstatistics/main'
