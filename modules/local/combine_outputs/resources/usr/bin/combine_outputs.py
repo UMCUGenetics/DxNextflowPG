@@ -14,6 +14,9 @@ def get_opts():
                    nargs="+")
     p.add_argument("--gene",
                    dest='pgx_gene')
+    p.add_argument("--output_suffix",
+                   dest="out_suffix",
+                   default='_mqc.csv')
 
     return p.parse_args()
 
@@ -25,7 +28,7 @@ if __name__ == "__main__":
     pypgx_archives = [sdk.Archive.from_file(pypgx_output+"/results.zip").data
                   for pypgx_output in args.pypgx_dirs]
     combined_sample_data = pd.concat(pypgx_archives)
-    combined_sample_data.to_csv(open(f"{args.pgx_gene}.csv", "w"), sep="\t")
+    combined_sample_data.to_csv(open(f"{args.pgx_gene}{args.out_suffix}", "w"), sep="\t")
 
     # Meta data is the same for all samples with the same pgx_gene
     metadata = sdk.Archive.from_file(args.pypgx_dirs[0]+"/results.zip").metadata
