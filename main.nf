@@ -32,8 +32,6 @@ include { PYPGX_CREATEINPUTVCF                } from './modules/nf-core/pypgx/cr
 include { PYPGX_PREPAREDEPTHOFCOVERAGE        } from './modules/nf-core/pypgx/preparedepthofcoverage/main'
 include { PYPGX_COMPUTECONTROLSTATISTICS      } from './modules/nf-core/pypgx/computecontrolstatistics/main'
 include { PYPGX_RUNNGSPIPELINE                } from './modules/nf-core/pypgx/runngspipeline/main'
-include { SAMTOOLS_INDEX                      } from './modules/nf-core/samtools/index/main'
-include { VERIFYBAMID_VERIFYBAMID2            } from './modules/nf-core/verifybamid/verifybamid2/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -135,19 +133,3 @@ workflow {
     )
  }
 
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    COMPLETION EMAIL
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
-
-workflow.onComplete {
-    def analysis_id = params.outdir.split('/')[-1]
-    // HTML Template
-    def template = new File("$baseDir/assets/workflow_complete.html")
-    def binding = [
-        runName: analysis_id,
-        workflow: workflow
-    ]
-    def engine = new groovy.text.GStringTemplateEngine()
-}
