@@ -36,7 +36,7 @@ include { PYPGX_PREPAREDEPTHOFCOVERAGE        } from './modules/nf-core/pypgx/pr
 include { PYPGX_COMPUTECONTROLSTATISTICS      } from './modules/nf-core/pypgx/computecontrolstatistics/main'
 include { PYPGX_RUNNGSPIPELINE                } from './modules/nf-core/pypgx/runngspipeline/main'
 include { SAMTOOLS_INDEX                      } from './modules/nf-core/samtools/index/main'
-include { SV_QA                               } from './modules/local/QA/SV_QA'
+include { SV_QA                               } from './modules/local/SV_QA/main'
 include { VERIFYBAMID_VERIFYBAMID2            } from './modules/nf-core/verifybamid/verifybamid2/main'
 
 /*

@@ -14,8 +14,13 @@ process COMBINERESULTS {
     task.ext.when == null || task.ext.when
 
     script:
-    template 'combine_outputs.py'
-
+    def suffix = task.ext.suffix ?: "--output_suffix _mqc.csv"
+    """
+    combine_outputs.py \\
+        --pypgx_dirs ${pypgx_dirs} \\
+        --gene ${pgx_gene} \\
+        ${suffix}
+    """
 
     stub:
     """

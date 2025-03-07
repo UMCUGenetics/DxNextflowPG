@@ -6,17 +6,17 @@ from os import path
 import pandas as pd
 
 
-
-
 def get_PGx_genes_frequency_dict(frequency_dir):
-    return {path.basename(x).split("_")[0]: x for x in glob(frequency_dir+"/*_freqs.csv")}
+    return {
+        path.basename(x).split("_")[0]: x for x in glob(frequency_dir + "/*_freqs.csv")
+    }
 
 
-def get_frequency_dict(freq_files, PGx_gene, sep=';'):
+def get_frequency_dict(freq_files, PGx_gene, sep=";"):
     freq_path = freq_files[PGx_gene]
     freq_df = pd.read_csv(freq_path, sep=sep)
 
-    return freq_df.set_index(PGx_gene).T.to_dict('list')
+    return freq_df.set_index(PGx_gene).T.to_dict("list")
 
 
 def get_annotation(row, frequencies, freq_threshold=1):
@@ -24,9 +24,8 @@ def get_annotation(row, frequencies, freq_threshold=1):
 
     try:
         count, freq = frequencies[cnv]
-        freq = float(freq.replace(",","."))
+        freq = float(freq.replace(",", "."))
     except KeyError:
-        count = 0
         freq = 0.0
 
     if freq < freq_threshold:
@@ -36,11 +35,12 @@ def get_annotation(row, frequencies, freq_threshold=1):
     row["Warning"] = annotation
     return row
 
+
 if __name__ == "__main__":
     frequency_files = get_PGx_genes_frequency_dict(argv[1])
 
     genotypes_df = pd.read_csv(argv[2], sep="\t")
-    PGx_gene = path.basename(argv[2]).replace(".csv","")
+    PGx_gene = path.basename(argv[2]).replace(".csv", "")
 
     try:
         freq_dict = get_frequency_dict(frequency_files, PGx_gene)
@@ -50,4 +50,4 @@ if __name__ == "__main__":
         pass
 
     # When the frequency table is unavailable the original df is outputted
-    genotypes_df.to_csv(argv[3], sep='\t')
+    genotypes_df.to_csv(argv[3], sep="\t")
