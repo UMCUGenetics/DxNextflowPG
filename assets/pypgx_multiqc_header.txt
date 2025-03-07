@@ -1,0 +1,31 @@
+# plot_type: 'table'
+# section_name: 'PyPGx Results'
+# description: 'a custom text introduction (a few sentences) for this section'
+# pconfig:
+#     namespace: 'Cust Data'
+# headers:
+#     col1:
+#         title: 'My Column'
+#         description: 'This is a longer hover text for my column'
+#         format: '{:,.0f}'
+#     col2:
+#         title: 'Genotype'
+#         description: 'Hover description text'
+#     col3:
+#         title: 'Phenotype'
+#         description: 'description'
+#     col4:
+#         title: 'Haplotype1'
+#         description: 'description'
+#     col5:
+#         title: 'Haplotype2'
+#         description: 'description'
+#     col6:
+#         title: 'AlternativePhase'
+#         description: 'description'
+#     col7:
+#         title: 'VariantData'
+#         description: 'description'
+#     col8:
+#         title: 'CNV'
+#         description: 'description'

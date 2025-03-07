@@ -7,156 +7,129 @@
 ----------------------------------------------------------------------------------------
 */
 
-nextflow.enable.dsl = 2
-
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Validate and log parameters
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { validateParameters; paramsSummaryLog } from 'plugin/nf-validation'
+include { validateParameters; paramsSummaryLog } from 'plugin/nf-schema'
 log.info paramsSummaryLog(workflow)
 validateParameters()
+
+nextflow.enable.moduleBinaries = true
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Import modules/subworkflows
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
-include { extractFastqPairFromDir } from './modules/local/utils/fastq.nf'
 
-include { BWAMEM2_MEM } from './modules/nf-core/bwamem2/mem/main'
-include { CUSTOM_DUMPSOFTWAREVERSIONS } from './modules/nf-core/custom/dumpsoftwareversions/main'
-include { FASTQC } from './modules/nf-core/fastqc/main'
-include { GATK4_HAPLOTYPECALLER } from './modules/nf-core/gatk4/haplotypecaller/main'
-include { GATK4_GENOTYPEGVCFS } from './modules/nf-core/gatk4/genotypegvcfs/main'
-include { MOSDEPTH } from './modules/nf-core/mosdepth/main'
-include { MULTIQC } from './modules/nf-core/multiqc/main'
-include { SAMBAMBA_MARKDUP } from './modules/nf-core/sambamba/markdup/main'
-include { SAMTOOLS_INDEX } from './modules/nf-core/samtools/index/main'
-include { SEQKIT_SPLIT2 } from './modules/nf-core/seqkit/split2/main'
-include { VCF2GLIMS } from './modules/local/vcf2glims/main'
-include { VERIFYBAMID_VERIFYBAMID2 } from './modules/nf-core/verifybamid/verifybamid2/main'
+include { BCFTOOLS_FILTER as FILTER_PYPGX_VCF } from './modules/nf-core/bcftools/filter/main'
+include { COMBINERESULTS                      } from './modules/local/combine_outputs/main'
+include { CUSTOM_DUMPSOFTWAREVERSIONS         } from './modules/nf-core/custom/dumpsoftwareversions/main'
+include { MULTIQC                             } from './modules/nf-core/multiqc/main'
+include { PYPGX_CREATEINPUTVCF                } from './modules/nf-core/pypgx/createinputvcf/main'
+include { PYPGX_PREPAREDEPTHOFCOVERAGE        } from './modules/nf-core/pypgx/preparedepthofcoverage/main'
+include { PYPGX_COMPUTECONTROLSTATISTICS      } from './modules/nf-core/pypgx/computecontrolstatistics/main'
+include { PYPGX_RUNNGSPIPELINE                } from './modules/nf-core/pypgx/runngspipeline/main'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Main workflow
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
-
 workflow {
     // Create reference file channels, add meta values
-    ch_genome_fasta = Channel.fromPath("${params.genome_fasta}").map{ file -> [file.getSimpleName(), file] }.collect()
-    ch_genome_fasta_index = Channel.fromPath("${params.genome_fasta}.fai").map{ file -> [file.getSimpleName(), file] }.collect()
-    ch_genome_dict = Channel.fromPath("${params.genome_dict}").map{ file -> [file.getSimpleName(), file] }.collect()
-    ch_bwa_index = Channel.fromPath("${params.bwa_index}*").map{ file -> [file.getSimpleName(), file] }.groupTuple().collect()
-    ch_dbsnp = Channel.fromPath("${params.dbsnp}").map{ file -> [file.getSimpleName(), file] }.collect()
-    ch_dbsnp_index = Channel.fromPath("${params.dbsnp}.tbi").map{ file -> [file.getSimpleName(), file] }.collect()
-    ch_intervals = Channel.fromPath("${params.intervals}").collect()
-    ch_svd = Channel.fromPath(["${params.svd_ud}", "${params.svd_mu}", "${params.svd_bed}"]).collect()
+    ch_genome_fasta = Channel.fromPath("${params.genome_fasta}")
+        .map{ file -> [file.getSimpleName(), file] }
+        .collect()
 
-    // Input channel
-    ch_fastq = extractFastqPairFromDir(params.input, params.outdir)
+    ch_bams_meta = Channel.fromFilePairs(
+        "${params.bam_path}/*.{bam,bai}",
+        checkIfExists: true) {
+            file -> file.name.replaceAll(/.bam|.bai$/,'') }
+        .map{ meta, bam_index -> [['id': meta], bam_index[0], bam_index[1]] }
 
-    // Split fastq, transform SEQKIT_SPLIT2 output to input per sample fastq part
-    SEQKIT_SPLIT2(ch_fastq)
-    ch_split_fastq = SEQKIT_SPLIT2.out.reads.map{ meta, reads ->
-        read_files = reads.sort(false){ a,b -> a.getName().tokenize('.')[1] <=> b.getName().tokenize('.')[1] }.collate(2)
-        [meta, read_files]
-    }.transpose().map{ meta, read_files ->
-        [meta + [split_fastq_part:read_files[0].getName().tokenize('.')[1]], read_files]
-    }
 
-    // Mapping
-    BWAMEM2_MEM(ch_split_fastq, ch_bwa_index, true)
-    SAMBAMBA_MARKDUP(BWAMEM2_MEM.out.bam.map{ meta, bam ->
-        [meta - meta.subMap('rg_id', 'flowcell', 'split_fastq_part'), bam]
-    }.groupTuple())
-    SAMTOOLS_INDEX(SAMBAMBA_MARKDUP.out.bam)
+    ch_PGx_resource_bundle = Channel.fromPath(params.pypgx_resource_bundle)
+        .map{ file -> [[id: file.getSimpleName()], file] }
+        .collect()
 
-    ch_bam_bai = SAMBAMBA_MARKDUP.out.bam.join(SAMTOOLS_INDEX.out.bai)
+    ch_PGx_genes = Channel.fromList(params.pgx_genes)
+    ch_assembly_version = Channel.value(params.assembly_version)
 
-    // Variant calling
-    GATK4_HAPLOTYPECALLER(
-        ch_bam_bai.combine(ch_intervals).map{ meta, bam, bai, intervals -> [meta, bam, bai, intervals, []] },
-        ch_genome_fasta, ch_genome_fasta_index, ch_genome_dict, ch_dbsnp, ch_dbsnp_index
-    )
-    GATK4_GENOTYPEGVCFS(
-        GATK4_HAPLOTYPECALLER.out.vcf.join(GATK4_HAPLOTYPECALLER.out.tbi).combine(ch_intervals).map{
-            meta, vcf, tbi , intervals -> [meta, vcf, tbi, intervals, []]
-        },
-        ch_genome_fasta.map{ meta, file -> [file] },
-        ch_genome_fasta_index.map{ meta, file -> [file] },
-        ch_genome_dict.map{ meta, file -> [file] },
-        ch_dbsnp.map{ meta, file -> [file] },
-        ch_dbsnp_index.map{ meta, file -> [file] }
+
+    /*
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    PyPGx pipeline
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    */
+
+
+    // pypgx variant calling
+    PYPGX_CREATEINPUTVCF(
+        ch_bams_meta,
+        ch_genome_fasta,
+        ch_PGx_genes.collect(),
+        ch_assembly_version
     )
 
-    // GLIMS output
-    VCF2GLIMS(GATK4_GENOTYPEGVCFS.out.vcf)
-
-    // QC
-    FASTQC(ch_fastq)
-    MOSDEPTH(
-        ch_bam_bai.map{ meta, bam, bai -> [meta, bam, bai, []] },
-        ch_genome_fasta
+    // Coverage depth for each pharmacogene, relevant for SV prediction
+    PYPGX_PREPAREDEPTHOFCOVERAGE(
+        ch_bams_meta,
+        ch_PGx_genes.collect(),
+        ch_assembly_version
     )
-    VERIFYBAMID_VERIFYBAMID2(ch_bam_bai, ch_svd, Channel.empty().toList(), ch_genome_fasta.map{ meta, file -> [file] })
+
+    // Control statistics to compare pharmacogenes with household gene Vitamin D Receptor
+    PYPGX_COMPUTECONTROLSTATISTICS(
+        ch_bams_meta,
+        "VDR",
+        ch_assembly_version
+    )
+
+
+    PYPGX_RUNNGSPIPELINE(
+        PYPGX_CREATEINPUTVCF.out.vcf
+            .join(PYPGX_CREATEINPUTVCF.out.tbi)
+            .join(PYPGX_PREPAREDEPTHOFCOVERAGE.out.coverage)
+            .join(PYPGX_COMPUTECONTROLSTATISTICS.out.control_stats)
+            .combine(ch_PGx_genes),
+        ch_PGx_resource_bundle,
+        ch_assembly_version
+    )
+
+
+    // Group samples and produce a summary table for each pharmacogene
+    COMBINERESULTS(
+        PYPGX_RUNNGSPIPELINE.out.outdir
+            .map { meta, gene, dir -> [gene, dir]}
+            .groupTuple()
+    )
+
+
+
 
     // Softare versions
     ch_versions = channel.empty()
-    ch_versions = ch_versions.mix(BWAMEM2_MEM.out.versions)
-    ch_versions = ch_versions.mix(FASTQC.out.versions)
-    ch_versions = ch_versions.mix(GATK4_HAPLOTYPECALLER.out.versions)
-    ch_versions = ch_versions.mix(GATK4_GENOTYPEGVCFS.out.versions)
-    ch_versions = ch_versions.mix(MOSDEPTH.out.versions)
-    ch_versions = ch_versions.mix(SAMBAMBA_MARKDUP.out.versions)
-    ch_versions = ch_versions.mix(SAMTOOLS_INDEX.out.versions)
-    ch_versions = ch_versions.mix(SEQKIT_SPLIT2.out.versions)
-    ch_versions = ch_versions.mix(VERIFYBAMID_VERIFYBAMID2.out.versions)
+    ch_versions = ch_versions.mix(PYPGX_CREATEINPUTVCF.out.versions)
+    ch_versions = ch_versions.mix(PYPGX_PREPAREDEPTHOFCOVERAGE.out.versions)
+    ch_versions = ch_versions.mix(PYPGX_COMPUTECONTROLSTATISTICS.out.versions)
+    ch_versions = ch_versions.mix(PYPGX_RUNNGSPIPELINE.out.versions)
     CUSTOM_DUMPSOFTWAREVERSIONS(ch_versions.unique().collectFile(name: 'collated_versions.yml'))
 
     // MultiQC
     ch_multiqc_files = Channel.empty()
-    ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.collect{it[1]})
-    ch_multiqc_files = ch_multiqc_files.mix(MOSDEPTH.out.global_txt.collect{it[1]})
-    ch_multiqc_files = ch_multiqc_files.mix(MOSDEPTH.out.summary_txt.collect{it[1]})
-    ch_multiqc_files = ch_multiqc_files.mix(SAMBAMBA_MARKDUP.out.txt.collect{it[1]})
-    ch_multiqc_files = ch_multiqc_files.mix(VERIFYBAMID_VERIFYBAMID2.out.self_sm.collect{it[1]})
+    ch_multiqc_files = ch_multiqc_files.mix(COMBINERESULTS.out.csv.collect())
     ch_multiqc_files = ch_multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml.collect())
+
     ch_multiqc_config = Channel.fromPath("$projectDir/assets/multiqc_config.yml", checkIfExists: true)
+
     MULTIQC(
         ch_multiqc_files.collect(),
         ch_multiqc_config.toList(),
         Channel.empty().toList(),
         Channel.empty().toList()
     )
-}
-
-/*
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    COMPLETION EMAIL
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
-
-workflow.onComplete {
-    def analysis_id = params.outdir.split('/')[-1]
-    // HTML Template
-    def template = new File("$baseDir/assets/workflow_complete.html")
-    def binding = [
-        runName: analysis_id,
-        workflow: workflow
-    ]
-    def engine = new groovy.text.GStringTemplateEngine()
-    def email_html = engine.createTemplate(template).make(binding).toString()
-
-    // Send email
-    if (workflow.success) {
-        def subject = "PG Workflow Successful: ${analysis_id}"
-        sendMail(to: params.email.trim(), subject: subject, body: email_html, attach: "${params.outdir}/QC/multiqc_report.html")
-    } else {
-        def subject = "PG Workflow Failed: ${analysis_id}"
-        sendMail(to: params.email.trim(), subject: subject, body: email_html)
-    }
-}
+ }

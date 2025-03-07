@@ -1,24 +1,22 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://raw.githubusercontent.com/UMCUGenetics/DxNextflowPG/master/nextflow_schema.json",
   "title": "UMCUGenetics/DxNextflowPG pipeline parameters",
   "description": "UMCU Genetics RNA Workflow",
   "type": "object",
-  "definitions": {
+  "defs": {
     "input_output_options": {
       "title": "Input/output options",
       "type": "object",
       "fa_icon": "fas fa-terminal",
       "description": "Define where the pipeline should find input data and save output data.",
-      "required": ["input", "outdir"],
+      "required": ["outdir"],
       "properties": {
-        "input": {
+        "bam_path": {
           "type": "string",
           "format": "directory-path",
           "exists": true,
-          "mimetype": "text/plain",
-          "description": "Path to input data.",
-          "fa_icon": "fas fa-folder-open"
+          "description": "Path to dir containing bam files"
         },
         "outdir": {
           "type": "string",
@@ -45,61 +43,66 @@
           "description": "Path of genome reference.",
           "fa_icon": "fas fa-book"
         },
-        "genome_dict": {
+        "assembly_version": {
           "type": "string",
-          "description": "Path of genome reference dict.",
-          "fa_icon": "fas fa-book"
+          "description": "Hg genome assembly version (GRCh38 or GRCh37)",
+          "pattern": "^GRCh(?:37|38)$"
         },
-        "bwa_index": {
-          "type": "string",
-          "description": "Path of BWA MEM2 genome  reference index.",
-          "fa_icon": "fas fa-book"
-        }
       }
     },
-    "variant_calling": {
-      "title": "Variant Calling",
+    "Pypgx": {
+      "title": "Pypgx Options",
       "type": "object",
-      "description": "Configure variant calling tools",
+      "description": "Parameters for running pypgx",
       "default": "",
       "fa_icon": "fas fa-toolbox",
       "properties": {
-        "intervals": {
+        "pypgx_resource_bundle": {
           "type": "string",
-          "fa_icon": "fas fa-file",
-          "description": "Path to variant calling target file."
+          "format": "directory-path",
+          "exists": true,
+          "description": "Path to the pypgx resource bundle"
         },
-        "dbsnp": {
+        "pgx_genes": {
+          "type": "array",
+          "description": "PGx genes to include in the analysis"
+        },
+        "pypgx_control_gene": {
           "type": "string",
-          "fa_icon": "fas fa-file",
-          "description": "Path to dbsnp file."
+          "description": "Control gene",
+          "pattern": "^(?:VDR|EGFR|RYR1)$"
+        },
+        "pypgx_allele_table": {
+          "type": "string",
+          "format": "file-path",
+          "exists": true,
+          "description": "Pharmacogenomics Star-allele definitions (vertaaltabel). See https://github.com/UMCUGenetics/PGx_tables."
+        },
+        "pypgx_variant_table": {
+          "type": "string",
+          "format": "file-path",
+          "exists": true,
+          "description": "Translation table for rsIDs and genomic positions. See https://github.com/UMCUGenetics/PGx_tables."
         }
       }
     },
-    "qc": {
-      "title": "Quality Control",
+
+    "Star_allele_calling": {
+      "title": "Star allele calling",
       "type": "object",
-      "description": "Configure quality control tools",
+      "description": "Parameters for the traditional star allele calling",
       "default": "",
       "fa_icon": "fas fa-toolbox",
       "properties": {
-        "svd_ud": {
+        "phenotypes_excel": {
           "type": "string",
-          "fa_icon": "fas fa-file",
-          "description": "Path to verifybamid2 UD file."
+          "format": "file-path",
+          "exists": true,
+          "descrinption": "Path to the phenotype conversion table"
         },
-        "svd_mu": {
-          "type": "string",
-          "fa_icon": "fas fa-file",
-          "description": "Path to verifybamid2 MU file."
-        },
-        "svd_bed": {
-          "type": "string",
-          "fa_icon": "fas fa-file",
-          "description": "Path to verifybamid2 BED file."
-        }
       }
     },
+
     "generic_options": {
       "title": "Generic options",
       "type": "object",
@@ -119,25 +122,30 @@
           "fa_icon": "fas fa-copy",
           "enum": ["symlink", "rellink", "link", "copy", "copyNoFollow", "move"],
           "hidden": true
-        }
+        },
+        "job_array_size": {
+          "type": "number",
+          "default": 30,
+          "description": "Array size for slurm job arrays."
+        },
       }
     }
   },
   "allOf": [
     {
-      "$ref": "#/definitions/input_output_options"
+      "$ref": "#/defs/input_output_options"
     },
     {
-      "$ref": "#/definitions/reference_genome_options"
+      "$ref": "#/defs/reference_genome_options"
     },
     {
-      "$ref": "#/definitions/variant_calling"
+      "$ref": "#/defs/Pypgx"
     },
     {
-      "$ref": "#/definitions/qc"
+      "$ref": "#/defs/Star_allele_calling"
     },
     {
-      "$ref": "#/definitions/generic_options"
+      "$ref": "#/defs/generic_options"
     }
   ]
 }

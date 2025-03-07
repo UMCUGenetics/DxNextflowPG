@@ -1,4 +1,7 @@
 .nextflow*
+.nf-test.log
+.nf-test/
+.nf-test*
 work/
 data/
 results/
@@ -7,3 +10,6 @@ testing/
 testing*
 *.pyc
 venv
+*.fasta
+common_all*.vcf.gz*
+\#*\#
