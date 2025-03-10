@@ -139,7 +139,7 @@ workflow {
             .groupTuple()
     )
 
-    // SV_QA(COMBINERESULTS.out.csv)
+    SV_QA(COMBINERESULTS.out.csv)
 
 
 

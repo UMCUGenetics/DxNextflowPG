@@ -13,7 +13,7 @@ nextflow_process {
         when{
             process {
                 """
-                input[0] = file("${projectDir}/tests/test_data/CYP2D6_mqc.csv", checkIfExists: true)
+                input[0] = file("https://raw.githubusercontent.com/UMCUGenetics/DxNextflowTestData/refs/heads/main/DxNextflowPG/CYP2D6_mqc.csv", checkIfExists: true)
                 """
             }
         }
@@ -30,7 +30,7 @@ nextflow_process {
         when{
             process {
                 """
-                input[0] = file("${projectDir}/tests/test_data/CYP2D6_mqc.csv", checkIfExists: true)
+                input[0] = file("https://raw.githubusercontent.com/UMCUGenetics/DxNextflowTestData/refs/heads/main/DxNextflowPG/CYP2D6_mqc.csv", checkIfExists: true)
                 """
             }
         }
@@ -40,5 +40,4 @@ nextflow_process {
             )
         }
     }
-
 }

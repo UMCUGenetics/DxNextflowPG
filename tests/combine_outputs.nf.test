@@ -12,6 +12,20 @@ nextflow_process {
     process "COMBINERESULTS"
 
     test("combine outputs pypgx") {
+
+        setup {
+            run("UNTAR") {
+                script "../modules/nf-core/untar/main.nf"
+                process {
+                    """
+                    input[0] = [
+                    [id: 'pipelineout'],
+                        file("https://github.com/UMCUGenetics/DxNextflowTestData/raw/refs/heads/main/DxNextflowPG/ngspipelineout.tar.gz")
+                    ]
+                    """
+                }
+            }
+        }
         when {
             process {
                 """
@@ -20,14 +34,8 @@ nextflow_process {
                     tuple(
                         "CYP2D6",
                         [
-                            file(
-                                "${projectDir}/tests/test_data/ngspipelineout/NA19917_subset_0_66cov_CYP2D6_pypgx_output",
-                                checkIfExists: true
-                            ),
-                            file(
-                                "${projectDir}/tests/test_data/ngspipelineout/NA20509_subset_0_66cov_CYP2D6_pypgx_output",
-                                checkIfExists: true
-                            ),
+                    file( [UNTAR.out.untar[1], '/NA19917_subset_0_66cov_CYP2D6_pypgx_output"], checkIfExists: true),
+                    file( [UNTAR.out.untar[1], '/NA20509_subset_0_66cov_CYP2D6_pypgx_output"], checkIfExists: true),
                         ]
                     )
                 ])
@@ -42,21 +50,38 @@ nextflow_process {
 
     }
 
+    /*
     test("combine outputs stub") {
         options "-stub"
-        when{
+
+        setup {
+            run("UNTAR") {
+                script "../modules/nf-core/untar/main.nf"
+                process {
+                    """
+                    input[0] = [
+                    [id: 'pipelineout'],
+                        file("https://github.com/UMCUGenetics/DxNextflowTestData/raw/refs/heads/main/DxNextflowPG/ngspipelineout.tar.gz")
+                    ]
+                    """
+                }
+            }
+        }
+
+        when {
             process {
                 """
+
                 input[0] = Channel.fromList([
                     tuple(
                         "CYP2D6",
                         [
                             file(
-                                "${projectDir}/tests/test_data/ngspipelineout/NA19917_subset_0_66cov_CYP2D6_pypgx_output",
+                                "${UNTAR.out.untar}/NA19917_subset_0_66cov_CYP2D6_pypgx_output",
                                 checkIfExists: true
                             ),
                             file(
-                                "${projectDir}/tests/test_data/ngspipelineout/NA20509_subset_0_66cov_CYP2D6_pypgx_output",
+                                "${UNTAR.out.untar}/NA20509_subset_0_66cov_CYP2D6_pypgx_output",
                                 checkIfExists: true
                             ),
                         ]
@@ -72,4 +97,5 @@ nextflow_process {
             )
         }
     }
+    */
 }

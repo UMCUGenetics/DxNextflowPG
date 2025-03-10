@@ -19,7 +19,7 @@ def get_frequency_dict(freq_files, PGx_gene, sep=";"):
     return freq_df.set_index(PGx_gene).T.to_dict("list")
 
 
-def get_annotation(row, frequencies, freq_threshold=1):
+def get_annotation(row, frequencies, freq_threshold=5):
     cnv = row["CNV"]
 
     try:
@@ -29,10 +29,10 @@ def get_annotation(row, frequencies, freq_threshold=1):
         freq = 0.0
 
     if freq < freq_threshold:
-        annotation = "Warning: rare CNV detected"
+        annotation = "Rare CNV"
     else:
         annotation = "N/A"
-    row["Warning"] = annotation
+    row["CNV Annotation Warnin"] = annotation
     return row
 
 
@@ -40,7 +40,7 @@ if __name__ == "__main__":
     frequency_files = get_PGx_genes_frequency_dict(argv[1])
 
     genotypes_df = pd.read_csv(argv[2], sep="\t")
-    PGx_gene = path.basename(argv[2]).replace(".csv", "")
+    PGx_gene = path.basename(argv[2]).replace(".csv", "").replace("_mqc", "")
 
     try:
         freq_dict = get_frequency_dict(frequency_files, PGx_gene)
