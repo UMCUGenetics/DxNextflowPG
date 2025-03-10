@@ -11,7 +11,7 @@ nextflow_process {
     script "modules/local/combine_outputs/main.nf"
     process "COMBINERESULTS"
 
-    test("Test combine outputs pypgx") {
+    test("combine outputs pypgx") {
         when {
             process {
                 """
@@ -19,7 +19,16 @@ nextflow_process {
                 input[0] = Channel.fromList([
                     tuple(
                         "CYP2D6",
-                        [projectDir + "/tests/test_data/phenotype_results/HG00436_subset_CYP2D6_pypgx_output/"]
+                        [
+                            file(
+                                "${projectDir}/tests/test_data/ngspipelineout/NA19917_subset_0_66cov_CYP2D6_pypgx_output",
+                                checkIfExists: true
+                            ),
+                            file(
+                                "${projectDir}/tests/test_data/ngspipelineout/NA20509_subset_0_66cov_CYP2D6_pypgx_output",
+                                checkIfExists: true
+                            ),
+                        ]
                     )
                 ])
                 """
@@ -31,5 +40,36 @@ nextflow_process {
 
         }
 
+    }
+
+    test("combine outputs stub") {
+        options "-stub"
+        when{
+            process {
+                """
+                input[0] = Channel.fromList([
+                    tuple(
+                        "CYP2D6",
+                        [
+                            file(
+                                "${projectDir}/tests/test_data/ngspipelineout/NA19917_subset_0_66cov_CYP2D6_pypgx_output",
+                                checkIfExists: true
+                            ),
+                            file(
+                                "${projectDir}/tests/test_data/ngspipelineout/NA20509_subset_0_66cov_CYP2D6_pypgx_output",
+                                checkIfExists: true
+                            ),
+                        ]
+                    )
+                ])
+                """
+
+            }
+        }
+        then {
+            assertAll (
+                { assert process.success }
+            )
+        }
     }
 }
