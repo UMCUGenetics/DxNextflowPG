@@ -43,25 +43,11 @@
           "description": "Path of genome reference.",
           "fa_icon": "fas fa-book"
         },
-        "genome_dict": {
+        "assembly_version": {
           "type": "string",
-          "description": "Path of genome reference dict.",
-          "fa_icon": "fas fa-book"
+          "description": "Hg genome assembly version (GRCh38 or GRCh37)",
+          "pattern": "^GRCh(?:37|38)$"
         },
-      }
-    },
-    "variant_calling": {
-      "title": "Variant Calling",
-      "type": "object",
-      "description": "Configure variant calling tools",
-      "default": "",
-      "fa_icon": "fas fa-toolbox",
-      "properties": {
-        "dbsnp": {
-          "type": "string",
-          "fa_icon": "fas fa-file",
-          "description": "Path to dbsnp file."
-        }
       }
     },
     "Pypgx": {
@@ -77,11 +63,6 @@
           "exists": true,
           "description": "Path to the pypgx resource bundle"
         },
-        "assembly_version": {
-          "type": "string",
-          "description": "Hg genome assembly version (GRCh38 or GRCh37)",
-          "pattern": "^GRCh(?:37|38)$"
-        },
         "pgx_genes": {
           "type": "array",
           "description": "PGx genes to include in the analysis"
@@ -90,6 +71,18 @@
           "type": "string",
           "description": "Control gene",
           "pattern": "^(?:VDR|EGFR|RYR1)$"
+        },
+        "pypgx_allele_table": {
+          "type": "string",
+          "format": "file-path",
+          "exists": true,
+          "description": "Pharmacogenomics Star-allele definitions (vertaaltabel). See https://github.com/UMCUGenetics/PGx_tables."
+        },
+        "pypgx_variant_table": {
+          "type": "string",
+          "format": "file-path",
+          "exists": true,
+          "description": "Translation table for rsIDs and genomic positions. See https://github.com/UMCUGenetics/PGx_tables."
         }
       }
     },
@@ -129,7 +122,12 @@
           "fa_icon": "fas fa-copy",
           "enum": ["symlink", "rellink", "link", "copy", "copyNoFollow", "move"],
           "hidden": true
-        }
+        },
+        "job_array_size": {
+          "type": "number",
+          "default": 30,
+          "description": "Array size for slurm job arrays."
+        },
       }
     }
   },
@@ -139,9 +137,6 @@
     },
     {
       "$ref": "#/defs/reference_genome_options"
-    },
-    {
-      "$ref": "#/defs/variant_calling"
     },
     {
       "$ref": "#/defs/Pypgx"
