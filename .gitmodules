@@ -1,0 +1,6 @@
+[submodule "tests/DxNextflowTestData"]
+	path = tests/DxNextflowTestData
+	url = git@github.com:UMCUGenetics/DxNextflowTestData.git
+[submodule "assets/pypgx-bundle"]
+	path = assets/pypgx-bundle
+	url = git@github.com:sbslee/pypgx-bundle.git

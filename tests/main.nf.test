@@ -1,0 +1,17 @@
+
+nextflow_pipeline {
+    name "Test pipeline"
+    script "main.nf"
+
+    tag "pipeline"
+    tag "local"
+
+    test("Run pipeline test") {
+        when {
+        }
+        then{
+            assert workflow.success
+        }
+    }
+}
+

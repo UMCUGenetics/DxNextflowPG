@@ -1,0 +1,43 @@
+nextflow_process {
+
+    name "Test SV QA"
+    script "../modules/local/SV_QA/main.nf"
+    process "SV_QA"
+
+    tag "modules"
+    tag "local"
+    tag "QA"
+    tag "SV_QA"
+
+    test("CYP2D6 test") {
+        when{
+            process {
+                """
+                input[0] = file("https://raw.githubusercontent.com/UMCUGenetics/DxNextflowTestData/refs/heads/main/DxNextflowPG/CYP2D6_mqc.csv", checkIfExists: true)
+                """
+            }
+        }
+        then {
+            assertAll (
+                { assert process.success },
+                { assert snapshot(process.out).match() }
+            )
+        }
+    }
+
+    test("CYP2D6 stub test") {
+        options "-stub"
+        when{
+            process {
+                """
+                input[0] = file("https://raw.githubusercontent.com/UMCUGenetics/DxNextflowTestData/refs/heads/main/DxNextflowPG/CYP2D6_mqc.csv", checkIfExists: true)
+                """
+            }
+        }
+        then {
+            assertAll (
+                { assert process.success }
+            )
+        }
+    }
+}

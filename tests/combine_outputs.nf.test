@@ -1,0 +1,68 @@
+nextflow_process {
+    name "Test combine results pypgx"
+
+    tag "local"
+    tag "module"
+    tag "combine"
+    tag "utils"
+
+
+    config 'tests/nextflow.config'
+    script "modules/local/combine_outputs/main.nf"
+    process "COMBINERESULTS"
+
+    test("combine outputs pypgx") {
+
+        when {
+            process {
+                """
+
+                input[0] = Channel.fromList([
+                    tuple(
+                        "CYP2D6",
+                        [
+                            file( "${projectDir}/tests/DxNextflowTestData/DxNextflowPG/ngspipelineout/NA19917_subset_0_66cov_CYP2D6_pypgx_output", checkIfExists: true),
+                            file( "${projectDir}/tests/DxNextflowTestData/DxNextflowPG/ngspipelineout/NA20509_subset_0_66cov_CYP2D6_pypgx_output", checkIfExists: true)
+                        ]
+                    )
+                ])
+                """
+            }
+        }
+        then {
+            assert process.success
+            assert snapshot(process.out.bed, process.out.versions).match()
+
+        }
+
+    }
+
+
+    test("combine outputs stub") {
+        options "-stub"
+        when {
+            process {
+                """
+
+                input[0] = Channel.fromList([
+                    tuple(
+                        "CYP2D6",
+                        [
+                            file("NA19917_subset_0_66cov_CYP2D6_pypgx_output"),
+                            file("NA20509_subset_0_66cov_CYP2D6_pypgx_output")
+                            
+                        ]
+                    )
+                ])
+                """
+
+            }
+        }
+        then {
+            assertAll (
+                { assert process.success }
+            )
+        }
+    }
+
+}
