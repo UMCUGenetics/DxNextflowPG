@@ -1,0 +1,45 @@
+nextflow_workflow {
+
+    name "Test Mapping subworkflow"
+    script "../subworkflows/local/mapping/main.nf"
+
+    workflow "MAPPING"
+
+    tag "subworkflows"
+    tag "local"
+    tag "subworkflows/local"
+    tag "mapping"
+
+
+    setup {
+        run("BWAMEM2_INDEX") {
+            script "../modules/nf-core/bwamem2/index/main.nf"
+            process {
+                """
+                input[0] = Channel.of([
+                    [:], //meta map
+                    [file("https://github.com/UMCUGenetics/DxNextflowTestData/raw/refs/heads/main/DxNextflowPG/genome/GRCh37_chr22.fasta.gz", checkIfExists: true)]
+                ])
+                """
+            }
+        }
+    }
+
+    test("fastq mapping") {
+
+        when {
+            workflow {
+                """
+                input[0] = BWAMEM2_INDEX.out.index
+                input[1] = "${baseDir}/test/DxNextflowTestData/DxNextflowPG/fastq/"
+                """
+            }
+            then {
+                assertAll(
+                    {assert workflow.success}
+                )
+            }
+        }
+
+    }
+}

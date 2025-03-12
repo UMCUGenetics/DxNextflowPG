@@ -39,6 +39,8 @@ include { SV_QA                               } from './modules/local/SV_QA/main
 include { VERIFYBAMID_VERIFYBAMID2            } from './modules/nf-core/verifybamid/verifybamid2/main'
 
 
+include { MAPPING } from './subworkflows/local/mapping/main'
+
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Main workflow
@@ -48,6 +50,11 @@ workflow {
     // Create reference file channels, add meta values
     ch_genome_fasta = Channel.fromPath("${params.genome_fasta}")
         .map{ file -> [file.getSimpleName(), file] }
+        .collect()
+
+    ch_bwa_index = Channel.fromPath("${params.bwa_index}*")
+        .map{ file -> [file.getSimpleName(), file] }
+        .groupTuple()
         .collect()
 
     ch_bams_meta = Channel.fromFilePairs(
@@ -66,6 +73,25 @@ workflow {
 
     ch_svd = Channel.fromPath(["${params.svd_ud}", "${params.svd_mu}", "${params.svd_bed}"]).collect()
 
+
+
+    /*
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Optional read mapping
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    */
+
+    MAPPING(
+        ch_bwa_index,
+        params.fastq_path
+    )
+
+    // Merge bam files from (optionally) mapped samples into the channel with bam
+    // files that were already mapped
+    ch_bams_meta
+        .concat(MAPPING.out.bam
+                    .join(MAPPING.out.bai)
+        )
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -89,9 +115,6 @@ workflow {
             .map{ meta, bam, bai -> [meta, bam, bai, []] }
         ch_genome_fasta
     )
-
-
-
 
 
 
