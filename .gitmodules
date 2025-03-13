@@ -4,3 +4,7 @@
 [submodule "assets/pypgx-bundle"]
 	path = assets/pypgx-bundle
 	url = git@github.com:sbslee/pypgx-bundle.git
+[submodule "assets/Dx_tracks"]
+	path = assets/Dx_tracks
+	url = git@github.com:UMCUGenetics/Dx_tracks.git
+	branch = develop

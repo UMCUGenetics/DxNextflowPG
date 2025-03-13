@@ -6,7 +6,10 @@ nextflow_pipeline {
     tag "pipeline"
     tag "local"
 
+//    options "-stub"
+
     test("Run pipeline test") {
+
         when {
         }
         then{
