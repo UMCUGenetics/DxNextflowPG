@@ -31,7 +31,9 @@ nextflow_process {
         }
         then {
             assert process.success
-            assert snapshot(process.out.bed, process.out.versions).match()
+            assert snapshot(
+                process.out.csv,
+                process.out.versions).match()
 
         }
 
