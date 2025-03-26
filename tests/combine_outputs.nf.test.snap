@@ -1,0 +1,15 @@
+{
+    "combine outputs pypgx": {
+        "content": [
+            [
+                "CYP2D6_mqc.csv:md5,08aa1fcab793eb477ccd3b84633db71e"
+            ],
+            null
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.10.5"
+        },
+        "timestamp": "2025-03-25T09:39:50.134381"
+    }
+}

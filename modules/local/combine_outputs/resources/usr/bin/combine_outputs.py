@@ -6,10 +6,22 @@ import argparse
 
 
 def get_opts():
-    p = argparse.ArgumentParser(description="Combine outputs of pypgx/excel calling")
-    p.add_argument("--pypgx_dirs", dest="pypgx_dirs", nargs="+")
-    p.add_argument("--gene", dest="pgx_gene")
-    p.add_argument("--output_suffix", dest="out_suffix", default="_mqc.csv")
+    p = argparse.ArgumentParser(description="Combine outputs of pypgx pipeline runs")
+    p.add_argument(
+        "--pypgx_dirs",
+        dest="pypgx_dirs",
+        nargs="+",
+        help="Multiple Pypgx output folders - of the same pharmacogene -  to be merged.",
+    )
+    p.add_argument(
+        "--gene", dest="pgx_gene", help="pharmacogene (used for output file naming)"
+    )
+    p.add_argument(
+        "--output_suffix",
+        dest="out_suffix",
+        default="_mqc.csv",
+        help="output file suffix, useful in combination with multiqc (which requires the file to have the _mqc.csv suffix)",
+    )
 
     return p.parse_args()
 
@@ -18,9 +30,14 @@ if __name__ == "__main__":
     args = get_opts()
 
     # Concatenate individual pypgx sample runs with the same PGx gene, in pypgx format
-    pypgx_archives = [sdk.Archive.from_file(pypgx_output + "/results.zip").data for pypgx_output in args.pypgx_dirs]
+    pypgx_archives = [
+        sdk.Archive.from_file(pypgx_output + "/results.zip").data
+        for pypgx_output in args.pypgx_dirs
+    ]
     combined_sample_data = pd.concat(pypgx_archives)
-    combined_sample_data.to_csv(open(f"{args.pgx_gene}{args.out_suffix}", "w"), sep="\t")
+    combined_sample_data.to_csv(
+        open(f"{args.pgx_gene}{args.out_suffix}", "w"), sep="\t"
+    )
 
     # Meta data is the same for all samples with the same pgx_gene
     metadata = sdk.Archive.from_file(args.pypgx_dirs[0] + "/results.zip").metadata

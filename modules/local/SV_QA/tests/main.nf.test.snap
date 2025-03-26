@@ -1,0 +1,19 @@
+{
+    "CYP2D6 test": {
+        "content": [
+            {
+                "0": [
+                    "CYP2D6_mqc_SV_QA.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ],
+                "csv": [
+                    "CYP2D6_mqc_SV_QA.csv:md5,d41d8cd98f00b204e9800998ecf8427e"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.8.4",
+            "nextflow": "24.04.4"
+        },
+        "timestamp": "2025-03-03T11:37:00.511572"
+    }
+}
