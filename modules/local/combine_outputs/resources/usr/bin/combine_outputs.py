@@ -20,7 +20,7 @@ def get_opts():
         "--output_suffix",
         dest="out_suffix",
         default="_mqc.csv",
-        help="output file suffix, usefull in combination with multiqc (which requires the file to have the _mqc.csv suffix)",
+        help="output file suffix, useful in combination with multiqc (which requires the file to have the _mqc.csv suffix)",
     )
 
     return p.parse_args()
