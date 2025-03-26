@@ -27,25 +27,35 @@ def flowcellLaneFromFastq(path) {
 }
 
 def extractFastqPairFromDir(input, output) {
+    println input
+    println input.tokenize().collect{"**_R1_*.fastq.gz"}
+    println "hhoi"
     // Original code from: https://github.com/SciLifeLab/Sarek - MIT License - Copyright (c) 2016 SciLifeLab
     input = input.tokenize().collect{"$it/**_R1_*.fastq.gz"}
-    analysis_id = output.split('/')[-1]
-    Channel
-    .fromPath(input, type:'file')
-    .ifEmpty { error "No R1 fastq.gz files found in ${input}." }
-    .filter { !(it =~ /.*Undetermined.*/) }
-    .map { r1_path ->
-        def fastq_files = [r1_path]
-        def sample_id = r1_path.getSimpleName().split('_')[0]
-        def r2_path = file(r1_path.toString().replace('_R1_', '_R2_'))
-        if (r2_path.exists()) {
-            fastq_files.add(r2_path)
-        } else {
-            exit 1, "R2 fastq.gz file not found: ${r2_path}."
-        }
-        def (flowcell, lane) = flowcellLaneFromFastq(r1_path)
-        def rg_id = "${sample_id}_${flowcell}_${lane}"
+    print input
+    print "haai"
+    // analysis_id = output.split('/')[-1]
 
-        [['id': sample_id, 'rg_id': rg_id, 'flowcell': flowcell, 'analysis_id': analysis_id], fastq_files]
-    }
+
+
+    [input]
+
+    // Channel
+    // .fromPath(input, type:'file')
+    // .ifEmpty { error "No R1 fastq.gz files found in ${input}." }
+    // .filter { !(it =~ /.*Undetermined.*/) }
+    // .map { r1_path ->
+    //     def fastq_files = [r1_path]
+    //     def sample_id = r1_path.getSimpleName().split('_')[0]
+    //     def r2_path = file(r1_path.toString().replace('_R1_', '_R2_'))
+    //     if (r2_path.exists()) {
+    //         fastq_files.add(r2_path)
+    //     } else {
+    //         exit 1, "R2 fastq.gz file not found: ${r2_path}."
+    //     }
+    //     def (flowcell, lane) = flowcellLaneFromFastq(r1_path)
+    //     def rg_id = "${sample_id}_${flowcell}_${lane}"
+
+    //     [['id': sample_id, 'rg_id': rg_id, 'flowcell': flowcell, 'analysis_id': analysis_id], fastq_files]
+    // }
 }
