@@ -1,6 +1,13 @@
 #!/usr/bin/env python3
 
-"""Performs quality control on SV calls by comparing the specific call to previously calculated frequencies. Rare variants will receive a warning"""
+"""Performs quality control on SV calls by comparing the specific call to previously calculated frequencies.
+
+No variants are removed in the process, rare variants will receive a warning.
+
+Example:
+    $ python sv_qa.py assets/Dx_tracks/pharmacogenetics/frequencies/ cyp2d_pypgx_results.csv output.csv
+
+"""
 
 from sys import argv
 from glob import glob
@@ -9,7 +16,14 @@ import pandas as pd
 
 
 def get_PGx_genes_frequency_dict(frequency_dir):
-    """Create a named dictionary containing pharmacogenes with calculated frequencies and their file paths. e.g., {CYP2D6: cyp2d6_frequencies.csv}
+    """Create a dictionary containing pharmacogenes with calculated frequencies and their file paths.
+
+    Args:
+        frequency_dir (str): Directory containing pharmacogene SV frequency tables in csv format.
+
+    Returns:
+        dict: Keys are pharacogene names and values their corresponding frequency table file paths
+            e.g., {CYP2D6 : cyp2d6_frequencies.csv}.
 
     """
 
@@ -17,7 +31,16 @@ def get_PGx_genes_frequency_dict(frequency_dir):
 
 
 def get_frequency_dict(freq_files, PGx_gene, sep=";"):
-    """Turn the frequency file(s) into a dictionary with format {SV_name:frequency}
+    """Create a SV frequency dictionary for a pharmacogene.
+
+    Args:
+        freq_files (dict): Keys are pharacogene names and values their corresponding frequency table file paths.
+        PGx_gene (str): Pharmacogene name
+        sep (str): field separator in the frequency table
+
+    Returns:
+        dict: Keys are SV type and values their corresponding total count and frequency. e.g., {WholeDel1 : (100, 0.2)}.
+
     """
     freq_path = freq_files[PGx_gene]
     freq_df = pd.read_csv(freq_path, sep=sep)
@@ -26,7 +49,17 @@ def get_frequency_dict(freq_files, PGx_gene, sep=";"):
 
 
 def get_annotation(row, frequencies, freq_threshold=5):
-    """Lookup the SV call for a row in the frequencies dictionary, and give a warning for rare SVs"""
+    """Lookup the SV call for a row in the pypgx result file and give warnings for rare SVs.
+
+    Args:
+        row (pd.Series): A row from the pypgx result csv file (genotypes_df).
+        frequencies (dict): Keys are SV type and values their corresponding total count and frequency. e.g., {WholeDel1 : (100, 0.2)}.
+        freq_threshold (int): Frequency percentage threshold value. SV frequencies below this treshold will receive a warning.
+
+    Returns:
+        pd.Series: The same as row, with an added column containing 'Rare CNV' warning, for rare SVs, or "N/A" for other SVs.
+
+    """
     cnv = row["CNV"]
 
     try:
@@ -41,7 +74,7 @@ def get_annotation(row, frequencies, freq_threshold=5):
         annotation = "Rare CNV"
     else:
         annotation = "N/A"
-    row["CNV Annotation Warnin"] = annotation
+    row["CNV Annotation Warning"] = annotation
     return row
 
 
@@ -49,7 +82,7 @@ if __name__ == "__main__":
     # Parse the frequency directory for frequency files.
     frequency_files = get_PGx_genes_frequency_dict(argv[1])
 
-    # Output csv from pypgx, which includes the SV calls in a separate column
+    # Result csv from pypgx, which includes the SV calls in a separate column
     genotypes_df = pd.read_csv(argv[2], sep="\t")
 
     # Extract pharmacogene name from the pypgx output filename
