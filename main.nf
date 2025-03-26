@@ -74,6 +74,7 @@ workflow {
 
 
 
+
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Optional read mapping
@@ -87,34 +88,12 @@ workflow {
 
     // Merge bam files from (optionally) mapped samples into the channel with bam
     // files that were already mapped
-    ch_bams_meta
-        .concat(MAPPING.out.bam
-                    .join(MAPPING.out.bai)
-        )
+    // ch_bams_meta
+        // .concat(MAPPING.out.bam
+                    // .join(MAPPING.out.bai)
+        // )
 
-    /*
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    QC
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    */
-
-    VERIFYBAMID_VERIFYBAMID2(
-        ch_bam_bai,
-        ch_svd,
-        Channel
-            .empty()
-            .toList(),
-        ch_genome_fasta
-            .map{ meta, file -> [file] }
-    )
-
-
-    MOSDEPTH(
-        ch_bams_meta
-            .map{ meta, bam, bai -> [meta, bam, bai, []] },
-        ch_genome_fasta
-    )
-
+    ch_bam_bai = ch_bams_meta
 
 
     /*
