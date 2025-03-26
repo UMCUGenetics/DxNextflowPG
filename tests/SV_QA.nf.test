@@ -1,15 +1,15 @@
 nextflow_process {
 
-    name "Test SV QA"
+    name "Test SV QC"
     script "../modules/local/SV_QA/main.nf"
     process "SV_QA"
 
     tag "modules"
     tag "local"
-    tag "QA"
-    tag "SV_QA"
+    tag "QC"
+    tag "SV"
 
-    test("CYP2D6 test") {
+    test("CYP2D6 SV QC") {
         when{
             process {
                 """
@@ -25,7 +25,7 @@ nextflow_process {
         }
     }
 
-    test("CYP2D6 stub test") {
+    test("CYP2D6 SV QC stub") {
         options "-stub"
         when{
             process {

@@ -14,7 +14,7 @@ process SV_QA {
 
     script:
     """
-    frequency_dir='${projectDir}/assets/PGx_SV_frequencies'
+    frequency_dir='${projectDir}/assets/Dx_tracks/pharmacogenetics/frequencies'
     bn=\$(basename ${csv} .csv)
 
     sv_qa.py \\

@@ -63,7 +63,6 @@ workflow {
             file -> file.name.replaceAll(/.bam|.bai$/,'') }
         .map{ meta, bam_index -> [['id': meta], bam_index[0], bam_index[1]] }
 
-
     ch_PGx_resource_bundle = Channel.fromPath(params.pypgx_resource_bundle)
         .map{ file -> [[id: file.getSimpleName()], file] }
         .collect()
@@ -120,11 +119,10 @@ workflow {
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     PyPGx pipeline
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
-
-
 
     // pypgx variant calling
     PYPGX_CREATEINPUTVCF(
@@ -173,9 +171,38 @@ workflow {
     )
 
 
+
+
+
+
+    /*
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    QC
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    */
+
+
     SV_QA(COMBINERESULTS.out.csv)
 
+    if(params.verify_bamid) {
+        VERIFYBAMID_VERIFYBAMID2(
+            ch_bams_meta,
+            ch_svd,
+            Channel
+                .empty()
+                .toList(),
+            ch_genome_fasta
+                .map{ meta, file -> [file] }
+        )
+    }
 
+
+
+    MOSDEPTH(
+        ch_bams_meta
+            .map{ meta, bam, bai -> [meta, bam, bai, []] },
+        ch_genome_fasta
+    )
 
 
     // Softare versions
@@ -185,7 +212,9 @@ workflow {
     ch_versions = ch_versions.mix(PYPGX_PREPAREDEPTHOFCOVERAGE.out.versions)
     ch_versions = ch_versions.mix(PYPGX_COMPUTECONTROLSTATISTICS.out.versions)
     ch_versions = ch_versions.mix(PYPGX_RUNNGSPIPELINE.out.versions)
-    ch_versions = ch_versions.mix(VERIFYBAMID_VERIFYBAMID2.out.versions)
+    if(params.verify_bamid) {
+        ch_versions = ch_versions.mix(VERIFYBAMID_VERIFYBAMID2.out.versions)
+    }
     CUSTOM_DUMPSOFTWAREVERSIONS(ch_versions.unique().collectFile(name: 'collated_versions.yml'))
 
     // MultiQC
@@ -194,7 +223,10 @@ workflow {
     ch_multiqc_files = ch_multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml.collect())
     ch_multiqc_files = ch_multiqc_files.mix(MOSDEPTH.out.global_txt.collect{it[1]})
     ch_multiqc_files = ch_multiqc_files.mix(MOSDEPTH.out.summary_txt.collect{it[1]})
-    ch_multiqc_files = ch_multiqc_files.mix(VERIFYBAMID_VERIFYBAMID2.out.self_sm.collect{it[1]})
+
+    if(params.verify_bamid) {
+        ch_multiqc_files = ch_multiqc_files.mix(VERIFYBAMID_VERIFYBAMID2.out.self_sm.collect{it[1]})
+    }
 
     ch_multiqc_config = Channel.fromPath("$projectDir/assets/multiqc_config.yml", checkIfExists: true)
 
