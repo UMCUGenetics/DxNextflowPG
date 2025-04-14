@@ -13,5 +13,17 @@
             "nextflow": "24.10.5"
         },
         "timestamp": "2025-03-26T12:47:17.565811"
+    },
+    "Test Function extractFastqPairFromDir": {
+        "content": [
+            {
+                
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.10.5"
+        },
+        "timestamp": "2025-04-14T10:31:22.013212"
     }
 }

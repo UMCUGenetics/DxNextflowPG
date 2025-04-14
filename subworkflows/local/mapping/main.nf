@@ -26,7 +26,7 @@ workflow MAPPING {
     }
 
     // Mapping
-    BWAMEM2_MEM(ch_split_fastq, ch_bwa_index, true)
+    BWAMEM2_MEM(ch_split_fastq, ch_bwa_index, [], true)
     SAMBAMBA_MARKDUP(BWAMEM2_MEM.out.bam.map{ meta, bam ->
         [meta - meta.subMap('rg_id', 'flowcell', 'split_fastq_part'), bam]
     }.groupTuple())

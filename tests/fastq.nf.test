@@ -16,7 +16,6 @@ nextflow_function {
         when {
             function {
                 """
-                // define inputs of the function here. Example:
                 input[0] = file( "${projectDir}/tests/DxNextflowTestData/DxNextflowPG/fastq/NA19147_CYP2D6_L001_R1_001.fastq.gz", checkIfExists: true )
                 """
             }
@@ -37,10 +36,15 @@ nextflow_function {
         when{
             function {
                 """
-                input[0] = "${projectDir}/tests/DxNextflowTestData/DxNextflowPG/fastq"
+                input[0] = "${projectDir}/tests/DxNextflowTestData/DxNextflowPG/fastq/"
                 input[1] = "analysisX2/outdirtest"
                 """
             }
+        }
+
+        then{
+            assert function.success
+            assert snapshot(function.result).match()
         }
 
     }
