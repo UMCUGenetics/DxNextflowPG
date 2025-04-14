@@ -35,8 +35,12 @@ nextflow_workflow {
                 """
             }
             then {
+                println "${workflow.out.bam}"
                 assertAll(
-                    {assert workflow.success}
+                    {assert workflow.success},
+                    {asset snapshot(
+                        bam(workflow.out.bam[0][1]).getReadsMD5()
+                    ).match()}
                 )
             }
         }
