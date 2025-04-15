@@ -1,0 +1,12 @@
+{
+    "fastq mapping": {
+        "content": [
+            "6a8f11a79c06766d03630929593f2deb"
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.10.5"
+        },
+        "timestamp": "2025-04-15T08:32:02.725781"
+    }
+}
