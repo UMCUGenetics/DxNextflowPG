@@ -41,7 +41,10 @@ nextflow_workflow {
             then {
                 assertAll(
                     { assert workflow.success },
-                    { assert workflow.out.bam.size() == 1 }
+                    { assert workflow.out.bam.size() == 1 },
+                    { assert snapshot(
+                        bam(workflow.out.bam[0][1]).getReadsMD5()
+                    ).match() }
                 )
             }
         }
