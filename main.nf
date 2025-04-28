@@ -89,17 +89,12 @@ workflow {
         params.fastq_path
     )
 
-
-
     // Merge bam files from (optionally) mapped samples into the channel with bam
     // files that were already mapped
     ch_bams_meta = ch_bams_meta
         .concat(MAPPING.out.bam
                     .join(MAPPING.out.bai)
         )
-    ch_bams_meta.view(it -> "bamsmeta: $it")
-    // ch_bam_bai = ch_bams_meta
-
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
