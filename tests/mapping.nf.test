@@ -19,7 +19,7 @@ nextflow_workflow {
                 input[0] = Channel.of([
                     [:], //meta map
                     [file("https://github.com/UMCUGenetics/DxNextflowTestData/raw/refs/heads/main/DxNextflowPG/genome/GRCh37_chr22.fasta.gz", checkIfExists: true)]
-                ])
+                ]).collect()
                 """
             }
         }
@@ -30,20 +30,23 @@ nextflow_workflow {
         when {
             workflow {
                 """
-                input[0] = BWAMEM2_INDEX.out.index
-                input[1] = "${baseDir}/test/DxNextflowTestData/DxNextflowPG/fastq/"
+                input[0] = BWAMEM2_INDEX.out.index.collect()
+                input[1] = Channel.of([
+                    ["id": "genome"],
+                    [file("https://github.com/UMCUGenetics/DxNextflowTestData/raw/refs/heads/main/DxNextflowPG/genome/GRCh37_chr22.fasta.gz", checkIfExists: true)]
+                    ]).collect()
+                input[2] = "${baseDir}/tests/DxNextflowTestData/DxNextflowPG/fastq/"
                 """
             }
             then {
-                println "${workflow.out.bam}"
                 assertAll(
-                    {assert workflow.success},
-                    {asset snapshot(
+                    { assert workflow.success },
+                    { assert workflow.out.bam.size() == 1 },
+                    { assert snapshot(
                         bam(workflow.out.bam[0][1]).getReadsMD5()
-                    ).match()}
+                    ).match() }
                 )
             }
         }
-
     }
 }

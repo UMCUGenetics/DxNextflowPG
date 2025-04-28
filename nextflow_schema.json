@@ -41,12 +41,19 @@
         "genome_fasta": {
           "type": "string",
           "description": "Path of genome reference.",
+          "format": "file-path",
           "fa_icon": "fas fa-book"
         },
         "assembly_version": {
           "type": "string",
           "description": "Hg genome assembly version (GRCh38 or GRCh37)",
           "pattern": "^GRCh(?:37|38)$"
+        },
+        "bwa_index": {
+          "type": "string",
+          "description": "Path to the directory containing a bwa-mem2 index",
+          "format": "directory-path",
+          "exists": true
         },
       }
     },
@@ -75,29 +82,52 @@
         "pypgx_allele_table": {
           "type": "string",
           "format": "file-path",
+          "exists": true,
           "description": "Pharmacogenomics Star-allele definitions (vertaaltabel). See https://github.com/UMCUGenetics/PGx_tables."
         },
         "pypgx_variant_table": {
           "type": "string",
           "format": "file-path",
+          "exists": true,
           "description": "Translation table for rsIDs and genomic positions. See https://github.com/UMCUGenetics/PGx_tables."
         }
       }
     },
 
-    "Star_allele_calling": {
-      "title": "Star allele calling",
+    "qc_options": {
+      "title": "Quality Control options",
       "type": "object",
-      "description": "Parameters for the traditional star allele calling",
-      "default": "",
-      "fa_icon": "fas fa-toolbox",
+      "description": "Parameters for quality control"
       "properties": {
-        "phenotypes_excel": {
-          "type": "string",
-          "format": "file-path",
-          "exists": true,
-          "descrinption": "Path to the phenotype conversion table"
+        "variant_DP_threshold": {
+          "type": "number",
+          "description": "Read depth threshold for filtering SNVs",
+          "default": 5
         },
+        "verify_bamid": {
+          "type": "boolean",
+          "description": "Specify if verifybamid should be executed."
+          "default": true
+        },
+        "svd_ud": {
+          "type": "string",
+          "fa_icon": "fas fa-file",
+          "description": "Path to verifybamid2 UD file.",
+          "exists": true
+        },
+        "svd_mu": {
+          "type": "string",
+          "fa_icon": "fas fa-file",
+          "description": "Path to verifybamid2 MU file.",
+          "exists": true
+        },
+        "svd_bed": {
+          "type": "string",
+          "fa_icon": "fas fa-file",
+          "description": "Path to verifybamid2 BED file.",
+          "exists": true
+        }
+
       }
     },
 
@@ -140,7 +170,7 @@
       "$ref": "#/defs/Pypgx"
     },
     {
-      "$ref": "#/defs/Star_allele_calling"
+      "$ref": "#/defs/qc_options"
     },
     {
       "$ref": "#/defs/generic_options"

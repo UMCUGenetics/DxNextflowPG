@@ -1,13 +1,23 @@
 
 nextflow_pipeline {
-    name "Test pipeline"
+    name "Test pipeline "
     script "main.nf"
 
     tag "pipeline"
     tag "local"
+    tag "pipeline/local"
 
 
-    test("Run pipeline test") {
+    test("Run pipeline test - premapped BAM and fastq") {
+        config "tests/nextflow.config"
+        then{
+            assert workflow.success
+        }
+    }
+
+
+    test("Run pipeline test - fastq only") {
+        config "tests/read_only.config"
         then{
             assert workflow.success
         }
