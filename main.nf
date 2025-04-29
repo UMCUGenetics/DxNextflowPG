@@ -106,9 +106,7 @@ workflow {
     // pypgx variant calling
     PYPGX_CREATEINPUTVCF(
         ch_bams_meta,
-        ch_genome_fasta,
-        ch_PGx_genes.collect(),
-        ch_assembly_version
+        ch_genome_fasta
     )
 
 
@@ -118,16 +116,13 @@ workflow {
 
     // Coverage depth for each pharmacogene, relevant for SV prediction
     PYPGX_PREPAREDEPTHOFCOVERAGE(
-        ch_bams_meta,
-        ch_PGx_genes.collect(),
-        ch_assembly_version
+        ch_bams_meta
     )
 
     // Control statistics to compare pharmacogenes with household gene Vitamin D Receptor
     PYPGX_COMPUTECONTROLSTATISTICS(
         ch_bams_meta,
-        params.pgx_control_gene,
-        ch_assembly_version
+        params.pgx_control_gene
     )
 
 
@@ -136,16 +131,19 @@ workflow {
             .join(FILTER_PYPGX_VCF.out.tbi)
             .join(PYPGX_PREPAREDEPTHOFCOVERAGE.out.coverage)
             .join(PYPGX_COMPUTECONTROLSTATISTICS.out.control_stats)
-            .combine(ch_PGx_genes),
-        ch_PGx_resource_bundle,
-        ch_assembly_version
+            .combine(ch_PGx_genes)
+            .map{
+                meta, vcf, tbi, coverage,control_stats,pgx_gene ->
+                [["id": meta.id, "pgx_gene": pgx_gene], vcf, tbi, coverage, control_stats, pgx_gene]
+            },
+        ch_PGx_resource_bundle
     )
 
 
     // Group samples and produce a summary table for each pharmacogene
     COMBINERESULTS(
         PYPGX_RUNNGSPIPELINE.out.outdir
-            .map { meta, gene, dir -> [gene, dir]}
+            .map { meta, dir -> [meta.pgx_gene, dir]}
             .groupTuple()
     )
 
