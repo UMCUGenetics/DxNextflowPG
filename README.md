@@ -28,3 +28,12 @@ pip install nf-core
 curl -s https://get.nextflow.io | bash
 mv nextflow venv/bin/
 ```
+
+## Testing
+
+To run nf-test:
+
+``` sh
+git submodule update --init --recursive
+nf-test test . --tag=local #optionally set a profile with --profile <docker|singularity|etc.>
+```
