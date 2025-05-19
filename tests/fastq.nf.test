@@ -24,7 +24,6 @@ nextflow_function {
         }
     }
 
-
     test("Test Function extractFastqPairFromDir") {
         function "extractFastqPairFromDir"
 
