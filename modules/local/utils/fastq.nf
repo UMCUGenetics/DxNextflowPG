@@ -31,7 +31,7 @@ def extractFastqPairFromDir(fastq_path, output){
     // adapted from from: https://github.com/SciLifeLab/Sarek - MIT License - Copyright (c) 2016 SciLifeLab
     analysis_id = output.split('/')[-1] // the folder name of params.outdir
 
-    ch_fastq =  Channel.fromPath("${fastq_path}/*_R1_*.fastq.gz") // Create a channel from all forward reads
+    Channel.fromPath("${fastq_path}/*_R1_*.fastq.gz") // Create a channel from all forward reads
         .map{ r1_path ->
             def fastq_files = [r1_path]
             def sample_id = r1_path.getSimpleName().split('_')[0] // extract the sample_id, e.g.,: sample_R1_001.fastq.gz -> sample
