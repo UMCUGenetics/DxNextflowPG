@@ -1,4 +1,3 @@
-
 nextflow_function {
 
     name "Test Utils Functions"
@@ -10,7 +9,6 @@ nextflow_function {
 	
 
     test("Test Function flowcellLaneFromFastq") {
-
         function "flowcellLaneFromFastq"
 
         when {
@@ -20,17 +18,14 @@ nextflow_function {
                 """
             }
         }
-
         then {
             assert function.success
             assert snapshot(function.result).match()
         }
-
     }
 
 
     test("Test Function extractFastqPairFromDir") {
-
         function "extractFastqPairFromDir"
 
         when{
@@ -41,14 +36,9 @@ nextflow_function {
                 """
             }
         }
-
         then{
             assert function.success
             assert snapshot(function.result).match()
         }
-
     }
-
-	
-
 }
