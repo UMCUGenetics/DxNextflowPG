@@ -6,7 +6,6 @@ nextflow_function {
     tag "local"
     tag "function"
     tag "mapping"
-	
 
     test("Test Function flowcellLaneFromFastq") {
         function "flowcellLaneFromFastq"
