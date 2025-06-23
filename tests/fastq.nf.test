@@ -25,7 +25,6 @@ nextflow_function {
             assert function.success
             assert snapshot(function.result).match()
         }
-
     }
 
 
@@ -46,9 +45,6 @@ nextflow_function {
             assert function.success
             assert snapshot(function.result).match()
         }
-
     }
-
-	
 
 }
