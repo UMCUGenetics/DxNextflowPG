@@ -15,7 +15,6 @@ nextflow_function {
             function {
                 """
                 input[0] = file( "${projectDir}/tests/DxNextflowTestData/DxNextflowPG/fastq/NA19147_CYP2D6_L001_R1_001.fastq.gz", checkIfExists: true )
-
                 """
             }
         }
