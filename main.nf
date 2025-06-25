@@ -39,6 +39,8 @@ include { SV_QA                               } from './modules/local/SV_QA/main
 include { VERIFYBAMID_VERIFYBAMID2            } from './modules/nf-core/verifybamid/verifybamid2/main'
 
 
+include { MAPPING } from './subworkflows/local/mapping/main'
+
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Main workflow
@@ -50,11 +52,21 @@ workflow {
         .map{ file -> [file.getSimpleName(), file] }
         .collect()
 
-    ch_bams_meta = Channel.fromFilePairs(
-        "${params.bam_path}/*.{bam,bai}",
-        checkIfExists: true) {
-            file -> file.name.replaceAll(/.bam|.bai$/,'') }
-        .map{ meta, bam_index -> [['id': meta], bam_index[0], bam_index[1]] }
+    ch_bwa_index = Channel.fromPath("${params.bwa_index}*")
+        .map{ file -> [file.getSimpleName(), file] }
+        .groupTuple()
+        .collect()
+
+    if (params.bam_path != null){
+        ch_bams_meta = Channel.fromFilePairs(
+            "${params.bam_path}/*.{bam,bai}",
+            checkIfExists: true
+        ) { file -> file.name.replaceAll(/.bam|.bai$/,'') }
+            .map{ meta, bam_index -> [['id': meta], bam_index[0], bam_index[1]] }
+    } else {
+        ch_bams_meta = Channel.of()
+    }
+
 
     ch_PGx_resource_bundle = Channel.fromPath(params.pypgx_resource_bundle)
         .map{ file -> [[id: file.getSimpleName()], file] }
@@ -65,9 +77,28 @@ workflow {
 
     ch_svd = Channel.fromPath(["${params.svd_ud}", "${params.svd_mu}", "${params.svd_bed}"]).collect()
 
+    /*
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    Optional read mapping
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    */
+
+    MAPPING(
+        ch_bwa_index,
+        ch_genome_fasta,
+        params.fastq_path
+    )
+
+    // Merge bam files from (optionally) mapped samples into the channel with bam
+    // files that were already mapped
+    ch_bams_meta = ch_bams_meta
+        .concat(MAPPING.out.bam
+                    .join(MAPPING.out.bai)
+        )
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     PyPGx pipeline
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
@@ -185,3 +216,31 @@ workflow {
         Channel.empty().toList()
     )
  }
+
+/*
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    COMPLETION EMAIL
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+*/
+
+workflow.onComplete {
+    def analysis_id = params.outdir.split('/')[-1]
+    // HTML Template
+    def template = new File("$baseDir/assets/workflow_complete.html")
+    def binding = [
+        runName: analysis_id,
+        workflow: workflow
+    ]
+    def engine = new groovy.text.GStringTemplateEngine()
+    def email_html = engine.createTemplate(template).make(binding).toString()
+
+
+    // Send email
+    if (workflow.success) {
+        def subject = "PG Workflow Successful: ${analysis_id}"
+        sendMail(to: params.email.trim(), subject: subject, body: email_html, attach: "${params.outdir}/QC/multiqc_report.html")
+    } else {
+        def subject = "PG Workflow Failed: ${analysis_id}"
+        sendMail(to: params.email.trim(), subject: subject, body: email_html)
+    }
+}

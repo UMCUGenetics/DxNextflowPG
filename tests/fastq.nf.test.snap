@@ -1,0 +1,29 @@
+{
+    "Test Function flowcellLaneFromFastq": {
+        "content": [
+            [
+                "2272F3LT1",
+                1,
+                "LH00371",
+                874
+            ]
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "25.04.3"
+        },
+        "timestamp": "2025-06-23T13:10:22.229169159"
+    },
+    "Test Function extractFastqPairFromDir": {
+        "content": [
+            {
+                
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.10.5"
+        },
+        "timestamp": "2025-04-14T10:31:22.013212"
+    }
+}
