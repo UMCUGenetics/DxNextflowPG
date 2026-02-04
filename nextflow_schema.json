@@ -2,7 +2,7 @@
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "$id": "https://raw.githubusercontent.com/UMCUGenetics/DxNextflowPG/master/nextflow_schema.json",
     "title": "UMCUGenetics/DxNextflowPG pipeline parameters",
-    "description": "UMCU Genetics RNA Workflow",
+    "description": "UMCU Genetics PG Workflow",
     "type": "object",
     "defs": {
         "input_output_options": {
@@ -18,7 +18,7 @@
                     "type": "string",
                     "format": "directory-path",
                     "exists": true,
-                    "description": "Path to dir containing bam files"
+                    "description": "Path to dir containing bam files."
                 },
                 "outdir": {
                     "type": "string",
@@ -48,12 +48,12 @@
                 },
                 "assembly_version": {
                     "type": "string",
-                    "description": "Hg genome assembly version (GRCh38 or GRCh37)",
+                    "description": "Hg genome assembly version (GRCh38 or GRCh37).",
                     "pattern": "^GRCh(?:37|38)$"
                 },
                 "bwa_index": {
                     "type": "string",
-                    "description": "Path to the directory containing a bwa-mem2 index",
+                    "description": "Path to the directory containing a bwa-mem2 index.",
                     "format": "directory-path"
                 }
             }
@@ -69,11 +69,11 @@
                     "type": "string",
                     "format": "directory-path",
                     "exists": true,
-                    "description": "Path to the pypgx resource bundle"
+                    "description": "Path to the pypgx resource bundle."
                 },
                 "pgx_genes": {
                     "type": "array",
-                    "description": "PGx genes to include in the analysis"
+                    "description": "PGx genes to include in the analysis."
                 },
                 "pypgx_control_gene": {
                     "type": "string",
@@ -99,7 +99,7 @@
             "properties": {
                 "variant_DP_threshold": {
                     "type": "number",
-                    "description": "Read depth threshold for filtering SNVs",
+                    "description": "Read depth threshold for filtering SNVs.",
                     "default": 5
                 },
                 "verify_bamid": {

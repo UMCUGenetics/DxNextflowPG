@@ -18,7 +18,6 @@ workflow MAPPING {
     ch_fastq = extractFastqPairFromDir(fastq_path, params.outdir)
 
 
-    ch_fastq.view()
     // Split fastq in managable chunks, transform SEQKIT_SPLIT2 output to input per sample fastq part
     SEQKIT_SPLIT2(ch_fastq)
     SEQKIT_SPLIT2.out.reads
