@@ -34,7 +34,6 @@ include { PYPGX_CREATEINPUTVCF                } from './modules/nf-core/pypgx/cr
 include { PYPGX_PREPAREDEPTHOFCOVERAGE        } from './modules/nf-core/pypgx/preparedepthofcoverage/main'
 include { PYPGX_COMPUTECONTROLSTATISTICS      } from './modules/nf-core/pypgx/computecontrolstatistics/main'
 include { PYPGX_RUNNGSPIPELINE                } from './modules/nf-core/pypgx/runngspipeline/main'
-include { SAMTOOLS_INDEX                      } from './modules/nf-core/samtools/index/main'
 include { SV_QA                               } from './modules/local/SV_QA/main'
 include { VERIFYBAMID_VERIFYBAMID2            } from './modules/nf-core/verifybamid/verifybamid2/main'
 
@@ -73,7 +72,7 @@ workflow {
         .collect()
 
     ch_PGx_genes = Channel.fromList(params.pgx_genes)
-    ch_assembly_version = Channel.value(params.assembly_version)
+    
 
     ch_svd = Channel.fromPath(["${params.svd_ud}", "${params.svd_mu}", "${params.svd_bed}"]).collect()
 
@@ -133,7 +132,7 @@ workflow {
             .join(PYPGX_COMPUTECONTROLSTATISTICS.out.control_stats)
             .combine(ch_PGx_genes)
             .map{
-                meta, vcf, tbi, coverage,control_stats,pgx_gene ->
+                meta, vcf, tbi, coverage, control_stats, pgx_gene ->
                 [["id": meta.id, "pgx_gene": pgx_gene], vcf, tbi, coverage, control_stats, pgx_gene]
             },
         ch_PGx_resource_bundle
