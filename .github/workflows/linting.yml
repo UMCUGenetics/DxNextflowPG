@@ -78,6 +78,9 @@ jobs:
                   lines.append('')
               lines.append('</details>')
               lines.append('')
+          else:
+              lines.append('✅ **No lint errors found.**')
+              lines.append('')
 
           lines.append('<details>')
           lines.append('<summary>Raw JSON output</summary>')
