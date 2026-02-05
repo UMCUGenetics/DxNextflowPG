@@ -38,4 +38,5 @@ nextflow_function {
             assert function.success // It is not possible to test a shapshot result of a function that returns a channel
         }
     }
+
 }

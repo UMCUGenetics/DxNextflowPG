@@ -1,0 +1,9 @@
+Changes in component 'nf-core/pypgx/computecontrolstatistics'
+'modules/nf-core/pypgx/computecontrolstatistics/environment.yml' is unchanged
+'modules/nf-core/pypgx/computecontrolstatistics/meta.yml' is unchanged
+'modules/nf-core/pypgx/computecontrolstatistics/main.nf' is unchanged
+'modules/nf-core/pypgx/computecontrolstatistics/tests/main.nf.test.snap' is unchanged
+'modules/nf-core/pypgx/computecontrolstatistics/tests/nextflow.config' was created
+'modules/nf-core/pypgx/computecontrolstatistics/tests/main.nf.test' is unchanged
+'modules/nf-core/pypgx/computecontrolstatistics/tests/config.nextflow' was removed
+************************************************************
