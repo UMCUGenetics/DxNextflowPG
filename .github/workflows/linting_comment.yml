@@ -5,6 +5,7 @@ name: nf-core linting comment
 on:
   workflow_run:
     workflows: ["nf-core linting"]
+    types: [completed]
 
 jobs:
   test:
@@ -14,7 +15,7 @@ jobs:
         uses: dawidd6/action-download-artifact@f6b0bace624032e30a85a8fd9c1a7f8f611f5737 # v3
         with:
           workflow: linting.yml
-          workflow_conclusion: completed
+          workflow_conclusion: success
 
       - name: Get PR number
         id: pr_number
