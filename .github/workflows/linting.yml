@@ -11,103 +11,15 @@ on:
     types: [published]
 
 jobs:
-  nf-core:
+  lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out pipeline code
-        uses: actions/checkout@v4
-
-      - name: Install Nextflow
-        uses: nf-core/setup-nextflow@v1
-
+      - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
-          architecture: "x64"
-
-      - name: Run nextflow lint
-        run: |
-          set +e
-          nextflow lint -o json . > lint_results.json
-          exitcode=$?
-          set -e
-
-          python - <<'PY'
-          import json
-          from collections import defaultdict
-
-          with open('lint_results.json', 'r', encoding='utf-8') as f:
-              data = json.load(f)
-
-          summary = data.get('summary', {})
-          errors = data.get('errors', []) or []
-
-          by_file = defaultdict(list)
-          for e in errors:
-              by_file[e.get('filename','<unknown>')].append(e)
-
-          lines = []
-          lines.append('## Nextflow lint report')
-          lines.append('')
-          lines.append(f"**Errors:** {summary.get('errors', len(errors))}  ")
-          lines.append(f"**Files w/ errors:** {summary.get('filesWithErrors', len(by_file))}  ")
-          lines.append(f"**Files OK:** {summary.get('filesWithoutErrors', 'n/a')}  ")
-          lines.append('')
-
-          if errors:
-              lines.append('### Top errors (first 50)')
-              lines.append('')
-              for i, e in enumerate(errors[:50], start=1):
-                  fn = e.get('filename','<unknown>')
-                  ln = e.get('startLine','?')
-                  col = e.get('startColumn','?')
-                  msg = e.get('message','').strip()
-                  lines.append(f"{i}. `{fn}:{ln}:{col}` — {msg}")
-              lines.append('')
-
-              lines.append('<details>')
-              lines.append('<summary>All errors grouped by file</summary>')
-              lines.append('')
-              for fn in sorted(by_file.keys()):
-                  lines.append(f"**{fn}**")
-                  for e in by_file[fn]:
-                      ln = e.get('startLine','?')
-                      col = e.get('startColumn','?')
-                      msg = e.get('message','').strip()
-                      lines.append(f"- `{ln}:{col}` {msg}")
-                  lines.append('')
-              lines.append('</details>')
-              lines.append('')
-          else:
-              lines.append('✅ **No lint errors found.**')
-              lines.append('')
-
-          lines.append('<details>')
-          lines.append('<summary>Raw JSON output</summary>')
-          lines.append('')
-          lines.append('```json')
-          lines.append(json.dumps(data, indent=2, ensure_ascii=False))
-          lines.append('```')
-          lines.append('</details>')
-          lines.append('')
-
-          with open('lint_results.md', 'w', encoding='utf-8') as out:
-              out.write('\n'.join(lines))
-          PY
-
-          # keep job status aligned with lint result
-          exit $exitcode
-
-      - name: Save PR number
-        if: ${{ always() }}
-        run: echo ${{ github.event.pull_request.number }} > PR_number.txt
-
-      - name: Upload linting log file artifact
-        if: ${{ always() }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: linting-logs
-          path: |
-            lint_results.json
-            lint_results.md
-            PR_number.txt
+          python-version: '3.12'
+      - run: pip install nf-core==3.5.1
+      - run: |
+          nf-core pipelines lint \
+          --key nextflow_config
+    
