@@ -28,6 +28,7 @@ nextflow.enable.moduleBinaries = true
 include { BCFTOOLS_FILTER as FILTER_PYPGX_VCF } from './modules/nf-core/bcftools/filter/main'
 include { COMBINERESULTS                      } from './modules/local/combine_outputs/main'
 include { CUSTOM_DUMPSOFTWAREVERSIONS         } from './modules/nf-core/custom/dumpsoftwareversions/main'
+include { FASTQC                              } from './modules/nf-core/fastqc/main'
 include { MOSDEPTH                            } from './modules/nf-core/mosdepth/main'
 include { MULTIQC                             } from './modules/nf-core/multiqc/main'
 include { PYPGX_CREATEINPUTVCF                } from './modules/nf-core/pypgx/createinputvcf/main'
@@ -39,6 +40,9 @@ include { VERIFYBAMID_VERIFYBAMID2            } from './modules/nf-core/verifyba
 
 
 include { MAPPING } from './subworkflows/local/mapping/main'
+
+
+include { extractFastqPairFromDir } from './modules/local/utils/fastq.nf'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -72,7 +76,9 @@ workflow {
         .collect()
 
     ch_PGx_genes = Channel.fromList(params.pgx_genes)
-    
+
+    ch_PGx_regions = channel.fromList("${projectDir}/assets/pgx_regions_GRCh38.bed")
+
 
     ch_svd = Channel.fromPath(["${params.svd_ud}", "${params.svd_mu}", "${params.svd_bed}"]).collect()
 
@@ -82,10 +88,12 @@ workflow {
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
 
+    ch_fastq = extractFastqPairFromDir(params.fastq_path, params.outdir)
+
     MAPPING(
         ch_bwa_index,
         ch_genome_fasta,
-        params.fastq_path
+        ch_fastq
     )
 
     // Merge bam files from (optionally) mapped samples into the channel with bam
@@ -147,16 +155,11 @@ workflow {
     )
 
 
-
-
-
-
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     QC
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
-
 
     SV_QA(COMBINERESULTS.out.csv)
 
@@ -173,10 +176,10 @@ workflow {
     }
 
 
-
+    FASTQC(ch_fastq)
     MOSDEPTH(
-        ch_bams_meta
-            .map{ meta, bam, bai -> [meta, bam, bai, []] },
+        ch_bams_meta.combine(ch_PGx_regions)
+            .map{ meta, bam, bai, regions -> [meta, bam, bai, regions] },
         ch_genome_fasta
     )
 
@@ -184,6 +187,7 @@ workflow {
     // Softare versions
     ch_versions = channel.empty()
     ch_versions = ch_versions.mix(MOSDEPTH.out.versions)
+    ch_versions = ch_versions.mix(FASTQC.out.versions)
     ch_versions = ch_versions.mix(PYPGX_CREATEINPUTVCF.out.versions)
     ch_versions = ch_versions.mix(PYPGX_PREPAREDEPTHOFCOVERAGE.out.versions)
     ch_versions = ch_versions.mix(PYPGX_COMPUTECONTROLSTATISTICS.out.versions)
@@ -191,14 +195,19 @@ workflow {
     if(params.verify_bamid) {
         ch_versions = ch_versions.mix(VERIFYBAMID_VERIFYBAMID2.out.versions)
     }
+    ch_versions = ch_versions.mix(MAPPING.out.versions)
     CUSTOM_DUMPSOFTWAREVERSIONS(ch_versions.unique().collectFile(name: 'collated_versions.yml'))
 
     // MultiQC
     ch_multiqc_files = Channel.empty()
+    ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.collect{it[1]})
     ch_multiqc_files = ch_multiqc_files.mix(COMBINERESULTS.out.csv.collect())
     ch_multiqc_files = ch_multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml.collect())
     ch_multiqc_files = ch_multiqc_files.mix(MOSDEPTH.out.global_txt.collect{it[1]})
     ch_multiqc_files = ch_multiqc_files.mix(MOSDEPTH.out.summary_txt.collect{it[1]})
+    ch_multiqc_files = ch_multiqc_files.mix(MOSDEPTH.out.regions_txt.collect{it[1]})
+    ch_multiqc_files = ch_multiqc_files.mix(MAPPING.out.sambamba_txt.collect{it[1]})
+    ch_multiqc_files = ch_multiqc_files.mix(VERIFYBAMID_VERIFYBAMID2.out.self_sm.collect{it[1]})
 
     if(params.verify_bamid) {
         ch_multiqc_files = ch_multiqc_files.mix(VERIFYBAMID_VERIFYBAMID2.out.self_sm.collect{it[1]})
