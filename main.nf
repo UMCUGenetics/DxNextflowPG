@@ -79,8 +79,10 @@ workflow {
 
     ch_PGx_regions = channel.fromPath("${projectDir}/assets/pgx_regions_GRCh38.bed")
 
-
     ch_svd = Channel.fromPath(["${params.svd_ud}", "${params.svd_mu}", "${params.svd_bed}"]).collect()
+
+    ch_versions = channel.empty()
+    ch_multiqc_files = Channel.empty()
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -88,20 +90,20 @@ workflow {
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     */
 
-    ch_fastq = extractFastqPairFromDir(params.fastq_path, params.outdir)
-
-    MAPPING(
-        ch_bwa_index,
-        ch_genome_fasta,
-        ch_fastq
-    )
-
-    // Merge bam files from (optionally) mapped samples into the channel with bam
-    // files that were already mapped
-    ch_bams_meta = ch_bams_meta
-        .concat(MAPPING.out.bam
+    if (params.fastq_path != null) {
+        ch_fastq = extractFastqPairFromDir(params.fastq_path, params.outdir)
+        MAPPING(ch_bwa_index, ch_genome_fasta, ch_fastq)
+        ch_bams_meta     = ch_bams_meta
+            .concat(MAPPING.out.bam
                     .join(MAPPING.out.bai)
-        )
+            )
+        ch_versions     = ch_versions.mix(MAPPING.out.versions)
+        ch_multiqc_files = ch_multiqc_files.mix(MAPPING.out.sambamba_txt.collect{it[1]})
+
+        FASTQC(ch_fastq)
+        ch_versions     = ch_versions.mix(FASTQC.out.versions)
+        ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.collect{it[1]})
+    }
 
     /*
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -173,10 +175,10 @@ workflow {
             ch_genome_fasta
                 .map{ meta, file -> [file] }
         )
+        ch_versions = ch_versions.mix(VERIFYBAMID_VERIFYBAMID2.out.versions)
+        ch_multiqc_files = ch_multiqc_files.mix(VERIFYBAMID_VERIFYBAMID2.out.self_sm.collect{it[1]})
     }
 
-
-    FASTQC(ch_fastq)
     MOSDEPTH(
         ch_bams_meta.combine(ch_PGx_regions)
             .map{ meta, bam, bai, regions -> [meta, bam, bai, regions] },
@@ -185,34 +187,20 @@ workflow {
 
 
     // Softare versions
-    ch_versions = channel.empty()
+
     ch_versions = ch_versions.mix(MOSDEPTH.out.versions)
-    ch_versions = ch_versions.mix(FASTQC.out.versions)
     ch_versions = ch_versions.mix(PYPGX_CREATEINPUTVCF.out.versions)
     ch_versions = ch_versions.mix(PYPGX_PREPAREDEPTHOFCOVERAGE.out.versions)
     ch_versions = ch_versions.mix(PYPGX_COMPUTECONTROLSTATISTICS.out.versions)
     ch_versions = ch_versions.mix(PYPGX_RUNNGSPIPELINE.out.versions)
-    if(params.verify_bamid) {
-        ch_versions = ch_versions.mix(VERIFYBAMID_VERIFYBAMID2.out.versions)
-    }
-    ch_versions = ch_versions.mix(MAPPING.out.versions)
     CUSTOM_DUMPSOFTWAREVERSIONS(ch_versions.unique().collectFile(name: 'collated_versions.yml'))
 
     // MultiQC
-    ch_multiqc_files = Channel.empty()
-    ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.collect{it[1]})
     ch_multiqc_files = ch_multiqc_files.mix(COMBINERESULTS.out.csv.collect())
     ch_multiqc_files = ch_multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml.collect())
     ch_multiqc_files = ch_multiqc_files.mix(MOSDEPTH.out.global_txt.collect{it[1]})
     ch_multiqc_files = ch_multiqc_files.mix(MOSDEPTH.out.summary_txt.collect{it[1]})
     ch_multiqc_files = ch_multiqc_files.mix(MOSDEPTH.out.regions_txt.collect{it[1]})
-    ch_multiqc_files = ch_multiqc_files.mix(MAPPING.out.sambamba_txt.collect{it[1]})
-    ch_multiqc_files = ch_multiqc_files.mix(VERIFYBAMID_VERIFYBAMID2.out.self_sm.collect{it[1]})
-
-    if(params.verify_bamid) {
-        ch_multiqc_files = ch_multiqc_files.mix(VERIFYBAMID_VERIFYBAMID2.out.self_sm.collect{it[1]})
-    }
-
     ch_multiqc_config = Channel.fromPath("$projectDir/assets/multiqc_config.yml", checkIfExists: true)
 
     MULTIQC(
