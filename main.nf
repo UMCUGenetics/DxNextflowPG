@@ -77,7 +77,7 @@ workflow {
 
     ch_PGx_genes = Channel.fromList(params.pgx_genes)
 
-    ch_PGx_regions = channel.fromList("${projectDir}/assets/pgx_regions_GRCh38.bed")
+    ch_PGx_regions = channel.fromPath("${projectDir}/assets/pgx_regions_GRCh38.bed")
 
 
     ch_svd = Channel.fromPath(["${params.svd_ud}", "${params.svd_mu}", "${params.svd_bed}"]).collect()
