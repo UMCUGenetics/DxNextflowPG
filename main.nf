@@ -72,7 +72,7 @@ workflow {
         .collect()
 
     ch_PGx_genes = Channel.fromList(params.pgx_genes)
-    
+
 
     ch_svd = Channel.fromPath(["${params.svd_ud}", "${params.svd_mu}", "${params.svd_bed}"]).collect()
 
@@ -191,6 +191,13 @@ workflow {
     if(params.verify_bamid) {
         ch_versions = ch_versions.mix(VERIFYBAMID_VERIFYBAMID2.out.versions)
     }
+
+    // Report the star-allele database version as a "software version" entry
+    ch_versions = ch_versions.mix(
+        Channel.of('"PGx star-allele database":\n  star_allele_db_version: "' + params.star_allele_db_version + '"\n')
+            .collectFile(name: 'star_allele_db_version.yml')
+    )
+
     CUSTOM_DUMPSOFTWAREVERSIONS(ch_versions.unique().collectFile(name: 'collated_versions.yml'))
 
     // MultiQC
