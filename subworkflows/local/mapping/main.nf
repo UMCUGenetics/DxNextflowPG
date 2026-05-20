@@ -1,6 +1,3 @@
-
-include { extractFastqPairFromDir } from '../../../modules/local/utils/fastq.nf'
-
 include { BWAMEM2_MEM      } from '../../../modules/nf-core/bwamem2/mem/main'
 include { SAMBAMBA_MARKDUP } from '../../../modules/nf-core/sambamba/markdup/main'
 include { SAMTOOLS_INDEX   } from '../../../modules/nf-core/samtools/index/main'
@@ -11,17 +8,16 @@ workflow MAPPING {
     take:
     ch_bwa_index
     ch_genome
-    fastq_path
+    ch_fastq
 
     main:
-
-    ch_fastq = extractFastqPairFromDir(fastq_path, params.outdir)
-
 
     // Split fastq in managable chunks, transform SEQKIT_SPLIT2 output to input per sample fastq part
     SEQKIT_SPLIT2(ch_fastq)
     SEQKIT_SPLIT2.out.reads
 
+
+    ch_versions = Channel.empty()
 
     ch_split_fastq = SEQKIT_SPLIT2.out.reads
         .map{ meta, reads -> read_files = reads.sort(false) {
@@ -58,7 +54,14 @@ workflow MAPPING {
         SAMBAMBA_MARKDUP.out.bam
     )
 
+    ch_versions = ch_versions.mix(SEQKIT_SPLIT2.out.versions)
+    ch_versions = ch_versions.mix(BWAMEM2_MEM.out.versions)
+    ch_versions = ch_versions.mix(SAMBAMBA_MARKDUP.out.versions)
+    ch_versions = ch_versions.mix(SAMTOOLS_INDEX.out.versions)
+
     emit:
     bam = SAMBAMBA_MARKDUP.out.bam
     bai = SAMTOOLS_INDEX.out.bai
+    sambamba_txt = SAMBAMBA_MARKDUP.out.txt
+    versions = ch_versions
 }
