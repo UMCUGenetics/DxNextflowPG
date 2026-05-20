@@ -1,0 +1,28 @@
+Changes in component 'nf-core/sambamba/markdup'
+'modules/nf-core/sambamba/markdup/environment.yml' is unchanged
+'modules/nf-core/sambamba/markdup/meta.yml' is unchanged
+Changes in 'sambamba/markdup/main.nf':
+--- modules/nf-core/sambamba/markdup/main.nf
++++ modules/nf-core/sambamba/markdup/main.nf
+@@ -12,6 +12,7 @@
+ 
+     output:
+     tuple val(meta), path("*.bam"), emit: bam
++    tuple val(meta), path("*.txt"), emit: txt
+     tuple val(meta), path("*.bai"), emit: bai, optional: true
+     path "versions.yml"           , emit: versions
+ 
+@@ -29,7 +30,8 @@
+         -t $task.cpus \\
+         --tmpdir ./ \\
+         $bam \\
+-        ${prefix}.bam
++        ${prefix}.bam \\
+++        2> ${prefix}.txt
+ 
+     cat <<-END_VERSIONS > versions.yml
+     "${task.process}":
+
+'modules/nf-core/sambamba/markdup/tests/main.nf.test.snap' is unchanged
+'modules/nf-core/sambamba/markdup/tests/main.nf.test' is unchanged
+************************************************************
