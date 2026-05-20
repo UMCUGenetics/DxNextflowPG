@@ -54,10 +54,10 @@ workflow MAPPING {
         SAMBAMBA_MARKDUP.out.bam
     )
 
-    ch_versions = channel.versions.mix(SEQKIT_SPLIT2.out.versions)
-    ch_versions = channel.versions.mix(BWAMEM2_MEM.out.versions)
-    ch_versions = channel.versions.mix(SAMBAMBA_MARKDUP.out.versions)
-    ch_versions = channel.versions.mix(SAMTOOLS_INDEX.out.versions)
+    ch_versions = ch_versions.mix(SEQKIT_SPLIT2.out.versions)
+    ch_versions = ch_versions.mix(BWAMEM2_MEM.out.versions)
+    ch_versions = ch_versions.mix(SAMBAMBA_MARKDUP.out.versions)
+    ch_versions = ch_versions.mix(SAMTOOLS_INDEX.out.versions)
 
     emit:
     bam = SAMBAMBA_MARKDUP.out.bam
