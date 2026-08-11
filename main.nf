@@ -193,6 +193,13 @@ workflow {
     ch_versions = ch_versions.mix(PYPGX_PREPAREDEPTHOFCOVERAGE.out.versions)
     ch_versions = ch_versions.mix(PYPGX_COMPUTECONTROLSTATISTICS.out.versions)
     ch_versions = ch_versions.mix(PYPGX_RUNNGSPIPELINE.out.versions)
+
+    // Report the star-allele database version as a "software version" entry
+    ch_versions = ch_versions.mix(
+        Channel.of('"PGx star-allele database":\n  star_allele_db_version: "' + params.star_allele_db_version + '"\n')
+            .collectFile(name: 'star_allele_db_version.yml')
+    )
+
     CUSTOM_DUMPSOFTWAREVERSIONS(ch_versions.unique().collectFile(name: 'collated_versions.yml'))
 
     // MultiQC
