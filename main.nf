@@ -152,7 +152,7 @@ workflow {
     // Group samples and produce a summary table for each pharmacogene
     COMBINERESULTS(
         PYPGX_RUNNGSPIPELINE.out.outdir
-            .map { meta, dir -> [meta.pgx_gene, dir]}
+            .map { meta, dir -> [[id: meta.pgx_gene], dir]}
             .groupTuple()
     )
 
