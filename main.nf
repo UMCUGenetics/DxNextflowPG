@@ -203,7 +203,7 @@ workflow {
     CUSTOM_DUMPSOFTWAREVERSIONS(ch_versions.unique().collectFile(name: 'collated_versions.yml'))
 
     // MultiQC
-    ch_multiqc_files = ch_multiqc_files.mix(COMBINERESULTS.out.csv.collect())
+    ch_multiqc_files = ch_multiqc_files.mix(COMBINERESULTS.out.csv.collect{it[1]})
     ch_multiqc_files = ch_multiqc_files.mix(CUSTOM_DUMPSOFTWAREVERSIONS.out.mqc_yml.collect())
     ch_multiqc_files = ch_multiqc_files.mix(MOSDEPTH.out.global_txt.collect{it[1]})
     ch_multiqc_files = ch_multiqc_files.mix(MOSDEPTH.out.summary_txt.collect{it[1]})
