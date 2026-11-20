@@ -4,11 +4,11 @@ process COMBINERESULTS {
         'biocontainers/pypgx:0.25.0--pyh7e72e81_0' }"
 
     input:
-    tuple val(pgx_gene), path(pypgx_dirs)
+    tuple val(meta), path(pypgx_dirs)
 
     output:
-    path("*.csv"), emit: csv
-    path("*.zip"), emit: zip
+    tuple val(meta), path("*.csv"), emit: csv
+    tuple val(meta), path("*.zip"), emit: zip
 
     when:
     task.ext.when == null || task.ext.when
@@ -18,13 +18,13 @@ process COMBINERESULTS {
     """
     combine_outputs.py \\
         --pypgx_dirs ${pypgx_dirs} \\
-        --gene ${pgx_gene} \\
+        --gene ${meta.id} \\
         ${suffix}
     """
 
     stub:
     """
-    touch ${pgx_gene}_results.zip
-    touch ${pgx_gene}.csv
+    touch ${meta.id}_results.zip
+    touch ${meta.id}.csv
     """
 }
